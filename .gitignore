@@ -74,5 +74,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # 개인 작업 폴더
-Assets/99_Workspace
-Assets/99_Workspace.meta
+Assets/99_Workspace/*
+
