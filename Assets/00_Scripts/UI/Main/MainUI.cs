@@ -10,6 +10,6 @@ public abstract class MainUI : BaseUI
     /// <summary>
     /// Main UI 활성화
     /// </summary>
-    /// <param name="uiType">활성화 할 Main UI 종류</param>
-    public abstract void SetActiveUI(MainUIType uiType);
+    /// <param name="activeUIType">활성화 할 Main UI 종류</param>
+    public abstract void SetActiveUI(MainUIType activeUIType);
 }

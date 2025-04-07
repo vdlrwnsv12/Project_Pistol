@@ -28,7 +28,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     public void InitUI<T>() where T : MainUI
     {
         //TODO: Resources.Load 나중에 Addressable로 바꾸기
-        var resource = Resources.Load<GameObject>($"Prefabs/UI/{typeof(T).Name}");
+        var resource = Resources.Load<GameObject>($"Prefabs/UI/Main/{typeof(T).Name}");
         var ui = Instantiate(resource, mainCanvas.transform, false);
         mainUIList.Add(ui.GetComponent<T>());
     }
@@ -37,7 +37,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     /// ScreenUI 전환
     /// </summary>
     /// <param name="activeUIType">전환하려고 하는 ScreenUI 타입</param>
-    public void ChangeScreenUI(MainUIType activeUIType)
+    public void ChangeMainUI(MainUIType activeUIType)
     {
         foreach (var screenUI in mainUIList)
         {
