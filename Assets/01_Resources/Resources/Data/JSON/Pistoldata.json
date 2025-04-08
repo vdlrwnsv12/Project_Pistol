@@ -1,0 +1,11 @@
+{
+    "weaponName": "M1911",
+    "damage": 30,
+    "reloadTime": 2.0,
+    "maxAmmo": 7,
+    "currentAmmo": 7,
+    "accuracy": 0.5,
+    "isSilenced": false,
+    "comment": "주석 대용.accuracy=정확도 isSilenced=소음기 장착 여부"
+  }
+  
