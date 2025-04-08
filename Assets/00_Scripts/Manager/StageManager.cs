@@ -1,3 +1,4 @@
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -31,9 +32,10 @@ public class StageManager : MonoBehaviour
     float stageTimeLimit; //스테이지 제한시간
     float remainingtime; //남은시간 추적
     int currentStageIndex; //현재 스테이지 출력
+    int maxStageCount;
     #endregion
 
-
+    #region Stage start -> end
     /// <summary>
     /// 스테이지 시작시 설정값 매서드
     /// </summary>
@@ -42,13 +44,22 @@ public class StageManager : MonoBehaviour
         isStageStarted = true;
     }
 
-    private void InitStage()
+    /// <summary>
+    /// 스테이지 초기 값
+    /// </summary>
+    private void InitStage() 
     {
         stageState = StageState.Playing;
         isStageStarted = true;
         isStageCleared = false;
         isStageFailed = false;
+        isGateOpened = false;
+        hasPlayerExited = false;
+
         remainingtime = stageTimeLimit;
+        
+        //TODO
+        //SpawnTargets(); //새로운 타겟 생성
     }
 
     /// <summary>
@@ -56,9 +67,15 @@ public class StageManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (stageState != StageState.Playing) return; 
+        if (stageState != StageState.Playing) return;
+        {
+
+        }
 
         if (remainingtime <= 0f && !isStageFailed) //시간이 0초라면
+        {
+
+        }
 
         if(remainingtime <= 0)
         {
@@ -75,6 +92,38 @@ public class StageManager : MonoBehaviour
         isGateOpened = true;
         gateAnimator.SetTrigger("Open"); //에니메이션에서 Open 트리거 실행
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!isStageCleared || !isGateOpened) 
+        {
+            return; //클리어 문이 열려야 작동
+        }
+
+        if (other.CompareTag("Player")) //플레이어이 태그확인
+        {
+            hasPlayerExited = true;
+            LoadNextStage();
+        }
+    }
+
+    ///<summary>
+    ///다음 스테이지 로드
+    /// </summary>
+    private void LoadNextStage()
+    {
+        currentStageIndex++;
+
+        if(currentStageIndex >= maxStageCount)
+        {
+            Debug.Log("게임종료");
+            return;
+        }
+
+        InitStage(); //스테이지 리셋
+    }
+    #endregion
+
     #region Handle
 
     /// <summary>
