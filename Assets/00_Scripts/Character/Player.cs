@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     [field: Header("Animations")]
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
-    public Animator animator;
+    public Animator Animator;
     public PlayerController Input { get; private set; }
     public CharacterController Controller { get; private set; }
 
@@ -15,11 +15,12 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         AnimationData.Initialize();
-        animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
         Input = GetComponent<PlayerController>();
         Controller = GetComponent<CharacterController>();
 
         stateMachine = new PlayerStateMachine(this);
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
     private void Start()
     {
