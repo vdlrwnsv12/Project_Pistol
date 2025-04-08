@@ -14,12 +14,14 @@ public class PlayerStateMachine : StateMachine
     public Transform MainCamTransform { get; set; }
     
     public PlayerIdleState IdleState { get; private set; }
+    public PlayerWalkState WalkState { get; private set; }
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
         MainCamTransform = Camera.main.transform;
 
         IdleState = new PlayerIdleState(this);
+        WalkState = new PlayerWalkState(this);
         MovementSpeed = player.Data.GroundData.BaseSpeed;
         RotationDamping = player.Data.GroundData.BaseRotationDamping;
     }

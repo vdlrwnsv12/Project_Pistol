@@ -20,11 +20,12 @@ public class Player : MonoBehaviour
         Controller = GetComponent<CharacterController>();
 
         stateMachine = new PlayerStateMachine(this);
-        stateMachine.ChangeState(stateMachine.IdleState);
+       
     }
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     private void Update()

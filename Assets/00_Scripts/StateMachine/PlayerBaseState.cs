@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
+
+
 
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
@@ -14,10 +17,22 @@ public class PlayerBaseState : IState
     }
     public virtual void Enter()
     {
+        AddInputActionCallbacks();
     }
 
     public virtual void Exit()
     {
+    }
+
+    protected virtual void AddInputActionCallbacks()
+    {
+        PlayerController input = stateMachine.Player.Input;
+        input.playerActions.Movement.canceled += OnMovementCanceled;
+    }
+    protected virtual void RemoveInputActionCallbacks()
+    {
+        PlayerController input = stateMachine.Player.Input;
+        input.playerActions.Movement.canceled -= OnMovementCanceled;
     }
 
     public virtual void HandleInput() // 입력 값
@@ -34,6 +49,10 @@ public class PlayerBaseState : IState
         Move();
     }
 
+    protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
+    {
+
+    }
     protected void StartAnimation(int animatorHash)
     {
         stateMachine.Player.Animator.SetBool(animatorHash, true);
@@ -47,15 +66,17 @@ public class PlayerBaseState : IState
     private void ReadMovementInput()
     {
         // stateMachine에 있는 movementInput에서 개발
-        stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();    
+        stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();
     }
     // 움직임 로직
 
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
+        //CameraRotate();
         Move(movementDirection);
-        Rotate(movementDirection);
+        //Rotate(movementDirection);
+
     }
 
     private Vector3 GetMovementDirection()
@@ -68,21 +89,23 @@ public class PlayerBaseState : IState
         forward.Normalize();
         right.Normalize();
 
-        return forward *stateMachine.MovementInput.y + right *stateMachine.MovementInput.x;
+        return forward * stateMachine.MovementInput.y + right * stateMachine.MovementInput.x;
     }
 
     private void Move(Vector3 direction)
     {
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move((direction * movementSpeed) * Time.deltaTime);
-      
+
     }
 
     private float GetMovementSpeed()
     {
-        float moveSpeed = stateMachine.MovementSpeed *stateMachine. MovementSpeedModifier;
+        float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return moveSpeed;
     }
+
+
 
     private void Rotate(Vector3 direction)
     {
@@ -90,7 +113,7 @@ public class PlayerBaseState : IState
         {
             Transform playerTransfrom = stateMachine.Player.transform;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            playerTransfrom.rotation = Quaternion.Slerp(playerTransfrom.rotation, targetRotation,stateMachine.RotationDamping*Time.deltaTime);
+            playerTransfrom.rotation = Quaternion.Slerp(playerTransfrom.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
 
         }
     }

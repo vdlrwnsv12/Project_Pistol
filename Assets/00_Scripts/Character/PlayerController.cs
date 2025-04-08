@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -5,6 +6,9 @@ public class PlayerController : MonoBehaviour
     public PlayerInputs playerInputs { get; private set; }
     public PlayerInputs.PlayerActions playerActions { get; private set; }
 
+  
+
+  
     private void Awake()
     {
         playerInputs = new PlayerInputs();
@@ -20,4 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInputs.Disable();
     }
+
+
+  
 }
