@@ -1,3 +1,4 @@
+using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -9,7 +10,6 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
-    public GameObject bulletHole;
 
     [SerializeField] private Transform barrelLocation;
     [SerializeField] private Transform casingExitLocation;
@@ -36,14 +36,7 @@ public class WeaponStatHandler : MonoBehaviour
 
     void Update()
     {
-        if (weaponData.currentAmmo == 1 && Input.GetButtonDown("Fire1"))
-        {
-            weaponData.currentAmmo--;
-            gunAnimator.SetBool("OutOfAmmo", true);
-            CasingRelease();
-            MuzzleFlash();
-            return;
-        }
+
         if (Input.GetButtonDown("Fire1") && Time.time - lastFireTime >= fireCooldown)
         {
             FireWeapon();
@@ -60,15 +53,21 @@ public class WeaponStatHandler : MonoBehaviour
         {
             if (weaponData.currentAmmo > 0)
             {
-                if (gunAnimator != null)
+                if (gunAnimator != null && weaponData.currentAmmo != 1)
                 {
                     gunAnimator.SetTrigger("Fire");
+
+                }
+                if (weaponData.currentAmmo == 1)
+                {
+                    gunAnimator.SetBool("OutOfAmmo", true);
                 }
 
                 // 레이 발사
                 ShootRay();
                 CasingRelease();
                 MuzzleFlash();
+                SoundManager.Instance.PlaySFX("M1911Fire");
 
                 weaponData.currentAmmo--;
                 lastFireTime = Time.time;
@@ -92,9 +91,10 @@ public class WeaponStatHandler : MonoBehaviour
 
             if (bulletImpactPrefab)
             {
-                Quaternion hitRotation = Quaternion.LookRotation(hit.normal); // 표면을 기준으로 회전
+                //ToDO: 오브젝트 풀링으로 관리
+                Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
                 GameObject impact = Instantiate(bulletImpactPrefab, hit.point, hitRotation);
-                Destroy(impact, 2f); // 일정 시간 후 파괴
+                Destroy(impact, 2f);
             }
         }
     }
@@ -102,6 +102,7 @@ public class WeaponStatHandler : MonoBehaviour
     // 탄피 배출 처리
     void CasingRelease()
     {
+        //ToDO: 오브젝트 풀링으로 관리
         if (casingExitLocation && casingPrefab)
         {
             GameObject tempCasing = Instantiate(casingPrefab, casingExitLocation.position, casingExitLocation.rotation);
@@ -113,6 +114,7 @@ public class WeaponStatHandler : MonoBehaviour
                                           (casingExitLocation.position - casingExitLocation.right * 0.3f - casingExitLocation.up * 0.6f), 1f);
                 casingRb.AddTorque(new Vector3(0, Random.Range(100f, 500f), Random.Range(100f, 1000f)), ForceMode.Impulse);
             }
+            SoundManager.Instance.PlaySFX("Shell");
 
             Destroy(tempCasing, destroyTimer);
         }
@@ -121,6 +123,7 @@ public class WeaponStatHandler : MonoBehaviour
     // 뮤즐 플래시 처리
     void MuzzleFlash()
     {
+        //ToDO: 오브젝트 풀링으로 관리
         if (muzzleFlashPrefab)
         {
             GameObject tempFlash = Instantiate(muzzleFlashPrefab, barrelLocation.position, barrelLocation.rotation);
@@ -144,14 +147,19 @@ public class WeaponStatHandler : MonoBehaviour
     {
         if (weaponData != null)
         {
-            weaponData.currentAmmo = weaponData.maxAmmo;
+            weaponData.currentAmmo = 0;
+            gunAnimator.SetBool("OutOfAmmo", true);
 
-            // 재장전 애니메이션 트리거
-            if (gunAnimator != null)
-            {
-                gunAnimator.SetTrigger("Reload");
-            }
-            gunAnimator.SetBool("OutOfAmmo", false);
+            SoundManager.Instance.PlaySFX("Reload");
+            StartCoroutine(WaitForEndOfReload());
+
         }
+    }
+    private IEnumerator WaitForEndOfReload()
+    {
+        yield return new WaitForSeconds(1.6f);
+        gunAnimator.SetBool("OutOfAmmo", false);
+        weaponData.currentAmmo = weaponData.maxAmmo;
+
     }
 }
