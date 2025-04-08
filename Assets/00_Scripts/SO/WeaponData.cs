@@ -5,7 +5,6 @@ public class WeaponData
 {
     public string weaponName;
     public int damage;
-    public float fireRate;
     public float reloadTime;
     public int maxAmmo;
     public int currentAmmo;

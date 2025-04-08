@@ -1,7 +1,6 @@
 {
     "weaponName": "M1911",
     "damage": 30,
-    "fireRate": 0.2,
     "reloadTime": 2.0,
     "maxAmmo": 7,
     "currentAmmo": 7,

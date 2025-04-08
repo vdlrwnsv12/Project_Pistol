@@ -7,6 +7,7 @@ public class WeaponStatHandler : MonoBehaviour
 
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
+    public GameObject bulletEffectPrefab;
 
     [SerializeField] private Transform barrelLocation;
     [SerializeField] private Transform casingExitLocation;
@@ -17,7 +18,7 @@ public class WeaponStatHandler : MonoBehaviour
     [Tooltip("Casing Ejection Speed")]
     [SerializeField] private float ejectPower = 150f;
 
-    private float fireCooldown = 0.5f;
+    private float fireCooldown = 0.7f;
     private float lastFireTime = 0f;
 
     void Start()
@@ -83,6 +84,7 @@ public class WeaponStatHandler : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Debug.Log("Hit: " + hit.collider.name);
+            
 
         }
     }
