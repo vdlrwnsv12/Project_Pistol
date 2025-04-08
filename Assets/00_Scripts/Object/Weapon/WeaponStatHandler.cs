@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class WeaponStatHandler : MonoBehaviour
@@ -7,7 +8,8 @@ public class WeaponStatHandler : MonoBehaviour
 
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
-    public GameObject bulletEffectPrefab;
+    public GameObject bulletImpactPrefab;
+    public GameObject bulletHole;
 
     [SerializeField] private Transform barrelLocation;
     [SerializeField] private Transform casingExitLocation;
@@ -34,7 +36,7 @@ public class WeaponStatHandler : MonoBehaviour
 
     void Update()
     {
-        if(weaponData.currentAmmo == 1 && Input.GetButtonDown("Fire1"))
+        if (weaponData.currentAmmo == 1 && Input.GetButtonDown("Fire1"))
         {
             weaponData.currentAmmo--;
             gunAnimator.SetBool("OutOfAmmo", true);
@@ -70,9 +72,9 @@ public class WeaponStatHandler : MonoBehaviour
 
                 weaponData.currentAmmo--;
                 lastFireTime = Time.time;
-                
+
             }
-            
+
         }
     }
 
@@ -81,11 +83,19 @@ public class WeaponStatHandler : MonoBehaviour
         Ray ray = new Ray(barrelLocation.position, barrelLocation.forward);
         RaycastHit hit;
 
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 0f);
+
+
         if (Physics.Raycast(ray, out hit))
         {
             Debug.Log("Hit: " + hit.collider.name);
-            
 
+            if (bulletImpactPrefab)
+            {
+                Quaternion hitRotation = Quaternion.LookRotation(hit.normal); // 표면을 기준으로 회전
+                GameObject impact = Instantiate(bulletImpactPrefab, hit.point, hitRotation);
+                Destroy(impact, 2f); // 일정 시간 후 파괴
+            }
         }
     }
 
@@ -129,7 +139,7 @@ public class WeaponStatHandler : MonoBehaviour
         }
     }
 
-   
+
     void ReloadWeapon()
     {
         if (weaponData != null)
