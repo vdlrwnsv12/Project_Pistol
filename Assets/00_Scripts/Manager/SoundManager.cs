@@ -4,8 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// 예시
-/// 배경음악: SoundManager.Instance.PlayBackgroundMusic(backgroundMusic);
-/// 효과음: SoundManager.Instance.PlaySFX("Gunshot");
+/// 배경음악: SoundManager.Instance.PlayBackgroundMusic("사운드 이름");
+/// 효과음: SoundManager.Instance.PlaySFX("사운드 이름");
 /// </summary>
 
 public class SoundManager : MonoBehaviour
