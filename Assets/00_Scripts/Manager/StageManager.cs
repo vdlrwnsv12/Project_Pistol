@@ -25,11 +25,14 @@ public class StageManager : MonoBehaviour
     bool isStageStarted; //스테이지 시작여부
     bool isStageCleared; //스테이지 클리어여부
     bool isStageFailed; //스테이지 실패여부
+    bool isGateOpened; //스테이지 문을 열었는지 여부
+    bool hasPlayerExited;
 
     float stageTimeLimit; //스테이지 제한시간
     float remainingtime; //남은시간 추적
     int currentStageIndex; //현재 스테이지 출력
     #endregion
+
 
     /// <summary>
     /// 스테이지 시작시 설정값 매서드
@@ -37,7 +40,6 @@ public class StageManager : MonoBehaviour
     private void StartStage()
     {
         isStageStarted = true;
-
     }
 
     private void InitStage()
@@ -54,23 +56,41 @@ public class StageManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (stageState != StageState.Playing) return;
+        if (stageState != StageState.Playing) return; 
 
-        if (remainingtime <= 0f && !isStageFailed)
+        if (remainingtime <= 0f && !isStageFailed) //시간이 0초라면
 
         if(remainingtime <= 0)
         {
-            HandleStageFail();
+            HandleStageFail(); //실패
         }
     }
+
+    [SerializeField] private Animator gateAnimator;
+    ///<summary>
+    ///문을 여는 매서드
+    ///</summary>
+    private void OpenGate()
+    {
+        isGateOpened = true;
+        gateAnimator.SetTrigger("Open"); //에니메이션에서 Open 트리거 실행
+    }
+    #region Handle
 
     /// <summary>
     /// 스테이지 클리어 매서드
     /// </summary>
     private void HandleStageClear()
     {
+        if (isStageCleared)
+        {
+            return;
+        }
+
         stageState = StageState.Cleared;
         isStageCleared = true;
+
+        OpenGate(); //문열기 처리
     }
 
     /// <summary>
@@ -81,5 +101,6 @@ public class StageManager : MonoBehaviour
         stageState = StageState.Failed; //
         isStageFailed = true; //스테이지 실패함
     }
+    #endregion
 
 }
