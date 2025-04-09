@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,8 @@ public class UIManager : SingletonBehaviour<UIManager>
     private CanvasGroup fader; // 페이드 연출
 
     private List<MainUI> mainUIList = new(); // ScreenUI 관리용 리스트
-    private Stack<GameObject> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
-    private Dictionary<string, GameObject> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
+    private Stack<PopupUI> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
+    private Dictionary<string, PopupUI> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
 
     protected override void Awake()
     {
@@ -44,31 +45,45 @@ public class UIManager : SingletonBehaviour<UIManager>
     }
 
     /// <summary>
-    /// Pop-Up 창 열기
+    /// Resources/Prefabs/UI/PopUp/ 경로에 있는 Popup UI 리소스 생성
     /// </summary>
-    /// <param name="openUI">활성화 할 Pop-Up 창</param>
-    public void OpenPopUpUI<T>(T openUI) where T : PopupUI
+    /// <typeparam name="T">PopupUI 클래스</typeparam>
+    public void OpenPopUpUI<T>() where T : PopupUI
     {
         if (curPopUpUIStack.TryPeek(out var latestUI))
         {
             latestUI.gameObject.SetActive(false);
         }
-        
-        var resource = Resources.Load<GameObject>($"Prefabs/UI/PopUp/{nameof(openUI)}");
-        var ui = Instantiate(resource, mainCanvas.transform, false);
-        curPopUpUIStack.Push(ui);
+
+        var openUI = FindPopUpUIInPool<T>();
+        if (openUI == null)
+        {
+            var resource = Resources.Load<T>($"Prefabs/UI/PopUp/{typeof(T).Name}");
+            openUI = Instantiate(resource, mainCanvas.transform, false);
+        }
+        openUI.gameObject.SetActive(true);
+        curPopUpUIStack.Push(openUI);
     }
 
-    public void OpenPopUpUI<T>(string uiName) where T : PopupUI
+    /// <summary>
+    /// Resources/Prefabs/UI/PopUp/ 경로에 있는 Popup UI 리소스 생성
+    /// </summary>
+    /// <param name="uiName">리소스 이름</param>
+    public void OpenPopUpUI(string uiName)
     {
         if (curPopUpUIStack.TryPeek(out var latestUI))
         {
             latestUI.gameObject.SetActive(false);
         }
         
-        var resource = Resources.Load<GameObject>($"Prefabs/UI/PopUp/{uiName}");
-        var ui = Instantiate(resource, mainCanvas.transform, false);
-        curPopUpUIStack.Push(ui);
+        var openUI = FindPopUpUIInPool(uiName);
+        if (openUI == null)
+        {
+            var resource = Resources.Load<PopupUI>($"Prefabs/UI/PopUp/{uiName}");
+            openUI = Instantiate(resource, mainCanvas.transform, false);
+        }
+        openUI.gameObject.SetActive(true);
+        curPopUpUIStack.Push(openUI);
     }
 
     /// <summary>
@@ -79,15 +94,40 @@ public class UIManager : SingletonBehaviour<UIManager>
         var popUpUI = curPopUpUIStack.Pop();
         popUpUI.gameObject.SetActive(false);
 
+        var type = popUpUI.GetType();
+        if (popUpUIPool.ContainsKey(type.Name))
+        {
+            popUpUIPool[type.Name] = popUpUI;
+        }
+        else
+        {
+            popUpUIPool.Add(type.Name, popUpUI);
+        }
+
         if (curPopUpUIStack.TryPeek(out var prevUI))
         {
             prevUI.gameObject.SetActive(true);
         }
     }
-
-    private GameObject FindPopUpUIInPool(PopupUI searchUI)
+    
+    /// <summary>
+    /// 비활성화 UI Pool에서 UI 검색
+    /// </summary>
+    /// <typeparam name="T">PopupUI 클래스</typeparam>
+    /// <returns>비활성화된 Popup UI</returns>
+    private T FindPopUpUIInPool<T>() where T : PopupUI
     {
-        return null;
+        return popUpUIPool.GetValueOrDefault(typeof(T).Name) as T;
+    }
+
+    /// <summary>
+    /// 비활성화 UI Pool에서 UI 검색
+    /// </summary>
+    /// <param name="key">PopupUI 이름</param>
+    /// <returns>비활성화된 Popup UI</returns>
+    private PopupUI FindPopUpUIInPool(string key)
+    {
+        return popUpUIPool.GetValueOrDefault(key);
     }
 
     /// <summary>
