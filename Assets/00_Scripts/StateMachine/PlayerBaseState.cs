@@ -27,12 +27,14 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Look.started += OnLookStarted;
+       
     }
     protected virtual void RemoveInputActionCallbacks()
     {
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Look.canceled -= OnLookStarted;
+       
     }
 
     public virtual void HandleInput() // 입력 값
@@ -59,6 +61,8 @@ public class PlayerBaseState : IState
         Vector2 lookDelta = context.ReadValue<Vector2>();
         stateMachine.Player.FpsCamera.UpdateRotate(lookDelta.x, lookDelta.y);
     }
+
+   
     protected void StartAnimation(int animatorHash)
     {
         stateMachine.Player.Animator.SetBool(animatorHash, true);
@@ -84,6 +88,7 @@ public class PlayerBaseState : IState
         //Rotate(movementDirection);
 
     }
+
 
     private Vector3 GetMovementDirection()
     {
@@ -111,4 +116,5 @@ public class PlayerBaseState : IState
         return moveSpeed;
     }
 
+  
 }
