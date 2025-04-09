@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerIdleState : PlayerGroundState
 {
@@ -15,11 +16,13 @@ public class PlayerIdleState : PlayerGroundState
         StartAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-        StopAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
-    }
+    // To Do: Exit 적으면 공격을 안하고 나가짐 확인할 것
+
+    //public override void Exit()
+    //{
+    //    base.Exit();
+    //    StopAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
+    //}
 
     public override void Update()
     {
@@ -30,4 +33,13 @@ public class PlayerIdleState : PlayerGroundState
             return;
         }
     }
+
+    
+    protected override void OnAttack(InputAction.CallbackContext context)
+    {
+        
+        // 버튼이 눌리는 순간 실행
+        stateMachine.ChangeState(stateMachine.AttackState);
+    }
+
 }
