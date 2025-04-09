@@ -3,4 +3,8 @@
 /// </summary>
 public abstract class PopupUI : BaseUI
 {
+    protected virtual void CloseUI()
+    {
+        UIManager.Instance.ClosePopUpUI();
+    }
 }

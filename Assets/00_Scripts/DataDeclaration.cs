@@ -12,6 +12,17 @@ namespace DataDeclaration
         None,
         HUD,
     }
+
+    public enum ItemStatType
+    {
+        RCL,
+        HDL,
+        STP,
+        SPD,
+        DMG,
+        MaxBullet,
+        Parts
+    }
     #endregion
     
     #region Struct
