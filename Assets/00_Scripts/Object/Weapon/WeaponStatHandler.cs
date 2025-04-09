@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-
 public class WeaponStatHandler : MonoBehaviour
 {
     public WeaponData weaponData;
@@ -55,7 +54,7 @@ public class WeaponStatHandler : MonoBehaviour
             ReloadWeapon();
         }
     }
-
+    #region 발사
     public void FireWeapon()
     {
         if (weaponData != null)
@@ -170,10 +169,9 @@ public class WeaponStatHandler : MonoBehaviour
             Destroy(tempFlash, destroyTimer);
         }
     }
-
+    #endregion
 
     #region 총기 흔들림
-
     //손떨림
     private void WeaponShake()
     {
