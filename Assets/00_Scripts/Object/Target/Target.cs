@@ -25,12 +25,17 @@ public class Target : MonoBehaviour
 
     void Start()
     {
-      anim.GetComponentInParent<Animator>();
+      anim.GetComponent<Animator>();
       LoadDataByID(targetID);
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Collider hitCollider)
     {
+        if(hitCollider != null && hitCollider.name == "Head")
+        {
+            amount = Mathf.RoundToInt(amount * 1.6f);
+            Debug.Log($"헤드샷 데미지: {amount}");
+        }
         Hp -= amount;
         
         if(Hp <= 0)

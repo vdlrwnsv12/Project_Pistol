@@ -104,10 +104,10 @@ public class WeaponStatHandler : MonoBehaviour
             }
             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
-                Target target = hit.collider.GetComponent<Target>();
+                Target target = hit.collider.GetComponentInParent<Target>();
                 if(target != null)
                 {
-                    target.TakeDamage(weaponData.damage);
+                    target.TakeDamage(weaponData.damage, hit.collider);
                 }
             }
         }
