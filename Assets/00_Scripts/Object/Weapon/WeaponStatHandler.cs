@@ -1,12 +1,12 @@
 using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class WeaponStatHandler : MonoBehaviour
 {
     public WeaponData weaponData;
     public Animator gunAnimator;
-
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
@@ -28,10 +28,15 @@ public class WeaponStatHandler : MonoBehaviour
         LoadWeaponData();
 
         if (barrelLocation == null)
+        {
             barrelLocation = transform;
+        }
 
         if (gunAnimator == null)
+        {
             gunAnimator = GetComponentInChildren<Animator>();
+        }
+
     }
 
     void Update()
@@ -94,7 +99,16 @@ public class WeaponStatHandler : MonoBehaviour
                 //ToDO: 오브젝트 풀링으로 관리
                 Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
                 GameObject impact = Instantiate(bulletImpactPrefab, hit.point, hitRotation);
+                impact.transform.SetParent(hit.collider.transform);
                 Destroy(impact, 2f);
+            }
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
+            {
+                Target target = hit.collider.GetComponent<Target>();
+                if(target != null)
+                {
+                    target.TakeDamage(weaponData.damage);
+                }
             }
         }
     }
@@ -120,7 +134,7 @@ public class WeaponStatHandler : MonoBehaviour
         }
     }
 
-    // 뮤즐 플래시 처리
+    // 머즐 플래시 처리
     void MuzzleFlash()
     {
         //ToDO: 오브젝트 풀링으로 관리

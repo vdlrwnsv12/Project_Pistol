@@ -76,7 +76,7 @@ public class SoundManager : MonoBehaviour
 
     #region 효과음 관련
     /// <summary>
-    /// 사운드 넣고 싶은거 넣으세요 리소스 폴더안에 SFX 경로에 넣어야합니다.
+    /// 사운드 넣고 싶은거 넣으세요
     /// </summary>
     /// <param name="string"></param>
     /// <param name="AudioClip"></param>
@@ -92,17 +92,36 @@ public class SoundManager : MonoBehaviour
     /// 사운드 효과 재생
     /// </summary>
     /// <param name="string"></param>
+    /// 
     public void PlaySFX(string soundName)
     {
-        AudioClip clip = Resources.Load<AudioClip>("Audio/SFX/" + soundName);
-
-        if (clip != null)
+        if (soundEffects.TryGetValue(soundName, out AudioClip clip))
         {
-            sfxSource.PlayOneShot(clip);
+            sfxSource.PlayOneShot(clip, sfxVol);
         }
         else
         {
-            Debug.LogWarning("Sound not found in Resources/Audio/SfX: " + soundName);
+            clip = Resources.Load<AudioClip>("Audio/SFX/" + soundName);
+
+            if (clip != null)
+            {
+                soundEffects[soundName] = clip;
+                sfxSource.PlayOneShot(clip, sfxVol);
+            }
+            else
+            {
+                Debug.Log("sound 못찾음 " + soundName);
+            }
+        }
+    }
+    /// <summary>
+    /// 클립 직접 넘겨서 재생
+    /// </summary>
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            sfxSource.PlayOneShot(clip, sfxVol);
         }
     }
     #endregion
