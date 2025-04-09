@@ -29,11 +29,12 @@ public class PopupReward : PopupUI
     /// </summary>
     private void InitReward()
     {
-        var rewardList = TestManager.Instance.RewardManager.GetRandomItemReward();
-        for (var i = 0; i < rewardCards.Length; i++)
-        {
-            rewardCards[i].rewardName.text = rewardList[i].itemName;
-            rewardCards[i].timeCost.text = $"{rewardList[i].cost:N2}s";
-        }
+        //TODO: StageManager.Instance.RewardManager로 접근하기
+        // var rewardList = TestManager.Instance.RewardManager.GetRandomItemReward();
+        // for (var i = 0; i < rewardCards.Length; i++)
+        // {
+        //     rewardCards[i].rewardName.text = rewardList[i].itemName;
+        //     rewardCards[i].timeCost.text = $"{rewardList[i].cost:N2}s";
+        // }
     }
 }

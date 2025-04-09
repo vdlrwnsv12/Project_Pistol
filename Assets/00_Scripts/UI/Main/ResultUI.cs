@@ -42,11 +42,11 @@ public class ResultUI : MainUI
     private void UpdateResultValue(RankType rank, int score, float remainTime, float accuracy, float headAccuracy, int maxCombo)
     {
         rankText.text = rank.ToString();
-        scoreText.text = $"<size=30>Score</size>\\n<size=40>{score:D6}</size>";
+        scoreText.text = $"<size=30>Score</size>\n<size=40>{score:D6}</size>";
 
-        remainTimeText.text = $"남은 시간\\n{remainTime:N2}초";
-        accuracyText.text = $"명중률\\n{accuracy:N2}%";
-        headAccuracyText.text = $"헤드 명중률\\n{headAccuracy:N2}%";
-        maxComboText.text = $"최대 콤보\\n{maxCombo:D2} Combo";
+        remainTimeText.text = $"남은 시간\n{remainTime:N2}초";
+        accuracyText.text = $"명중률\n{accuracy:N2}%";
+        headAccuracyText.text = $"헤드 명중률\n{headAccuracy:N2}%";
+        maxComboText.text = $"최대 콤보\n{maxCombo:D2} Combo";
     }
 }

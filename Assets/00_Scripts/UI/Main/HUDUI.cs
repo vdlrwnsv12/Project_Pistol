@@ -36,33 +36,28 @@ public class HUDUI : MainUI
         currentColor = new Color(252, 192, 1);
     }
 
-    private void Update()
-    {
-        //UpdateRealTimeChanges();
-    }
-
     public override void SetActiveUI(MainUIType activeUIType)
     {
         gameObject.SetActive(uiType == activeUIType);
     }
 
-    private void UpdateRealTimeChanges(int score, float remainTime, int curAmmo, int remainAmmo)
+    public void UpdateRealTimeChanges(int score, float remainTime, int curAmmo, int remainAmmo)
     {
-        scoreText.text = $"<size=36>Score</size>\\n<size=50>{score:D6}</size>";
+        scoreText.text = $"<size=36>Score</size>\n<size=50>{score:D6}</size>";
         remainTimeText.text = $"TIME\n{remainTime:N2}";
         ammoText.text = $"{curAmmo} / {remainAmmo}";
     }
 
-    private void UpdateStageInfo(int curStage, int curStageIndex)
+    public void UpdateStageInfo(int curStage, int curStageIndex)
     {
-        curStageText.text = $"현재 스테이지\\tStage {curStage}";
+        curStageText.text = $"현재 스테이지\tStage {curStage}";
         for (var i = 0; i < stageIndex.Length; i++)
         {
             stageIndex[i].color = i == curStageIndex ? currentColor : originalColor;
         }
     }
 
-    private void UpdateStatValue(float rclValue, float hdlValue, float stpValue, float spdValue)
+    public void UpdateStatValue(float rclValue, float hdlValue, float stpValue, float spdValue)
     {
         rclGauge.fillAmount = rclValue / 100f;
         rclText.text = rclValue.ToString("N0");
