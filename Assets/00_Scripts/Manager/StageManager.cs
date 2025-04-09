@@ -1,4 +1,7 @@
 using System.Net.NetworkInformation;
+using System.Threading;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -23,31 +26,39 @@ public class StageManager : MonoBehaviour
 
     #region parameter
 
-    bool isStageStarted; //스테이지 시작여부
-    bool isStageCleared; //스테이지 클리어여부
-    bool isStageFailed; //스테이지 실패여부
-    bool isGateOpened; //스테이지 문을 열었는지 여부
-    bool hasPlayerExited;
+        #region bool
+        bool isStageStarted; //스테이지 시작여부
+        bool isStageCleared; //스테이지 클리어여부
+        bool isStageFailed; //스테이지 실패여부
+        bool isGateOpened; //스테이지 문을 열었는지 여부
+        bool hasPlayerExited;
 
-    float stageTimeLimit; //스테이지 제한시간
-    float remainingtime; //남은시간 추적
-    int currentStageIndex; //현재 스테이지 출력
-    int maxStageCount;
+        #endregion
+
+        #region float int
+        float stageTimeLimit; //스테이지 제한시간
+        float remainingtime; //남은시간 추적
+        float warningThreshold; //10초 이하일때 경고상태 진입
+        int currentStageIndex; //현재 스테이지 출력
+        int maxStageCount; //스테이지 최대 카운트수
+
+        #endregion
+
+        #region Text
+        TextMeshProUGUI timerText; //타이머 텍스트 UI
+
+    #endregion
+
+    Color warningColor; //시간 임박시 색상 변경
+
     #endregion
 
     #region Stage start -> end
-    /// <summary>
-    /// 스테이지 시작시 설정값 매서드
-    /// </summary>
-    private void StartStage()
-    {
-        isStageStarted = true;
-    }
 
     /// <summary>
     /// 스테이지 초기 값
     /// </summary>
-    private void InitStage() 
+    private void InitStage()
     {
         stageState = StageState.Playing;
         isStageStarted = true;
@@ -57,9 +68,17 @@ public class StageManager : MonoBehaviour
         hasPlayerExited = false;
 
         remainingtime = stageTimeLimit;
-        
+
         //TODO
         //SpawnTargets(); //새로운 타겟 생성
+    }
+
+    /// <summary>
+    /// 스테이지 시작시 설정값 매서드
+    /// </summary>
+    private void StartStage()
+    {
+        isStageStarted = true;
     }
 
     /// <summary>
@@ -69,12 +88,14 @@ public class StageManager : MonoBehaviour
     {
         if (stageState != StageState.Playing) return;
         {
-
+            remainingtime -= Time.deltaTime;
         }
+
+        UpdateTimerUI();
 
         if (remainingtime <= 0f && !isStageFailed) //시간이 0초라면
         {
-
+            HandleStageFail();
         }
 
         if(remainingtime <= 0)
@@ -121,6 +142,24 @@ public class StageManager : MonoBehaviour
         }
 
         InitStage(); //스테이지 리셋
+    }
+
+    /// <summary>
+    /// 타이머 UI 연동
+    /// </summary>
+    private void UpdateTimerUI()
+    {
+        int time = Mathf.CeilToInt(remainingtime);
+        timerText.text = time.ToString();
+
+        if (time <= warningThreshold)
+        {
+            timerText.color = warningColor;
+        }
+        else
+        {
+            timerText.color = defaultColor;
+        }
     }
     #endregion
 
