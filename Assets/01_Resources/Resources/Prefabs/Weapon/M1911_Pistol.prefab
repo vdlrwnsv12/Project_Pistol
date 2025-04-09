@@ -458,6 +458,7 @@ MonoBehaviour:
     type: 3}
   bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
   playerCam: {fileID: 0}
+  isReloading: 0
   barrelLocation: {fileID: 3708281920586181601}
   casingExitLocation: {fileID: 5278394436447465388}
   destroyTimer: 2
