@@ -14,15 +14,12 @@ public class PlayerController : MonoBehaviour
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
 
-        fpsCamera = GetComponent<FpsCamera>();  
-
-     
        
     }
 
     private void Update()
     {
-        UpdateRotate();
+        
     }
 
     private void OnEnable()
@@ -35,11 +32,5 @@ public class PlayerController : MonoBehaviour
         playerInputs.Disable();
     }
 
-    private void UpdateRotate()
-    {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-        fpsCamera.UpdateRotate(mouseX, mouseY); 
-        
-    }
+
 }

@@ -8,8 +8,6 @@ public class PlayerBaseState : IState
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
 
-
-
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -28,11 +26,13 @@ public class PlayerBaseState : IState
     {
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled += OnMovementCanceled;
+        input.playerActions.Look.started += OnLookStarted;
     }
     protected virtual void RemoveInputActionCallbacks()
     {
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
+        input.playerActions.Look.canceled -= OnLookStarted;
     }
 
     public virtual void HandleInput() // 입력 값
@@ -52,6 +52,12 @@ public class PlayerBaseState : IState
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
 
+    }
+
+    protected virtual void OnLookStarted(InputAction.CallbackContext context)
+    {
+        Vector2 lookDelta = context.ReadValue<Vector2>();
+        stateMachine.Player.FpsCamera.UpdateRotate(lookDelta.x, lookDelta.y);
     }
     protected void StartAnimation(int animatorHash)
     {
@@ -105,8 +111,4 @@ public class PlayerBaseState : IState
         return moveSpeed;
     }
 
-
-    
-    
-   
 }
