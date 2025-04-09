@@ -9,7 +9,8 @@ public class UIManager : SingletonBehaviour<UIManager>
     private CanvasGroup fader; // 페이드 연출
 
     private List<MainUI> mainUIList = new(); // ScreenUI 관리용 리스트
-    private Stack<PopupUI> popupUIStack = new(); // Pop-Up UI 관리용 Stack
+    private Stack<GameObject> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
+    private Dictionary<string, GameObject> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
 
     protected override void Awake()
     {
@@ -45,12 +46,29 @@ public class UIManager : SingletonBehaviour<UIManager>
     /// <summary>
     /// Pop-Up 창 열기
     /// </summary>
-    /// <param name="popUpUI">활성화 할 Pop-Up 창</param>
-    public void OpenPopUpUI(PopupUI popUpUI)
+    /// <param name="openUI">활성화 할 Pop-Up 창</param>
+    public void OpenPopUpUI<T>(T openUI) where T : PopupUI
     {
-        //TODO: 일단 임시 작성
-        popUpUI.gameObject.SetActive(true);
-        popupUIStack.Push(popUpUI);
+        if (curPopUpUIStack.TryPeek(out var latestUI))
+        {
+            latestUI.gameObject.SetActive(false);
+        }
+        
+        var resource = Resources.Load<GameObject>($"Prefabs/UI/PopUp/{nameof(openUI)}");
+        var ui = Instantiate(resource, mainCanvas.transform, false);
+        curPopUpUIStack.Push(ui);
+    }
+
+    public void OpenPopUpUI<T>(string uiName) where T : PopupUI
+    {
+        if (curPopUpUIStack.TryPeek(out var latestUI))
+        {
+            latestUI.gameObject.SetActive(false);
+        }
+        
+        var resource = Resources.Load<GameObject>($"Prefabs/UI/PopUp/{uiName}");
+        var ui = Instantiate(resource, mainCanvas.transform, false);
+        curPopUpUIStack.Push(ui);
     }
 
     /// <summary>
@@ -58,8 +76,18 @@ public class UIManager : SingletonBehaviour<UIManager>
     /// </summary>
     public void ClosePopUpUI()
     {
-        //TODO: 일단 임시 작성
-        popupUIStack.Pop().gameObject.SetActive(false);
+        var popUpUI = curPopUpUIStack.Pop();
+        popUpUI.gameObject.SetActive(false);
+
+        if (curPopUpUIStack.TryPeek(out var prevUI))
+        {
+            prevUI.gameObject.SetActive(true);
+        }
+    }
+
+    private GameObject FindPopUpUIInPool(PopupUI searchUI)
+    {
+        return null;
     }
 
     /// <summary>

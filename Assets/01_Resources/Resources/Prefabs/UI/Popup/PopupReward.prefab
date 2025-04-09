@@ -909,7 +909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1433578122979248453
 RectTransform:
   m_ObjectHideFlags: 0
@@ -943,6 +943,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8528bfcba1ecc42b8e3e1509492418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardCards:
+  - rewardImage: {fileID: 3348490265229209315}
+    rewardName: {fileID: 3501312020271705576}
+    timeCost: {fileID: 2179944860155243591}
+    rewardButton: {fileID: 8748043218685009700}
+  - rewardImage: {fileID: 3795559264581714802}
+    rewardName: {fileID: 2178808245333543525}
+    timeCost: {fileID: 213551495313041127}
+    rewardButton: {fileID: 5460520706614962619}
+  - rewardImage: {fileID: 6771771867140102153}
+    rewardName: {fileID: 6586896138645155034}
+    timeCost: {fileID: 4886335282431383466}
+    rewardButton: {fileID: 1879063536055453412}
+  cancelBuyBtn: {fileID: 2649368625165099429}
 --- !u!1 &4694448255185772464
 GameObject:
   m_ObjectHideFlags: 0
