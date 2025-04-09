@@ -26,6 +26,7 @@ public class PlayerStateMachine : StateMachine
 
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
+        AttackState = new PlayerAttackState(this);  
         MovementSpeed = player.Data.GroundData.BaseSpeed;
         RotationDamping = player.Data.GroundData.BaseRotationDamping;
          

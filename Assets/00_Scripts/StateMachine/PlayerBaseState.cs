@@ -27,6 +27,7 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Look.started += OnLookStarted;
+        input.playerActions.Attack.started += OnAttack;
        
     }
     protected virtual void RemoveInputActionCallbacks()
@@ -34,7 +35,7 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Look.canceled -= OnLookStarted;
-       
+        input.playerActions.Attack.started -= OnAttack;
     }
 
     public virtual void HandleInput() // 입력 값
@@ -62,6 +63,10 @@ public class PlayerBaseState : IState
         stateMachine.Player.FpsCamera.UpdateRotate(lookDelta.x, lookDelta.y);
     }
 
+    protected virtual void OnAttack(InputAction.CallbackContext context)
+    {
+
+    }
    
     protected void StartAnimation(int animatorHash)
     {
