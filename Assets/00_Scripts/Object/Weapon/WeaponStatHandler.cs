@@ -9,6 +9,7 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
     public Camera playerCam;
+    public bool isReloading;
 
     [SerializeField] private Transform barrelLocation;
     [SerializeField] private Transform casingExitLocation;
@@ -49,7 +50,7 @@ public class WeaponStatHandler : MonoBehaviour
         {
             FireWeapon();
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading)
         {
             ReloadWeapon();
         }
@@ -169,6 +170,7 @@ public class WeaponStatHandler : MonoBehaviour
         if (muzzleFlashPrefab)
         {
             GameObject tempFlash = Instantiate(muzzleFlashPrefab, barrelLocation.position, barrelLocation.rotation);
+            tempFlash.transform.SetParent(barrelLocation.transform);
             Destroy(tempFlash, destroyTimer);
         }
     }
@@ -218,8 +220,9 @@ public class WeaponStatHandler : MonoBehaviour
     #region 재장전
     void ReloadWeapon()
     {
-        if (weaponData != null)
+        if (weaponData != null && weaponData.currentAmmo != weaponData.maxAmmo)
         {
+            isReloading = true;
             weaponData.currentAmmo = 0;
             gunAnimator.SetTrigger("Reload");
             SoundManager.Instance.PlaySFX("Reload");
@@ -230,9 +233,10 @@ public class WeaponStatHandler : MonoBehaviour
 
     private IEnumerator WaitForEndOfReload()
     {
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(weaponData.reloadTime);
         gunAnimator.SetBool("OutOfAmmo", false);
         weaponData.currentAmmo = weaponData.maxAmmo;
+        isReloading = false;
 
     }
     #endregion
