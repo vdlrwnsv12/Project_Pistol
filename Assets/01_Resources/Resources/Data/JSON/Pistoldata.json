@@ -5,7 +5,7 @@
     "reloadTime": 2.0,
     "maxAmmo": 7,
     "currentAmmo": 7,
-    "accuracy": 100,
+    "accuracy": 1,
     "isSilenced": false,
     "cameraShakeRate" :100,
     "comment": "주석 대용.accuracy=정확도 isSilenced=소음기 장착 여부"

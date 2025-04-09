@@ -132,7 +132,7 @@ public class WeaponStatHandler : MonoBehaviour
             float y = Random.Range(-1f, 1f) * intensity * damper;
 
             playerCam.transform.localPosition = originalPos + new Vector3(x, y, 0f);
-            
+
             timer += Time.deltaTime;
             yield return null;
         }
@@ -183,11 +183,13 @@ public class WeaponStatHandler : MonoBehaviour
         {
             return;
         }
-        float shakeAmount = weaponData.accuracy * 0.05f;
+
+        float accuracy = Mathf.Clamp01((99f - weaponData.accuracy) / 98f);
+        float shakeAmount = accuracy * 7.5f;
         float shakeSpeed = 0.7f;
 
-        float rotX = (Mathf.PerlinNoise(Time.time * shakeSpeed, 0f) - 0.5f) * shakeAmount * 0.7f;
-        float rotY = (Mathf.PerlinNoise(0f, Time.time * shakeSpeed) - 0.5f) * shakeAmount * 3.5f;
+        float rotX = (Mathf.PerlinNoise(Time.time * shakeSpeed, 0f) - 0.5f) * shakeAmount * 1f;
+        float rotY = (Mathf.PerlinNoise(0f, Time.time * shakeSpeed) - 0.5f) * shakeAmount * 3f;
         float rotZ = (Mathf.PerlinNoise(Time.time * shakeSpeed, Time.time * shakeSpeed) - 0.5f) * shakeAmount;
 
         Quaternion shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
@@ -219,8 +221,7 @@ public class WeaponStatHandler : MonoBehaviour
         if (weaponData != null)
         {
             weaponData.currentAmmo = 0;
-            gunAnimator.SetBool("OutOfAmmo", true);
-
+            gunAnimator.SetTrigger("Reload");
             SoundManager.Instance.PlaySFX("Reload");
             StartCoroutine(WaitForEndOfReload());
 
