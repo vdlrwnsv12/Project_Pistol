@@ -8,7 +8,7 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
-    public Camera playerCam;
+    public GameObject playerCam;
     public bool isReloading;
 
     [SerializeField] private Transform barrelLocation;
@@ -81,6 +81,9 @@ public class WeaponStatHandler : MonoBehaviour
 
                 weaponData.currentAmmo--;
                 lastFireTime = Time.time;
+            }else
+            {
+                SoundManager.Instance.PlaySFX("EmptyTrigger");
             }
 
         }
