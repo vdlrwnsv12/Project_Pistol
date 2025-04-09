@@ -11,6 +11,7 @@ namespace DataDeclaration
     {
         None,
         HUD,
+        Result,
     }
 
     public enum ItemStatType
@@ -23,6 +24,15 @@ namespace DataDeclaration
         MaxBullet,
         Parts
     }
+
+    public enum RankType
+    {
+        S,
+        A,
+        B,
+        C,
+        F
+    }
     #endregion
     
     #region Struct
@@ -33,11 +43,6 @@ namespace DataDeclaration
         public TextMeshProUGUI rewardName;
         public TextMeshProUGUI timeCost;
         public Button rewardButton;
-
-        public void SendData(RewardCard rewardData)
-        {
-            
-        }
     }
     #endregion
     
