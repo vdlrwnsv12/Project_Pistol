@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +8,9 @@ public class UIManager : SingletonBehaviour<UIManager>
     private GameObject mainCanvas; // 메인 캔버스 게임오브젝트
     private CanvasGroup fader; // 페이드 연출
 
-    private List<MainUI> mainUIList = new(); // ScreenUI 관리용 리스트
-    private Stack<PopupUI> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
-    private Dictionary<string, PopupUI> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
+    private readonly List<MainUI> mainUIList = new(); // ScreenUI 관리용 리스트
+    private readonly Stack<PopupUI> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
+    private readonly Dictionary<string, PopupUI> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
 
     protected override void Awake()
     {
@@ -27,7 +26,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     public void InitUI<T>() where T : MainUI
     {
         //TODO: Resources.Load 나중에 Addressable로 바꾸기
-        var resource = Resources.Load<GameObject>($"Prefabs/UI/Main/{typeof(T).Name}");
+        var resource = ResourceManager.Instance.Load<GameObject>($"Prefabs/UI/Main/{typeof(T).Name}");
         var ui = Instantiate(resource, mainCanvas.transform, false);
         mainUIList.Add(ui.GetComponent<T>());
     }
@@ -58,7 +57,7 @@ public class UIManager : SingletonBehaviour<UIManager>
         var openUI = FindPopUpUIInPool<T>();
         if (openUI == null)
         {
-            var resource = Resources.Load<T>($"Prefabs/UI/PopUp/{typeof(T).Name}");
+            var resource = ResourceManager.Instance.Load<T>($"Prefabs/UI/PopUp/{typeof(T).Name}");
             openUI = Instantiate(resource, mainCanvas.transform, false);
         }
         openUI.gameObject.SetActive(true);
@@ -79,7 +78,7 @@ public class UIManager : SingletonBehaviour<UIManager>
         var openUI = FindPopUpUIInPool(uiName);
         if (openUI == null)
         {
-            var resource = Resources.Load<PopupUI>($"Prefabs/UI/PopUp/{uiName}");
+            var resource = ResourceManager.Instance.Load<PopupUI>($"Prefabs/UI/PopUp/{uiName}");
             openUI = Instantiate(resource, mainCanvas.transform, false);
         }
         openUI.gameObject.SetActive(true);
@@ -140,7 +139,7 @@ public class UIManager : SingletonBehaviour<UIManager>
         if (mainCanvas == null) // Main Canvas가 없을 경우 새로 생성
         {
             //TODO: Resources.Load 나중에 Addressable로 바꾸기
-            var resource = Resources.Load<GameObject>("Prefabs/UI/MainCanvas");
+            var resource = ResourceManager.Instance.Load<GameObject>("Prefabs/UI/MainCanvas");
             mainCanvas = Instantiate(resource);
         }
 
@@ -157,7 +156,7 @@ public class UIManager : SingletonBehaviour<UIManager>
         if (fader == null) // Fader가 없을 경우 새로 생성
         {
             //TODO: Resources.Load 나중에 Addressable롤 바꾸기
-            var resource = Resources.Load<GameObject>("Prefabs/UI/Fader");
+            var resource = ResourceManager.Instance.Load<GameObject>("Prefabs/UI/Fader");
             fader = Instantiate(resource).GetComponent<CanvasGroup>();
         }
 

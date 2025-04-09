@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RewardManager
 {
-    private readonly ItemData[] itemRewardPool = Resources.LoadAll<ItemData>("Data/SO/Item");
+    private readonly ItemData[] itemRewardPool = ResourceManager.Instance.LoadAll<ItemData>("Data/SO/Item");
 
     /// <summary>
     /// Item Pool에서 중복 없이 랜덤으로 3개 반환
