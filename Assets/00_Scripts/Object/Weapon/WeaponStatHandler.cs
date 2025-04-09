@@ -126,10 +126,13 @@ public class WeaponStatHandler : MonoBehaviour
 
         while (timer < duration)
         {
-            float x = Random.Range(-1f, 1f) * intensity;
-            float y = Random.Range(-1f, 1f) * intensity;
+            float damper = 1f - (timer / duration);
+
+            float x = Random.Range(-1f, 1f) * intensity * damper;
+            float y = Random.Range(-1f, 1f) * intensity * damper;
 
             playerCam.transform.localPosition = originalPos + new Vector3(x, y, 0f);
+            
             timer += Time.deltaTime;
             yield return null;
         }
