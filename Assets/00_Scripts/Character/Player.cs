@@ -11,15 +11,19 @@ public class Player : MonoBehaviour
     public PlayerController Input { get; private set; }
     public CharacterController Controller { get; private set; }
 
+    public ForceReceiver ForceReceiver { get; private set; }
+    public FpsCamera FpsCamera { get; private set; }
     private PlayerStateMachine stateMachine;
     
+
     private void Awake()
     {
         AnimationData.Initialize();
         Animator = GetComponent<Animator>();
         Input = GetComponent<PlayerController>();
         Controller = GetComponent<CharacterController>();
-
+        ForceReceiver = GetComponent<ForceReceiver>();  
+        FpsCamera = GetComponent<FpsCamera>();
         stateMachine = new PlayerStateMachine(this);
        
     }
