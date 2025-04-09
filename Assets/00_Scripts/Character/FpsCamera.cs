@@ -1,32 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class FpsCamera : MonoBehaviour
 {
-    public Transform playerBody;       // 좌우 회전 (Yaw)
-    public Transform cameraRoot;       // 상하 회전 (Pitch)
-    public float mouseSensitivity = 100f;
+    [SerializeField] private float rotCamXAxisSpeed = 5;
+    [SerializeField] float rotCamYAxisSpeed = 5;
 
-    private float xRotation = 0f;
+    private float limitMinx = -80;
+    private float limitMaxX = 50;
+    private float eulerAngleX;
+    private float eulerAngleY;
 
-    void Start()
+    public void UpdateRotate(float mouseX, float mouseY)
     {
-        Cursor.lockState = CursorLockMode.Locked;
+
+        eulerAngleY += mouseX * rotCamYAxisSpeed;
+        eulerAngleX -= mouseY * rotCamXAxisSpeed;
+
+        eulerAngleX = ClampAngle(eulerAngleX, limitMinx, limitMaxX);
+        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+
     }
 
-    void Update()
+    private float ClampAngle(float angle, float min, float max)
     {
-        Vector2 mouseDelta = Mouse.current.delta.ReadValue();
-        float mouseX = mouseDelta.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = mouseDelta.y * mouseSensitivity * Time.deltaTime;
+        if (angle < -360) angle += 360;
+        if (angle > 360) angle -= 360;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // 위아래 제한
-
-        cameraRoot.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+        return Mathf.Clamp(angle,min,max);  
     }
+
 
 }

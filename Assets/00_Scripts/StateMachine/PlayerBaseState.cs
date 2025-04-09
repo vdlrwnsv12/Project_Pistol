@@ -106,15 +106,7 @@ public class PlayerBaseState : IState
     }
 
 
-
-    private void Rotate(Vector3 direction)
-    {
-        if (direction != Vector3.zero)
-        {
-            Transform playerTransfrom = stateMachine.Player.transform;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            playerTransfrom.rotation = Quaternion.Slerp(playerTransfrom.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
-
-        }
-    }
+    
+    
+   
 }

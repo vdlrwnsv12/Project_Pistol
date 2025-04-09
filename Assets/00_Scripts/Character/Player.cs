@@ -11,7 +11,8 @@ public class Player : MonoBehaviour
     public PlayerController Input { get; private set; }
     public CharacterController Controller { get; private set; }
 
-    private PlayerStateMachine stateMachine; 
+    private PlayerStateMachine stateMachine;
+    
     private void Awake()
     {
         AnimationData.Initialize();
