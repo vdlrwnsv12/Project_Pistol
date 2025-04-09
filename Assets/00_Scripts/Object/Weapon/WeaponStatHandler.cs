@@ -172,7 +172,8 @@ public class WeaponStatHandler : MonoBehaviour
     #endregion
 
     #region 총기 흔들림
-    //손떨림
+    //손떨림 
+    //ToDo : 정조준시 흔들리게 바꿔야함
     private void WeaponShake()
     {
         if (weaponData == null || gunTransform == null)
@@ -180,10 +181,10 @@ public class WeaponStatHandler : MonoBehaviour
             return;
         }
         float shakeAmount = weaponData.accuracy * 0.05f;
-        float shakeSpeed = 2f;
+        float shakeSpeed = 0.7f;
 
-        float rotX = (Mathf.PerlinNoise(Time.time * shakeSpeed, 0f) - 0.5f) * shakeAmount;
-        float rotY = (Mathf.PerlinNoise(0f, Time.time * shakeSpeed) - 0.5f) * shakeAmount;
+        float rotX = (Mathf.PerlinNoise(Time.time * shakeSpeed, 0f) - 0.5f) * shakeAmount * 0.7f;
+        float rotY = (Mathf.PerlinNoise(0f, Time.time * shakeSpeed) - 0.5f) * shakeAmount * 3.5f;
         float rotZ = (Mathf.PerlinNoise(Time.time * shakeSpeed, Time.time * shakeSpeed) - 0.5f) * shakeAmount;
 
         Quaternion shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
