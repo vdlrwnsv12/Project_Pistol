@@ -19,8 +19,6 @@ public class PopupReward : PopupUI
 
         for (var i = 0; i < itemRewards.Length; i++)
         {
-            var i1 = i;
-            rewardCards[i].rewardButton.onClick.AddListener(() => RewardSelectAction(itemRewards[i1]));
             rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
         }
         
@@ -31,11 +29,6 @@ public class PopupReward : PopupUI
     {
         // Popup 활성화 할때 마다 보상 세팅하기
         InitReward();
-    }
-
-    private void OnClickRewardCard()
-    {
-        buttonClickAction?.Invoke();
     }
 
     private void OnClickCancelBuyButton()
@@ -52,15 +45,9 @@ public class PopupReward : PopupUI
         itemRewards = TestManager.Instance.RewardManager.GetRandomItemReward();
         for (var i = 0; i < rewardCards.Length; i++)
         {
+            rewardCards[i].rewardImage.sprite = itemRewards[i].icon;
             rewardCards[i].rewardName.text = itemRewards[i].itemName;
-            rewardCards[i].timeCost.text = $"{itemRewards[i].cost:N2}s";
+            rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
         }
-    }
-
-    private void RewardSelectAction(ItemData itemData)
-    {
-        TestManager.Instance.RemainTime -= itemData.cost;
-        
-        TestManager.Instance.HUDUI.UpdateStatValue(itemData.stat.rclValue, itemData.stat.hdlValue, itemData.stat.stpValue, itemData.stat.spdValue);
     }
 }
