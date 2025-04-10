@@ -5,6 +5,9 @@ public class ResourceManager : SingletonBehaviour<ResourceManager>
 {
     private readonly Dictionary<string, object> resourcePools = new(); // 리소스 캐싱용
     
+    /// <summary>
+    /// Resources.Load()와 사용법 같음
+    /// </summary>
     public T Load<T>(string resourcePath) where T : Object
     {
         if (resourcePools.TryGetValue(resourcePath, out var value))
@@ -23,6 +26,9 @@ public class ResourceManager : SingletonBehaviour<ResourceManager>
         return resource;
     }
 
+    /// <summary>
+    /// Resources.LoadAll()와 사용법 같음
+    /// </summary>
     public T[] LoadAll<T>(string resourcePath) where T : Object
     {
         if (resourcePools.TryGetValue(resourcePath, out var value))

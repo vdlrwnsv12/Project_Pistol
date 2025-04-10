@@ -24,7 +24,7 @@ public class PopupReward : PopupUI
 
     private void OnEnable()
     {
-        // Popup 활성화 할때 마다 보상 세팅하기
+        // Popup 활성화 할때 마다 보상 아이템 세팅하기
         InitReward();
     }
 
@@ -34,12 +34,12 @@ public class PopupReward : PopupUI
     }
 
     /// <summary>
-    /// 보상 세팅하기
+    /// 보상 아이템 세팅하기
     /// </summary>
     private void InitReward()
     {
-        //TODO: StageManager.Instance.RewardManager로 접근하기
-        itemRewards = TestManager.Instance.RewardManager.GetRandomItemReward();
+        //TODO: StageManager.Instance.RewardSystem 접근하기
+        itemRewards = TestManager.Instance.RewardSystem.GetRandomItemReward();
         for (var i = 0; i < rewardCards.Length; i++)
         {
             rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
