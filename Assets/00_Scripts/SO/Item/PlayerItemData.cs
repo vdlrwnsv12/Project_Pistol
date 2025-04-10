@@ -4,11 +4,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "SO/ItemData/PlayerItem")]
 public class PlayerItemData : ItemData
 {
-    public ItemStat stat;
+    [field: SerializeField]public ItemPlayerStat Stat { get; private set; }
 }
 
 [Serializable]
-public struct ItemStat
+public struct ItemPlayerStat
 {
     public float rclValue;
     public float hdlValue;
