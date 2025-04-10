@@ -366,6 +366,24 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
+--- !u!1 &861948515 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 859148677100005222, guid: b8870276ef24046fc876932b167bbf3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5907384153741715004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &861948522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861948515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429582b160f8448ebabe9ce59cc1030d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1383828354
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,13 +898,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4290199105854688653, guid: b8870276ef24046fc876932b167bbf3c,
         type: 3}
+      propertyPath: weaponID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290199105854688653, guid: b8870276ef24046fc876932b167bbf3c,
+        type: 3}
       propertyPath: fpsCamera
       value: 
       objectReference: {fileID: 892816510486302346}
     - target: {fileID: 4290199105854688653, guid: b8870276ef24046fc876932b167bbf3c,
         type: 3}
       propertyPath: spreadAngle
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4290199105854688653, guid: b8870276ef24046fc876932b167bbf3c,
         type: 3}
@@ -952,7 +975,11 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 1715881483471659355, guid: b8870276ef24046fc876932b167bbf3c, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 859148677100005222, guid: b8870276ef24046fc876932b167bbf3c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 861948522}
   m_SourcePrefab: {fileID: 100100000, guid: b8870276ef24046fc876932b167bbf3c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

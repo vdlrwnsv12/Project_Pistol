@@ -16,7 +16,7 @@ public class PopupReward : PopupUI
     private void OnEnable()
     {
         // Popup 활성화 할때 마다 보상 세팅하기
-        InitReward();
+        //InitReward();
     }
 
     private void OnClickCancelBuyButton()
@@ -27,13 +27,13 @@ public class PopupReward : PopupUI
     /// <summary>
     /// 보상 세팅하기
     /// </summary>
-    private void InitReward()
-    {
-        var rewardList = TestManager.Instance.RewardManager.GetRandomItemReward();
-        for (var i = 0; i < rewardCards.Length; i++)
-        {
-            rewardCards[i].rewardName.text = rewardList[i].itemName;
-            rewardCards[i].timeCost.text = $"{rewardList[i].cost:N2}s";
-        }
-    }
+    // private void InitReward()
+    // {
+    //     var rewardList = TestManager.Instance.RewardManager.GetRandomItemReward();
+    //     for (var i = 0; i < rewardCards.Length; i++)
+    //     {
+    //         rewardCards[i].rewardName.text = rewardList[i].itemName;
+    //         rewardCards[i].timeCost.text = $"{rewardList[i].cost:N2}s";
+    //     }
+    // }
 }
