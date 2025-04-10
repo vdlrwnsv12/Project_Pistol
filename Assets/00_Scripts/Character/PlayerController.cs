@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     private FpsCamera fpsCamera;
 
-
+  
     private void Awake()
     {
         playerInputs = new PlayerInputs();

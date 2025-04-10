@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,6 +29,7 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
+        input.playerActions.Reload.started += OnReload;
        
     }
     protected virtual void RemoveInputActionCallbacks()
@@ -36,6 +38,7 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Look.canceled -= OnLookStarted;
         input.playerActions.Attack.started -= OnAttack;
+        input.playerActions.Reload.started -= OnReload;
     }
 
     public virtual void HandleInput() // 입력 값
@@ -65,9 +68,13 @@ public class PlayerBaseState : IState
 
     protected virtual void OnAttack(InputAction.CallbackContext context)
     {
-
+       // stateMachine.Player.Input.WeaponStatHandler.
     }
    
+    protected virtual void OnReload(InputAction.CallbackContext context)
+    {
+       
+    }
     protected void StartAnimation(int animatorHash)
     {
         stateMachine.Player.Animator.SetBool(animatorHash, true);
@@ -78,6 +85,7 @@ public class PlayerBaseState : IState
         stateMachine.Player.Animator.SetBool(animatorHash, false);
     }
 
+   
     private void ReadMovementInput()
     {
         // stateMachine에 있는 movementInput에서 개발

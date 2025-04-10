@@ -34,6 +34,7 @@ public class WeaponStatHandler : MonoBehaviour
     private Quaternion initialLocalRotation;
     void Start()
     {
+        //PlayerController 캐릭터매니저 => Player
         LoadWeaponData();
 
         if (barrelLocation == null)
@@ -56,10 +57,10 @@ public class WeaponStatHandler : MonoBehaviour
         {
             FireWeapon();
         }
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading)
-        {
-            ReloadWeapon();
-        }
+        //if (Input.GetKeyDown(KeyCode.R) && !isReloading)
+        //{
+        //    ReloadWeapon();
+        //}
 
         Vector3 targetPos = camRootOriginPos;
 
@@ -237,7 +238,7 @@ public class WeaponStatHandler : MonoBehaviour
     #endregion
 
     // WeaponData 로드
-    void LoadWeaponData()
+    public void LoadWeaponData()
     {
         TextAsset jsonData = Resources.Load<TextAsset>("Data/JSON/PistolData");
 
@@ -248,7 +249,7 @@ public class WeaponStatHandler : MonoBehaviour
     }
 
     #region 재장전
-    void ReloadWeapon()
+    public void ReloadWeapon()
     {
         if (weaponData != null && weaponData.currentAmmo != weaponData.maxAmmo)
         {

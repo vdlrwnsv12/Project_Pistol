@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
     public Animator Animator;
+
     public PlayerController Input { get; private set; }
     public CharacterController Controller { get; private set; }
 
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
         Animator = GetComponent<Animator>();
         Input = GetComponent<PlayerController>();
         Controller = GetComponent<CharacterController>();
-        ForceReceiver = GetComponent<ForceReceiver>();  
+        ForceReceiver = GetComponent<ForceReceiver>();
         FpsCamera = GetComponent<FpsCamera>();
         stateMachine = new PlayerStateMachine(this);
        

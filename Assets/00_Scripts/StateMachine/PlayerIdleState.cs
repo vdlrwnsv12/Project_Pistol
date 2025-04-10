@@ -41,5 +41,10 @@ public class PlayerIdleState : PlayerGroundState
         // 버튼이 눌리는 순간 실행
         stateMachine.ChangeState(stateMachine.AttackState);
     }
-
+    protected override void OnReload(InputAction.CallbackContext context)
+    {
+        base.OnReload(context);
+        Debug.Log("리로드 하라고"); 
+        stateMachine.ChangeState(stateMachine.ReloadState);
+    }
 }

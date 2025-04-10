@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -18,7 +19,9 @@ public class PlayerStateMachine : StateMachine
     public PlayerIdleState IdleState { get; private set; }
     public PlayerWalkState WalkState { get; private set; }
 
-    public PlayerAttackState AttackState { get; set; }    
+    public PlayerAttackState AttackState { get; private set; }    
+
+    public PlayerReloadState ReloadState { get; private set; }  
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
@@ -26,8 +29,9 @@ public class PlayerStateMachine : StateMachine
 
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
-        AttackState = new PlayerAttackState(this);  
-        MovementSpeed = player.Data.GroundData.BaseSpeed;
+        AttackState = new PlayerAttackState(this);
+        ReloadState = new PlayerReloadState(this);
+         MovementSpeed = player.Data.GroundData.BaseSpeed;
         RotationDamping = player.Data.GroundData.BaseRotationDamping;
          
     }

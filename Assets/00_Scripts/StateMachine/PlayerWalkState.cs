@@ -23,9 +23,13 @@ public class PlayerWalkState : PlayerGroundState
     }
     protected override void OnAttack(InputAction.CallbackContext context)
     {
-        // 이 이벤트는 오직 한 번만 처리되도록 할 수 있음.
-        // 예를 들어, 공격 입력이 "started" 이벤트라면,
-        // 버튼이 눌리는 순간 전환하도록 합니다.
+      
         stateMachine.ChangeState(stateMachine.AttackState);
+    }
+    protected override void OnReload(InputAction.CallbackContext context)
+    {
+        base.OnReload(context);
+        Debug.Log("walk 리로드 하라고");
+        stateMachine.ChangeState(stateMachine.ReloadState);
     }
 }
