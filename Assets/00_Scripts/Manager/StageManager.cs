@@ -1,65 +1,71 @@
-using System.Net.NetworkInformation;
-using System.Threading;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    #region Eunm
+    #region Enum
 
     /// <summary>
-    /// 스테이지정보
+    /// 스테이지 상태 정보
     /// </summary>
-    /// <param name="StageState">스테이지 공간 내의 세부정보</param>
-    /// <returns></returns>
     public enum StageState
     {
-        Waiting, //시작 전
-        Playing, //진행 중
-        Cleared, //클리어
-        Failed, //실패
+        Waiting, // 시작 전
+        Playing, // 진행 중
+        Cleared, // 클리어
+        Failed   // 실패
     }
 
     private StageState stageState;
-    #endregion
-
-    #region parameter
-
-        #region bool
-        bool isStageStarted; //스테이지 시작여부
-        bool isStageCleared; //스테이지 클리어여부
-        bool isStageFailed; //스테이지 실패여부
-        bool isGateOpened; //스테이지 문을 열었는지 여부
-        bool hasPlayerExited;
-
-        #endregion
-
-        #region float int
-        float stageTimeLimit; //스테이지 제한시간
-        float remainingtime; //남은시간 추적
-        float warningThreshold; //10초 이하일때 경고상태 진입
-        int currentStageIndex; //현재 스테이지 출력
-        int maxStageCount; //스테이지 최대 카운트수
-
-        #endregion
-
-        #region Text
-        TextMeshProUGUI timerText; //타이머 텍스트 UI
 
     #endregion
 
-    Color warningColor; //시간 임박시 색상 변경
+    #region Parameters
+
+    [Header("스테이지 데이터")]
+    [SerializeField] private StageData[] stageDataArray;
+
+    [Header("상태 플래그")]
+    private bool isStageStarted;
+    private bool isStageCleared;
+    private bool isStageFailed;
+    private bool isGateOpened;
+    private bool hasPlayerExited;
+
+    [Header("타이머 설정")]
+    private float stageTimeLimit;
+    private float remainingTime;
+    private float warningThreshold;
+
+    [Header("스테이지 진행")]
+    [SerializeField] private int currentStageIndex;
+    private int maxStageCount => stageDataArray.Length;
+
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private Color defaultColor;
+    private Color warningColor;
+
+    [Header("애니메이션")]
+    [SerializeField] private Animator gateAnimator;
 
     #endregion
 
-    #region Stage start -> end
+    #region Stage Flow
 
     /// <summary>
-    /// 스테이지 초기 값
+    /// 스테이지 초기화
     /// </summary>
     private void InitStage()
     {
+        StageData data = stageDataArray[currentStageIndex];
+
+        stageTimeLimit = data.stageTimeLimit;
+        remainingTime = stageTimeLimit;
+        warningThreshold = data.warningThreshold;
+        defaultColor = data.defaultColor;
+        warningColor = data.warningColor;
+
         stageState = StageState.Playing;
         isStageStarted = true;
         isStageCleared = false;
@@ -67,124 +73,109 @@ public class StageManager : MonoBehaviour
         isGateOpened = false;
         hasPlayerExited = false;
 
-        remainingtime = stageTimeLimit;
-
-        //TODO
-        //SpawnTargets(); //새로운 타겟 생성
+        // TODO: SpawnTargets();
     }
 
     /// <summary>
-    /// 스테이지 시작시 설정값 매서드
+    /// 스테이지 시작 설정
     /// </summary>
     private void StartStage()
     {
-        isStageStarted = true;  //TODO UI용
+        isStageStarted = true; // TODO: 시작 연출 or UI
     }
 
     /// <summary>
-    /// 스테이지매니저 업데이트
+    /// 스테이지 진행 업데이트
     /// </summary>
     private void Update()
     {
-        if (stageState != StageState.Playing) return;
-        {
-            remainingtime -= Time.deltaTime;
-        }
+        if (stageState != StageState.Playing)
+            return;
 
+        remainingTime -= Time.deltaTime;
         UpdateTimerUI();
 
-        if (remainingtime <= 0f && !isStageFailed) //시간이 0초라면
+        if (remainingTime <= 0f && !isStageFailed)
         {
             HandleStageFail();
         }
     }
 
-    [SerializeField] private Animator gateAnimator;
-    ///<summary>
-    ///문을 여는 매서드
-    ///</summary>
+    /// <summary>
+    /// 문 열기
+    /// </summary>
     private void OpenGate()
     {
         isGateOpened = true;
-        gateAnimator.SetTrigger("Open"); //에니메이션에서 Open 트리거 실행
+        gateAnimator.SetTrigger("Open");
     }
 
+    /// <summary>
+    /// 문 통과 시 다음 스테이지 로드
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if (stageState != StageState.Cleared || !isGateOpened )  
-        {
-            return; //클리어 문이 열려야 작동
-        }
+        if (stageState != StageState.Cleared || !isGateOpened)
+            return;
 
-        if (other.CompareTag("Player")) //플레이어이 태그확인
+        if (other.CompareTag("Player"))
         {
             hasPlayerExited = true;
             LoadNextStage();
         }
     }
 
-    ///<summary>
-    ///다음 스테이지 로드
+    /// <summary>
+    /// 다음 스테이지 로드
     /// </summary>
     private void LoadNextStage()
     {
         currentStageIndex++;
 
-        if(currentStageIndex >= maxStageCount)
+        if (currentStageIndex >= maxStageCount)
         {
             Debug.Log("게임종료");
             return;
         }
 
-        InitStage(); //스테이지 리셋
+        InitStage();
     }
 
     /// <summary>
-    /// 타이머 UI 연동
+    /// 타이머 UI 업데이트
     /// </summary>
-    [SerializeField] private Color defaultColor;
     private void UpdateTimerUI()
     {
-        int time = Mathf.CeilToInt(remainingtime);
+        int time = Mathf.CeilToInt(remainingTime);
         timerText.text = time.ToString();
-
-        if (time <= warningThreshold)
-        {
-            timerText.color = warningColor;
-        }
-        else
-        {
-            timerText.color = defaultColor;
-        }
+        timerText.color = time <= warningThreshold ? warningColor : defaultColor;
     }
+
     #endregion
 
     #region Handle
 
     /// <summary>
-    /// 스테이지 클리어 매서드
+    /// 스테이지 클리어 처리
     /// </summary>
     private void HandleStageClear()
     {
         if (isStageCleared)
-        {
             return;
-        }
 
         stageState = StageState.Cleared;
         isStageCleared = true;
-
-        OpenGate(); //문열기 처리
+        OpenGate();
     }
 
     /// <summary>
-    /// 스테이지 실패 매서드
+    /// 스테이지 실패 처리
     /// </summary>
     private void HandleStageFail()
     {
-        stageState = StageState.Failed; //
-        isStageFailed = true; //스테이지 실패함
+        stageState = StageState.Failed;
+        isStageFailed = true;
     }
-    #endregion
 
+    #endregion
 }
