@@ -8,11 +8,18 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
-    public GameObject playerCam;
+    public GameObject playerObject;
     public bool isReloading;
 
     [SerializeField] private Transform barrelLocation;
     [SerializeField] private Transform casingExitLocation;
+    [SerializeField] private Transform camRoot;
+    [SerializeField] private Camera playerCam;
+    public bool isADS = false;
+    private Vector3 camRootOriginPos;
+    private float adsX = 0.06f;
+    private float camMoveSpeed = 10f;
+
 
     [Header("Settings")]
     [Tooltip("Specify time to destroy the casing object")]
@@ -38,14 +45,13 @@ public class WeaponStatHandler : MonoBehaviour
         {
             gunAnimator = GetComponentInChildren<Animator>();
         }
+        camRootOriginPos = camRoot.localPosition;
 
         initialLocalRotation = gunTransform.localRotation;
     }
 
     void Update()
     {
-        WeaponShake();
-
         if (Input.GetButtonDown("Fire1") && Time.time - lastFireTime >= fireCooldown)
         {
             FireWeapon();
@@ -54,6 +60,26 @@ public class WeaponStatHandler : MonoBehaviour
         {
             ReloadWeapon();
         }
+
+        Vector3 targetPos = camRootOriginPos;
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            isADS = !isADS;
+        }
+        if (isADS)
+        {
+            targetPos.x = adsX;
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, 45f, Time.deltaTime * 10f);
+            WeaponShake();
+
+        }
+        else
+        {
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, 60f, Time.deltaTime * 10f); // 줌 아웃 (기본값 60)
+        }
+
+        camRoot.localPosition = Vector3.Lerp(camRoot.localPosition, targetPos, Time.deltaTime * camMoveSpeed);
     }
     #region 발사
     public void FireWeapon()
@@ -81,7 +107,8 @@ public class WeaponStatHandler : MonoBehaviour
 
                 weaponData.currentAmmo--;
                 lastFireTime = Time.time;
-            }else
+            }
+            else
             {
                 SoundManager.Instance.PlaySFX("EmptyTrigger");
             }
@@ -123,7 +150,7 @@ public class WeaponStatHandler : MonoBehaviour
 
     private IEnumerator CameraShake(float intensity)
     {
-        Vector3 originalPos = playerCam.transform.localPosition;
+        Vector3 originalPos = playerObject.transform.localPosition;
 
         float duration = 0.25f;
         float timer = 0f;
@@ -135,13 +162,13 @@ public class WeaponStatHandler : MonoBehaviour
             float x = Random.Range(-1f, 1f) * intensity * damper;
             float y = Random.Range(-1f, 1f) * intensity * damper;
 
-            playerCam.transform.localPosition = originalPos + new Vector3(x, y, 0f);
+            playerObject.transform.localPosition = originalPos + new Vector3(x, y, 0f);
 
             timer += Time.deltaTime;
             yield return null;
         }
 
-        playerCam.transform.localPosition = originalPos;
+        playerObject.transform.localPosition = originalPos;
     }
 
     // 탄피 배출 처리
@@ -205,7 +232,7 @@ public class WeaponStatHandler : MonoBehaviour
     //반동
     private void GunRecoil()
     {
-        playerCam.transform.localRotation *= Quaternion.Euler(-weaponData.shootRecoil * 0.01f, 0f, 0f);
+        playerObject.transform.localRotation *= Quaternion.Euler(-weaponData.shootRecoil * 0.01f, 0f, 0f);
     }
     #endregion
 
