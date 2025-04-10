@@ -15,6 +15,7 @@ public class WeaponStatHandler : MonoBehaviour
     [SerializeField] private Transform casingExitLocation;
     [SerializeField] private Transform camRoot;
     [SerializeField] private Camera playerCam;
+    [SerializeField] private FpsCamera fpsCamera;
     public bool isADS = false;
     private Vector3 camRootOriginPos;
     private float adsX = 0.06f;
@@ -224,7 +225,7 @@ public class WeaponStatHandler : MonoBehaviour
 
     #region 총기 흔들림
     //손떨림 
-    //ToDo : 정조준시 흔들리게 바꿔야함
+    //ToDo : 정조준시 흔들리게 바꿔야함 //완료
     private void WeaponShake()
     {
         if (weaponData == null || gunTransform == null)
@@ -248,7 +249,10 @@ public class WeaponStatHandler : MonoBehaviour
     //반동
     private void GunRecoil()
     {
-        playerObject.transform.localRotation *= Quaternion.Euler(-weaponData.shootRecoil * 0.05f, 0f, 0f);
+        if (fpsCamera != null)
+        {
+            fpsCamera.ApplyRecoil(weaponData.shootRecoil * 0.025f);
+        }
     }
     #endregion
 
@@ -291,20 +295,20 @@ public class WeaponStatHandler : MonoBehaviour
     {
         if (barrelLocation == null) return;
 
-        
+
         float maxDistance = 50f;
         int segments = 16;
 
         Gizmos.color = Color.white;
         Gizmos.DrawRay(barrelLocation.position, barrelLocation.forward * maxDistance);
 
-        if (isADS) 
+        if (isADS)
         {
             return;
         }
 
         Gizmos.color = Color.red;
-        
+
 
         for (int i = 0; i < segments; i++)
         {
