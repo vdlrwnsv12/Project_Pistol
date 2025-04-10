@@ -78,7 +78,7 @@ public class StageManager : MonoBehaviour
     /// </summary>
     private void StartStage()
     {
-        isStageStarted = true;
+        isStageStarted = true;  //TODO UI용
     }
 
     /// <summary>
@@ -97,11 +97,6 @@ public class StageManager : MonoBehaviour
         {
             HandleStageFail();
         }
-
-        if(remainingtime <= 0)
-        {
-            HandleStageFail(); //실패
-        }
     }
 
     [SerializeField] private Animator gateAnimator;
@@ -116,7 +111,7 @@ public class StageManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isStageCleared || !isGateOpened) 
+        if (stageState != StageState.Cleared || !isGateOpened )  
         {
             return; //클리어 문이 열려야 작동
         }
@@ -147,6 +142,7 @@ public class StageManager : MonoBehaviour
     /// <summary>
     /// 타이머 UI 연동
     /// </summary>
+    [SerializeField] private Color defaultColor;
     private void UpdateTimerUI()
     {
         int time = Mathf.CeilToInt(remainingtime);
