@@ -33,5 +33,15 @@ public class PlayerReloadState : PlayerBaseState
         StopAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
     }
 
-    
+    protected override void OnMovementCanceled(InputAction.CallbackContext context)
+    {
+        base.OnMovementCanceled(context);
+        if (stateMachine.MovementInput != Vector2.zero)
+        {
+            stateMachine.ChangeState(stateMachine.WalkState);
+            return;
+        }
+        stateMachine.ChangeState(stateMachine.IdleState);
+    }
+
 }

@@ -47,4 +47,6 @@ public class PlayerIdleState : PlayerGroundState
         Debug.Log("리로드 하라고"); 
         stateMachine.ChangeState(stateMachine.ReloadState);
     }
+
+    
 }

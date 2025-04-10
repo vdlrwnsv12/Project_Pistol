@@ -22,8 +22,7 @@ public class PlayerWalkState : PlayerGroundState
         StopAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
     }
     protected override void OnAttack(InputAction.CallbackContext context)
-    {
-      
+    { 
         stateMachine.ChangeState(stateMachine.AttackState);
     }
     protected override void OnReload(InputAction.CallbackContext context)
