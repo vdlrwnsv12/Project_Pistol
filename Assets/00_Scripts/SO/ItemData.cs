@@ -8,7 +8,7 @@ public class ItemData : ScriptableObject
     public string id;
     public string itemName;
     public string description;
-    public ItemStat[] stat;
+    public ItemStat stat;
     public ItemApplyTargetType targetType;
     public float cost;
 }
@@ -16,8 +16,14 @@ public class ItemData : ScriptableObject
 [Serializable]
 public struct ItemStat
 {
-    public ItemStatType statType;
-    public float value;
+    public float rclValue;
+    public float hdlValue;
+    public float stpValue;
+    public float spdValue;
+    
+    public float dmgValue;
+
+    public int maxBulletValue;
 }
 
 public enum ItemApplyTargetType

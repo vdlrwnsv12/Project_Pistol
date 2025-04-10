@@ -6,7 +6,6 @@ using UnityEngine.UI;
 namespace DataDeclaration
 {
     #region Enum
-
     public enum MainUIType
     {
         None,

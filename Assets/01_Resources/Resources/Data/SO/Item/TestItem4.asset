@@ -16,13 +16,11 @@ MonoBehaviour:
   itemName: "\uBAA8\uB4E0 \uB2A5\uB825\uCE58 \uC0C1\uC2B9"
   description: "\uCE90\uB9AD\uD130\uC758 \uBAA8\uB4E0 \uB2A5\uB825\uCE58\uAC00 \uC0C1\uC2B9\uD569\uB2C8\uB2E4."
   stat:
-  - statType: 0
-    value: 13
-  - statType: 1
-    value: 13
-  - statType: 2
-    value: 13
-  - statType: 3
-    value: 13
+    rclValue: 15
+    hdlValue: 15
+    stpValue: 15
+    spdValue: 15
+    dmgValue: 0
+    maxBulletValue: 0
   targetType: 0
   cost: 20

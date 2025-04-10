@@ -20,9 +20,9 @@ public class HUDUI : MainUI
     [SerializeField] private Image stpGauge;
     [SerializeField] private TextMeshProUGUI stpText;
 
-    private Color originalColor;
-    private Color currentColor;
-    
+    private Color32 originalColor;
+    private Color32 currentColor;
+
     private StageData curStageInfo;
     private PlayerEquipment curEquip;
     private PlayerStatHandler curStat;
@@ -32,8 +32,8 @@ public class HUDUI : MainUI
         base.Awake();
         uiType = MainUIType.HUD;
 
-        originalColor = new Color(221, 234, 249);
-        currentColor = new Color(252, 192, 1);
+        originalColor = new Color32(221, 234, 249, 255);
+        currentColor = new Color32(252, 192, 1, 255);
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
@@ -51,9 +51,11 @@ public class HUDUI : MainUI
     public void UpdateStageInfo(int curStage, int curStageIndex)
     {
         curStageText.text = $"현재 스테이지\tStage {curStage}";
+
         for (var i = 0; i < stageIndex.Length; i++)
         {
-            stageIndex[i].color = i == curStageIndex ? currentColor : originalColor;
+            stageIndex[i].color = currentColor;
+            stageIndex[i].color = (i == curStageIndex) ? currentColor : originalColor;
         }
     }
 
@@ -61,13 +63,13 @@ public class HUDUI : MainUI
     {
         rclGauge.fillAmount = rclValue / 100f;
         rclText.text = rclValue.ToString("N0");
-        
+
         hdlGauge.fillAmount = hdlValue / 100f;
         hdlText.text = hdlValue.ToString("N0");
-        
+
         stpGauge.fillAmount = stpValue / 100f;
         stpText.text = stpValue.ToString("N0");
-        
+
         spdGauge.fillAmount = spdValue / 100f;
         spdText.text = spdValue.ToString("N0");
     }
