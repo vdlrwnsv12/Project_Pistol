@@ -20,6 +20,7 @@ public class WeaponStatHandler : MonoBehaviour
     private float adsX = 0.06f;
     private float camMoveSpeed = 10f;
 
+    public float spreadAngle = 5f;
 
     [Header("Settings")]
     [Tooltip("Specify time to destroy the casing object")]
@@ -70,13 +71,13 @@ public class WeaponStatHandler : MonoBehaviour
         if (isADS)
         {
             targetPos.x = adsX;
-            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, 45f, Time.deltaTime * 10f);
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, 35f, Time.deltaTime * 10f);
             WeaponShake();
 
         }
         else
         {
-            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, 60f, Time.deltaTime * 10f); // 줌 아웃 (기본값 60)
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, 50f, Time.deltaTime * 10f); // 줌 아웃 (기본값 60)
         }
 
         camRoot.localPosition = Vector3.Lerp(camRoot.localPosition, targetPos, Time.deltaTime * camMoveSpeed);
@@ -118,7 +119,22 @@ public class WeaponStatHandler : MonoBehaviour
 
     public void ShootRay()
     {
-        Ray ray = new Ray(barrelLocation.position, barrelLocation.forward);
+        Vector3 shootDirection;
+
+        if (isADS)
+        {
+            shootDirection = barrelLocation.forward;
+        }
+        else
+        {
+            float randomYaw = Random.Range(-spreadAngle, spreadAngle);
+            float randomPitch = Random.Range(-spreadAngle, spreadAngle);
+
+            Quaternion spreadRot = Quaternion.Euler(randomPitch, randomYaw, 0f);
+            shootDirection = spreadRot * barrelLocation.forward;
+        }
+
+        Ray ray = new Ray(barrelLocation.position, shootDirection);
         RaycastHit hit;
 
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 0f);
@@ -232,7 +248,7 @@ public class WeaponStatHandler : MonoBehaviour
     //반동
     private void GunRecoil()
     {
-        playerObject.transform.localRotation *= Quaternion.Euler(-weaponData.shootRecoil * 0.01f, 0f, 0f);
+        playerObject.transform.localRotation *= Quaternion.Euler(-weaponData.shootRecoil * 0.05f, 0f, 0f);
     }
     #endregion
 
@@ -270,4 +286,35 @@ public class WeaponStatHandler : MonoBehaviour
 
     }
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        if (barrelLocation == null) return;
+
+        
+        float maxDistance = 50f;
+        int segments = 16;
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawRay(barrelLocation.position, barrelLocation.forward * maxDistance);
+
+        if (isADS) 
+        {
+            return;
+        }
+
+        Gizmos.color = Color.red;
+        
+
+        for (int i = 0; i < segments; i++)
+        {
+            float yaw = Mathf.Lerp(-spreadAngle, spreadAngle, (float)i / (segments - 1));
+            foreach (float pitch in new float[] { -spreadAngle, spreadAngle })
+            {
+                Quaternion spreadRotation = Quaternion.Euler(pitch, yaw, 0f);
+                Vector3 spreadDir = spreadRotation * barrelLocation.forward;
+                Gizmos.DrawRay(barrelLocation.position, spreadDir * maxDistance);
+            }
+        }
+    }
 }
