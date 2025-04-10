@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70547ac1bb48ba140b39824df5ebddab, type: 3}
   m_Name: Item0011
   m_EditorClassIdentifier: 
-  id: Item0011
+  <Id>k__BackingField: Item0011
   type: 1
   icon: {fileID: 21300000, guid: bc6e0e1f96f6ccc4a9236f10768359e8, type: 3}
   itemName: "\uD0C4 \uC0C1\uD55C \uC0C1\uC2B9"
@@ -20,6 +20,6 @@ MonoBehaviour:
   cost: 6
   stat:
     dmgValue: 0
-    maxAmmoValue: 0
+    maxAmmoValue: 3
     isScope: 0
     isLaserSite: 0

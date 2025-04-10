@@ -1,4 +1,3 @@
-using System;
 using DataDeclaration;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +8,6 @@ public class PopupReward : PopupUI
     [SerializeField] private RewardCard[] rewardCards;
     
     [SerializeField] private Button cancelBuyBtn;
-
-    private Action buttonClickAction;
 
     protected override void Awake()
     {
@@ -45,9 +42,9 @@ public class PopupReward : PopupUI
         itemRewards = TestManager.Instance.RewardManager.GetRandomItemReward();
         for (var i = 0; i < rewardCards.Length; i++)
         {
-            rewardCards[i].rewardImage.sprite = itemRewards[i].icon;
-            rewardCards[i].rewardName.text = itemRewards[i].itemName;
-            rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
+            rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
+            rewardCards[i].rewardName.text = itemRewards[i].ItemName;
+            rewardCards[i].timeCost.text = $"-{itemRewards[i].Cost:N2}s";
         }
     }
 }
