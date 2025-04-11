@@ -1,3 +1,5 @@
+using DataDeclaration;
+
 public class PlayerStatHandler
 {
     private Player player;
@@ -8,6 +10,4 @@ public class PlayerStatHandler
         this.player = player;
         stat = player.Data.Stat;
     }
-    
-    
 }
