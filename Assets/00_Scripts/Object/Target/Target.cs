@@ -25,7 +25,7 @@ public class Target : MonoBehaviour
 
     void Start()
     {
-      anim.GetComponent<Animator>();
+      anim = GetComponent<Animator>();
       LoadDataByID(targetID);
     }
 

@@ -2,29 +2,28 @@ using UnityEngine;
 
 public class WeaponStatHandler : MonoBehaviour
 {
-    [Header("Weapon Data")]
-    public int weaponID = 0;
+    [Header("Weapon Data (SO)")]
     public WeaponData weaponData;
-    public bool isReloading = false;
-    public bool isADS = false;
+
+    [Header("Weapon State")]
+    public bool isReloading = false; //장전 중인지
+    public bool isADS = false; //정조준 중인지
 
     [Header("Transforms")]
-    public Transform barrelLocation;
-    public Transform casingExitLocation;
-    public Transform gunTransform;
-    public Transform camRoot;
+    public Transform barrelLocation; //총구
+    public Transform casingExitLocation;// 탄피 배출구
 
-    [Header("Camera")]
-    public Camera playerCam;
+    // 외부에서 할당 받을 참조들
+    public Transform handransform; //손떨림을 위한 총을 쥔 손 transform
+    public Transform camRoot; //반동을 위한 카메라 부모 transform
+    public Camera playerCam; //플레이어 카매라    
     public FpsCamera fpsCamera;
-
-    [Header("Player")]
     public GameObject playerObject;
 
     [Header("Prefabs")]
-    public GameObject casingPrefab;
-    public GameObject muzzleFlashPrefab;
-    public GameObject bulletImpactPrefab;
+    public GameObject casingPrefab; //탄피
+    public GameObject muzzleFlashPrefab; //총구 화염
+    public GameObject bulletImpactPrefab; //탄흔
 
     [Header("Settings")]
     [Tooltip("총구 각도 퍼짐")]
@@ -38,7 +37,6 @@ public class WeaponStatHandler : MonoBehaviour
 
     [Header("ADS Settings")]
     public Vector3 adsPosition = new Vector3(0.062f, -0.007f, 0f);
-
     public float camMoveSpeed = 10f;
 
     [Header("Animator")]
@@ -48,32 +46,20 @@ public class WeaponStatHandler : MonoBehaviour
     [HideInInspector] public Quaternion initialLocalRotation;
     [HideInInspector] public float lastFireTime = 0f;
 
-    void Awake()
+    // 공유 변수 세팅
+    public void SetSharedReferences(Transform hand, Transform camRoot, Camera cam, FpsCamera fps, GameObject player)
     {
-        LoadWeaponDataByID(weaponID);
-
-        if (weaponData == null)
-        {
-            Debug.LogWarning($"Weapon data with ID {weaponID} not found.");
-        }
+        this.handransform = hand;
+        this.camRoot = camRoot;
+        this.playerCam = cam;
+        this.fpsCamera = fps;
+        this.playerObject = player;
     }
 
-    void LoadWeaponDataByID(int id)
-    {
-        TextAsset jsonData = Resources.Load<TextAsset>("Data/JSON/PistolData");
-
-        if (jsonData != null)
-        {
-            PistolDataWrapper wrapper = JsonUtility.FromJson<PistolDataWrapper>(jsonData.text);
-
-            foreach (WeaponData data in wrapper.Pistols)
-            {
-                if (data.ID == id)
-                {
-                    weaponData = data;
-                    break;
-                }
-            }
-        }
-    }
+    // 필요하면 getter 추가
+    public Transform GetHandTransform() => handransform;
+    public Transform GetCamRoot() => camRoot;
+    public Camera GetPlayerCamera() => playerCam;
+    public FpsCamera GetFpsCamera() => fpsCamera;
+    public GameObject GetPlayerObject() => playerObject;
 }

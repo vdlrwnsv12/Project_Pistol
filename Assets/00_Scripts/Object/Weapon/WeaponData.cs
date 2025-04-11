@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[System.Serializable]
-public class WeaponData
+[CreateAssetMenu(fileName = "NewWeaponData", menuName = "Weapon/Weapon Data")]
+public class WeaponData : ScriptableObject
 {
     public int ID;
     public string weaponName;
@@ -13,6 +13,12 @@ public class WeaponData
     public float accuracy;
     public bool isSilenced;
     public float cameraShakeRate;
+
+    [Header("Sound")]
+    public AudioClip fireSound;
+    public AudioClip reloadSound;
+    public AudioClip emptySound;
+    public AudioClip shellSound;
 
     [TextArea]
     public string comment;

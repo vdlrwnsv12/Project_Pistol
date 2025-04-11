@@ -16,7 +16,7 @@ public class WeaponFireController : MonoBehaviour
         statHandler = GetComponent<WeaponStatHandler>();
         weaponData = statHandler.weaponData;
 
-        initialLocalRotation = statHandler.gunTransform.localRotation;
+        initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
     }
 
@@ -73,7 +73,7 @@ public class WeaponFireController : MonoBehaviour
         float rotZ = (Mathf.PerlinNoise(Time.time * shakeSpeed, Time.time * shakeSpeed) - 0.5f) * shakeAmount;
 
         Quaternion shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
-        statHandler.gunTransform.localRotation = initialLocalRotation * shakeRotation;
+        statHandler.handransform.localRotation = initialLocalRotation * shakeRotation;
     }
 
     #endregion
@@ -87,22 +87,25 @@ public class WeaponFireController : MonoBehaviour
         if (weaponData.currentAmmo > 0)
         {
             if (statHandler.weaponData.currentAmmo != 1)
+            {
                 statHandler.gunAnimator?.SetTrigger("Fire");
+            }
             else
+            {
                 statHandler.gunAnimator?.SetBool("OutOfAmmo", true);
-
+            }
             ShootRay();
             EjectCasing();
             MuzzleFlash();
             ApplyRecoil();
-            SoundManager.Instance.PlaySFX("M1911Fire");
+            SoundManager.Instance.PlaySFX(statHandler.weaponData.fireSound);
 
             weaponData.currentAmmo--;
             statHandler.lastFireTime = Time.time;
         }
         else
         {
-            SoundManager.Instance.PlaySFX("EmptyTrigger");
+            SoundManager.Instance.PlaySFX(statHandler.weaponData.emptySound);
         }
     }
 
@@ -168,7 +171,7 @@ public class WeaponFireController : MonoBehaviour
             }
 
             Destroy(casing, statHandler.destroyTimer);
-            SoundManager.Instance.PlaySFX("Shell");
+            SoundManager.Instance.PlaySFX(statHandler.weaponData.shellSound);
         }
     }
 
@@ -209,7 +212,7 @@ public class WeaponFireController : MonoBehaviour
         statHandler.isReloading = true;
         weaponData.currentAmmo = 0;
         statHandler.gunAnimator.SetTrigger("Reload");
-        SoundManager.Instance.PlaySFX("Reload");
+        SoundManager.Instance.PlaySFX(statHandler.weaponData.reloadSound);
         StartCoroutine(ReloadCoroutine());
     }
 
