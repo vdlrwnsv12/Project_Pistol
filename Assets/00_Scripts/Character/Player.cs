@@ -44,6 +44,10 @@ public class Player : MonoBehaviour
             Debug.LogError("WeaponStatHandler가 할당되지 않았습니다! 계층구조를 확인하세요.");
         }
     }
+    public void SetWeaponStatHandler(WeaponStatHandler handler)
+    {
+        WeaponStatHandler = handler;
+    }
 
     private void Update()
     {
