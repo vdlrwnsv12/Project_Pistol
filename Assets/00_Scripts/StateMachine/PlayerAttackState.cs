@@ -47,7 +47,13 @@ public class PlayerAttackState : PlayerBaseState
    
     protected override void OnAttack(InputAction.CallbackContext context)
     {
-       // Idle에서 처리
+        // Idle에서 처리
+        if (stateMachine.MovementInput != Vector2.zero)
+        {
+            stateMachine.ChangeState(stateMachine.WalkState);
+            return;
+        }
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     private void Shoot()

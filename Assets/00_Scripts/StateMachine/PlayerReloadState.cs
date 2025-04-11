@@ -13,15 +13,17 @@ public class PlayerReloadState : PlayerBaseState
     {
         base.Enter();
         Debug.Log("Entered Reload State");
+       
         StartAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
     }
+ 
     public override void Update()
     {
         base.Update(); 
 
         AnimatorStateInfo stateInfo = stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0);
 
-        if (stateInfo.IsName("Reload") && stateInfo.normalizedTime >= 1f)
+        if (stateInfo.IsName("Reload") && stateInfo.normalizedTime >= 1f) 
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }
@@ -31,17 +33,9 @@ public class PlayerReloadState : PlayerBaseState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
+
     }
 
-    protected override void OnMovementCanceled(InputAction.CallbackContext context)
-    {
-        base.OnMovementCanceled(context);
-        if (stateMachine.MovementInput != Vector2.zero)
-        {
-            stateMachine.ChangeState(stateMachine.WalkState);
-            return;
-        }
-        stateMachine.ChangeState(stateMachine.IdleState);
-    }
+   
 
 }
