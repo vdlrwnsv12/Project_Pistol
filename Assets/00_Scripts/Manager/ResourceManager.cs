@@ -4,7 +4,7 @@ using UnityEngine;
 public class ResourceManager : SingletonBehaviour<ResourceManager>
 {
     private readonly Dictionary<string, object> resourcePools = new(); // 리소스 캐싱용
-    
+
     /// <summary>
     /// Resources.Load()와 사용법 같음
     /// </summary>
@@ -15,7 +15,7 @@ public class ResourceManager : SingletonBehaviour<ResourceManager>
             // 캐싱된 리소스 반환
             return value as T;
         }
-        
+
         var resource = Resources.Load<T>(resourcePath);
         if (resource != null)
         {

@@ -1,4 +1,5 @@
 using System;
+using DataDeclaration;
 using UnityEngine;
 
 [Serializable]
@@ -17,15 +18,6 @@ public class PlayerGroundData
     [field: SerializeField]
     [field: Range(0f, 25f)]
     public float WalkSpeedModifier { get; private set; } = 0.5f;
-}
-
-[Serializable]
-public struct CharacterStat
-{
-    public float rclValue;
-    public float hdlValue;
-    public float stpValue;
-    public float spdValue;
 }
 
 [CreateAssetMenu(fileName = "Player", menuName = "SO/PlayerData")]
