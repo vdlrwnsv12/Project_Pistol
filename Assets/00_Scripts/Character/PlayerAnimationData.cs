@@ -10,6 +10,7 @@ public class PlayerAnimationData
     [SerializeField] private string idleParameterName = "Idle";
     [SerializeField] private string walkParameterName = "Walk";
 
+    [SerializeField] private string ReloadParameterName = "Reload";
     [SerializeField] private string attackParameterName = "@Attack";
     [SerializeField] private string aimParameterName = "@Aim";
 
@@ -19,6 +20,7 @@ public class PlayerAnimationData
     public int AttackParameterHash { get; private set; }
     public int AimParameterHash { get; private set; }   
 
+    public int ReloadParamterHash { get; private set; }
     public void Initialize()
     {
         GroundParameterHash = Animator.StringToHash(groundParameterName);
@@ -26,5 +28,6 @@ public class PlayerAnimationData
         WalkParameterHash = Animator.StringToHash(walkParameterName);
         AttackParameterHash = Animator.StringToHash(attackParameterName);
         AimParameterHash = Animator.StringToHash(aimParameterName);
+        ReloadParamterHash = Animator.StringToHash(ReloadParameterName);    
     }
 }
