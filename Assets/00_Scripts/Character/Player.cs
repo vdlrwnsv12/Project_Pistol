@@ -34,7 +34,11 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
         stateMachine.ChangeState(stateMachine.IdleState);
-        WeaponStatHandler = GetComponentInChildren<WeaponStatHandler>(true); // 비활성화 포함
+
+        /* 총이 비활성화 됐다가 활성화 되는 형태라 Start에 GetComponet문을 넣음
+                         Awake 넣을시 Object Null 발생 */
+        WeaponStatHandler = GetComponentInChildren<WeaponStatHandler>(true); // 비활성화 포함 
+        
         if (WeaponStatHandler == null)
         {
             Debug.LogError("WeaponStatHandler가 할당되지 않았습니다! 계층구조를 확인하세요.");
