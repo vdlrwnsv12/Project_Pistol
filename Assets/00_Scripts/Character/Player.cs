@@ -14,9 +14,11 @@ public class Player : MonoBehaviour
 
     public ForceReceiver ForceReceiver { get; private set; }
     public FpsCamera FpsCamera { get; private set; }
-    private PlayerStateMachine stateMachine;
-    
 
+    public WeaponStatHandler WeaponStatHandler { get; private set; }
+    private PlayerStateMachine stateMachine;
+
+   
     private void Awake()
     {
         AnimationData.Initialize();
@@ -32,6 +34,11 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
         stateMachine.ChangeState(stateMachine.IdleState);
+        WeaponStatHandler = GetComponentInChildren<WeaponStatHandler>(true); // 비활성화 포함
+        if (WeaponStatHandler == null)
+        {
+            Debug.LogError("WeaponStatHandler가 할당되지 않았습니다! 계층구조를 확인하세요.");
+        }
     }
 
     private void Update()

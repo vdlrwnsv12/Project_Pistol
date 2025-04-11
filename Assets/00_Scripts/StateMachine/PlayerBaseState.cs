@@ -8,7 +8,7 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
-
+  
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -126,7 +126,15 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-       
+        float noAimSpeed = stateMachine.MovementSpeed;
+        if (stateMachine.Player.WeaponStatHandler.isADS)
+        {
+            stateMachine.MovementSpeed = 1f;
+        }
+        else
+        {
+            stateMachine.MovementSpeed = 5f;
+        }
         float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return moveSpeed;
     }

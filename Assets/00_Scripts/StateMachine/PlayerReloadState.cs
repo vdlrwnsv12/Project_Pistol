@@ -13,7 +13,11 @@ public class PlayerReloadState : PlayerBaseState
     {
         base.Enter();
         Debug.Log("Entered Reload State");
-       
+
+        if (stateMachine.Player.WeaponStatHandler.isADS)
+        {
+            stateMachine.Player.WeaponStatHandler.isADS = false;
+        }
         StartAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
     }
  
