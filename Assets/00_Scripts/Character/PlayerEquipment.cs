@@ -36,21 +36,26 @@ public class PlayerEquipment : MonoBehaviour
         if (index < 0 || index >= weaponPrefabs.Length || index == currentWeaponIndex)
             return;
 
-        // 기존 무기 제거
         if (currentWeaponObject != null)
         {
             Destroy(currentWeaponObject);
         }
 
-        // 새 무기 생성 및 장착
         currentWeaponObject = Instantiate(weaponPrefabs[index], handransform, false);
-
         currentWeaponIndex = index;
 
         var handler = currentWeaponObject.GetComponent<WeaponStatHandler>();
         if (handler != null)
         {
             handler.SetSharedReferences(handransform, camRoot, playerCam, fpsCamera, playerObject);
+
+            // 여기에서 InitReferences 호출!
+            var fireController = currentWeaponObject.GetComponent<WeaponFireController>();
+            if (fireController != null)
+            {
+                fireController.InitReferences();
+            }
         }
     }
+
 }

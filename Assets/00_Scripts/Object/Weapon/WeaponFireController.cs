@@ -11,7 +11,15 @@ public class WeaponFireController : MonoBehaviour
 
     #region Unity Methods
 
-    void Start()
+    // void Start()
+    // {
+    //     statHandler = GetComponent<WeaponStatHandler>();
+    //     weaponData = statHandler.weaponData;
+
+    //     initialLocalRotation = statHandler.handransform.localRotation;
+    //     camRootOriginPos = statHandler.camRoot.localPosition;
+    // }
+    public void InitReferences()
     {
         statHandler = GetComponent<WeaponStatHandler>();
         weaponData = statHandler.weaponData;
@@ -22,6 +30,8 @@ public class WeaponFireController : MonoBehaviour
 
     void Update()
     {
+        if (statHandler == null) return;
+
         if (Input.GetButtonDown("Fire1") && Time.time - statHandler.lastFireTime >= statHandler.fireCooldown)
         {
             FireWeapon();
@@ -31,8 +41,8 @@ public class WeaponFireController : MonoBehaviour
         {
             ReloadWeapon();
         }
-
-        HandleADS();
+        
+            HandleADS();
     }
 
     #endregion
