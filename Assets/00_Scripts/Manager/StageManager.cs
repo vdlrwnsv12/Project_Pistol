@@ -23,38 +23,38 @@ public class StageManager : MonoBehaviour
     #region Parameters
 
     [Header("스테이지 데이터")]
-    [SerializeField] private StageData[] stageDataArray;
+    [SerializeField] private StageData[] stageDataArray; // 각 스테이지별 설정값 목록
 
     [Header("상태 플래그")]
-    private bool isStageStarted;
-    private bool isStageCleared;
-    private bool isStageFailed;
-    private bool isGateOpened;
-    private bool hasPlayerExited;
+    private bool isStageStarted;       // 스테이지 시작 여부
+    private bool isStageCleared;       // 스테이지 클리어 여부
+    private bool isStageFailed;        // 스테이지 실패 여부
+    private bool isGateOpened;         // 문이 열렸는지 여부
+    private bool hasPlayerExited;      // 플레이어가 탈출했는지 여부
 
     [Header("타이머 설정")]
-    private float stageTimeLimit;
-    private float remainingTime;
-    private float warningThreshold;
+    private float stageTimeLimit;      // 스테이지 제한 시간
+    private float remainingTime;       // 남은 시간
+    private float warningThreshold;    // 경고 색상 전환 임계 시간
 
     [Header("스테이지 진행")]
-    [SerializeField] private int currentStageIndex;
-    private int maxStageCount => stageDataArray.Length;
+    [SerializeField] private int currentStageIndex; // 현재 스테이지 인덱스
+    private int maxStageCount => stageDataArray.Length; // 최대 스테이지 수
 
     [Header("UI")]
-    [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private Color defaultColor;
-    private Color warningColor;
+    [SerializeField] private TextMeshProUGUI timerText; // TODO: 리팩토링 필요 (UI 텍스트 매니저와 분리 여부 검토)
+    [SerializeField] private Color defaultColor;        // 기본 타이머 색상
+    private Color warningColor;                         // 경고 타이머 색상
 
     [Header("애니메이션")]
-    [SerializeField] private Animator gateAnimator;
+    [SerializeField] private Animator gateAnimator;     // 문 애니메이터
 
     #endregion
 
     #region Stage Flow
 
     /// <summary>
-    /// 스테이지 초기화
+    /// 스테이지 초기화 (데이터 적용 및 상태 초기화)
     /// </summary>
     private void InitStage()
     {
@@ -73,7 +73,7 @@ public class StageManager : MonoBehaviour
         isGateOpened = false;
         hasPlayerExited = false;
 
-        // TODO: SpawnTargets();
+        // TODO: SpawnTargets(); // 타겟 생성 처리 예정
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class StageManager : MonoBehaviour
     /// </summary>
     private void StartStage()
     {
-        isStageStarted = true; // TODO: 시작 연출 or UI
+        InitStage(); // TODO: StartStage 내에서 InitStage 호출 구조 변경 검토 필요
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 문 열기
+    /// 문 열기 처리 (애니메이션 트리거)
     /// </summary>
     private void OpenGate()
     {
@@ -113,6 +113,7 @@ public class StageManager : MonoBehaviour
     /// <summary>
     /// 문 통과 시 다음 스테이지 로드
     /// </summary>
+    /// <param name="other">충돌 대상</param>
     private void OnTriggerEnter(Collider other)
     {
         if (stageState != StageState.Cleared || !isGateOpened)
@@ -126,7 +127,7 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 다음 스테이지 로드
+    /// 다음 스테이지 로드 및 초기화
     /// </summary>
     private void LoadNextStage()
     {
@@ -135,6 +136,7 @@ public class StageManager : MonoBehaviour
         if (currentStageIndex >= maxStageCount)
         {
             Debug.Log("게임종료");
+            // TODO: 메인 스테이지 또는 결과 화면으로 전환 로직 추가 필요
             return;
         }
 
@@ -142,7 +144,7 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 타이머 UI 업데이트
+    /// 타이머 UI 갱신
     /// </summary>
     private void UpdateTimerUI()
     {
@@ -175,6 +177,7 @@ public class StageManager : MonoBehaviour
     {
         stageState = StageState.Failed;
         isStageFailed = true;
+        // TODO: 실패 후 리턴 처리 및 메인화면/리트라이 UI 연동 필요
     }
 
     #endregion
