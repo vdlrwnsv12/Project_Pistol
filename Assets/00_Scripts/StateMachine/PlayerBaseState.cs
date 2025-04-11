@@ -8,7 +8,7 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
-
+  
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -17,6 +17,8 @@ public class PlayerBaseState : IState
     public virtual void Enter()
     {
         AddInputActionCallbacks();
+        stateMachine.MovementSpeedModifier = groundData.WalkSpeedModifier;
+
     }
 
     public virtual void Exit()
@@ -68,7 +70,7 @@ public class PlayerBaseState : IState
 
     protected virtual void OnAttack(InputAction.CallbackContext context)
     {
-       // stateMachine.Player.Input.WeaponStatHandler.
+       
     }
    
     protected virtual void OnReload(InputAction.CallbackContext context)
@@ -88,7 +90,6 @@ public class PlayerBaseState : IState
    
     private void ReadMovementInput()
     {
-        // stateMachine에 있는 movementInput에서 개발
         stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();
     }
     // 움직임 로직
@@ -125,6 +126,15 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
+        float noAimSpeed = stateMachine.MovementSpeed;
+        if (stateMachine.Player.WeaponStatHandler.isADS)
+        {
+            stateMachine.MovementSpeed = 1f;
+        }
+        else
+        {
+            stateMachine.MovementSpeed = 5f;
+        }
         float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return moveSpeed;
     }

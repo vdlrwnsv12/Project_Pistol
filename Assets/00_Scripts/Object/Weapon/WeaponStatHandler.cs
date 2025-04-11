@@ -7,7 +7,7 @@ public class WeaponStatHandler : MonoBehaviour
 
     [Header("Weapon State")]
     public bool isReloading = false; //장전 중인지
-    public bool isADS = false; //정조준 중인지
+    public  bool isADS = false; //정조준 중인지
 
     [Header("Transforms")]
     public Transform barrelLocation; //총구

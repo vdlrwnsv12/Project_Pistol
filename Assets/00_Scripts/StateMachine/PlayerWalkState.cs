@@ -21,11 +21,12 @@ public class PlayerWalkState : PlayerGroundState
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
     }
-    protected override void OnAttack(InputAction.CallbackContext context)
-    { 
+    protected override void OnAttack(InputAction.CallbackContext context) // 걷고 공격
+    {
+        base.OnAttack(context);
         stateMachine.ChangeState(stateMachine.AttackState);
     }
-    protected override void OnReload(InputAction.CallbackContext context)
+    protected override void OnReload(InputAction.CallbackContext context) // 걷고 리로드
     {
         base.OnReload(context);
         Debug.Log("walk 리로드 하라고");
