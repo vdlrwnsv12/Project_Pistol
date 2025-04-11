@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723cb41cee1638a4c9f9ea7bd265c32d, type: 3}
+  m_Name: Item0003
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: Item0003
+  type: 0
+  icon: {fileID: 21300000, guid: f9f5428f8f3497b4f8bc936078a6ad4c, type: 3}
+  itemName: "\uD578\uB4E4\uB9C1 \uC0C1\uC2B9"
+  description: "HDL\uC774 \uC0C1\uC2B9\uD558\uC5EC \uC190\uB5A8\uB9BC\uC774 \uC904\uC5B4\uB4ED\uB2C8\uB2E4."
+  cost: 8
+  stat:
+    rclValue: 0
+    hdlValue: 15
+    stpValue: 0
+    spdValue: 0
