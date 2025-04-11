@@ -221,8 +221,7 @@ MonoBehaviour:
   fireCooldown: 0.7
   adsPosition: {x: 0.062, y: -0.007, z: 0}
   camMoveSpeed: 10
-  gunAnimator: {fileID: 1275476226723102096, guid: 436d84b39ebbb99449cf0c0ed23b24a5,
-    type: 3}
+  gunAnimator: {fileID: 4022731790915069296}
   camRootOriginPos: {x: 0, y: 0, z: 0}
   initialLocalRotation: {x: 0, y: 0, z: 0, w: 0}
   lastFireTime: 0
