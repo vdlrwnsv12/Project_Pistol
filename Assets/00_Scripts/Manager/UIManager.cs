@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataDeclaration;
 
-public class UIManager : SingletonBehaviour<UIManager>
+public sealed class UIManager : SingletonBehaviour<UIManager>
 {
     private GameObject mainCanvas; // 메인 캔버스 게임오브젝트
     private CanvasGroup fader; // 페이드 연출
-
+    
     private readonly List<MainUI> mainUIList = new(); // ScreenUI 관리용 리스트
     private readonly Stack<PopupUI> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
     private readonly Dictionary<string, PopupUI> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
+    
+    public MainUI CurMainUI { get; private set; }
+    public PopupUI CurPopupUI { get; private set; }
 
     protected override void Awake()
     {
@@ -42,6 +45,10 @@ public class UIManager : SingletonBehaviour<UIManager>
         foreach (var screenUI in mainUIList)
         {
             screenUI.SetActiveUI(activeUIType);
+            if (screenUI.gameObject.activeSelf)
+            {
+                CurMainUI = screenUI;
+            }
         }
     }
 
@@ -67,6 +74,7 @@ public class UIManager : SingletonBehaviour<UIManager>
 
         openUI.gameObject.SetActive(true);
         curPopUpUIStack.Push(openUI);
+        CurPopupUI = openUI;
     }
 
     /// <summary>
@@ -91,6 +99,7 @@ public class UIManager : SingletonBehaviour<UIManager>
 
         openUI.gameObject.SetActive(true);
         curPopUpUIStack.Push(openUI);
+        CurPopupUI = openUI;
     }
 
     /// <summary>
@@ -113,6 +122,7 @@ public class UIManager : SingletonBehaviour<UIManager>
 
         openUI.gameObject.SetActive(true);
         curPopUpUIStack.Push(openUI);
+        CurPopupUI = openUI;
     }
 
     /// <summary>
@@ -122,6 +132,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     {
         var popUpUI = curPopUpUIStack.Pop();
         popUpUI.gameObject.SetActive(false);
+        CurPopupUI = null;
 
         var type = popUpUI.GetType();
         if (popUpUIPool.ContainsKey(type.Name))
@@ -136,6 +147,7 @@ public class UIManager : SingletonBehaviour<UIManager>
         if (curPopUpUIStack.TryPeek(out var prevUI))
         {
             prevUI.gameObject.SetActive(true);
+            CurPopupUI = prevUI;
         }
     }
 

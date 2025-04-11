@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Id>k__BackingField: Item0008
   type: 0
-  icon: {fileID: 21300000, guid: f9f5428f8f3497b4f8bc936078a6ad4c, type: 3}
-  itemName: "\uC774\uB3D9 \uC18D\uB3C4 \uB300\uD3ED \uC0C1\uC2B9"
-  description: "SPD\uAC00 \uC0C1\uC2B9\uD558\uC5EC \uC774\uB3D9 \uC2DC\uC758 \uC870\uC900
-    \uD754\uB4E4\uB9BC\uC774 \uC904\uC5B4\uB4ED\uB2C8\uB2E4."
-  cost: 11
-  stat:
-    rclValue: 0
+  <Icon>k__BackingField: {fileID: 0}
+  <ItemName>k__BackingField: 
+  <Description>k__BackingField: 
+  <Cost>k__BackingField: 0
+  <Stat>k__BackingField:
+    rclValue: 22
     hdlValue: 0
     stpValue: 0
-    spdValue: 20
+    spdValue: 0

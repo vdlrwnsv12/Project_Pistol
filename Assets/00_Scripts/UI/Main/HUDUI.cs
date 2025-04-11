@@ -74,19 +74,19 @@ public class HUDUI : MainUI
     /// <summary>
     /// 캐릭터 스탯 UI 갱신 메서드
     /// </summary>
-    public void UpdateStatValue(float rclValue, float hdlValue, float stpValue, float spdValue)
+    public void UpdateStatValue(CharacterStat stat)
     {
-        rclGauge.fillAmount = rclValue / 100f;
-        rclText.text = rclValue.ToString("N0");
+        rclGauge.fillAmount = stat.rclValue / 100f;
+        rclText.text = stat.rclValue.ToString("N0");
 
-        hdlGauge.fillAmount = hdlValue / 100f;
-        hdlText.text = hdlValue.ToString("N0");
+        hdlGauge.fillAmount = stat.hdlValue / 100f;
+        hdlText.text = stat.hdlValue.ToString("N0");
 
-        stpGauge.fillAmount = stpValue / 100f;
-        stpText.text = stpValue.ToString("N0");
+        stpGauge.fillAmount = stat.stpValue / 100f;
+        stpText.text = stat.stpValue.ToString("N0");
 
-        spdGauge.fillAmount = spdValue / 100f;
-        spdText.text = spdValue.ToString("N0");
+        spdGauge.fillAmount = stat.spdValue / 100f;
+        spdText.text = stat.spdValue.ToString("N0");
     }
 
     /// <summary>
