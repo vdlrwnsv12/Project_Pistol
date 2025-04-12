@@ -21,9 +21,9 @@ public class PlayerStatHandler
     
     public void IncreaseStat(CharacterStat itemStat)
     {
-        stat.rclValue += itemStat.rclValue;
-        stat.hdlValue += itemStat.hdlValue;
-        stat.stpValue += itemStat.stpValue;
-        stat.spdValue += itemStat.spdValue;
+        stat.RCL += itemStat.RCL;
+        stat.HDL += itemStat.HDL;
+        stat.STP += itemStat.STP;
+        stat.SPD += itemStat.SPD;
     }
 }

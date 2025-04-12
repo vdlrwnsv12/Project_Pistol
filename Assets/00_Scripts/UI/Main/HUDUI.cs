@@ -76,17 +76,17 @@ public class HUDUI : MainUI
     /// </summary>
     public void UpdateStatValue(CharacterStat stat)
     {
-        rclGauge.fillAmount = stat.rclValue / 100f;
-        rclText.text = stat.rclValue.ToString("N0");
+        rclGauge.fillAmount = stat.RCL / Constant.MAX_STAT;
+        rclText.text = stat.RCL.ToString("N0");
 
-        hdlGauge.fillAmount = stat.hdlValue / 100f;
-        hdlText.text = stat.hdlValue.ToString("N0");
+        hdlGauge.fillAmount = stat.HDL / Constant.MAX_STAT;
+        hdlText.text = stat.HDL.ToString("N0");
 
-        stpGauge.fillAmount = stat.stpValue / 100f;
-        stpText.text = stat.stpValue.ToString("N0");
+        stpGauge.fillAmount = stat.STP / Constant.MAX_STAT;
+        stpText.text = stat.STP.ToString("N0");
 
-        spdGauge.fillAmount = stat.spdValue / 100f;
-        spdText.text = stat.spdValue.ToString("N0");
+        spdGauge.fillAmount = stat.SPD / Constant.MAX_STAT;
+        spdText.text = stat.SPD.ToString("N0");
     }
 
     /// <summary>
