@@ -8,6 +8,8 @@ public class WeaponFireController : MonoBehaviour
 
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
+    private Vector3 currentCamRootTargetPos;
+    private Quaternion currentHandTargetRot;
 
     public float finalRecoil;
 
@@ -24,7 +26,7 @@ public class WeaponFireController : MonoBehaviour
 
     void Update()
     {
-        if (statHandler == null) 
+        if (statHandler == null)
         {
             Debug.Log("statNull");
             return;
@@ -40,8 +42,8 @@ public class WeaponFireController : MonoBehaviour
         {
             ReloadWeapon();
         }
-        
-            HandleADS();
+
+        HandleADS();
     }
 
     #endregion
@@ -50,25 +52,33 @@ public class WeaponFireController : MonoBehaviour
 
     void HandleADS()
     {
-        Vector3 targetPos = camRootOriginPos;
-
         if (Input.GetMouseButtonDown(1))
         {
             statHandler.isADS = !statHandler.isADS;
+
+            if (statHandler.isADS)
+            {
+                currentCamRootTargetPos = statHandler.adsPosition;
+                currentHandTargetRot = initialLocalRotation; // 흔들기 시작점
+            }
+            else
+            {
+                currentCamRootTargetPos = camRootOriginPos;
+                currentHandTargetRot = initialLocalRotation;
+            }
         }
 
+        // FOV 보간
+        float targetFOV = statHandler.isADS ? 40f : 60f;
+        statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, targetFOV, Time.deltaTime * 10f);
+
+        // 위치/회전 보간
+        statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, currentCamRootTargetPos, Time.deltaTime * statHandler.camMoveSpeed);
+        statHandler.handransform.localRotation = Quaternion.Lerp(statHandler.handransform.localRotation, currentHandTargetRot, Time.deltaTime * 10f);
+
+        // 흔들림
         if (statHandler.isADS)
-        {
-            targetPos = statHandler.adsPosition;
-            statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, 40f, Time.deltaTime * 10f);
             WeaponShake();
-        }
-        else
-        {
-            statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, 60f, Time.deltaTime * 10f);
-        }
-
-        statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, targetPos, Time.deltaTime * statHandler.camMoveSpeed);
     }
 
     void WeaponShake()
@@ -94,7 +104,7 @@ public class WeaponFireController : MonoBehaviour
     {
         statHandler.lastFireTime = Time.time;
 
-        if (weaponData == null) 
+        if (weaponData == null)
         {
             return;
         }
@@ -192,7 +202,7 @@ public class WeaponFireController : MonoBehaviour
     void CalculateFinalRecoil()
     {
         float rcl = statHandler.playerObject.GetComponent<Player>().Data.rcl;
-        finalRecoil = weaponData.shootRecoil * (0.2f + (0.8f * (1-rcl/99f)));
+        finalRecoil = weaponData.shootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
     }
 
     void ApplyRecoil()
@@ -244,7 +254,7 @@ public class WeaponFireController : MonoBehaviour
         yield return new WaitForSeconds(weaponData.reloadTime);
 
         statHandler.gunAnimator.SetBool("OutOfAmmo", false);
-        
+
         weaponData.currentAmmo = weaponData.maxAmmo;
         statHandler.isReloading = false;
     }
