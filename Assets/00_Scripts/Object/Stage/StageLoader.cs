@@ -1,89 +1,145 @@
 using UnityEngine;
 
-/// <summary>
-/// 기준 스테이지와 추가 구성물을 조합해 스테이지를 구성하는 매니저
-/// </summary>
 public class StageLoader : MonoBehaviour
 {
-    #region Fields
+    [Header("스테이지 프리팹 리스트")]
+    [SerializeField] private GameObject[] stagePrefabs;
 
-    [Header("기준 스테이지")]
-    [SerializeField] private GameObject baseStagePrefab;
+    [Header("다음 스테이지 위치")]
+    [SerializeField] private Transform nextPoint; // 문 앞에 배치될 위치
 
-    [Header("추가 스테이지 구성물")]
-    [SerializeField] private GameObject[] additiveStagePrefabs;
+    [Header("플레이어 프리팹")]
+    [SerializeField] private GameObject playerObject;
 
-    private GameObject baseStageInstance;
-    private GameObject currentAdditive;
+    private GameObject spawnedPlayer;
 
-    private int currentStageIndex;
+    private GameObject previousStage;
+    private GameObject currentStage;
+    private int currentStageIndex = 0;
 
-    #endregion
+    private void Awake()
+    {
+        // nextPoint가 비어 있으면 자동으로 "NextPoint"를 찾음
+        if (nextPoint == null)
+        {
+            GameObject found = GameObject.Find("NextPoint");
+            if (found != null)
+            {
+                nextPoint = found.transform;
+                Debug.Log("[StageLoader] nextPoint 자동 연결됨: " + nextPoint.name);
+            }
+            else
+            {
+                Debug.LogWarning("[StageLoader] nextPoint가 설정되지 않았고 자동으로도 찾을 수 없습니다.");
+            }
+        }
+    }
 
-    #region Stage Flow
-
-    /// <summary>
-    /// 시작시 스테이지 소환
-    /// </summary>
     private void Start()
     {
-        LoadFirstStage(); // 씬 시작 시 자동으로 첫 스테이지 배치
-    }
-
-
-    /// <summary>
-    /// 첫 스테이지 로드
-    /// </summary>
-    public void LoadFirstStage()
-    {
-        currentStageIndex = 0;
-        LoadStage(currentStageIndex);
+        LoadInitialStage();
     }
 
     /// <summary>
-    /// 다음 스테이지 로드
+    /// 시작 시 첫 스테이지 로드 및 플레이어 스폰
     /// </summary>
-    public void LoadNextStage()
+    private void LoadInitialStage()
     {
-        currentStageIndex++;
-
-        if (currentStageIndex >= additiveStagePrefabs.Length)
+        if (stagePrefabs.Length == 0)
         {
-            Debug.Log("모든 스테이지 완료");
+            Debug.LogWarning("Stage Prefabs가 비어 있습니다.");
             return;
         }
 
-        LoadStage(currentStageIndex);
+        // 1스테이지 로드
+        currentStage = Instantiate(stagePrefabs[0], Vector3.zero, Quaternion.identity);
+        currentStageIndex = 0;
+
+        Debug.Log("Stage 1 로드 완료");
+
+        // SpawnPoint 찾기
+        Transform spawnPoint = currentStage.transform.Find("SpawnPoint");
+
+        if (spawnPoint == null)
+        {
+            Debug.LogWarning("SpawnPoint를 Stage 1에서 찾을 수 없습니다.");
+            return;
+        }
+
+        // 💡 이미 있는 플레이어를 위치로 이동
+        if (playerObject != null)
+        {
+            CharacterController cc = playerObject.GetComponent<CharacterController>();
+            if (cc != null)
+            {
+                cc.enabled = false; // 이동 전에 꺼줘야 위치 덮어쓰기 가능
+            }
+
+            playerObject.transform.position = spawnPoint.position;
+            playerObject.transform.rotation = spawnPoint.rotation;
+
+            if (cc != null)
+            {
+                cc.enabled = true;
+            }
+
+            Debug.Log("씬에 있는 플레이어가 SpawnPoint에 배치되었습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("playerObject가 할당되지 않았습니다.");
+        }
+    }
+
+
+    /// <summary>
+    /// 다음 스테이지 로드 (NextPoint 위치 기준)
+    /// </summary>
+    public void LoadNextStage()
+    {
+        int nextIndex = currentStageIndex + 1;
+        if (nextIndex >= stagePrefabs.Length)
+        {
+            Debug.Log("모든 스테이지 완료!");
+            return;
+        }
+
+        previousStage = currentStage;
+
+        //1. 프리팹 인스턴스 생성
+        GameObject newStage = Instantiate(stagePrefabs[nextIndex], Vector3.zero, Quaternion.identity);
+        currentStage = newStage;
+        currentStageIndex = nextIndex;
+
+        // 2. 프리팹 내부에서 NextPoint 직접 탐색
+        Transform foundNextPoint = newStage.transform.Find("NextPoint");
+        if (foundNextPoint != null)
+        {
+            nextPoint = foundNextPoint;
+            Debug.Log($"[StageLoader] NextPoint 자동 연결 완료: {nextPoint.position}");
+        }
+        else
+        {
+            Debug.LogWarning("[StageLoader] NextPoint를 새로 생성된 스테이지에서 찾을 수 없습니다.");
+        }
+
+        // 3. 새로운 스테이지는 이전 NextPoint 기준으로 배치
+        currentStage.transform.position = nextPoint != null ? nextPoint.position : Vector3.zero;
+
+        Debug.Log($"Stage {currentStageIndex + 1} 로드 완료");
     }
 
     /// <summary>
-    /// 스테이지 로드: 기준 스테이지 + 구성물
+    /// 이전 스테이지 제거
     /// </summary>
-    /// <param name="index">스테이지 번호</param>
-    private void LoadStage(int index)
+    public void RemovePreviousStage()
     {
-        // 기준 스테이지 생성 또는 유지
-        if (baseStageInstance == null)
+        if (previousStage != null)
         {
-            baseStageInstance = Instantiate(baseStagePrefab);
+            Destroy(previousStage);
+            previousStage = null;
+
+            Debug.Log("이전 스테이지 제거됨");
         }
-
-        // 기존 구성물 제거
-        if (currentAdditive != null)
-        {
-            Destroy(currentAdditive);
-        }
-
-        // 기준 바닥 위치 얻기
-        BaseStageBehavior baseInfo = baseStageInstance.GetComponent<BaseStageBehavior>();
-        Vector3 basePosition = baseInfo.GetFloorPosition();
-
-        // 추가 구성물 생성
-        currentAdditive = Instantiate(additiveStagePrefabs[index]);
-        currentAdditive.transform.position = basePosition;
-
-        Debug.Log($"Stage {index + 1} 로드 완료");
     }
-
-    #endregion
 }

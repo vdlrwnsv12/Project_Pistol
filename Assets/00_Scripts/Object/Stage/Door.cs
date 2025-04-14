@@ -7,69 +7,79 @@ namespace DoorScript
     {
         #region Parameters
 
-        [Header("회전 설정")]
+        [Header("문 열림 설정")]
         [SerializeField] private float smooth = 1.0f;
-        [SerializeField] private float openAngle = -90.0f;
-        [SerializeField] private float closeAngle = 0.0f;
+        [SerializeField] private float openAngle = -90f;
+        [SerializeField] private float closeAngle = 0f;
 
         [Header("사운드")]
-        [SerializeField] private AudioClip openDoorClip;
-        [SerializeField] private AudioClip closeDoorClip;
+        [SerializeField] private AudioClip openClip;
+        [SerializeField] private AudioClip closeClip;
 
-        [Header("스테이지 로더 연동")]
-        [SerializeField] private StageLoader stageLoader; // 드래그해서 할당
-        [SerializeField] private bool triggerNextStageOnOpen = false;
+        [Header("스테이지 연동")]
+        [SerializeField] private StageLoader stageLoader;
+
+        [Header("동작 선택")]
+        [SerializeField] private bool isNext = false;   // 다음 스테이지 로드
+        [SerializeField] private bool isRemove = false; // 이전 스테이지 제거
 
         private bool open = false;
-        private bool stageLoaded = false;
-
+        private bool stageHandled = false;
         private AudioSource audioSource;
 
         #endregion
 
         #region Unity
 
-        private void Start()
+        private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
+
+            if (stageLoader == null)
+            {
+                stageLoader = FindObjectOfType<StageLoader>();
+            }
         }
 
         private void Update()
         {
             RotateDoor();
 
-            // 문이 열렸고, 다음 스테이지 트리거 활성 상태며 아직 한 번도 안 넘겼다면
-            if (open && triggerNextStageOnOpen && !stageLoaded)
+            if (open && !stageHandled && stageLoader != null)
             {
-                stageLoader?.LoadNextStage();
-                stageLoaded = true;
+                if (isNext)
+                {
+                    stageLoader.LoadNextStage();
+                }
+
+                if (isRemove)
+                {
+                    stageLoader.RemovePreviousStage();
+                }
+
+                stageHandled = true;
             }
         }
 
         #endregion
 
-        #region Door Logic
+        #region Logic
 
         public void ToggleDoor()
         {
             open = !open;
-            PlaySound();
-        }
-
-        private void PlaySound()
-        {
-            audioSource.clip = open ? openDoorClip : closeDoorClip;
+            audioSource.clip = open ? openClip : closeClip;
             audioSource.Play();
         }
 
         private void RotateDoor()
         {
-            float targetAngle = open ? openAngle : closeAngle;
-            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+            float target = open ? openAngle : closeAngle;
+            Quaternion targetRot = Quaternion.Euler(0, target, 0);
 
             transform.localRotation = Quaternion.Slerp(
                 transform.localRotation,
-                targetRotation,
+                targetRot,
                 Time.deltaTime * 5f * smooth
             );
         }
