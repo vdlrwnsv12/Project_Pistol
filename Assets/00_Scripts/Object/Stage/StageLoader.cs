@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class StageLoader : MonoBehaviour
@@ -5,8 +6,11 @@ public class StageLoader : MonoBehaviour
     [Header("스테이지 프리팹 리스트")]
     [SerializeField] private GameObject[] stagePrefabs;
 
-    [Header("다음 스테이지 위치")]
-    [SerializeField] private Transform nextPoint; // 문 앞에 배치될 위치
+    [Header("다음 스테이지 위치 배열 (Vector3)")]
+    [SerializeField] private Vector3[] stagePositions;
+
+    [Header("다음 스테이지 회전 배열 (Euler Angles)")]
+    [SerializeField] private Vector3[] stageRotations;
 
     [Header("플레이어 프리팹")]
     [SerializeField] private GameObject playerObject;
@@ -16,24 +20,6 @@ public class StageLoader : MonoBehaviour
     private GameObject previousStage;
     private GameObject currentStage;
     private int currentStageIndex = 0;
-
-    private void Awake()
-    {
-        // nextPoint가 비어 있으면 자동으로 "NextPoint"를 찾음
-        if (nextPoint == null)
-        {
-            GameObject found = GameObject.Find("NextPoint");
-            if (found != null)
-            {
-                nextPoint = found.transform;
-                Debug.Log("[StageLoader] nextPoint 자동 연결됨: " + nextPoint.name);
-            }
-            else
-            {
-                Debug.LogWarning("[StageLoader] nextPoint가 설정되지 않았고 자동으로도 찾을 수 없습니다.");
-            }
-        }
-    }
 
     private void Start()
     {
@@ -66,7 +52,7 @@ public class StageLoader : MonoBehaviour
             return;
         }
 
-        // 💡 이미 있는 플레이어를 위치로 이동
+        //이미 있는 플레이어를 위치로 이동
         if (playerObject != null)
         {
             CharacterController cc = playerObject.GetComponent<CharacterController>();
@@ -106,27 +92,19 @@ public class StageLoader : MonoBehaviour
 
         previousStage = currentStage;
 
-        //1. 프리팹 인스턴스 생성
-        GameObject newStage = Instantiate(stagePrefabs[nextIndex], Vector3.zero, Quaternion.identity);
+        // 위치, 회전 가져오기
+        Vector3 spawnPos = (stagePositions.Length > nextIndex) ? stagePositions[nextIndex] : Vector3.zero;
+        Quaternion spawnRot = (stageRotations.Length > nextIndex) ? Quaternion.Euler(stageRotations[nextIndex]) : Quaternion.identity;
+
+        // 적용해서 인스턴스화
+        GameObject newStage = Instantiate(stagePrefabs[nextIndex], spawnPos, spawnRot);
+
+        // 4. 현재 스테이지 갱신
         currentStage = newStage;
         currentStageIndex = nextIndex;
 
-        // 2. 프리팹 내부에서 NextPoint 직접 탐색
-        Transform foundNextPoint = newStage.transform.Find("NextPoint");
-        if (foundNextPoint != null)
-        {
-            nextPoint = foundNextPoint;
-            Debug.Log($"[StageLoader] NextPoint 자동 연결 완료: {nextPoint.position}");
-        }
-        else
-        {
-            Debug.LogWarning("[StageLoader] NextPoint를 새로 생성된 스테이지에서 찾을 수 없습니다.");
-        }
-
-        // 3. 새로운 스테이지는 이전 NextPoint 기준으로 배치
-        currentStage.transform.position = nextPoint != null ? nextPoint.position : Vector3.zero;
-
-        Debug.Log($"Stage {currentStageIndex + 1} 로드 완료");
+        // 5. 위치, 회전 확인용 로그는 **위치 설정 이후에 출력**
+        Debug.Log($"Stage {currentStageIndex + 1} 로드 완료 (위치: {newStage.transform.position}, 회전: {newStage.transform.rotation.eulerAngles})");
     }
 
     /// <summary>
