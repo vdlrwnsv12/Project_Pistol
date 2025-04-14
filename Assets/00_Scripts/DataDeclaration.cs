@@ -45,10 +45,31 @@ namespace DataDeclaration
     [Serializable]
     public struct CharacterStat
     {
-        public float rclValue;
-        public float hdlValue;
-        public float stpValue;
-        public float spdValue;
+        private float rclValue;
+        private float hdlValue;
+        private float stpValue;
+        private float spdValue;
+
+        public float RCL
+        {
+            get => Mathf.Clamp(rclValue, 0, Constant.MAX_STAT);
+            set => rclValue = value;
+        }
+        public float HDL
+        {
+            get => Mathf.Clamp(hdlValue, 0, Constant.MAX_STAT);
+            set => hdlValue = value;
+        }
+        public float STP
+        {
+            get => Mathf.Clamp(stpValue, 0, Constant.MAX_STAT);
+            set => stpValue = value;
+        }
+        public float SPD
+        {
+            get => Mathf.Clamp(spdValue, 0, Constant.MAX_STAT);
+            set => spdValue = value;
+        }
     }
 
     #endregion
@@ -73,4 +94,9 @@ namespace DataDeclaration
     }
 
     #endregion
+
+    public static class Constant
+    {
+        public const float MAX_STAT = 99f;
+    }
 }

@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Id>k__BackingField: Item0001
   type: 0
-  icon: {fileID: 21300000, guid: f9f5428f8f3497b4f8bc936078a6ad4c, type: 3}
-  itemName: "\uBC18\uB3D9 \uC81C\uC5B4 \uC0C1\uC2B9"
-  description: "RCL\uC774 \uC0C1\uC2B9\uD558\uC5EC \uBC18\uB3D9\uC774 \uC904\uC5B4\uB4ED\uB2C8\uB2E4."
-  cost: 8
-  stat:
-    rclValue: 15
+  <Icon>k__BackingField: {fileID: 0}
+  <ItemName>k__BackingField: "RCL 10 \uC99D\uAC00"
+  <Description>k__BackingField: 
+  <Cost>k__BackingField: 0
+  <Stat>k__BackingField:
+    rclValue: 10
     hdlValue: 0
     stpValue: 0
     spdValue: 0

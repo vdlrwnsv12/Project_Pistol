@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class ItemData : ScriptableObject
 {
     [field: SerializeField] public string Id { get; private set; }
-    [Tooltip("아이템 적용 타겟"), SerializeField] protected ItemApplyType type;
+    [Tooltip("아이템 적용 타겟"), SerializeField] public ItemApplyType type;
     [field: SerializeField] public Sprite Icon { get; private set; }
     [field: SerializeField] public string ItemName { get; private set; }
     [field: SerializeField] public string Description { get; private set; }

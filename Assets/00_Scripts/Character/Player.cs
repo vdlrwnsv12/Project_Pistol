@@ -15,9 +15,11 @@ public class Player : MonoBehaviour
 
     public ForceReceiver ForceReceiver { get; private set; }
     public FpsCamera FpsCamera { get; private set; }
-    private PlayerStateMachine stateMachine;
-    
 
+    public WeaponStatHandler WeaponStatHandler { get; private set; }
+    private PlayerStateMachine stateMachine;
+
+   
     private void Awake()
     {
         AnimationData.Initialize();
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
         stateMachine.ChangeState(stateMachine.IdleState);
+
+     
     }
 
     private void Update()
@@ -44,5 +48,10 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.PhysicsUpdate();
+    }
+
+    public void SetWeaponStatHandler(WeaponStatHandler handler)
+    {
+        WeaponStatHandler = handler;
     }
 }
