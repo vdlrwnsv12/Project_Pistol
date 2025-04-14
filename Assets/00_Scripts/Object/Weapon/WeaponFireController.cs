@@ -11,14 +11,6 @@ public class WeaponFireController : MonoBehaviour
 
     #region Unity Methods
 
-    // void Start()
-    // {
-    //     statHandler = GetComponent<WeaponStatHandler>();
-    //     weaponData = statHandler.weaponData;
-
-    //     initialLocalRotation = statHandler.handransform.localRotation;
-    //     camRootOriginPos = statHandler.camRoot.localPosition;
-    // }
     public void InitReferences()
     {
         statHandler = GetComponent<WeaponStatHandler>();

@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
 
 public class PlayerEquipment : MonoBehaviour
 {
+    public static PlayerEquipment Instance { get; private set;}
+
     [Header("Weapon Prefabs")]
     public GameObject[] weaponPrefabs;
     private GameObject currentWeaponObject;
@@ -15,23 +18,17 @@ public class PlayerEquipment : MonoBehaviour
     public FpsCamera fpsCamera;
     public GameObject playerObject;
 
-    void Start()
+    void Awake()
     {
-        SwitchWeapon(0); // 시작 시 무기 장착
-    }
-
-    void Update()
-    {
-        for (int i = 0; i < weaponPrefabs.Length; i++)
+        if(Instance != null && Instance != this)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                SwitchWeapon(i);
-            }
+            Destroy(gameObject);
+            return;
         }
+        Instance = this;
     }
 
-    void SwitchWeapon(int index)
+    public void SwitchWeapon(int index)
     {
         if (index < 0 || index >= weaponPrefabs.Length || index == currentWeaponIndex)
             return;
