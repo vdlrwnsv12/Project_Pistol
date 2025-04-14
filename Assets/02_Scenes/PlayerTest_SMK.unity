@@ -3551,6 +3551,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hand
       objectReference: {fileID: 0}
+    - target: {fileID: 3605156350538395342, guid: b8870276ef24046fc876932b167bbf3c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.18
+      objectReference: {fileID: 0}
     - target: {fileID: 4290199105854688653, guid: b8870276ef24046fc876932b167bbf3c,
         type: 3}
       propertyPath: weaponID
