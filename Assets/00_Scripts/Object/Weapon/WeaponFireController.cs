@@ -5,28 +5,33 @@ public class WeaponFireController : MonoBehaviour
 {
     private WeaponData weaponData;
     private WeaponStatHandler statHandler;
+
     private Quaternion initialLocalRotation;
-    private Vector3 camRootOriginPos = Vector3.zero;
-    private Vector3 targetPos;
+    private Vector3 camRootOriginPos;
 
     #region Unity Methods
 
-    public void InitReferences() //내부 참조값 초기화
+    // void Start()
+    // {
+    //     statHandler = GetComponent<WeaponStatHandler>();
+    //     weaponData = statHandler.weaponData;
+
+    //     initialLocalRotation = statHandler.handransform.localRotation;
+    //     camRootOriginPos = statHandler.camRoot.localPosition;
+    // }
+    public void InitReferences()
     {
         statHandler = GetComponent<WeaponStatHandler>();
         weaponData = statHandler.weaponData;
 
-        ResetAds();
-
+        initialLocalRotation = statHandler.handransform.localRotation;
+        camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
     }
 
     void Update()
     {
-        if (statHandler == null)
-        {
-            return;
-        }
+        if (statHandler == null) return;
 
         if (Input.GetButtonDown("Fire1") && Time.time - statHandler.lastFireTime >= statHandler.fireCooldown)
         {
@@ -37,55 +42,35 @@ public class WeaponFireController : MonoBehaviour
         {
             ReloadWeapon();
         }
-
-        HandleAdsInput();
-        HandleADS();
+        
+            HandleADS();
     }
 
     #endregion
 
     #region ADS
 
-    void ResetAds()
+    void HandleADS()
     {
-        initialLocalRotation = statHandler.handransform.localRotation;
-        camRootOriginPos = statHandler.camRoot.localPosition;
+        Vector3 targetPos = camRootOriginPos;
 
-        targetPos = camRootOriginPos;
-        statHandler.camRoot.localPosition = camRootOriginPos;
-        statHandler.playerCam.fieldOfView = 60f;
-        statHandler.isADS = false;
-    }
-    
-    void HandleAdsInput()
-    {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetMouseButtonDown(1))
         {
             statHandler.isADS = !statHandler.isADS;
         }
-    }
-    void HandleADS()
-    {
-        targetPos = statHandler.isADS ? statHandler.adsPosition : camRootOriginPos;
-        
-        if (statHandler.isADS == false)
-        {
-            targetPos = Vector3.zero;
-        }
-        
-        float targerFov = statHandler.isADS ? 40f : 60f;
 
-
-        statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, targerFov, Time.deltaTime * 10f);
-
-        statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, targetPos, Time.deltaTime * statHandler.camMoveSpeed);
         if (statHandler.isADS)
         {
+            targetPos = statHandler.adsPosition;
+            statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, 40f, Time.deltaTime * 10f);
             WeaponShake();
-        }else
-        {
-            statHandler.handransform.localRotation = initialLocalRotation;
         }
+        else
+        {
+            statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, 60f, Time.deltaTime * 10f);
+        }
+
+        statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, targetPos, Time.deltaTime * statHandler.camMoveSpeed);
     }
 
     void WeaponShake()

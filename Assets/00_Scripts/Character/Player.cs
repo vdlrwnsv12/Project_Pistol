@@ -35,26 +35,22 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
         stateMachine.ChangeState(stateMachine.IdleState);
 
-        /* 총이 비활성화 됐다가 활성화 되는 형태라 Start에 GetComponet문을 넣음
-                         Awake 넣을시 Object Null 발생 */
-    }
-    public void SetWeaponStatHandler(WeaponStatHandler handler)
-    {
-        WeaponStatHandler = handler;
+     
     }
 
     private void Update()
     {
         stateMachine.HandleInput();
         stateMachine.Update();
-        if(WeaponStatHandler == null)
-        {
-            Debug.Log("1");
-        }
     }
 
     private void FixedUpdate()
     {
         stateMachine.PhysicsUpdate();
+    }
+
+    public void SetWeaponStatHandler(WeaponStatHandler handler)
+    {
+        WeaponStatHandler = handler;
     }
 }
