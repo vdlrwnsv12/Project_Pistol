@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class CharacterDatas : ScriptableObject
 {
-public string ID;
-public string Name;
-public string Description;
-public float RCL;
-public float HDL;
-public float STP;
-public float SPD;
-public int Cost;
+    public string ID;
+    public string Name;
+    public string Description;
+    public float RCL;
+    public float HDL;
+    public float STP;
+    public float SPD;
+    public int Cost;
 }

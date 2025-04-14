@@ -295,6 +295,55 @@ public class GoogleSheetParser : EditorWindow
 
     private IEnumerator ParseToSO()
     {
+        var selectedSheet = sheetInfoList[selectedSheetIndex];
+        var sheetName = selectedSheet.sheetName;
+        var jsonPath = Path.Combine(Application.dataPath, "01_Resources", "Resources", "Data", "JSON", $"{sheetName}.json");
+        if (!File.Exists(jsonPath))
+        {
+            Debug.LogError($"Json 파일을 찾을 수 없습니다: {jsonPath}");
+            yield break;
+        }
+
+        var jsonText = File.ReadAllText(jsonPath);
+        JObject jsonObj = JObject.Parse(jsonText);
+        JArray dataArray = (JArray)jsonObj["Data"];
+
+        string soFolderPath = Path.Combine("Assets", "01_Resources", "Resources", "SO", sheetName);
+        if (!AssetDatabase.IsValidFolder(soFolderPath))
+        {
+            Directory.CreateDirectory(soFolderPath);
+        }
+
+        int idx = 0;
+        foreach (JObject item in dataArray)
+        {
+            if (idx == 0 || idx == 1) // 컬럼이 Scriptable object로 변환되서 변경 0줄 ~1줄은 제외
+            {
+                idx++;
+                continue;
+            }
+            CharacterDatas soAsset = ScriptableObject.CreateInstance<CharacterDatas>();
+
+            soAsset.ID = item["ID"]?.ToString();
+            soAsset.Name = item["Name"]?.ToString();
+            soAsset.Description = item["Description"]?.ToString();
+            soAsset.RCL = item["RCL"]?.ToObject<float>() ?? 0;
+            soAsset.HDL = item["HDL"]?.ToObject<float>() ?? 0;
+            soAsset.STP = item["STP"]?.ToObject<float>() ?? 0;
+            soAsset.SPD = item["SPD"]?.ToObject<float>() ?? 0;
+            soAsset.Cost = item["Cost"]?.ToObject<int>() ?? 0;
+
+            string assetName = $"{soAsset.ID}_{soAsset.Name}";
+            string assetPath = Path.Combine(soFolderPath, $"{assetName}.asset");
+
+            AssetDatabase.CreateAsset(soAsset, assetPath);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        Debug.Log($"ScriptableObject {dataArray.Count}개 생성 완료!");
+        
         yield return null;
     }
     
