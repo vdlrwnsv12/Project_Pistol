@@ -28,14 +28,12 @@ public class WeaponFireController : MonoBehaviour
     {
         if (statHandler == null)
         {
-            Debug.Log("statNull");
             return;
         }
 
         if (Input.GetButtonDown("Fire1"))
         {
             FireWeapon();
-            Debug.Log("fie");
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
@@ -236,9 +234,12 @@ public class WeaponFireController : MonoBehaviour
 
     #region 장전
 
-    void ReloadWeapon()
+    public void ReloadWeapon()
     {
-        if (weaponData.currentAmmo == weaponData.maxAmmo) return;
+        // if (weaponData.currentAmmo == weaponData.maxAmmo) 
+        // {
+        //     return;
+        // }
 
         statHandler.isReloading = true;
         weaponData.currentAmmo = 0;

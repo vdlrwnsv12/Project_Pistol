@@ -44,7 +44,7 @@ MonoBehaviour:
       <Dealing_End_TransitionTime>k__BackingField: 0
   name: 
   rcl: 1
-  hdl: 99
+  hdl: 1
   stp: 0
   spd: 0
   finalRecoil: 0
