@@ -11,4 +11,5 @@ public float ShootRecoil;
 public float DMG;
 public float ReloadTime;
 public int MaxAmmo;
+public int Cost;
 }

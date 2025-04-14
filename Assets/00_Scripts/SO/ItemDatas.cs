@@ -16,4 +16,5 @@ public float SPD;
 public float DMG;
 public int MaxAmmo;
 public int WeaponParts;
+public string AppearanceRate;
 }

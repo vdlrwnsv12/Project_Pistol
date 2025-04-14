@@ -5,8 +5,9 @@ using System.Collections.Generic;
 public class TargetDatas : ScriptableObject
 {
 public string ID;
+public string Name;
+public string Description;
 public int Type;
-public string TargetLevel;
-public int HP;
-public float DamageRate;
+public float BaseHp;
+public float Speed;
 }

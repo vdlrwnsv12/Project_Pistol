@@ -6,7 +6,8 @@
     "ShootRecoil": 0.0,
     "DMG": 0.0,
     "ReloadTime": 0.0,
-    "MaxAmmo": 0
+    "MaxAmmo": 0,
+    "Cost": 0
   },
   {
     "ID": "string",
@@ -15,7 +16,8 @@
     "ShootRecoil": 0.0,
     "DMG": 0.0,
     "ReloadTime": 0.0,
-    "MaxAmmo": 0
+    "MaxAmmo": 0,
+    "Cost": 0
   },
   {
     "ID": "W0001",
@@ -24,7 +26,8 @@
     "ShootRecoil": 20.0,
     "DMG": 4.0,
     "ReloadTime": 2.0,
-    "MaxAmmo": 15
+    "MaxAmmo": 15,
+    "Cost": 1500
   },
   {
     "ID": "W0002",
@@ -33,7 +36,8 @@
     "ShootRecoil": 25.0,
     "DMG": 6.0,
     "ReloadTime": 2.0,
-    "MaxAmmo": 10
+    "MaxAmmo": 10,
+    "Cost": 1500
   },
   {
     "ID": "W0003",
@@ -42,7 +46,8 @@
     "ShootRecoil": 35.0,
     "DMG": 8.0,
     "ReloadTime": 2.0,
-    "MaxAmmo": 7
+    "MaxAmmo": 7,
+    "Cost": 1500
   },
   {
     "ID": "W0004",
@@ -51,6 +56,7 @@
     "ShootRecoil": 50.0,
     "DMG": 10.0,
     "ReloadTime": 2.0,
-    "MaxAmmo": 6
+    "MaxAmmo": 6,
+    "Cost": 1500
   }
 ]}
