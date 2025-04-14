@@ -46,6 +46,17 @@ public class AttackInfoData
 [CreateAssetMenu(fileName = "Player", menuName = "SO/PlayerData")]
 public class PlayerData : ScriptableObject
 {
+
     [field: SerializeField] public PlayerGroundData GroundData { get; private set; }
     [field: SerializeField] public PlayerAttackData AttackData { get; private set; }
+
+ 
+    [field: SerializeField] public string name; // 캐릭터이름
+    [field: SerializeField] public float rcl;
+    [field: SerializeField] public float hdl;
+    [field: SerializeField] public float stp;
+    [field: SerializeField] public float spd;
+    [field: SerializeField] public float finalRecoil;
+    [field: SerializeField] public int cost; // 
+
 }
