@@ -382,63 +382,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1001 &717184094
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_Name
-      value: BulletHole
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.55785143
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.21273197
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.035490394
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
 --- !u!1001 &1361433549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1199,7 +1142,7 @@ Transform:
   m_GameObject: {fileID: 647298879575054072}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5819553, y: 0.49210554, z: -0.6288899, w: 0.15381023}
-  m_LocalPosition: {x: 0.893428, y: 0.652602, z: -0.497686}
+  m_LocalPosition: {x: 0.695, y: 0.102, z: -0.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1289,7 +1232,7 @@ Transform:
   m_GameObject: {fileID: 5811927203494202789}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5427708, y: 0.4935081, z: -0.6529533, w: 0.1884187}
-  m_LocalPosition: {x: 0.769, y: 0.829, z: -0.564}
+  m_LocalPosition: {x: 0.436, y: 0.993, z: -0.536}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1315,7 +1258,7 @@ GameObject:
   - component: {fileID: 8414586039092830796}
   m_Layer: 0
   m_Name: Pistol_C
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1544,6 +1487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEquipment: {fileID: 1832500407209454918}
+  currentWeapon: {fileID: 0}
 --- !u!1 &2118979241693153440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,7 +2380,7 @@ GameObject:
   - component: {fileID: 8309898149216668648}
   m_Layer: 0
   m_Name: M1911
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2450,7 +2394,7 @@ Transform:
   m_GameObject: {fileID: 6554366325241844633}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5819553, y: 0.49210554, z: -0.6288899, w: 0.15381023}
-  m_LocalPosition: {x: 0.5606, y: 0.7041, z: -0.6283}
+  m_LocalPosition: {x: 0.865, y: 0.553, z: -0.684}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2769,7 +2713,7 @@ GameObject:
   - component: {fileID: 6554366325241844638}
   m_Layer: 0
   m_Name: Pistol_E
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3507,7 +3451,6 @@ SceneRoots:
   - {fileID: 1486277534}
   - {fileID: 524014094}
   - {fileID: 1383828358}
-  - {fileID: 717184094}
   - {fileID: 1889046851}
   - {fileID: 423808882}
   - {fileID: 1361433549}
