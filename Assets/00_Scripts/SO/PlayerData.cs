@@ -58,5 +58,4 @@ public class PlayerData : ScriptableObject
     [field: SerializeField] public float spd;
     [field: SerializeField] public float finalRecoil;
     [field: SerializeField] public int cost; // 
-
 }

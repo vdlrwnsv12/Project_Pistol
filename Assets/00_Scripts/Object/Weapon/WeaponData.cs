@@ -10,7 +10,7 @@ public class WeaponData : ScriptableObject
     public float reloadTime;
     public int maxAmmo;
     public int currentAmmo;
-    public float accuracy;
+    //public float accuracy;
     public bool isSilenced;
     public float cameraShakeRate;
 

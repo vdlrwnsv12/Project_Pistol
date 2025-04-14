@@ -9,6 +9,8 @@ public class WeaponFireController : MonoBehaviour
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
 
+    public float finalRecoil;
+
     #region Unity Methods
 
     public void InitReferences()
@@ -67,7 +69,8 @@ public class WeaponFireController : MonoBehaviour
 
     void WeaponShake()
     {
-        float accuracy = Mathf.Clamp01((99f - weaponData.accuracy) / 98f);
+        float accuracyAmount = statHandler.playerObject.GetComponent<Player>().Data.hdl;
+        float accuracy = Mathf.Clamp01((99f - accuracyAmount) / 98f);
         float shakeAmount = accuracy * 7.5f;
         float shakeSpeed = 0.7f;
 
@@ -178,9 +181,18 @@ public class WeaponFireController : MonoBehaviour
         }
     }
 
+    void CalculateFinalRecoil()
+    {
+        float rcl = statHandler.playerObject.GetComponent<Player>().Data.rcl;
+        finalRecoil = weaponData.shootRecoil * (0.2f + (0.8f * (1-rcl/99f)));
+    }
+
     void ApplyRecoil()
     {
-        statHandler.fpsCamera?.ApplyRecoil(weaponData.shootRecoil * 0.025f);
+        CalculateFinalRecoil();
+        statHandler.fpsCamera?.ApplyRecoil(finalRecoil);
+
+        // statHandler.fpsCamera?.ApplyRecoil(weaponData.shootRecoil / antiRecoil);
     }
 
     IEnumerator CameraShake(float intensity)

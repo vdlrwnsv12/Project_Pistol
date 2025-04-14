@@ -42,3 +42,10 @@ MonoBehaviour:
       Damage: 0
       <Dealing_Start_TransitionTime>k__BackingField: 0
       <Dealing_End_TransitionTime>k__BackingField: 0
+  name: 
+  rcl: 100
+  hdl: 99
+  stp: 0
+  spd: 0
+  finalRecoil: 0
+  cost: 0
