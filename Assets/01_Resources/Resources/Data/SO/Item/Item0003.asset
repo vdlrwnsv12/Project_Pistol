@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723cb41cee1638a4c9f9ea7bd265c32d, type: 3}
+  m_Name: Item0003
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: Item0003
+  type: 0
+  <Icon>k__BackingField: {fileID: 0}
+  <ItemName>k__BackingField: "RCL 15 \uC99D\uAC00"
+  <Description>k__BackingField: 
+  <Cost>k__BackingField: 0
+  <Stat>k__BackingField:
+    rclValue: 15
+    hdlValue: 0
+    stpValue: 0
+    spdValue: 0

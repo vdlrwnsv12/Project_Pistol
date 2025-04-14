@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ResultUI : MainUI
 {
+    #region UI Object
+
     [SerializeField] private TextMeshProUGUI rankText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [Space] [SerializeField] private TextMeshProUGUI remainTimeText;
@@ -13,6 +15,8 @@ public class ResultUI : MainUI
     [SerializeField] private TextMeshProUGUI maxComboText;
     [Space] [SerializeField] private Button quitBtn;
 
+    #endregion
+    
     protected override void Awake()
     {
         base.Awake();
@@ -26,8 +30,12 @@ public class ResultUI : MainUI
         gameObject.SetActive(uiType == activeUIType);
     }
 
+    /// <summary>
+    /// 종료 버튼 기능 할당 메서드
+    /// </summary>
     private void OnClickQuitButton()
     {
+        //TODO: 미구현
     }
 
     /// <summary>
@@ -39,14 +47,15 @@ public class ResultUI : MainUI
     /// <param name="accuracy">명중률</param>
     /// <param name="headAccuracy">헤드샷 명중률</param>
     /// <param name="maxCombo">최대 콤보</param>
-    private void UpdateResultValue(RankType rank, int score, float remainTime, float accuracy, float headAccuracy, int maxCombo)
+    private void UpdateResultValue(RankType rank, int score, float remainTime, float accuracy, float headAccuracy,
+        int maxCombo)
     {
         rankText.text = rank.ToString();
-        scoreText.text = $"<size=30>Score</size>\\n<size=40>{score:D6}</size>";
+        scoreText.text = $"<size=30>Score</size>\n<size=40>{score:D6}</size>";
 
-        remainTimeText.text = $"남은 시간\\n{remainTime:N2}초";
-        accuracyText.text = $"명중률\\n{accuracy:N2}%";
-        headAccuracyText.text = $"헤드 명중률\\n{headAccuracy:N2}%";
-        maxComboText.text = $"최대 콤보\\n{maxCombo:D2} Combo";
+        remainTimeText.text = $"남은 시간\n{remainTime:N2}초";
+        accuracyText.text = $"명중률\n{accuracy:N2}%";
+        headAccuracyText.text = $"헤드 명중률\n{headAccuracy:N2}%";
+        maxComboText.text = $"최대 콤보\n{maxCombo:D2} Combo";
     }
 }

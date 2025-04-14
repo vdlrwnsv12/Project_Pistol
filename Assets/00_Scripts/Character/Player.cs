@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     public PlayerController Input { get; private set; }
     public CharacterController Controller { get; private set; }
+    private PlayerStatHandler statHandler;
 
     public ForceReceiver ForceReceiver { get; private set; }
     public FpsCamera FpsCamera { get; private set; }
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         FpsCamera = GetComponent<FpsCamera>();
         stateMachine = new PlayerStateMachine(this);
-       
+        statHandler = new PlayerStatHandler(this);
     }
     private void Start()
     {
