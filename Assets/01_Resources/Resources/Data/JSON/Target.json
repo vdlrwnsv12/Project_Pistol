@@ -1,0 +1,78 @@
+{"Data":[
+  {
+    "ID": "ID",
+    "Type": 0,
+    "TargetLevel": "TargetLevel",
+    "HP": 0,
+    "DamageRate": 0.0
+  },
+  {
+    "ID": "string",
+    "Type": 0,
+    "HP": 0,
+    "DamageRate": 0.0
+  },
+  {
+    "ID": "T0001",
+    "Type": 1,
+    "TargetLevel": "1",
+    "HP": 400,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0002",
+    "Type": 1,
+    "TargetLevel": "2",
+    "HP": 700,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0003",
+    "Type": 1,
+    "TargetLevel": "3",
+    "HP": 900,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0004",
+    "Type": 1,
+    "TargetLevel": "4",
+    "HP": 1200,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0005",
+    "Type": 1,
+    "TargetLevel": "5",
+    "HP": 1500,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0006",
+    "Type": 2,
+    "TargetLevel": "3",
+    "HP": 900,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0007",
+    "Type": 2,
+    "TargetLevel": "4",
+    "HP": 1200,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0008",
+    "Type": 2,
+    "TargetLevel": "5",
+    "HP": 1500,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0009",
+    "Type": 3,
+    "TargetLevel": "0",
+    "HP": 1000,
+    "DamageRate": 1000.0
+  }
+]}

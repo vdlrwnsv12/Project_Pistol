@@ -203,14 +203,14 @@ public class GoogleSheetParser : EditorWindow
             Directory.CreateDirectory(directoryPath);
         }
         
-        var filePath = Path.Combine(directoryPath, $"{className}Data.cs");
+        var filePath = Path.Combine(directoryPath, $"{className}Datas.cs");
 
         using (var sw = new StreamWriter(filePath))
         {
             sw.WriteLine("using UnityEngine;");
             sw.WriteLine("using System.Collections.Generic;");
-            sw.WriteLine($"[CreateAssetMenu(fileName = \"{className}\", menuName = \"SO/{className}Data\")]\r\n");
-            sw.WriteLine($"public class {className}Data : ScriptableObject");
+            sw.WriteLine($"[CreateAssetMenu(fileName = \"{className}\", menuName = \"SO/{className}Datas\")]\r\n");
+            sw.WriteLine($"public class {className}Datas : ScriptableObject");
             sw.WriteLine("{");
 
             // 데이터 필드 입력
