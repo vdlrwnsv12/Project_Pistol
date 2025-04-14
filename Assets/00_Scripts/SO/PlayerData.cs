@@ -56,6 +56,6 @@ public class PlayerData : ScriptableObject
     [field: SerializeField] public float hdl;
     [field: SerializeField] public float stp;
     [field: SerializeField] public float spd;
-    [field: SerializeField] public float finalRecoil;
+    [field: SerializeField] public float finalRecoil; //weaponFireController에 넣어놔서 삭제해도됨
     [field: SerializeField] public int cost; // 
 }

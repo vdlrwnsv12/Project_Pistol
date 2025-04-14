@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 0
   weaponName: M1911
   damage: 30
-  shootRecoil: 100
+  shootRecoil: 10
   reloadTime: 2
   maxAmmo: 7
   currentAmmo: 7

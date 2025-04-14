@@ -43,8 +43,8 @@ MonoBehaviour:
       <Dealing_Start_TransitionTime>k__BackingField: 0
       <Dealing_End_TransitionTime>k__BackingField: 0
   name: 
-  rcl: 100
-  hdl: 99
+  rcl: 1
+  hdl: 1
   stp: 0
   spd: 0
   finalRecoil: 0

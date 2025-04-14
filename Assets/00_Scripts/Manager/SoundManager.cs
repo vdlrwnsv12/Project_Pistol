@@ -41,7 +41,6 @@ public class SoundManager : MonoBehaviour
         }
 
         // Ensure the music and sfx sources are assigned
-        if (musicSource == null) musicSource = GetComponent<AudioSource>();  // 음악 소스
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();  // 효과음 소스
 
         musicSource.volume = backgroundMusicVol;
@@ -53,7 +52,6 @@ public class SoundManager : MonoBehaviour
     {
         PlayBackgroundMusic(backgroundMusic);
     }
-
     #region 배경음악 관련
     void PlayBackgroundMusic(AudioClip music)
     {
@@ -97,6 +95,7 @@ public class SoundManager : MonoBehaviour
     {
         if (soundEffects.TryGetValue(soundName, out AudioClip clip))
         {
+            sfxSource.pitch = 1f;
             sfxSource.PlayOneShot(clip, sfxVol);
         }
         else
@@ -106,7 +105,9 @@ public class SoundManager : MonoBehaviour
             if (clip != null)
             {
                 soundEffects[soundName] = clip;
+                sfxSource.pitch = 1f;
                 sfxSource.PlayOneShot(clip, sfxVol);
+                Debug.Log("현재 pitch: " + sfxSource.pitch);
             }
             else
             {
@@ -122,6 +123,7 @@ public class SoundManager : MonoBehaviour
         if (clip != null)
         {
             sfxSource.PlayOneShot(clip, sfxVol);
+            Debug.Log($"사운드 출력{clip.name}");
         }
     }
     #endregion

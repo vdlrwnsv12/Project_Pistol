@@ -191,8 +191,6 @@ public class WeaponFireController : MonoBehaviour
     {
         CalculateFinalRecoil();
         statHandler.fpsCamera?.ApplyRecoil(finalRecoil);
-
-        // statHandler.fpsCamera?.ApplyRecoil(weaponData.shootRecoil / antiRecoil);
     }
 
     IEnumerator CameraShake(float intensity)
@@ -227,14 +225,18 @@ public class WeaponFireController : MonoBehaviour
         statHandler.isReloading = true;
         weaponData.currentAmmo = 0;
         statHandler.gunAnimator.SetTrigger("Reload");
+
         SoundManager.Instance.PlaySFX(statHandler.weaponData.reloadSound);
+
         StartCoroutine(ReloadCoroutine());
     }
 
     IEnumerator ReloadCoroutine()
     {
         yield return new WaitForSeconds(weaponData.reloadTime);
+
         statHandler.gunAnimator.SetBool("OutOfAmmo", false);
+        
         weaponData.currentAmmo = weaponData.maxAmmo;
         statHandler.isReloading = false;
     }

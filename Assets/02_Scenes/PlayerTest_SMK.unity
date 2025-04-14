@@ -257,7 +257,12 @@ PrefabInstance:
     - target: {fileID: 7176916704823716721, guid: d688e8b0ac42a4a8284cbe654b55ce22,
         type: 3}
       propertyPath: sfxVol
-      value: 0.78
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596026303226822466, guid: d688e8b0ac42a4a8284cbe654b55ce22,
+        type: 3}
+      propertyPath: m_Pitch
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
