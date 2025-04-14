@@ -18,8 +18,7 @@ MonoBehaviour:
   shootRecoil: 1
   reloadTime: 0.1
   maxAmmo: 100
-  currentAmmo: 100
-  accuracy: 99
+  currentAmmo: 89
   isSilenced: 0
   cameraShakeRate: 0
   fireSound: {fileID: 8300000, guid: b2d159f7e00d44d9bbc2d50a0c4fef59, type: 3}

@@ -17,7 +17,6 @@ public class WeaponFireController : MonoBehaviour
     {
         statHandler = GetComponent<WeaponStatHandler>();
         weaponData = statHandler.weaponData;
-
         initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
@@ -25,11 +24,16 @@ public class WeaponFireController : MonoBehaviour
 
     void Update()
     {
-        if (statHandler == null) return;
+        if (statHandler == null) 
+        {
+            Debug.Log("statNull");
+            return;
+        }
 
-        if (Input.GetButtonDown("Fire1") && Time.time - statHandler.lastFireTime >= statHandler.fireCooldown)
+        if (Input.GetButtonDown("Fire1"))
         {
             FireWeapon();
+            Debug.Log("fie");
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
@@ -88,7 +92,12 @@ public class WeaponFireController : MonoBehaviour
 
     void FireWeapon()
     {
-        if (weaponData == null) return;
+        statHandler.lastFireTime = Time.time;
+
+        if (weaponData == null) 
+        {
+            return;
+        }
 
         if (weaponData.currentAmmo > 0)
         {
@@ -107,7 +116,6 @@ public class WeaponFireController : MonoBehaviour
             SoundManager.Instance.PlaySFX(statHandler.weaponData.fireSound);
 
             weaponData.currentAmmo--;
-            statHandler.lastFireTime = Time.time;
         }
         else
         {

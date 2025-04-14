@@ -15,12 +15,12 @@ MonoBehaviour:
   ID: 0
   weaponName: M1911
   damage: 30
-  shootRecoil: 10
+  shootRecoil: 4.5
   reloadTime: 2
   maxAmmo: 7
-  currentAmmo: 7
+  currentAmmo: 2
   isSilenced: 0
-  cameraShakeRate: 100
+  cameraShakeRate: 50
   fireSound: {fileID: 8300000, guid: 2203773368e4340d98c114f55c2dd7fd, type: 3}
   reloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
   emptySound: {fileID: 8300000, guid: 68d0787726f6647c38a9903288161331, type: 3}
