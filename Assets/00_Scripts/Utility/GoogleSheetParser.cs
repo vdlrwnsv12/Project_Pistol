@@ -332,7 +332,8 @@ public class GoogleSheetParser : EditorWindow
             soAsset.STP = item["STP"]?.ToObject<float>() ?? 0;
             soAsset.SPD = item["SPD"]?.ToObject<float>() ?? 0;
             soAsset.Cost = item["Cost"]?.ToObject<int>() ?? 0;
-
+            
+           
             string assetName = $"{soAsset.ID}_{soAsset.Name}";
             string assetPath = Path.Combine(soFolderPath, $"{assetName}.asset");
 
