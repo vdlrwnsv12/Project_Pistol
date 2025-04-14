@@ -36,22 +36,22 @@ public class PopupReward : PopupUI
     /// </summary>
     private void InitReward()
     {
-        //TODO: StageManager.Instance.RewardSystem 접근하기
-        itemRewards = TestManager.Instance.RewardSystem.GetRandomItemReward();
-        for (var i = 0; i < rewardCards.Length; i++)
-        {
-            rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
-            rewardCards[i].rewardName.text = itemRewards[i].ItemName;
-            rewardCards[i].timeCost.text = $"-{itemRewards[i].Cost:N2}s";
-            rewardCards[i].rewardButton.onClick.RemoveAllListeners();
-            if (itemRewards[i].type == ItemApplyType.Player)
-            {
-                var playerItem = (PlayerItemData)itemRewards[i];
-                rewardCards[i].rewardButton.onClick.AddListener(() => TestManager.Instance.PlayerStatHandler.IncreaseStat(playerItem.Stat));
-                rewardCards[i].rewardButton.onClick.AddListener(() =>
-                    ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(TestManager.Instance.PlayerStatHandler.Stat));
-                rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
-            }
-        }
+        // //TODO: StageManager.Instance.RewardSystem 접근하기
+        // itemRewards = TestManager.Instance.RewardSystem.GetRandomItemReward();
+        // for (var i = 0; i < rewardCards.Length; i++)
+        // {
+        //     rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
+        //     rewardCards[i].rewardName.text = itemRewards[i].ItemName;
+        //     rewardCards[i].timeCost.text = $"-{itemRewards[i].Cost:N2}s";
+        //     rewardCards[i].rewardButton.onClick.RemoveAllListeners();
+        //     if (itemRewards[i].type == ItemApplyType.Player)
+        //     {
+        //         var playerItem = (PlayerItemData)itemRewards[i];
+        //         rewardCards[i].rewardButton.onClick.AddListener(() => TestManager.Instance.PlayerStatHandler.IncreaseStat(playerItem.Stat));
+        //         rewardCards[i].rewardButton.onClick.AddListener(() =>
+        //             ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(TestManager.Instance.PlayerStatHandler.Stat));
+        //         rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
+        //     }
+        // }
     }
 }
