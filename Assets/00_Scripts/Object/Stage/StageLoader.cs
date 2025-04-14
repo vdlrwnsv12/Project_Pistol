@@ -23,6 +23,15 @@ public class StageLoader : MonoBehaviour
     #region Stage Flow
 
     /// <summary>
+    /// 시작시 스테이지 소환
+    /// </summary>
+    private void Start()
+    {
+        LoadFirstStage(); // 씬 시작 시 자동으로 첫 스테이지 배치
+    }
+
+
+    /// <summary>
     /// 첫 스테이지 로드
     /// </summary>
     public void LoadFirstStage()
