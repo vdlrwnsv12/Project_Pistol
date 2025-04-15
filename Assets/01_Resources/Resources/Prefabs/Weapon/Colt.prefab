@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfc90f7998e71a4a87ffd6ea2fe9c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 0}
+  weaponData: {fileID: 11400000, guid: ffcd5a1b072384534a1c0b0c4ce57e09, type: 2}
   isReloading: 0
   isADS: 0
   barrelLocation: {fileID: 7871138460236415640}
@@ -300,6 +300,9 @@ MonoBehaviour:
   muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
     type: 3}
   bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
+  redDot: {fileID: 3619939609601921425}
+  laserPointer: {fileID: 2628242373809440221}
+  compensator: {fileID: 2105274062116346473}
   spreadAngle: 5
   destroyTimer: 2
   ejectPower: 150
@@ -1038,6 +1041,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb5b9c57953d6493aade23eb4c2a9e21, type: 3}
+--- !u!1 &3619939609601921425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2461709439928957523, guid: fb5b9c57953d6493aade23eb4c2a9e21,
+    type: 3}
+  m_PrefabInstance: {fileID: 1158872423009921986}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4140861162784820011 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2982068077803380969, guid: fb5b9c57953d6493aade23eb4c2a9e21,

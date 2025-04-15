@@ -25,6 +25,11 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject muzzleFlashPrefab; //총구 화염
     public GameObject bulletImpactPrefab; //탄흔
 
+    [Header("PartsPrefabs")]
+    public GameObject redDot;
+    public GameObject laserPointer;
+    public GameObject compensator;
+
     [Header("Settings")]
     [Tooltip("총구 각도 퍼짐")]
     public float spreadAngle = 5f;

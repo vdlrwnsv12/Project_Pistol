@@ -29,7 +29,6 @@ public class PlayerWalkState : PlayerGroundState
     protected override void OnReload(InputAction.CallbackContext context) // 걷고 리로드
     {
         base.OnReload(context);
-        Debug.Log("walk 리로드 하라고");
         stateMachine.ChangeState(stateMachine.ReloadState);
     }
 }

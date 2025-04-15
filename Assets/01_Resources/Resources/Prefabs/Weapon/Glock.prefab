@@ -633,6 +633,9 @@ MonoBehaviour:
   muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
     type: 3}
   bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
+  redDot: {fileID: 1942844589334652158}
+  laserPointer: {fileID: 3369888484553321702}
+  compensator: {fileID: 2687479786257183585}
   spreadAngle: 5
   destroyTimer: 2
   ejectPower: 150
@@ -957,6 +960,12 @@ PrefabInstance:
 --- !u!4 &1278334484615577156 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2982068077803380969, guid: fb5b9c57953d6493aade23eb4c2a9e21,
+    type: 3}
+  m_PrefabInstance: {fileID: 4098242044770918061}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1942844589334652158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2461709439928957523, guid: fb5b9c57953d6493aade23eb4c2a9e21,
     type: 3}
   m_PrefabInstance: {fileID: 4098242044770918061}
   m_PrefabAsset: {fileID: 0}

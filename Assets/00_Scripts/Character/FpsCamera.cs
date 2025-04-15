@@ -28,11 +28,32 @@ public class FpsCamera : MonoBehaviour
 
     public void ApplyRecoil(float recoilAmount)
     {
-        eulerAngleX -= recoilAmount;
-        eulerAngleX = ClampAngle(eulerAngleX, limitMinx, limitMaxX);
+        StopAllCoroutines();
+        StartCoroutine(RecoilCoroutine(recoilAmount));
+    }
 
+    IEnumerator RecoilCoroutine(float recoilAmount)
+    {
+        float duration = 0.075f; // 반동 걸리는 시간
+        float elapsed = 0f;
+
+        float startX = eulerAngleX;
+        float targetX = eulerAngleX - recoilAmount;
+        targetX = ClampAngle(targetX, limitMinx, limitMaxX);
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            eulerAngleX = Mathf.Lerp(startX, targetX, t);
+            transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+            yield return null;
+        }
+
+        eulerAngleX = targetX;
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
+
 
     private float ClampAngle(float angle, float min, float max)
     {
