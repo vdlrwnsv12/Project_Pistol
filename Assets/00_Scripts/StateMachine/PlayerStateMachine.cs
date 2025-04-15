@@ -31,8 +31,5 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         AttackState = new PlayerAttackState(this);
         ReloadState = new PlayerReloadState(this);
-         MovementSpeed = player.Data.GroundData.BaseSpeed;
-        RotationDamping = player.Data.GroundData.BaseRotationDamping;
-         
     }
 }
