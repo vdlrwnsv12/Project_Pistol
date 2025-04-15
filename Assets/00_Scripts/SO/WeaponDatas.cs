@@ -8,7 +8,7 @@ public class WeaponDatas : ScriptableObject
     public string Name;
     public string Description;
     public float ShootRecoil;
-    public int DMG;
+    public float DMG;
     public float ReloadTime;
     public int MaxAmmo;
     public int Cost;

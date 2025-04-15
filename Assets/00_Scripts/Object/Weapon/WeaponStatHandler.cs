@@ -32,7 +32,8 @@ public class WeaponStatHandler : MonoBehaviour
 
     [Header("Settings")]
     [Tooltip("총구 각도 퍼짐")]
-    public float spreadAngle = 5f;
+    [Range(0f, 20f)]
+    public float spreadAngle = 10.5f;
     [Tooltip("탄피 삭제 시간")]
     public float destroyTimer = 2f;
     [Tooltip("탄피 배출 파워")]

@@ -18,14 +18,15 @@ public class WeaponFireController : MonoBehaviour
     {
         statHandler = GetComponent<WeaponStatHandler>();
 
-        if(statHandler.weaponData == null)
+        if (statHandler.weaponData == null)
         {
-            string nameToSerch = gameObject.name.Replace("(Clone)","").Trim();
+            string nameToSerch = gameObject.name.Replace("(Clone)", "").Trim();
             statHandler.weaponData = Resources.Load<WeaponDatas>($"Data/SO/Weapon/{nameToSerch}");
-            if(statHandler.weaponData == null)
+            if (statHandler.weaponData == null)
             {
                 Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'을(를) 찾을 수 없습니다.");
-            }else
+            }
+            else
             {
                 Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'자동 할당.");
             }
@@ -154,7 +155,7 @@ public class WeaponFireController : MonoBehaviour
         }
         else
         {
-            float randomYaw = Random.Range(-statHandler.spreadAngle, statHandler.spreadAngle);
+            float randomYaw = Random.Range(-statHandler.spreadAngle, statHandler.spreadAngle);//탄퍼짐 범위
             float randomPitch = Random.Range(-statHandler.spreadAngle, statHandler.spreadAngle);
             Quaternion spreadRot = Quaternion.Euler(randomPitch, randomYaw, 0f);
             shootDirection = spreadRot * statHandler.barrelLocation.forward;
@@ -174,11 +175,38 @@ public class WeaponFireController : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 Target target = hit.collider.GetComponentInParent<Target>();
-                target?.TakeDamage(weaponData.DMG, hit.collider);
+                target?.TakeDamage(weaponData.DMG * 100f, hit.collider);
             }
         }
         StartCoroutine(CameraShake(weaponData.DMG * 0.0125f));
     }
+    void OnDrawGizmos()
+    {
+        if (statHandler == null || statHandler.barrelLocation == null)
+            return;
+
+        Gizmos.color = Color.yellow;
+
+        Vector3 origin = statHandler.barrelLocation.position;
+        Vector3 forward = statHandler.barrelLocation.forward;
+
+        // 가운데 방향선
+        Gizmos.DrawRay(origin, forward * 5f);
+
+        // spreadAngle 기준으로 몇 개의 방향선 표시
+        float spread = statHandler.spreadAngle;
+
+        for (int i = 0; i < 8; i++)
+        {
+            float yaw = Random.Range(-spread, spread);
+            float pitch = Random.Range(-spread, spread);
+            Quaternion spreadRot = Quaternion.Euler(pitch, yaw, 0f);
+            Vector3 dir = spreadRot * forward;
+
+            Gizmos.DrawRay(origin, dir * 5f);
+        }
+    }
+
 
     void MuzzleFlash()
     {
@@ -248,7 +276,7 @@ public class WeaponFireController : MonoBehaviour
 
     public void ReloadWeapon()
     {
-        if (currentAmmo == weaponData.MaxAmmo) 
+        if (currentAmmo == weaponData.MaxAmmo)
         {
             return;
         }
