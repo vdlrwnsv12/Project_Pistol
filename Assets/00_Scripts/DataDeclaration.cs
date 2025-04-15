@@ -14,17 +14,6 @@ namespace DataDeclaration
         Result,
     }
 
-    public enum ItemStatType
-    {
-        RCL,
-        HDL,
-        STP,
-        SPD,
-        DMG,
-        MaxBullet,
-        Parts
-    }
-
     public enum RankType
     {
         S,
@@ -33,9 +22,17 @@ namespace DataDeclaration
         C,
         F
     }
+
+    public enum ItemApplyType
+    {
+        Player,
+        Weapon
+    }
+
     #endregion
-    
+
     #region Struct
+
     [Serializable]
     public struct RewardCard
     {
@@ -44,9 +41,42 @@ namespace DataDeclaration
         public TextMeshProUGUI timeCost;
         public Button rewardButton;
     }
-    #endregion
     
+    [Serializable]
+    public struct CharacterStat
+    {
+        private float rclValue;
+        private float hdlValue;
+        private float stpValue;
+        private float spdValue;
+
+        public float RCL
+        {
+            get => Mathf.Clamp(rclValue, 0, Constant.MAX_STAT);
+            set => rclValue = value;
+        }
+        public float HDL
+        {
+            get => Mathf.Clamp(hdlValue, 0, Constant.MAX_STAT);
+            set => hdlValue = value;
+        }
+        public float STP
+        {
+            get => Mathf.Clamp(stpValue, 0, Constant.MAX_STAT);
+            set => stpValue = value;
+        }
+        public float SPD
+        {
+            get => Mathf.Clamp(spdValue, 0, Constant.MAX_STAT);
+            set => spdValue = value;
+        }
+    }
+
+    #endregion
+
     #region Interface
+
+    //TODO: 사용X, 수정해야함
     /// <summary>
     /// ObjectPooling을 위한 Interface
     /// </summary>
@@ -56,10 +86,17 @@ namespace DataDeclaration
         /// 리소스의 InstanceID
         /// </summary>
         public int ResourceInstanceID { get; set; }
+
         /// <summary>
         /// 리소스의 Prefab
         /// </summary>
         public GameObject GameObject { get; }
     }
+
     #endregion
+
+    public static class Constant
+    {
+        public const float MAX_STAT = 99f;
+    }
 }

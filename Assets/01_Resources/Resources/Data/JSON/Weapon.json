@@ -1,0 +1,62 @@
+{"Data":[
+  {
+    "ID": "ID",
+    "Name": "Name",
+    "Description": "Description",
+    "ShootRecoil": 0.0,
+    "DMG": 0.0,
+    "ReloadTime": 0.0,
+    "MaxAmmo": 0,
+    "Cost": 0
+  },
+  {
+    "ID": "string",
+    "Name": "string",
+    "Description": "string",
+    "ShootRecoil": 0.0,
+    "DMG": 0.0,
+    "ReloadTime": 0.0,
+    "MaxAmmo": 0,
+    "Cost": 0
+  },
+  {
+    "ID": "W0001",
+    "Name": "총기 이름1",
+    "Description": "총기 설명1",
+    "ShootRecoil": 20.0,
+    "DMG": 4.0,
+    "ReloadTime": 2.0,
+    "MaxAmmo": 15,
+    "Cost": 1500
+  },
+  {
+    "ID": "W0002",
+    "Name": "총기 이름2",
+    "Description": "총기 설명2",
+    "ShootRecoil": 25.0,
+    "DMG": 6.0,
+    "ReloadTime": 2.0,
+    "MaxAmmo": 10,
+    "Cost": 1500
+  },
+  {
+    "ID": "W0003",
+    "Name": "총기 이름3",
+    "Description": "총기 설명3",
+    "ShootRecoil": 35.0,
+    "DMG": 8.0,
+    "ReloadTime": 2.0,
+    "MaxAmmo": 7,
+    "Cost": 1500
+  },
+  {
+    "ID": "W0004",
+    "Name": "총기 이름4",
+    "Description": "총기 설명4",
+    "ShootRecoil": 50.0,
+    "DMG": 10.0,
+    "ReloadTime": 2.0,
+    "MaxAmmo": 6,
+    "Cost": 1500
+  }
+]}

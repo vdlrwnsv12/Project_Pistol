@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataDeclaration;
 
-public class UIManager : SingletonBehaviour<UIManager>
+public sealed class UIManager : SingletonBehaviour<UIManager>
 {
     private GameObject mainCanvas; // 메인 캔버스 게임오브젝트
     private CanvasGroup fader; // 페이드 연출
-
+    
     private readonly List<MainUI> mainUIList = new(); // ScreenUI 관리용 리스트
     private readonly Stack<PopupUI> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
     private readonly Dictionary<string, PopupUI> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
+    
+    public MainUI CurMainUI { get; private set; }
+    public PopupUI CurPopupUI { get; private set; }
 
     protected override void Awake()
     {
@@ -18,6 +21,8 @@ public class UIManager : SingletonBehaviour<UIManager>
         InitMainCanvas();
         InitFader();
     }
+
+    #region Public Method
 
     /// <summary>
     /// ScreenUI를 상속받은 UI 클래스 생성 및 초기화
@@ -40,6 +45,10 @@ public class UIManager : SingletonBehaviour<UIManager>
         foreach (var screenUI in mainUIList)
         {
             screenUI.SetActiveUI(activeUIType);
+            if (screenUI.gameObject.activeSelf)
+            {
+                CurMainUI = screenUI;
+            }
         }
     }
 
@@ -49,6 +58,8 @@ public class UIManager : SingletonBehaviour<UIManager>
     /// <typeparam name="T">PopupUI 클래스</typeparam>
     public void OpenPopUpUI<T>() where T : PopupUI
     {
+        var uiName = typeof(T).Name;
+
         if (curPopUpUIStack.TryPeek(out var latestUI))
         {
             latestUI.gameObject.SetActive(false);
@@ -60,8 +71,35 @@ public class UIManager : SingletonBehaviour<UIManager>
             var resource = ResourceManager.Instance.Load<T>($"Prefabs/UI/PopUp/{typeof(T).Name}");
             openUI = Instantiate(resource, mainCanvas.transform, false);
         }
+
         openUI.gameObject.SetActive(true);
         curPopUpUIStack.Push(openUI);
+        CurPopupUI = openUI;
+    }
+
+    /// <summary>
+    /// Resources/Prefabs/UI/PopUp/ 경로에 있는 Popup UI 리소스 생성
+    /// </summary>
+    /// <param name="popUpUI">PopupUI를 상속받은 UI클래스</param>
+    public void OpenPopUpUI(PopupUI popUpUI)
+    {
+        var uiName = popUpUI.GetType().Name;
+
+        if (curPopUpUIStack.TryPeek(out var latestUI))
+        {
+            latestUI.gameObject.SetActive(false);
+        }
+
+        var openUI = FindPopUpUIInPool(uiName);
+        if (openUI == null)
+        {
+            var resource = ResourceManager.Instance.Load<PopupUI>($"Prefabs/UI/PopUp/{uiName}");
+            openUI = Instantiate(resource, mainCanvas.transform, false);
+        }
+
+        openUI.gameObject.SetActive(true);
+        curPopUpUIStack.Push(openUI);
+        CurPopupUI = openUI;
     }
 
     /// <summary>
@@ -74,15 +112,17 @@ public class UIManager : SingletonBehaviour<UIManager>
         {
             latestUI.gameObject.SetActive(false);
         }
-        
+
         var openUI = FindPopUpUIInPool(uiName);
         if (openUI == null)
         {
             var resource = ResourceManager.Instance.Load<PopupUI>($"Prefabs/UI/PopUp/{uiName}");
             openUI = Instantiate(resource, mainCanvas.transform, false);
         }
+
         openUI.gameObject.SetActive(true);
         curPopUpUIStack.Push(openUI);
+        CurPopupUI = openUI;
     }
 
     /// <summary>
@@ -92,6 +132,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     {
         var popUpUI = curPopUpUIStack.Pop();
         popUpUI.gameObject.SetActive(false);
+        CurPopupUI = null;
 
         var type = popUpUI.GetType();
         if (popUpUIPool.ContainsKey(type.Name))
@@ -106,9 +147,44 @@ public class UIManager : SingletonBehaviour<UIManager>
         if (curPopUpUIStack.TryPeek(out var prevUI))
         {
             prevUI.gameObject.SetActive(true);
+            CurPopupUI = prevUI;
         }
     }
-    
+
+    /// <summary>
+    /// 마우스 커서 On/Off
+    /// </summary>
+    /// <param name="isActivation">True: 마우스 커서 활성화
+    /// <para>False: 마우스 커서 비활성화</para></param>
+    public static void ToggleMouseCursor(bool isActivation)
+    {
+        Cursor.lockState = isActivation ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    /// <summary>
+    /// Fade In/Out 효과
+    /// </summary>
+    /// <param name="startAlpha">시작 알파값</param>
+    /// <param name="endAlpha">최종 알파값</param>
+    /// <param name="duration">지속 시간</param>
+    public IEnumerator FadeEffect(float startAlpha, float endAlpha, float duration)
+    {
+        var elapsedTime = 0f;
+        fader.alpha = startAlpha;
+        while (elapsedTime <= duration)
+        {
+            elapsedTime += Time.deltaTime;
+            fader.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
+            yield return null;
+        }
+
+        fader.alpha = endAlpha;
+    }
+
+    #endregion
+
+    #region Private Method
+
     /// <summary>
     /// 비활성화 UI Pool에서 UI 검색
     /// </summary>
@@ -163,33 +239,5 @@ public class UIManager : SingletonBehaviour<UIManager>
         DontDestroyOnLoad(fader.gameObject);
     }
 
-    /// <summary>
-    /// 마우스 커서 On/Off
-    /// </summary>
-    /// <param name="isActivation">True: 마우스 커서 활성화
-    /// <para>False: 마우스 커서 비활성화</para></param>
-    public static void ToggleMouseCursor(bool isActivation)
-    {
-        Cursor.lockState = isActivation ? CursorLockMode.None : CursorLockMode.Locked;
-    }
-
-    /// <summary>
-    /// Fade In/Out 효과
-    /// </summary>
-    /// <param name="startAlpha">시작 알파값</param>
-    /// <param name="endAlpha">최종 알파값</param>
-    /// <param name="duration">지속 시간</param>
-    public IEnumerator FadeEffect(float startAlpha, float endAlpha, float duration)
-    {
-        var elapsedTime = 0f;
-        fader.alpha = startAlpha;
-        while (elapsedTime <= duration)
-        {
-            elapsedTime += Time.deltaTime;
-            fader.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
-            yield return null;
-        }
-
-        fader.alpha = endAlpha;
-    }
+    #endregion
 }

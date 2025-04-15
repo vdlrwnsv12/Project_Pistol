@@ -1,0 +1,52 @@
+{"Data":[
+  {
+    "ID": "ID",
+    "Name": "Name",
+    "Description": "Description",
+    "RCL": 0.0,
+    "HDL": 0.0,
+    "STP": 0.0,
+    "SPD": 0.0,
+    "Cost": 0
+  },
+  {
+    "ID": "string",
+    "Name": "string",
+    "Description": "string",
+    "RCL": 0.0,
+    "HDL": 0.0,
+    "STP": 0.0,
+    "SPD": 0.0,
+    "Cost": 0
+  },
+  {
+    "ID": "C0001",
+    "Name": "재원",
+    "Description": "조준 특화 캐릭터",
+    "RCL": 55.0,
+    "HDL": 45.0,
+    "STP": 30.0,
+    "SPD": 30.0,
+    "Cost": 0
+  },
+  {
+    "ID": "C0002",
+    "Name": "영희",
+    "Description": "기동성 특화 캐릭터",
+    "RCL": 35.0,
+    "HDL": 30.0,
+    "STP": 45.0,
+    "SPD": 50.0,
+    "Cost": 1500
+  },
+  {
+    "ID": "C0003",
+    "Name": "돌쇠",
+    "Description": "밸런스형 캐릭터",
+    "RCL": 40.0,
+    "HDL": 40.0,
+    "STP": 40.0,
+    "SPD": 40.0,
+    "Cost": 1500
+  }
+]}
