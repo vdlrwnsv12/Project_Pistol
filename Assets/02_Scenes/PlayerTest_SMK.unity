@@ -204,6 +204,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2303976083643935192, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
+        type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: e2d4154a7f89a4e2584044ed58a338e5,
+        type: 2}
     - target: {fileID: 9042225221875818796, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -742,6 +748,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2303976083643935192, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
+        type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: e2d4154a7f89a4e2584044ed58a338e5,
+        type: 2}
     - target: {fileID: 9042225221875818796, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1071,6 +1083,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2303976083643935192, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
+        type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: 4560964494fcb49e697e4423ed2871db,
+        type: 2}
     - target: {fileID: 9042225221875818796, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1139,6 +1157,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2303976083643935192, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
+        type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: 4560964494fcb49e697e4423ed2871db,
+        type: 2}
     - target: {fileID: 2303976083643935192, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
         type: 3}
       propertyPath: targetID
@@ -1568,6 +1592,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target
       objectReference: {fileID: 0}
+    - target: {fileID: 2303976083643935192, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
+        type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: e2d4154a7f89a4e2584044ed58a338e5,
+        type: 2}
     - target: {fileID: 2303976083643935192, guid: 8ae6a68a2ac6e4d559677df30d8e0d7a,
         type: 3}
       propertyPath: targetID
