@@ -327,6 +327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAmmo: 0
   finalRecoil: 0
+  targetCamY: 0.16
 --- !u!95 &5409754431695144347
 Animator:
   serializedVersion: 5

@@ -11,7 +11,7 @@ public class WeaponFireController : MonoBehaviour
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
-    [SerializeField]private float targetCamY = 0.16f;
+    [SerializeField] private float targetCamY = 0.165f;
 
 
     #region Unity Methods
@@ -50,14 +50,23 @@ public class WeaponFireController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             FireWeapon();
-            statHandler.ToggleAttachment(statHandler.redDot);
+            statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
         {
             ReloadWeapon();
+            statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
         }
-
+        #region 레이저 포인터 테스트 삭제해야함
+        if (statHandler.laserPointer.activeSelf == true)
+        {
+            statHandler.spreadAngle = 0;
+        }else
+        {
+            statHandler.spreadAngle = 10.5f;
+        }
+        #endregion
         HandleADS();
     }
 
@@ -67,7 +76,7 @@ public class WeaponFireController : MonoBehaviour
 
     void HandleADS()
     {
-        
+
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -141,7 +150,8 @@ public class WeaponFireController : MonoBehaviour
             if (currentAmmo != 1)
             {
                 statHandler.gunAnimator?.SetTrigger("Fire");
-            }else if(currentAmmo == 1)
+            }
+            else if (currentAmmo == 1)
             {
                 statHandler.gunAnimator?.SetBool("OutOfAmmo", true);
             }
