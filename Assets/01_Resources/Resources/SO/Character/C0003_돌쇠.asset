@@ -20,3 +20,7 @@ MonoBehaviour:
   STP: 40
   SPD: 40
   Cost: 1500
+  <GroundData>k__BackingField:
+    <BaseSpeed>k__BackingField: 5
+    <BaseRotationDamping>k__BackingField: 1
+    <WalkSpeedModifier>k__BackingField: 0.5

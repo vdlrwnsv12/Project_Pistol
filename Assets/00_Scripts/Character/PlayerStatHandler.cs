@@ -14,7 +14,7 @@ public class PlayerStatHandler
     }
 
     //TODO: Test용 생성자
-    public PlayerStatHandler(PlayerData playerData)
+    public PlayerStatHandler(CharacterDatas playerData)
     {
         stat = playerData.Stat;
     }
