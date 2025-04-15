@@ -11,6 +11,8 @@ public class WeaponFireController : MonoBehaviour
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
+    [SerializeField]private float targetCamY = 0.16f;
+
 
     #region Unity Methods
 
@@ -48,6 +50,7 @@ public class WeaponFireController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             FireWeapon();
+            statHandler.ToggleAttachment(statHandler.redDot);
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
@@ -62,8 +65,10 @@ public class WeaponFireController : MonoBehaviour
 
     #region ADS
 
-    void HandleADS()//정조준
+    void HandleADS()
     {
+        
+
         if (Input.GetMouseButtonDown(1))
         {
             statHandler.isADS = !statHandler.isADS;
@@ -71,12 +76,18 @@ public class WeaponFireController : MonoBehaviour
             if (statHandler.isADS)
             {
                 currentCamRootTargetPos = statHandler.adsPosition;
-                currentHandTargetRot = initialLocalRotation; // 흔들기 시작점
+                currentHandTargetRot = initialLocalRotation;
+
+                // redDot 상태에 따라 타겟 Y 설정
+                targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
             }
             else
             {
                 currentCamRootTargetPos = camRootOriginPos;
                 currentHandTargetRot = initialLocalRotation;
+
+                // 정조준 해제 시 기본값으로 복구
+                targetCamY = 0.16f;
             }
         }
 
@@ -88,7 +99,11 @@ public class WeaponFireController : MonoBehaviour
         statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, currentCamRootTargetPos, Time.deltaTime * statHandler.camMoveSpeed);
         statHandler.handransform.localRotation = Quaternion.Lerp(statHandler.handransform.localRotation, currentHandTargetRot, Time.deltaTime * 10f);
 
-        // 흔들림
+        //Y 위치만 따로 부드럽게 보간
+        Vector3 camLocalPos = statHandler.playerCam.transform.localPosition;
+        camLocalPos.y = Mathf.Lerp(camLocalPos.y, targetCamY, Time.deltaTime * 10f);
+        statHandler.playerCam.transform.localPosition = camLocalPos;
+
         if (statHandler.isADS)
             WeaponShake();
     }
@@ -126,6 +141,9 @@ public class WeaponFireController : MonoBehaviour
             if (currentAmmo != 1)
             {
                 statHandler.gunAnimator?.SetTrigger("Fire");
+            }else if(currentAmmo == 1)
+            {
+                statHandler.gunAnimator?.SetBool("OutOfAmmo", true);
             }
             else
             {

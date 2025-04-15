@@ -7,7 +7,7 @@ public class WeaponStatHandler : MonoBehaviour
 
     [Header("Weapon State")]
     public bool isReloading = false; //장전 중인지
-    public  bool isADS = false; //정조준 중인지
+    public bool isADS = false; //정조준 중인지
 
     [Header("Transforms")]
     public Transform barrelLocation; //총구
@@ -68,4 +68,10 @@ public class WeaponStatHandler : MonoBehaviour
     public Camera GetPlayerCamera() => playerCam;
     public FpsCamera GetFpsCamera() => fpsCamera;
     public GameObject GetPlayerObject() => playerObject;
+
+    public void ToggleAttachment(GameObject attachment)
+    {
+        if (attachment != null)
+        attachment.SetActive(!attachment.activeSelf);
+    }
 }
