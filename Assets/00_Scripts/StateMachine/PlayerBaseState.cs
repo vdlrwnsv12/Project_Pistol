@@ -127,7 +127,7 @@ public class PlayerBaseState : IState
     private float GetMovementSpeed()
     {
         float noAimSpeed = stateMachine.MovementSpeed;
-        if (stateMachine.Player.WeaponStatHandler.isADS)
+        if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
             stateMachine.MovementSpeed = 1f;
         }

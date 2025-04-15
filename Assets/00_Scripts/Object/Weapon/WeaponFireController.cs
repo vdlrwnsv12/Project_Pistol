@@ -3,37 +3,48 @@ using System.Collections;
 
 public class WeaponFireController : MonoBehaviour
 {
-    private WeaponData weaponData;
+    private WeaponDatas weaponData;
     private WeaponStatHandler statHandler;
-
+    [SerializeField] private int currentAmmo;
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
+    private Vector3 currentCamRootTargetPos;
+    private Quaternion currentHandTargetRot;
+    public float finalRecoil;
 
     #region Unity Methods
 
-    // void Start()
-    // {
-    //     statHandler = GetComponent<WeaponStatHandler>();
-    //     weaponData = statHandler.weaponData;
-
-    //     initialLocalRotation = statHandler.handransform.localRotation;
-    //     camRootOriginPos = statHandler.camRoot.localPosition;
-    // }
     public void InitReferences()
     {
         statHandler = GetComponent<WeaponStatHandler>();
-        weaponData = statHandler.weaponData;
 
+        if(statHandler.weaponData == null)
+        {
+            string nameToSerch = gameObject.name.Replace("(Clone)","").Trim();
+            statHandler.weaponData = Resources.Load<WeaponDatas>($"Data/SO/Weapon/{nameToSerch}");
+            if(statHandler.weaponData == null)
+            {
+                Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'을(를) 찾을 수 없습니다.");
+            }else
+            {
+                Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'자동 할당.");
+            }
+        }
+        weaponData = statHandler.weaponData;
         initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
+        currentAmmo = weaponData.MaxAmmo;
     }
 
     void Update()
     {
-        if (statHandler == null) return;
+        if (statHandler == null)
+        {
+            return;
+        }
 
-        if (Input.GetButtonDown("Fire1") && Time.time - statHandler.lastFireTime >= statHandler.fireCooldown)
+        if (Input.GetButtonDown("Fire1"))
         {
             FireWeapon();
         }
@@ -42,40 +53,49 @@ public class WeaponFireController : MonoBehaviour
         {
             ReloadWeapon();
         }
-        
-            HandleADS();
+
+        HandleADS();
     }
 
     #endregion
 
     #region ADS
 
-    void HandleADS()
+    void HandleADS()//정조준
     {
-        Vector3 targetPos = camRootOriginPos;
-
         if (Input.GetMouseButtonDown(1))
         {
             statHandler.isADS = !statHandler.isADS;
+
+            if (statHandler.isADS)
+            {
+                currentCamRootTargetPos = statHandler.adsPosition;
+                currentHandTargetRot = initialLocalRotation; // 흔들기 시작점
+            }
+            else
+            {
+                currentCamRootTargetPos = camRootOriginPos;
+                currentHandTargetRot = initialLocalRotation;
+            }
         }
 
+        // FOV 보간
+        float targetFOV = statHandler.isADS ? 40f : 60f;
+        statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, targetFOV, Time.deltaTime * 10f);
+
+        // 위치/회전 보간
+        statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, currentCamRootTargetPos, Time.deltaTime * statHandler.camMoveSpeed);
+        statHandler.handransform.localRotation = Quaternion.Lerp(statHandler.handransform.localRotation, currentHandTargetRot, Time.deltaTime * 10f);
+
+        // 흔들림
         if (statHandler.isADS)
-        {
-            targetPos = statHandler.adsPosition;
-            statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, 40f, Time.deltaTime * 10f);
             WeaponShake();
-        }
-        else
-        {
-            statHandler.playerCam.fieldOfView = Mathf.Lerp(statHandler.playerCam.fieldOfView, 60f, Time.deltaTime * 10f);
-        }
-
-        statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, targetPos, Time.deltaTime * statHandler.camMoveSpeed);
     }
 
-    void WeaponShake()
+    void WeaponShake()//손떨림
     {
-        float accuracy = Mathf.Clamp01((99f - weaponData.accuracy) / 98f);
+        float accuracyAmount = statHandler.playerObject.GetComponent<Player>().Data.HDL;
+        float accuracy = Mathf.Clamp01((99f - accuracyAmount) / 98f);
         float shakeAmount = accuracy * 7.5f;
         float shakeSpeed = 0.7f;
 
@@ -93,11 +113,16 @@ public class WeaponFireController : MonoBehaviour
 
     void FireWeapon()
     {
-        if (weaponData == null) return;
+        statHandler.lastFireTime = Time.time;
 
-        if (weaponData.currentAmmo > 0)
+        if (weaponData == null)
         {
-            if (statHandler.weaponData.currentAmmo != 1)
+            return;
+        }
+
+        if (currentAmmo > 0)
+        {
+            if (currentAmmo != 1)
             {
                 statHandler.gunAnimator?.SetTrigger("Fire");
             }
@@ -111,8 +136,7 @@ public class WeaponFireController : MonoBehaviour
             ApplyRecoil();
             SoundManager.Instance.PlaySFX(statHandler.weaponData.fireSound);
 
-            weaponData.currentAmmo--;
-            statHandler.lastFireTime = Time.time;
+            currentAmmo--;
         }
         else
         {
@@ -150,11 +174,10 @@ public class WeaponFireController : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 Target target = hit.collider.GetComponentInParent<Target>();
-                target?.TakeDamage(weaponData.damage, hit.collider);
+                target?.TakeDamage(weaponData.DMG, hit.collider);
             }
         }
-
-        StartCoroutine(CameraShake(weaponData.cameraShakeRate * 0.005f));
+        StartCoroutine(CameraShake(weaponData.DMG * 0.0125f));
     }
 
     void MuzzleFlash()
@@ -186,9 +209,16 @@ public class WeaponFireController : MonoBehaviour
         }
     }
 
+    void CalculateFinalRecoil()
+    {
+        float rcl = statHandler.playerObject.GetComponent<Player>().Data.RCL;
+        finalRecoil = weaponData.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
+    }
+
     void ApplyRecoil()
     {
-        statHandler.fpsCamera?.ApplyRecoil(weaponData.shootRecoil * 0.025f);
+        CalculateFinalRecoil();
+        statHandler.fpsCamera?.ApplyRecoil(finalRecoil);
     }
 
     IEnumerator CameraShake(float intensity)
@@ -216,22 +246,29 @@ public class WeaponFireController : MonoBehaviour
 
     #region 장전
 
-    void ReloadWeapon()
+    public void ReloadWeapon()
     {
-        if (weaponData.currentAmmo == weaponData.maxAmmo) return;
+        if (currentAmmo == weaponData.MaxAmmo) 
+        {
+            return;
+        }
 
         statHandler.isReloading = true;
-        weaponData.currentAmmo = 0;
+        currentAmmo = 0;
         statHandler.gunAnimator.SetTrigger("Reload");
+
         SoundManager.Instance.PlaySFX(statHandler.weaponData.reloadSound);
+
         StartCoroutine(ReloadCoroutine());
     }
 
     IEnumerator ReloadCoroutine()
     {
-        yield return new WaitForSeconds(weaponData.reloadTime);
+        yield return new WaitForSeconds(weaponData.ReloadTime);
+
         statHandler.gunAnimator.SetBool("OutOfAmmo", false);
-        weaponData.currentAmmo = weaponData.maxAmmo;
+
+        currentAmmo = weaponData.MaxAmmo;
         statHandler.isReloading = false;
     }
 

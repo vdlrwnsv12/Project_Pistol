@@ -3,7 +3,7 @@ using UnityEngine;
 public class WeaponStatHandler : MonoBehaviour
 {
     [Header("Weapon Data (SO)")]
-    public WeaponData weaponData;
+    public WeaponDatas weaponData;
 
     [Header("Weapon State")]
     public bool isReloading = false; //장전 중인지
@@ -24,6 +24,11 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject casingPrefab; //탄피
     public GameObject muzzleFlashPrefab; //총구 화염
     public GameObject bulletImpactPrefab; //탄흔
+
+    [Header("PartsPrefabs")]
+    public GameObject redDot;
+    public GameObject laserPointer;
+    public GameObject compensator;
 
     [Header("Settings")]
     [Tooltip("총구 각도 퍼짐")]
