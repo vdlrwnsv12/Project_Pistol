@@ -4,12 +4,27 @@ using System.Collections.Generic;
 
 public class WeaponDatas : ScriptableObject
 {
-public string ID;
-public string Name;
-public string Description;
-public float ShootRecoil;
-public float DMG;
-public float ReloadTime;
-public int MaxAmmo;
-public int Cost;
+    public string ID;
+    public string Name;
+    public string Description;
+    public float ShootRecoil;
+    public int DMG;
+    public float ReloadTime;
+    public int MaxAmmo;
+    public int Cost;
+
+    [Header("Sound")]
+    public AudioClip fireSound;
+    public AudioClip reloadSound;
+    public AudioClip emptySound;
+    public AudioClip shellSound;
+
+    [TextArea]
+    public string comment;
+
+    [System.Serializable]
+    public class PistolDataWrapper
+    {
+        public WeaponDatas[] Pistols;
+    }
 }

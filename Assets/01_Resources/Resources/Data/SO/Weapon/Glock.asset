@@ -9,19 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82e0305ddb9b41546962568f48edb191, type: 3}
-  m_Name: God
+  m_Script: {fileID: 11500000, guid: cb21c83d9bfba6748b823cc67cb0eed6, type: 3}
+  m_Name: Glock
   m_EditorClassIdentifier: 
-  ID: 1
-  weaponName: GOD
-  damage: 100000
-  shootRecoil: 1
-  reloadTime: 0.1
-  maxAmmo: 100
-  currentAmmo: 98
-  isSilenced: 0
-  cameraShakeRate: 18.06
-  fireSound: {fileID: 8300000, guid: b2d159f7e00d44d9bbc2d50a0c4fef59, type: 3}
+  ID: W002
+  Name: Glock
+  Description: "\uAE00\uB85D"
+  ShootRecoil: 25
+  DMG: 6
+  ReloadTime: 2
+  MaxAmmo: 10
+  Cost: 1500
+  fireSound: {fileID: 8300000, guid: 2203773368e4340d98c114f55c2dd7fd, type: 3}
   reloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
   emptySound: {fileID: 8300000, guid: 68d0787726f6647c38a9903288161331, type: 3}
   shellSound: {fileID: 8300000, guid: 99cc49e2c75174a00b9ded676f45afc8, type: 3}

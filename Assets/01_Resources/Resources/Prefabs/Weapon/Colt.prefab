@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfc90f7998e71a4a87ffd6ea2fe9c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 756f8b638c2bf42c8ba7aa09f012277b, type: 2}
+  weaponData: {fileID: 0}
   isReloading: 0
   isADS: 0
   barrelLocation: {fileID: 7871138460236415640}
@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429582b160f8448ebabe9ce59cc1030d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAmmo: 0
   finalRecoil: 0
 --- !u!95 &5409754431695144347
 Animator:

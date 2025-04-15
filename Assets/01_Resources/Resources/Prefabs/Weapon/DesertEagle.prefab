@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 2383595269373356610}
   - component: {fileID: 5539923041199571088}
   m_Layer: 0
-  m_Name: Desert Eagle
+  m_Name: DesertEagle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfc90f7998e71a4a87ffd6ea2fe9c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 756f8b638c2bf42c8ba7aa09f012277b, type: 2}
+  weaponData: {fileID: 0}
   isReloading: 0
   isADS: 0
   barrelLocation: {fileID: 987351787287324291}
@@ -467,6 +467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429582b160f8448ebabe9ce59cc1030d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAmmo: 0
   finalRecoil: 0
 --- !u!95 &5539923041199571088
 Animator:

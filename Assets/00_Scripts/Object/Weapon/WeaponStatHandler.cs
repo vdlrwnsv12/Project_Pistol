@@ -3,7 +3,7 @@ using UnityEngine;
 public class WeaponStatHandler : MonoBehaviour
 {
     [Header("Weapon Data (SO)")]
-    public WeaponData weaponData;
+    public WeaponDatas weaponData;
 
     [Header("Weapon State")]
     public bool isReloading = false; //장전 중인지

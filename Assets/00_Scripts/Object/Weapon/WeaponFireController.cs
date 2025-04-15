@@ -3,14 +3,13 @@ using System.Collections;
 
 public class WeaponFireController : MonoBehaviour
 {
-    private WeaponData weaponData;
+    private WeaponDatas weaponData;
     private WeaponStatHandler statHandler;
-
+    [SerializeField] private int currentAmmo;
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
-
     public float finalRecoil;
 
     #region Unity Methods
@@ -18,10 +17,24 @@ public class WeaponFireController : MonoBehaviour
     public void InitReferences()
     {
         statHandler = GetComponent<WeaponStatHandler>();
+
+        if(statHandler.weaponData == null)
+        {
+            string nameToSerch = gameObject.name.Replace("(Clone)","").Trim();
+            statHandler.weaponData = Resources.Load<WeaponDatas>($"Data/SO/Weapon/{nameToSerch}");
+            if(statHandler.weaponData == null)
+            {
+                Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'을(를) 찾을 수 없습니다.");
+            }else
+            {
+                Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'자동 할당.");
+            }
+        }
         weaponData = statHandler.weaponData;
         initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
+        currentAmmo = weaponData.MaxAmmo;
     }
 
     void Update()
@@ -81,7 +94,7 @@ public class WeaponFireController : MonoBehaviour
 
     void WeaponShake()//손떨림
     {
-        float accuracyAmount = statHandler.playerObject.GetComponent<Player>().Data.hdl;
+        float accuracyAmount = statHandler.playerObject.GetComponent<Player>().Data.HDL;
         float accuracy = Mathf.Clamp01((99f - accuracyAmount) / 98f);
         float shakeAmount = accuracy * 7.5f;
         float shakeSpeed = 0.7f;
@@ -107,9 +120,9 @@ public class WeaponFireController : MonoBehaviour
             return;
         }
 
-        if (weaponData.currentAmmo > 0)
+        if (currentAmmo > 0)
         {
-            if (statHandler.weaponData.currentAmmo != 1)
+            if (currentAmmo != 1)
             {
                 statHandler.gunAnimator?.SetTrigger("Fire");
             }
@@ -123,7 +136,7 @@ public class WeaponFireController : MonoBehaviour
             ApplyRecoil();
             SoundManager.Instance.PlaySFX(statHandler.weaponData.fireSound);
 
-            weaponData.currentAmmo--;
+            currentAmmo--;
         }
         else
         {
@@ -161,11 +174,10 @@ public class WeaponFireController : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 Target target = hit.collider.GetComponentInParent<Target>();
-                target?.TakeDamage(weaponData.damage, hit.collider);
+                target?.TakeDamage(weaponData.DMG, hit.collider);
             }
         }
-
-        StartCoroutine(CameraShake(weaponData.cameraShakeRate * 0.005f));
+        StartCoroutine(CameraShake(weaponData.DMG * 0.0125f));
     }
 
     void MuzzleFlash()
@@ -199,8 +211,8 @@ public class WeaponFireController : MonoBehaviour
 
     void CalculateFinalRecoil()
     {
-        float rcl = statHandler.playerObject.GetComponent<Player>().Data.rcl;
-        finalRecoil = weaponData.shootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
+        float rcl = statHandler.playerObject.GetComponent<Player>().Data.RCL;
+        finalRecoil = weaponData.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
     }
 
     void ApplyRecoil()
@@ -236,13 +248,13 @@ public class WeaponFireController : MonoBehaviour
 
     public void ReloadWeapon()
     {
-        if (weaponData.currentAmmo == weaponData.maxAmmo) 
+        if (currentAmmo == weaponData.MaxAmmo) 
         {
             return;
         }
 
         statHandler.isReloading = true;
-        weaponData.currentAmmo = 0;
+        currentAmmo = 0;
         statHandler.gunAnimator.SetTrigger("Reload");
 
         SoundManager.Instance.PlaySFX(statHandler.weaponData.reloadSound);
@@ -252,11 +264,11 @@ public class WeaponFireController : MonoBehaviour
 
     IEnumerator ReloadCoroutine()
     {
-        yield return new WaitForSeconds(weaponData.reloadTime);
+        yield return new WaitForSeconds(weaponData.ReloadTime);
 
         statHandler.gunAnimator.SetBool("OutOfAmmo", false);
 
-        weaponData.currentAmmo = weaponData.maxAmmo;
+        currentAmmo = weaponData.MaxAmmo;
         statHandler.isReloading = false;
     }
 
