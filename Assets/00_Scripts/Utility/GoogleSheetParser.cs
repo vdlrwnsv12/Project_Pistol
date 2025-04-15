@@ -80,9 +80,9 @@ public class GoogleSheetParser : EditorWindow
 
             GUILayout.Space(40);
 
-            if (GUILayout.Button("선택한 시트의 Json 데이터를 SO로 생성", GUILayout.Height(40)))
+            if (GUILayout.Button("선택한 시트의 데이터를 SO로 생성", GUILayout.Height(40)))
             {
-                ParseJsonToSO();
+                MakeSOAssetsFromJson();
             }
         }
     }
@@ -90,7 +90,7 @@ public class GoogleSheetParser : EditorWindow
     #region FetchSheetInfo
 
     /// <summary>
-    /// 모든 시트 데이터 불러오기
+    /// 시트 이름과 ID를 배열로 저장
     /// </summary>
     private IEnumerator FetchSheetList()
     {
@@ -133,9 +133,14 @@ public class GoogleSheetParser : EditorWindow
         EditorCoroutineUtility.StartCoroutine(ParseGoogleSheet(sheetName, selectedSheet.sheetId.ToString()), this);
     }
 
-    private IEnumerator ParseGoogleSheet(string jsonFileName, string gid, bool notice = true)
+    /// <summary>
+    /// 선택한 구글 시트의 데이터를 Json 파일과 SO 스크립트로 생성
+    /// </summary>
+    /// <param name="selectedSheetName">선택한 시트 이름</param>
+    /// <param name="selectedSheetGID">선택한 시트 ID</param>
+    private IEnumerator ParseGoogleSheet(string selectedSheetName, string selectedSheetGID, bool notice = true)
     {
-        var sheetURL = $"{Google_Sheet_URL}/export?format=tsv&gid={gid}";
+        var sheetURL = $"{Google_Sheet_URL}/export?format=tsv&gid={selectedSheetGID}";
 
         var request = UnityWebRequest.Get(sheetURL);
         yield return request.SendWebRequest();
@@ -172,11 +177,16 @@ public class GoogleSheetParser : EditorWindow
             }
         }
         
-        SaveJsonToFile(jsonFileName, jArray);
-        CreateSOClass(jsonFileName, keys, types);
+        SaveJsonToFile(selectedSheetName, jArray);
+        CreateSOClass(selectedSheetName, keys, types);
         AssetDatabase.Refresh();
     }
 
+    /// <summary>
+    /// 선택한 구글 시트의 데이터를 Json 파일로 생성
+    /// </summary>
+    /// <param name="jsonFileName">생성될 Json 파일 이름</param>
+    /// <param name="jArray">Json 데이터를 저장할 매개변수</param>
     private void SaveJsonToFile(string jsonFileName, JArray jArray)
     {
         var directoryPath = Path.Combine(Application.dataPath, "01_Resources", "Resources", "Data", "JSON");
@@ -193,6 +203,12 @@ public class GoogleSheetParser : EditorWindow
         Debug.Log($"{jsonFilePath} 경로에 JSon 파일 저장");
     }
     
+    /// <summary>
+    /// 선택한 구글 시트의 데이터를 SO 스크립트로 생성
+    /// </summary>
+    /// <param name="fileName">생성될 스크립트 파일 이름</param>
+    /// <param name="keys">변수 이름 배열</param>
+    /// <param name="types">변수 타입 배열</param>
     private void CreateSOClass(string fileName, List<string> keys, List<string> types)
     {
         var className = fileName;
@@ -213,7 +229,7 @@ public class GoogleSheetParser : EditorWindow
             sw.WriteLine($"public class {className}Datas : ScriptableObject");
             sw.WriteLine("{");
 
-            // 데이터 필드 입력
+            // 스크립트 데이터 필드 입력
             for (var i = 0; i < keys.Count; i++)
             {
                 var fieldType = ConvertTypeToCSharp(types[i]);
@@ -286,14 +302,14 @@ public class GoogleSheetParser : EditorWindow
 
     #endregion
 
-    #region MakeSoFromJson
+    #region MakeSOAssets
 
-    private void ParseJsonToSO()
+    private void MakeSOAssetsFromJson()
     {
-        EditorCoroutineUtility.StartCoroutine(ParseToSO(), this);
+        EditorCoroutineUtility.StartCoroutine(MakeSOAssets(), this);
     }
 
-    private IEnumerator ParseToSO()
+    private IEnumerator MakeSOAssets()
     {
         yield return null;
     }
