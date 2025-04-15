@@ -48,7 +48,7 @@ public class WeaponFireController : MonoBehaviour
 
     #region ADS
 
-    void HandleADS()
+    void HandleADS()//정조준
     {
         if (Input.GetMouseButtonDown(1))
         {
@@ -79,7 +79,7 @@ public class WeaponFireController : MonoBehaviour
             WeaponShake();
     }
 
-    void WeaponShake()
+    void WeaponShake()//손떨림
     {
         float accuracyAmount = statHandler.playerObject.GetComponent<Player>().Data.hdl;
         float accuracy = Mathf.Clamp01((99f - accuracyAmount) / 98f);
@@ -236,10 +236,10 @@ public class WeaponFireController : MonoBehaviour
 
     public void ReloadWeapon()
     {
-        // if (weaponData.currentAmmo == weaponData.maxAmmo) 
-        // {
-        //     return;
-        // }
+        if (weaponData.currentAmmo == weaponData.maxAmmo) 
+        {
+            return;
+        }
 
         statHandler.isReloading = true;
         weaponData.currentAmmo = 0;
