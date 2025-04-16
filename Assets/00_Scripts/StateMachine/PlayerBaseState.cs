@@ -7,8 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
-    protected readonly PlayerGroundData groundData;
-    private const float SPEED_MULTIPLIER = 0.3f;  // 비율 값
+   // protected readonly PlayerGroundData groundData;
+    private const float SPEED_MULTIPLIER = 1f;  // 비율 값
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -88,6 +88,7 @@ public class PlayerBaseState : IState
     private void ReadMovementInput()
     {
         stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();
+
     }
     // 움직임 로직
 
@@ -123,14 +124,15 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
+        stateMachine.MovementSpeed = CharacterManager.Instance.SelectCharacter.SPD * SPEED_MULTIPLIER;
         float noAimSpeed = stateMachine.MovementSpeed;
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
-            stateMachine.MovementSpeed = CharacterManager.Instance.SelectCharacter.SPD * SPEED_MULTIPLIER -3;
+            stateMachine.MovementSpeed = stateMachine.MovementSpeed * SPEED_MULTIPLIER -3;
         }
         else
         {
-            stateMachine.MovementSpeed =  CharacterManager.Instance.SelectCharacter.SPD * SPEED_MULTIPLIER;
+            stateMachine.MovementSpeed =  noAimSpeed;
         }
         float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return moveSpeed;

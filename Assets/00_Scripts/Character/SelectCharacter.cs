@@ -5,7 +5,7 @@ using UnityEngine;
 public class SelectCharacter : MonoBehaviour
 {
 
-    public CharacterDatas character;
+    public CharacterSO character;
     public GameObject canvas;
     public void SelectPlayer()
     {

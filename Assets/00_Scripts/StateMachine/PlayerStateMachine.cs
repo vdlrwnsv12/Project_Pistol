@@ -5,21 +5,21 @@ using System.Xml;
 using UnityEngine;
 
 [Serializable]
-public class PlayerGroundData
-{
-    [field: SerializeField]
-    [field: Range(0f, 25f)]
-    public float BaseSpeed { get; set; } = 1f;
+//public class PlayerGroundData
+//{
+//    [field: SerializeField]
+//    [field: Range(0f, 25f)]
+//    public float BaseSpeed { get; set; } = 1f;
 
-    [field: SerializeField]
-    [field: Range(0f, 25f)]
+//    [field: SerializeField]
+//    [field: Range(0f, 25f)]
 
 
-    [field: Header("IdleData")]
-    [field: Header("WalkData")]
+//    [field: Header("IdleData")]
+//    [field: Header("WalkData")]
 
-    public float WalkSpeedModifier { get; private set; } = 0.5f;
-}
+//    public float WalkSpeedModifier { get; private set; } = 0.5f;
+//}
 
 public class PlayerStateMachine : StateMachine
 {
@@ -49,7 +49,8 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         AttackState = new PlayerAttackState(this);
         ReloadState = new PlayerReloadState(this);
-        MovementSpeed = player.Data.GroundData.BaseSpeed;
-         
+        //MovementSpeed = player.Data.GroundData.BaseSpeed;
+        MovementSpeedModifier = 1.0f;
+
     }
 }
