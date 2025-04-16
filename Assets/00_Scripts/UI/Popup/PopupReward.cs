@@ -5,17 +5,17 @@ using UnityEngine.UI;
 
 public class PopupReward : PopupUI
 {
-    private ItemDatas[] itemRewards;
+    private ItemData[] itemRewards;
     [SerializeField] private RewardCard[] rewardCards;
 
     [SerializeField] private Button cancelBuyBtn;
 
-    public event Action<ItemDatas> OnClickItemReward;
+    public event Action<ItemData> OnClickItemReward;
 
     protected override void Awake()
     {
         base.Awake();
-        itemRewards = new ItemDatas[rewardCards.Length];
+        itemRewards = new ItemData[rewardCards.Length];
 
         cancelBuyBtn.onClick.AddListener(OnClickCancelBuyButton);
     }

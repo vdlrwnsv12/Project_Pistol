@@ -134,8 +134,8 @@ public class PlayerBaseState : IState
         }
 
         moveSpeed *= stateMachine.Player.moveSpeedx;
-        
-        Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
+
+        //Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
         return moveSpeed;
     }
 
