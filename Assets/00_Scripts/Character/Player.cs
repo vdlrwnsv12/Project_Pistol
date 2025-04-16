@@ -18,9 +18,9 @@ public class Player : MonoBehaviour
 
     public WeaponStatHandler WeaponStatHandler { get; private set; }
     private PlayerStateMachine stateMachine;
-    
-    [Range(0f, 0.3f)]
-    public float moveSpeedx;
+
+    [Range(0f, 0.1f)]
+    public float moveSpeedx = 0.05f;
 
    
     private void Awake()

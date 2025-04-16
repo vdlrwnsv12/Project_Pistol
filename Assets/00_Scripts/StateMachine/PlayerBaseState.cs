@@ -123,17 +123,18 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        float moveSpeed;
+        float moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
 
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
-            moveSpeed = 1f;
+            moveSpeed = moveSpeed * 0.25f;
         }else
         {
             moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
         }
 
         moveSpeed *= stateMachine.Player.moveSpeedx;
+        
         Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
         return moveSpeed;
     }

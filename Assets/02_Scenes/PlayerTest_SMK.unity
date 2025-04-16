@@ -3896,6 +3896,16 @@ PrefabInstance:
       objectReference: {fileID: 1832500407209454910}
     - target: {fileID: 4469795634664268128, guid: b8870276ef24046fc876932b167bbf3c,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469795634664268128, guid: b8870276ef24046fc876932b167bbf3c,
+        type: 3}
+      propertyPath: moveSpeedx
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4469795634664268128, guid: b8870276ef24046fc876932b167bbf3c,
+        type: 3}
       propertyPath: <Data>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: 70c1d457bdae24bb0bd7b0f3f88badc9,
