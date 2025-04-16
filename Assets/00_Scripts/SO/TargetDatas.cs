@@ -8,6 +8,8 @@ public string ID;
 public string Name;
 public string Description;
 public int Type;
-public float BaseHp;
+public float Hp;
+public float Level;
 public float Speed;
+public float DamageRate;
 }

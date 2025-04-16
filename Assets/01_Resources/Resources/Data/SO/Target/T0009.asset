@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae163b12b9efc1146a992453608222ab, type: 3}
-  m_Name: T0003
+  m_Name: T0009
   m_EditorClassIdentifier: 
-  ID: T0003
-  Name: Land
+  ID: T0009
+  Name: Civilian
   Description: 
-  Type: 0
-  Hp: 900
-  Level: 3
+  Type: 2
+  Hp: 1000
+  Level: 0
   Speed: 10
-  DamageRate: 100
+  DamageRate: 1000
