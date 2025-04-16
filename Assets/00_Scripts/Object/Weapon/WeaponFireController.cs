@@ -281,6 +281,7 @@ public class WeaponFireController : MonoBehaviour
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
             {
+                statHandler.ejectPower = statHandler.weaponData.DMG * 40f;
                 float power = statHandler.ejectPower;
                 rb.AddExplosionForce(Random.Range(power * 0.7f, power),
                     statHandler.casingExitLocation.position - statHandler.casingExitLocation.right * 0.3f - statHandler.casingExitLocation.up * 0.6f, 1f);
@@ -288,7 +289,6 @@ public class WeaponFireController : MonoBehaviour
             }
 
             Destroy(casing, statHandler.destroyTimer);
-            SoundManager.Instance.PlaySFX(statHandler.weaponData.shellSound);
         }
     }
 

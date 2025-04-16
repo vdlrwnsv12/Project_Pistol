@@ -20,7 +20,7 @@ MonoBehaviour:
   ReloadTime: 2
   MaxAmmo: 7
   Cost: 1500
-  fireSound: {fileID: 8300000, guid: 2203773368e4340d98c114f55c2dd7fd, type: 3}
+  fireSound: {fileID: 8300000, guid: e1bf9dfb8384f46e8af3009d9e848f3d, type: 3}
   reloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
   emptySound: {fileID: 8300000, guid: 68d0787726f6647c38a9903288161331, type: 3}
   shellSound: {fileID: 8300000, guid: 99cc49e2c75174a00b9ded676f45afc8, type: 3}

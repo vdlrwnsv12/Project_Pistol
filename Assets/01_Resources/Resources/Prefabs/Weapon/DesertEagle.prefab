@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 987351787287324291}
   m_Layer: 0
   m_Name: FirePoint
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 6887359199523037412}
   m_Layer: 0
   m_Name: Pistol_D_Trigger
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 4025432735818142755}
   m_Layer: 0
   m_Name: ShellPoint
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 1427017942339541408}
   m_Layer: 0
   m_Name: Pistol_D_Receiver_Part
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 5539923041199571088}
   m_Layer: 0
   m_Name: DesertEagle
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
   compensator: {fileID: 3502140066754585120}
   spreadAngle: 5
   destroyTimer: 2
-  ejectPower: 150
+  ejectPower: 300
   fireCooldown: 0.7
   adsPosition: {x: 0.062, y: -0.007, z: 0}
   camMoveSpeed: 10
@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 7161680109331919340}
   m_Layer: 0
   m_Name: Hammer
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 371258203847465213}
   m_Layer: 0
   m_Name: Mag
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 8634229430762902914}
   m_Layer: 0
   m_Name: Slider
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -594,7 +594,7 @@ GameObject:
   - component: {fileID: 4579612716935835445}
   m_Layer: 0
   m_Name: Pistol_D_Receiver
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 2265678963106235632}
   m_Layer: 0
   m_Name: Pistol_D_Barrel
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -810,6 +810,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muzzle_Pistol_Brake_A
       objectReference: {fileID: 0}
+    - target: {fileID: 3924715766607588843, guid: 14d78acd12153ae4c92b204949c7220d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -839,6 +844,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser_Pistol_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 6266915452509760703, guid: 4cc6746b5917745379af45b4fac45917,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 6751844488352658949, guid: 4cc6746b5917745379af45b4fac45917,
         type: 3}
@@ -919,6 +929,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedDotSight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461709439928957523, guid: fb5b9c57953d6493aade23eb4c2a9e21,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 2982068077803380969, guid: fb5b9c57953d6493aade23eb4c2a9e21,
         type: 3}

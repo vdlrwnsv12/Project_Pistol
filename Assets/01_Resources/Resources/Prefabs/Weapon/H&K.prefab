@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7057218252318657724}
   m_Layer: 0
   m_Name: Pistol_C_BarrelGuard
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6856814983705740563}
   m_Layer: 0
   m_Name: Mag
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 5848156041805392986}
   m_Layer: 0
   m_Name: Pistol_C_Trigger
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 2332201510654375981}
   m_Layer: 0
   m_Name: H&K
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -274,7 +274,7 @@ MonoBehaviour:
   compensator: {fileID: 8784531334552619214}
   spreadAngle: 5
   destroyTimer: 2
-  ejectPower: 150
+  ejectPower: 300
   fireCooldown: 0.7
   adsPosition: {x: 0.062, y: -0.007, z: 0}
   camMoveSpeed: 10
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 4240410934836727044}
   m_Layer: 0
   m_Name: Pistol_C_Receiver
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 4124014100628433640}
   m_Layer: 0
   m_Name: Pistol_C_Mag
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 3131007254708466515}
   m_Layer: 0
   m_Name: Hammer
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -580,7 +580,7 @@ GameObject:
   - component: {fileID: 7008163563638728395}
   m_Layer: 0
   m_Name: FirePoint
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 4599641180784243028}
   m_Layer: 0
   m_Name: Slider
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -646,7 +646,7 @@ GameObject:
   - component: {fileID: 4341259752903439167}
   m_Layer: 0
   m_Name: Pistol_C_Barrel
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -727,7 +727,7 @@ GameObject:
   - component: {fileID: 7871698754267100381}
   m_Layer: 0
   m_Name: ShellPoint
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -810,6 +810,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muzzle_Pistol_Brake_A
       objectReference: {fileID: 0}
+    - target: {fileID: 3924715766607588843, guid: 14d78acd12153ae4c92b204949c7220d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -839,6 +844,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedDotSight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461709439928957523, guid: fb5b9c57953d6493aade23eb4c2a9e21,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 2982068077803380969, guid: fb5b9c57953d6493aade23eb4c2a9e21,
         type: 3}
@@ -919,6 +929,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser_Pistol_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 6266915452509760703, guid: 4cc6746b5917745379af45b4fac45917,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 6751844488352658949, guid: 4cc6746b5917745379af45b4fac45917,
         type: 3}
