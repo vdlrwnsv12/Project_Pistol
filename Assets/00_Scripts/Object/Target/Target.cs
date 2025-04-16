@@ -18,18 +18,25 @@ public class Target : MonoBehaviour
         }
 
         currentHp = data.Hp;
-        Debug.Log($"타겟 초기화 ID: {data.ID}, Type: {data.Type}, HP: {data.Hp}");
     }
 
     public void TakeDamage(float amount, Collider hitCollider)
     {
         if (hitCollider != null && hitCollider.name == "Head")
         {
-            amount = Mathf.RoundToInt(amount * 1.6f);
+            amount = Mathf.RoundToInt(amount * data.DamageRate * 1.2f);
             Debug.Log($"헤드샷 데미지: {amount}");
-        }
+        }else
+        {
+            amount = amount * data.DamageRate;
+            Debug.Log($"바디샷 데미지{amount}");
+        }        
 
-        currentHp -= amount;
+        float realDamage = Mathf.Min(amount, currentHp);
+
+        Debug.Log($"표적이 받은 데미지: {realDamage}");
+
+        currentHp = Mathf.Max(currentHp - realDamage, 0);
 
         if (currentHp <= 0)
         {
@@ -40,5 +47,6 @@ public class Target : MonoBehaviour
     private void Die()
     {
         anim.SetBool("Die", true);
+        this.enabled = false;
     }
 }

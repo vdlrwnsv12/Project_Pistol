@@ -61,10 +61,6 @@ public class PlayerAttackState : PlayerBaseState
         
         Transform cam = stateMachine.MainCamTransform;
         Ray ray = new Ray(cam.position, cam.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
-        {
-            Debug.Log($"타켓: {hit.collider.name}");
-        }
     }
 
 }

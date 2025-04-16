@@ -1,6 +1,6 @@
 ID,Name,Description,Type,Hp,Level,Speed,DamageRate
 string,string,string,int,float,float,float,float
-T0001,Land,,0,400,1,10,100
+T0001,Land,Level 1 Target,0,400,1,10,100
 T0002,Land,,0,700,2,10,100
 T0003,Land,,0,900,3,10,100
 T0004,Land,,0,1200,4,10,100

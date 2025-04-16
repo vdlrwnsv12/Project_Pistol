@@ -11,6 +11,10 @@ public class WeaponFireController : MonoBehaviour
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
+
+    public GameObject testUi;
+    public bool isLocked = true;
+
     [SerializeField] private float targetCamY = 0.165f;
 
 
@@ -47,16 +51,23 @@ public class WeaponFireController : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && isLocked)
         {
             FireWeapon();
-            statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
+            //statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
         {
             ReloadWeapon();
-            statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
+            //statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
+        }
+        if (Input.GetKeyDown(KeyCode.F))//테스트용 코드
+        {
+            if (isLocked)
+                UnlockCursor();
+            else
+                LockCursor();
         }
         #region 레이저 포인터 테스트 삭제해야함
         if (statHandler.laserPointer.activeSelf == true)
@@ -72,16 +83,33 @@ public class WeaponFireController : MonoBehaviour
 
     #endregion
 
+    #region 테스트용 코드
+    void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        isLocked = true;
+    }
+
+    void UnlockCursor()
+    {
+       
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        isLocked = false;
+    }
+    #endregion
+
     #region ADS
 
     void HandleADS()
     {
 
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !statHandler.isReloading)
         {
             statHandler.isADS = !statHandler.isADS;
-
+        }
             if (statHandler.isADS)
             {
                 currentCamRootTargetPos = statHandler.adsPosition;
@@ -98,7 +126,6 @@ public class WeaponFireController : MonoBehaviour
                 // 정조준 해제 시 기본값으로 복구
                 targetCamY = 0.16f;
             }
-        }
 
         // FOV 보간
         float targetFOV = statHandler.isADS ? 40f : 60f;
@@ -203,7 +230,7 @@ public class WeaponFireController : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 Target target = hit.collider.GetComponentInParent<Target>();
-                target?.TakeDamage(weaponData.DMG * 100f, hit.collider);
+                target?.TakeDamage(weaponData.DMG, hit.collider);
             }
         }
         StartCoroutine(CameraShake(weaponData.DMG * 0.0125f));
@@ -304,7 +331,7 @@ public class WeaponFireController : MonoBehaviour
 
     public void ReloadWeapon()
     {
-        if (currentAmmo == weaponData.MaxAmmo)
+        if (currentAmmo == weaponData.MaxAmmo && statHandler.isADS)
         {
             return;
         }
