@@ -6,10 +6,11 @@ public class SelectCharacter : MonoBehaviour
 {
 
     public CharacterDatas character;
-
+    public GameObject canvas;
     public void SelectPlayer()
     {
         CharacterManager.Instance.SelectCharacter = character;
-        
+        Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
+        canvas.SetActive(false);
     }
 }

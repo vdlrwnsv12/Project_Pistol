@@ -8,7 +8,7 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
-  
+    private const float SPEED_MULTIPLIER = 0.3f;  // 비율 값
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -129,11 +129,11 @@ public class PlayerBaseState : IState
         float noAimSpeed = stateMachine.MovementSpeed;
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
-            stateMachine.MovementSpeed = 1f;
+            stateMachine.MovementSpeed = CharacterManager.Instance.SelectCharacter.SPD * SPEED_MULTIPLIER -3;
         }
         else
         {
-            stateMachine.MovementSpeed = 5f;
+            stateMachine.MovementSpeed =  CharacterManager.Instance.SelectCharacter.SPD * SPEED_MULTIPLIER;
         }
         float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return moveSpeed;

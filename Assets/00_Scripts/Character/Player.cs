@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     public WeaponStatHandler WeaponStatHandler { get; private set; }
     private PlayerStateMachine stateMachine;
 
-   
     private void Awake()
     {
         AnimationData.Initialize();
@@ -33,7 +32,7 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
+       // Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
         stateMachine.ChangeState(stateMachine.IdleState);
 
      

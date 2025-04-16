@@ -2,22 +2,6 @@ using System;
 using DataDeclaration;
 using UnityEngine;
 
-[Serializable]
-public class PlayerGroundData
-{
-    [field: SerializeField]
-    [field: Range(0f, 25f)]
-    public float BaseSpeed { get; set; } = 5f;
-
-    [field: SerializeField]
-    [field: Range(0f, 25f)]
-  
-
-    [field: Header("IdleData")]
-    [field: Header("WalkData")]
-   
-    public float WalkSpeedModifier { get; private set; } = 0.5f;
-}
 
 //[CreateAssetMenu(fileName = "Player", menuName = "SO/PlayerData")]
 //public class PlayerData : ScriptableObject

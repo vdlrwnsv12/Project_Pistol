@@ -24,4 +24,16 @@ public class CharacterManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Update()
+    {
+        if (CharacterManager.Instance.SelectCharacter.SPD == null)
+        {
+            Debug.Log("없음");
+        }
+        else
+        {
+            Debug.Log(CharacterManager.Instance.SelectCharacter.SPD);
+        }
+    }
 }
