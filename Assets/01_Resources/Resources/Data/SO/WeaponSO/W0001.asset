@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: W0001
   m_EditorClassIdentifier: 
   ID: W0001
-  Name: "\uCD1D\uAE30 \uC774\uB9841"
+  Name: Colt
   Description: "\uCD1D\uAE30 \uC124\uBA851"
   ShootRecoil: 20
   DMG: 4
