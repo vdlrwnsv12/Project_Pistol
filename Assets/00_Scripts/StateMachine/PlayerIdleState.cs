@@ -11,7 +11,6 @@ public class PlayerIdleState : PlayerGroundState
 
     public override void Enter()
     {
-        stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
     }
@@ -44,7 +43,6 @@ public class PlayerIdleState : PlayerGroundState
     protected override void OnReload(InputAction.CallbackContext context)
     {
         base.OnReload(context);
-        Debug.Log("리로드 하라고"); 
         stateMachine.ChangeState(stateMachine.ReloadState);
     }
 
