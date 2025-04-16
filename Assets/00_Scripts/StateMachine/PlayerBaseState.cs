@@ -8,7 +8,8 @@ using UnityEngine.UIElements;
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
-
+    // protected readonly PlayerGroundData groundData;
+   
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -56,7 +57,7 @@ public class PlayerBaseState : IState
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
-
+      
     }
 
     protected virtual void OnLookStarted(InputAction.CallbackContext context)
@@ -88,6 +89,7 @@ public class PlayerBaseState : IState
     private void ReadMovementInput()
     {
         stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();
+
     }
     // 움직임 로직
 
@@ -123,20 +125,17 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        float moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
+        float baseSpeed = stateMachine.Player.statHandler.MovementSpeed;
+        float finalSpeed = baseSpeed;
 
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
-            moveSpeed = moveSpeed * 0.25f;
-        }else
-        {
-            moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
+            finalSpeed *= stateMachine.Player.adsSpeedMultiplier;  // 조준 중일 때 속도 감소
         }
+        
 
-        moveSpeed *= stateMachine.Player.moveSpeedx;
-
-        //Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
-        return moveSpeed;
+        Debug.Log($"최종 이동 속도: {finalSpeed}");
+        return finalSpeed;
     }
 
 }

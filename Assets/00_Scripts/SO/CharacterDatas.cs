@@ -2,6 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 [CreateAssetMenu(fileName = "Character", menuName = "SO/CharacterDatas")]
 
+/// <summary>
+/// 접근 방법
+/// 캐릭터 매니저를 통해서 각 스탯에 접근 할 수 있음
+/// ex) CharacterManager.Instance.SelectCharacter.ID
+/// </summary>
 public class CharacterDatas : ScriptableObject
 {
 public string ID;
