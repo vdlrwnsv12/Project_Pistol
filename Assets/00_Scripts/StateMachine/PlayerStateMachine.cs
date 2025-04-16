@@ -24,22 +24,20 @@ using UnityEngine;
 public class PlayerStateMachine : StateMachine
 {
     public Player Player { get; }
-
     public Vector2 MovementInput { get; set; }
-    public float MovementSpeed { get;  set; }
+    public float MovementSpeed { get; private set; }
     public float RotationDamping { get; private set; }
     public float MovementSpeedModifier { get; set; } = 1f;
 
-    public bool IsAttacking { get; set; }   
+    public bool IsAttacking { get; set; }
     public int ComboIndex { get; set; }
     public Transform MainCamTransform { get; set; }
-    
+
     public PlayerIdleState IdleState { get; private set; }
     public PlayerWalkState WalkState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
+    public PlayerReloadState ReloadState { get; private set; }
 
-    public PlayerAttackState AttackState { get; private set; }    
-
-    public PlayerReloadState ReloadState { get; private set; }  
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
@@ -49,8 +47,6 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         AttackState = new PlayerAttackState(this);
         ReloadState = new PlayerReloadState(this);
-        //MovementSpeed = player.Data.GroundData.BaseSpeed;
-        MovementSpeedModifier = 3.0f;
-
+        MovementSpeed = player.statHandler.MovementSpeed;
     }
 }
