@@ -2,28 +2,39 @@ using DataDeclaration;
 
 public class PlayerStatHandler
 {
-    private Player player;
     private CharacterStat stat;
-    
+
     public CharacterStat Stat => stat;
 
     public PlayerStatHandler(Player player)
     {
-        this.player = player;
         stat = new CharacterStat
         {
-            HDL = this.player.Data.HDL,
-            SPD = this.player.Data.SPD,
-            RCL = this.player.Data.RCL,
-            STP = this.player.Data.STP
+            HDL = player.Data.HDL,
+            SPD = player.Data.SPD,
+            RCL = player.Data.RCL,
+            STP = player.Data.STP
         };
     }
-    
-    public void IncreaseStat(CharacterStat itemStat)
+
+    public void IncreaseStat(float rcl, float hdl, float stp, float spd)
     {
-        stat.RCL += itemStat.RCL;
-        stat.HDL += itemStat.HDL;
-        stat.STP += itemStat.STP;
-        stat.SPD += itemStat.SPD;
+        stat.RCL += rcl;
+        stat.HDL += hdl;
+        stat.STP += stp;
+        stat.SPD += spd;
+    }
+    
+    //----------------------------------------------------------
+    // 테스트 코드
+    public PlayerStatHandler(CharacterSO data)
+    {
+        stat = new CharacterStat
+        {
+            HDL = data.HDL,
+            SPD = data.SPD,
+            RCL = data.RCL,
+            STP = data.STP
+        };
     }
 }
