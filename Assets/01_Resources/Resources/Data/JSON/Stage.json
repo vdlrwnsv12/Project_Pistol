@@ -1,19 +1,5 @@
 {"Data":[
   {
-    "ID": "ID",
-    "Name": "Name",
-    "Targets": [
-      "Targets"
-    ]
-  },
-  {
-    "ID": "string",
-    "Name": "string",
-    "Targets": [
-      "string[]"
-    ]
-  },
-  {
     "ID": "S0001",
     "Name": "스테이지1",
     "Targets": [

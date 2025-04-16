@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb46a2f7db6fa47aa9da610469639e85, type: 3}
+  m_Name: I2001
+  m_EditorClassIdentifier: 
+  ID: I2001
+  Name: "\uCD1D\uAE30 \uC704\uB825 \uC0C1\uC2B9"
+  Description: "\uCD1D\uC758 \uC704\uB825\uC774 \uC0C1\uC2B9\uD569\uB2C8\uB2E4."
+  ApplicationTarget: 2
+  cost: 6
+  RCL: 0
+  HDL: 0
+  STP: 0
+  SPD: 0
+  DMG: 3
+  ShootRecoil: 0
+  MaxAmmo: 0
+  WeaponParts: 0
+  AppearanceRate: 1
