@@ -296,7 +296,9 @@ public class WeaponFireController : MonoBehaviour
     void CalculateFinalRecoil()
     {
         float rcl = statHandler.playerObject.GetComponent<Player>().Data.RCL;
-        finalRecoil = weaponData.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
+        float baseRecoil = weaponData.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
+        finalRecoil = baseRecoil * (1f - statHandler.itemRecoil * 0.01f);
+        Debug.Log($"{weaponData.ShootRecoil}, {rcl},{baseRecoil},{finalRecoil},");
     }
 
     void ApplyRecoil()

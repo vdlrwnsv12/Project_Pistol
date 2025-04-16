@@ -8,7 +8,7 @@ public class WeaponChangeHandler : MonoBehaviour
     [SerializeField] private GameObject currentWeapon;
     void Update()
     {
-        Ray ray = PlayerEquipment.Instance.playerCam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = playerEquipment.playerCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f) && hit.collider.CompareTag("Gun"))
         {
             WeaponSelector selector = hit.collider.GetComponent<WeaponSelector>();
@@ -22,7 +22,7 @@ public class WeaponChangeHandler : MonoBehaviour
                     }
 
                     currentWeapon = selector.gameObject;
-                    PlayerEquipment.Instance.SwitchWeapon(selector.weaponIndex);
+                    playerEquipment.SwitchWeapon(selector.weaponIndex);
                     selector.gameObject.SetActive(false);
                 }
             }
