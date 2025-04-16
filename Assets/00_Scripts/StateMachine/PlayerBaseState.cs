@@ -7,18 +7,14 @@ using UnityEngine.InputSystem;
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
-    protected readonly PlayerGroundData groundData;
   
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        groundData = stateMachine.Player.Data.GroundData;
     }
     public virtual void Enter()
     {
         AddInputActionCallbacks();
-        stateMachine.MovementSpeedModifier = groundData.WalkSpeedModifier;
-
     }
 
     public virtual void Exit()

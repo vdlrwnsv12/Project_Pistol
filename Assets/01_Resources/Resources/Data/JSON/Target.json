@@ -1,25 +1,5 @@
 {"Data":[
   {
-    "ID": "ID",
-    "Name": "Name",
-    "Description": "Description",
-    "Type": 0,
-    "Hp": 0.0,
-    "Level": 0.0,
-    "Speed": 0.0,
-    "DamageRate": 0.0
-  },
-  {
-    "ID": "string",
-    "Name": "string",
-    "Description": "string",
-    "Type": 0,
-    "Hp": 0.0,
-    "Level": 0.0,
-    "Speed": 0.0,
-    "DamageRate": 0.0
-  },
-  {
     "ID": "T0001",
     "Name": "Land",
     "Description": "Level 1 Target",

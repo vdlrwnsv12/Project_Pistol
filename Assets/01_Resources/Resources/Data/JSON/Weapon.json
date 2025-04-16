@@ -1,25 +1,5 @@
 {"Data":[
   {
-    "ID": "ID",
-    "Name": "Name",
-    "Description": "Description",
-    "ShootRecoil": 0.0,
-    "DMG": 0.0,
-    "ReloadTime": 0.0,
-    "MaxAmmo": 0,
-    "Cost": 0
-  },
-  {
-    "ID": "string",
-    "Name": "string",
-    "Description": "string",
-    "ShootRecoil": 0.0,
-    "DMG": 0.0,
-    "ReloadTime": 0.0,
-    "MaxAmmo": 0,
-    "Cost": 0
-  },
-  {
     "ID": "W0001",
     "Name": "총기 이름1",
     "Description": "총기 설명1",

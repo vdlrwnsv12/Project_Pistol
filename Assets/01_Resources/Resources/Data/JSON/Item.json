@@ -1,37 +1,5 @@
 {"Data":[
   {
-    "ID": "ID",
-    "Name": "Name",
-    "Description": "Description",
-    "ApplicationTarget": 0,
-    "cost": 0.0,
-    "RCL": 0.0,
-    "HDL": 0.0,
-    "STP": 0.0,
-    "SPD": 0.0,
-    "DMG": 0.0,
-    "ShootRecoil": "ShootRecoil",
-    "MaxAmmo": 0,
-    "WeaponParts": 0,
-    "AppearanceRate": "AppearanceRate"
-  },
-  {
-    "ID": "string",
-    "Name": "string",
-    "Description": "string",
-    "ApplicationTarget": 0,
-    "cost": 0.0,
-    "RCL": 0.0,
-    "HDL": 0.0,
-    "STP": 0.0,
-    "SPD": 0.0,
-    "DMG": 0.0,
-    "ShootRecoil": "folat",
-    "MaxAmmo": 0,
-    "WeaponParts": 0,
-    "AppearanceRate": "flaot"
-  },
-  {
     "ID": "I1001",
     "Name": "반동 제어 상승",
     "Description": "RCL이 상승하여 반동이 줄어듭니다.",
@@ -209,8 +177,8 @@
   },
   {
     "ID": "I2003",
-    "Name": "조준경1 부착",
-    "Description": "조준경1을 부착하여 정조준 시 조준점을 볼 수 있습니다.",
+    "Name": "레드 도트 사이트 부착",
+    "Description": "조준경을 부착하여 정조준 시 레드 도트 조준점을 볼 수 있습니다.",
     "ApplicationTarget": 2,
     "cost": 7.0,
     "RCL": 0.0,
@@ -241,7 +209,7 @@
   },
   {
     "ID": "I2005",
-    "Name": "레이저 사이트 부착",
+    "Name": "레이저 포인터 부착",
     "Description": "레이저 사이트를 부착하여 탄의 방향을 알 수 있습니다.",
     "ApplicationTarget": 2,
     "cost": 7.0,
@@ -266,7 +234,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "3",
+    "ShootRecoil": "10",
     "MaxAmmo": 0,
     "WeaponParts": 4,
     "AppearanceRate": "1"
