@@ -4,36 +4,100 @@
     "Name": "Name",
     "Description": "Description",
     "Type": 0,
-    "BaseHp": 0.0,
-    "Speed": 0.0
+    "Hp": 0.0,
+    "Level": 0.0,
+    "Speed": 0.0,
+    "DamageRate": 0.0
   },
   {
     "ID": "string",
     "Name": "string",
     "Description": "string",
     "Type": 0,
-    "BaseHp": 0.0,
-    "Speed": 0.0
+    "Hp": 0.0,
+    "Level": 0.0,
+    "Speed": 0.0,
+    "DamageRate": 0.0
   },
   {
     "ID": "T0001",
-    "Name": "지상",
+    "Name": "Land",
     "Type": 0,
-    "BaseHp": 100.0,
-    "Speed": 10.0
+    "Hp": 400.0,
+    "Level": 1.0,
+    "Speed": 10.0,
+    "DamageRate": 100.0
   },
   {
     "ID": "T0002",
-    "Name": "드론",
-    "Type": 1,
-    "BaseHp": 50.0,
-    "Speed": 15.0
+    "Name": "Land",
+    "Type": 0,
+    "Hp": 700.0,
+    "Level": 2.0,
+    "Speed": 10.0,
+    "DamageRate": 100.0
   },
   {
     "ID": "T0003",
-    "Name": "민간인",
+    "Name": "Land",
+    "Type": 0,
+    "Hp": 900.0,
+    "Level": 3.0,
+    "Speed": 10.0,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0004",
+    "Name": "Land",
+    "Type": 0,
+    "Hp": 1200.0,
+    "Level": 4.0,
+    "Speed": 10.0,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0005",
+    "Name": "Land",
+    "Type": 0,
+    "Hp": 1500.0,
+    "Level": 5.0,
+    "Speed": 10.0,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0006",
+    "Name": "Airial",
+    "Type": 1,
+    "Hp": 900.0,
+    "Level": 1.0,
+    "Speed": 15.0,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0007",
+    "Name": "Airial",
+    "Type": 1,
+    "Hp": 1200.0,
+    "Level": 2.0,
+    "Speed": 15.0,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0008",
+    "Name": "Airial",
+    "Type": 1,
+    "Hp": 1500.0,
+    "Level": 3.0,
+    "Speed": 15.0,
+    "DamageRate": 100.0
+  },
+  {
+    "ID": "T0009",
+    "Name": "Civilian",
     "Type": 2,
-    "BaseHp": 1.0,
-    "Speed": 10.0
+    "Hp": 1000.0,
+    "Level": 0.0,
+    "Speed": 10.0,
+    "DamageRate": 1000.0
   }
 ]}

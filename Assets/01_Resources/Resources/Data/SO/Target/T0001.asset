@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: T0001
   m_EditorClassIdentifier: 
   ID: T0001
-  Name: "\uC9C0\uC0C1"
-  Description: "\uC9C0\uC0C1"
+  Name: Land
+  Description: 
   Type: 0
-  BaseHp: 100
+  Hp: 400
+  Level: 1
   Speed: 10
+  DamageRate: 100

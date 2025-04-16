@@ -10,6 +10,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "ShootRecoil",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "AppearanceRate"
@@ -25,6 +26,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "folat",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "flaot"
@@ -40,6 +42,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -55,6 +58,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -70,6 +74,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -85,6 +90,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -100,6 +106,7 @@
     "STP": 15.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -115,6 +122,7 @@
     "STP": 20.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -130,6 +138,7 @@
     "STP": 0.0,
     "SPD": 15.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -145,6 +154,7 @@
     "STP": 0.0,
     "SPD": 20.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -160,6 +170,7 @@
     "STP": 13.0,
     "SPD": 13.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -175,6 +186,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 3.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -190,6 +202,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 3,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -205,6 +218,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 1,
     "AppearanceRate": "1"
@@ -220,6 +234,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 1,
     "AppearanceRate": "1"
@@ -235,6 +250,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "0",
     "MaxAmmo": 0,
     "WeaponParts": 2,
     "AppearanceRate": "1"
@@ -245,11 +261,12 @@
     "Description": "보정기를 부착해 반동을 줄입니다.",
     "ApplicationTarget": 2,
     "cost": 7.0,
-    "RCL": 3.0,
+    "RCL": 0.0,
     "HDL": 0.0,
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
+    "ShootRecoil": "3",
     "MaxAmmo": 0,
     "WeaponParts": 4,
     "AppearanceRate": "1"

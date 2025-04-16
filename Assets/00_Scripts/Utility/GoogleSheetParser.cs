@@ -80,10 +80,18 @@ public class GoogleSheetParser : EditorWindow
 
             GUILayout.Space(40);
 
-            if (GUILayout.Button("선택한 시트의 Json 데이터를 SO로 생성", GUILayout.Height(40)))
+            if (GUILayout.Button("선택한 시트의 Json 데이터를 SO,csv로 생성", GUILayout.Height(40)))
             {
                 ParseJsonToSO();
+                ParseSheetToCsv();//csv파일 저장
             }
+
+            // GUILayout.Space(40);
+
+            // if (GUILayout.Button("선택한 시트 CSV로 변환", GUILayout.Height(40)))
+            // {
+            //     ParseSheetToCsv();
+            // }
         }
     }
 
@@ -95,6 +103,7 @@ public class GoogleSheetParser : EditorWindow
     private IEnumerator FetchSheetList()
     {
         isFetching = true;
+        Repaint();
 
         // API URL로 요청
         var request = UnityWebRequest.Get(API_URL);
@@ -113,7 +122,8 @@ public class GoogleSheetParser : EditorWindow
         {
             Debug.LogError("불러오기 실패" + request.error);
         }
-
+        Debug.Log(request.downloadHandler.text);
+        
         isFetching = false;
 
         // 에디터 창 갱신
@@ -171,7 +181,7 @@ public class GoogleSheetParser : EditorWindow
                 jArray.Add(rowObject);
             }
         }
-        
+
         SaveJsonToFile(jsonFileName, jArray);
         CreateSOClass(jsonFileName, keys, types);
         AssetDatabase.Refresh();
@@ -192,7 +202,7 @@ public class GoogleSheetParser : EditorWindow
         File.WriteAllText(jsonFilePath, jsonData);
         Debug.Log($"{jsonFilePath} 경로에 JSon 파일 저장");
     }
-    
+
     private void CreateSOClass(string fileName, List<string> keys, List<string> types)
     {
         var className = fileName;
@@ -202,7 +212,7 @@ public class GoogleSheetParser : EditorWindow
         {
             Directory.CreateDirectory(directoryPath);
         }
-        
+
         var filePath = Path.Combine(directoryPath, $"{className}Datas.cs");
 
         using (var sw = new StreamWriter(filePath))
@@ -224,7 +234,7 @@ public class GoogleSheetParser : EditorWindow
                     sw.WriteLine($"public {fieldType} {fieldName};");
                 }
             }
-            
+
             sw.WriteLine("}");
         }
     }
@@ -288,6 +298,76 @@ public class GoogleSheetParser : EditorWindow
 
     #region MakeSoFromJson
 
+    #region ParseSheetToCsv
+
+    private void ParseSheetToCsv()
+    {
+        var selectedSheet = sheetInfoList[selectedSheetIndex];
+        var sheetName = selectedSheet.sheetName;
+        Debug.Log($"Selected Sheet: {selectedSheet.sheetName}, Sheet ID: {selectedSheet.sheetId}");
+
+        EditorCoroutineUtility.StartCoroutine(ParseGoogleSheetToCsv(sheetName, selectedSheet.sheetId.ToString()), this);
+    }
+
+    private IEnumerator ParseGoogleSheetToCsv(string fileName, string gid, bool notice = true)
+    {
+        var sheetURL = $"{Google_Sheet_URL}/export?format=tsv&gid={gid}";
+
+        var request = UnityWebRequest.Get(sheetURL);
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            EditorUtility.DisplayDialog("변환 실패!", "구글 연결 실패!", "확인");
+            yield break;
+        }
+
+        var data = request.downloadHandler.text;
+        var rows = ParseTSVData(data);
+
+        if (rows == null || rows.Count < 3)
+        {
+            Debug.LogError("Not enough data rows to parse.");
+            yield break;
+        }
+
+        var csvData = ConvertRowsToCsv(rows);
+
+        SaveCsvToFile(fileName, csvData);
+    }
+
+    private string ConvertRowsToCsv(List<string> rows)
+    {
+        var csvLines = new List<string>();
+
+        foreach (var row in rows)
+        {
+            var columns = row.Split('\t').Select(col => col.Replace("\"", "\"\"")).ToArray();
+            var csvLine = string.Join(",", columns);
+            csvLines.Add(csvLine);
+        }
+
+        return string.Join("\n", csvLines);
+    }
+
+    private void SaveCsvToFile(string fileName, string csvData)
+    {
+        var directoryPath = Path.Combine(Application.dataPath, "01_Resources", "Resources", "Data", "CSV");
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        var csvFilePath = Path.Combine(directoryPath, $"{fileName}.csv");
+
+        File.WriteAllText(csvFilePath, csvData);
+        Debug.Log($"{csvFilePath} 경로에 CSV 파일 저장");
+    }
+
+    #endregion
+
+
     private void ParseJsonToSO()
     {
         EditorCoroutineUtility.StartCoroutine(ParseToSO(), this);
@@ -297,10 +377,10 @@ public class GoogleSheetParser : EditorWindow
     {
         yield return null;
     }
-    
+
     private string ConvertTypeToCSharp(string type)
     {
-        switch (type.Trim()) 
+        switch (type.Trim())
         {
             case "int": return "int";
             case "long": return "long";
@@ -311,7 +391,7 @@ public class GoogleSheetParser : EditorWindow
             case "int[]": return "int[]";
             case "float[]": return "float[]";
             case "string[]": return "string[]";
-            case "DateTime": return "System.DateTime"; 
+            case "DateTime": return "System.DateTime";
             case "TimeSpan": return "System.TimeSpan";
             case "Guid": return "System.Guid";
             default: return "string";

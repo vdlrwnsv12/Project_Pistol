@@ -14,6 +14,7 @@ public float HDL;
 public float STP;
 public float SPD;
 public float DMG;
+public string ShootRecoil;
 public int MaxAmmo;
 public int WeaponParts;
 public string AppearanceRate;

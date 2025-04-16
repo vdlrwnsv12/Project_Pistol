@@ -17,8 +17,8 @@ public class Target : MonoBehaviour
             return;
         }
 
-        currentHp = data.BaseHp;
-        Debug.Log($"타겟 초기화 ID: {data.ID}, Type: {data.Type}, HP: {data.BaseHp}");
+        currentHp = data.Hp;
+        Debug.Log($"타겟 초기화 ID: {data.ID}, Type: {data.Type}, HP: {data.Hp}");
     }
 
     public void TakeDamage(float amount, Collider hitCollider)
