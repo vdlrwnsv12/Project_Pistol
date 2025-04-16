@@ -5,17 +5,15 @@ using UnityEngine.UI;
 
 public class PopupReward : PopupUI
 {
-    private ItemDatas[] itemRewards;
+    private ItemSO[] itemRewards;
     [SerializeField] private RewardCard[] rewardCards;
 
     [SerializeField] private Button cancelBuyBtn;
 
-    public event Action<ItemDatas> OnClickItemReward;
-
     protected override void Awake()
     {
         base.Awake();
-        itemRewards = new ItemDatas[rewardCards.Length];
+        itemRewards = new ItemSO[rewardCards.Length];
 
         cancelBuyBtn.onClick.AddListener(OnClickCancelBuyButton);
     }
@@ -37,21 +35,20 @@ public class PopupReward : PopupUI
     private void InitReward()
     {
         // //TODO: StageManager.Instance.RewardSystem 접근하기
-        // itemRewards = TestManager.Instance.RewardSystem.GetRandomItemReward();
-        // for (var i = 0; i < rewardCards.Length; i++)
-        // {
-        //     rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
-        //     rewardCards[i].rewardName.text = itemRewards[i].ItemName;
-        //     rewardCards[i].timeCost.text = $"-{itemRewards[i].Cost:N2}s";
-        //     rewardCards[i].rewardButton.onClick.RemoveAllListeners();
-        //     if (itemRewards[i].type == ItemApplyType.Player)
-        //     {
-        //         var playerItem = (PlayerItemData)itemRewards[i];
-        //         rewardCards[i].rewardButton.onClick.AddListener(() => TestManager.Instance.PlayerStatHandler.IncreaseStat(playerItem.Stat));
-        //         rewardCards[i].rewardButton.onClick.AddListener(() =>
-        //             ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(TestManager.Instance.PlayerStatHandler.Stat));
-        //         rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
-        //     }
-        // }
+        itemRewards = TestManager.Instance.RewardSystem.GetRandomItemReward();
+        for (var i = 0; i < rewardCards.Length; i++)
+        {
+            rewardCards[i].rewardName.text = itemRewards[i].Name;
+            rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
+            rewardCards[i].rewardButton.onClick.RemoveAllListeners();
+            // if (itemRewards[i].type == ItemApplyType.Player)
+            // {
+            //     var playerItem = (PlayerItemData)itemRewards[i];
+            //     rewardCards[i].rewardButton.onClick.AddListener(() => TestManager.Instance.PlayerStatHandler.IncreaseStat(playerItem.Stat));
+            //     rewardCards[i].rewardButton.onClick.AddListener(() =>
+            //         ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(TestManager.Instance.PlayerStatHandler.Stat));
+            //     rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
+            // }
+        }
     }
 }
