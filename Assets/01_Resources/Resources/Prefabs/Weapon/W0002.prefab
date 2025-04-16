@@ -436,7 +436,7 @@ Transform:
   - {fileID: 2173114569523637981}
   - {fileID: 4471530049936192539}
   - {fileID: 2518726507759947348}
-  - {fileID: 2607735995581069699}
+  - {fileID: 6469169400861565776}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -97.226, y: -79.62799, z: 58.565002}
 --- !u!114 &7261582232775207396
@@ -467,7 +467,7 @@ MonoBehaviour:
     type: 3}
   bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
   redDot: {fileID: 1349391749834553203}
-  laserPointer: {fileID: 3421428117467276089}
+  laserPointer: {fileID: 5948353401260505578}
   compensator: {fileID: 1235174798591378950}
   spreadAngle: 5
   destroyTimer: 2
@@ -479,6 +479,7 @@ MonoBehaviour:
   fireSound: {fileID: 8300000, guid: b4316d1dccbd84e0388625bef9e210c9, type: 3}
   reloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
   emptySound: {fileID: 8300000, guid: 68d0787726f6647c38a9903288161331, type: 3}
+  finalRecoil: 0
   camRootOriginPos: {x: 0, y: 0, z: 0}
   initialLocalRotation: {x: 0, y: 0, z: 0, w: 0}
   lastFireTime: 0
@@ -495,7 +496,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentAmmo: 0
-  finalRecoil: 0
   testUi: {fileID: 0}
   isLocked: 1
   targetCamY: 0.165
@@ -731,6 +731,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3924715766607588843, guid: 14d78acd12153ae4c92b204949c7220d,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3924715766607588843, guid: 14d78acd12153ae4c92b204949c7220d,
+        type: 3}
       propertyPath: m_TagString
       value: Gun
       objectReference: {fileID: 0}
@@ -763,6 +768,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedDotSight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461709439928957523, guid: fb5b9c57953d6493aade23eb4c2a9e21,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2461709439928957523, guid: fb5b9c57953d6493aade23eb4c2a9e21,
         type: 3}
@@ -844,6 +854,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8469834802307671185}
     m_Modifications:
+    - target: {fileID: 3102733025318139500, guid: 4cc6746b5917745379af45b4fac45917,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6266915452509760703, guid: 4cc6746b5917745379af45b4fac45917,
         type: 3}
       propertyPath: m_Name
@@ -909,15 +924,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cc6746b5917745379af45b4fac45917, type: 3}
---- !u!4 &2607735995581069699 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6751844488352658949, guid: 4cc6746b5917745379af45b4fac45917,
+--- !u!1 &5948353401260505578 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3102733025318139500, guid: 4cc6746b5917745379af45b4fac45917,
     type: 3}
   m_PrefabInstance: {fileID: 8756076125897854854}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3421428117467276089 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6266915452509760703, guid: 4cc6746b5917745379af45b4fac45917,
+--- !u!4 &6469169400861565776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2325211541190061270, guid: 4cc6746b5917745379af45b4fac45917,
     type: 3}
   m_PrefabInstance: {fileID: 8756076125897854854}
   m_PrefabAsset: {fileID: 0}
