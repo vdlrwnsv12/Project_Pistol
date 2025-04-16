@@ -28,7 +28,7 @@ public class PlayerStateMachine : StateMachine
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get;  set; }
     public float RotationDamping { get; private set; }
-    public float MovementSpeedModifier { get; set; }
+    public float MovementSpeedModifier { get; set; } = 1f;
 
     public bool IsAttacking { get; set; }   
     public int ComboIndex { get; set; }
@@ -50,7 +50,7 @@ public class PlayerStateMachine : StateMachine
         AttackState = new PlayerAttackState(this);
         ReloadState = new PlayerReloadState(this);
         //MovementSpeed = player.Data.GroundData.BaseSpeed;
-        MovementSpeedModifier = 1.0f;
+        MovementSpeedModifier = 3.0f;
 
     }
 }

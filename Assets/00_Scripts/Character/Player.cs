@@ -3,7 +3,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Player 입력 and 여러 컴포넌트 관리
-    [field: SerializeField] public CharacterSO Data { get; private set; }
+    [field: SerializeField] public CharacterSO Data { get; set; }
     [field: Header("Animations")]
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
@@ -32,16 +32,21 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
-       // Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
+        // Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
+       
+
         stateMachine.ChangeState(stateMachine.IdleState);
 
-     
     }
-
+    public void SetCharacterData(CharacterSO character)
+    {
+        Data = character;
+    }
     private void Update()
     {
         stateMachine.HandleInput();
         stateMachine.Update();
+        
     }
 
     private void FixedUpdate()

@@ -38,6 +38,7 @@ public class PlayerGroundState : PlayerBaseState
     {
         if (stateMachine.MovementInput == Vector2.zero) return;
         stateMachine.ChangeState(stateMachine.IdleState);
+        Debug.Log("확인 움직이는중");
         base.OnMovementCanceled(context);
     }
 

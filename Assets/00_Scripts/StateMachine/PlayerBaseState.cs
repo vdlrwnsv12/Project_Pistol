@@ -56,7 +56,7 @@ public class PlayerBaseState : IState
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
-
+      
     }
 
     protected virtual void OnLookStarted(InputAction.CallbackContext context)
@@ -124,18 +124,16 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        stateMachine.MovementSpeed = CharacterManager.Instance.SelectCharacter.SPD * SPEED_MULTIPLIER;
-        float noAimSpeed = stateMachine.MovementSpeed;
+        float baseSpeed = stateMachine.Player.Data.SPD * SPEED_MULTIPLIER;
+        stateMachine.MovementSpeedModifier = 1;
+
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
-            stateMachine.MovementSpeed = stateMachine.MovementSpeed * SPEED_MULTIPLIER -3;
+            baseSpeed = Mathf.Max(baseSpeed * SPEED_MULTIPLIER - 3f, 0f);  // 음수 방지
         }
-        else
-        {
-            stateMachine.MovementSpeed =  noAimSpeed;
-        }
-        float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
-        return moveSpeed;
+
+        Debug.Log("baseSpedd, Movemnet"+stateMachine.MovementSpeedModifier);
+        return baseSpeed * stateMachine.MovementSpeedModifier/10;
     }
 
   
