@@ -1,9 +1,38 @@
 using System;
+using DataDeclaration;
 using UnityEngine;
 
 public class ScoreSystem : MonoBehaviour
 {
     private int score;
+
+    public RankType RankType
+    {
+        get
+        {
+            // 점수에 따른 등급
+            if (score < 10000)
+            {
+                return RankType.F;
+            }
+            else if (score < 50000)
+            {
+                return RankType.C;
+            }
+            else if (score < 100000)
+            {
+                return RankType.B;
+            }
+            else if (score < 500000)
+            {
+                return RankType.A;
+            }
+            else
+            {
+                return RankType.S;
+            }
+        }
+    }
     
     /// <summary>
     /// 기본 점수 계산
