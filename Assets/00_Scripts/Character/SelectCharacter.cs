@@ -14,6 +14,8 @@ public class SelectCharacter : MonoBehaviour
         Player player = playerObject.GetComponent<Player>();
         player.SetCharacterData(character); 
         canvas.SetActive(false);
+
+     
     }
    
 }

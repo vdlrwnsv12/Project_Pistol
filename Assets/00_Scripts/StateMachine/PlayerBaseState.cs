@@ -8,8 +8,8 @@ using UnityEngine.UIElements;
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
-   // protected readonly PlayerGroundData groundData;
-    private const float SPEED_MULTIPLIER = 1f;  // 비율 값
+    // protected readonly PlayerGroundData groundData;
+   
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -125,19 +125,17 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        float moveSpeed;
+        float baseSpeed = stateMachine.Player.statHandler.MovementSpeed;
+        float finalSpeed = baseSpeed;
 
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
-            moveSpeed = 1f;
-        }else
-        {
-            moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
+            finalSpeed *= stateMachine.Player.adsSpeedMultiplier;  // 조준 중일 때 속도 감소
         }
+        
 
-        moveSpeed *= stateMachine.Player.moveSpeedx;
-        Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
-        return moveSpeed;
+        Debug.Log($"최종 이동 속도: {finalSpeed}");
+        return finalSpeed;
     }
 
 }
