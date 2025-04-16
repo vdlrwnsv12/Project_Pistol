@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: W0004
   m_EditorClassIdentifier: 
   ID: W0004
-  Name: "\uCD1D\uAE30 \uC774\uB9844"
+  Name: DesertEagle
   Description: "\uCD1D\uAE30 \uC124\uBA854"
   ShootRecoil: 50
   DMG: 10

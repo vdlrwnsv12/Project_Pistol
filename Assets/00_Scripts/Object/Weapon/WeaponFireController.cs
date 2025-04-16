@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WeaponFireController : MonoBehaviour
 {
-    private WeaponDatas weaponData;
+    private WeaponSO weaponData;
     private WeaponStatHandler statHandler;
     [SerializeField] private int currentAmmo;
     private Quaternion initialLocalRotation;
@@ -27,7 +27,7 @@ public class WeaponFireController : MonoBehaviour
         if (statHandler.weaponData == null)
         {
             string nameToSerch = gameObject.name.Replace("(Clone)", "").Trim();
-            statHandler.weaponData = Resources.Load<WeaponDatas>($"Data/SO/Weapon/{nameToSerch}");
+            statHandler.weaponData = Resources.Load<WeaponSO>($"Data/SO/WeaponSO/{nameToSerch}");
             if (statHandler.weaponData == null)
             {
                 Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'을(를) 찾을 수 없습니다.");
@@ -73,7 +73,8 @@ public class WeaponFireController : MonoBehaviour
         if (statHandler.laserPointer.activeSelf == true)
         {
             statHandler.spreadAngle = 0;
-        }else
+        }
+        else
         {
             statHandler.spreadAngle = 10.5f;
         }
@@ -93,7 +94,7 @@ public class WeaponFireController : MonoBehaviour
 
     void UnlockCursor()
     {
-       
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         isLocked = false;
@@ -110,22 +111,22 @@ public class WeaponFireController : MonoBehaviour
         {
             statHandler.isADS = !statHandler.isADS;
         }
-            if (statHandler.isADS)
-            {
-                currentCamRootTargetPos = statHandler.adsPosition;
-                currentHandTargetRot = initialLocalRotation;
+        if (statHandler.isADS)
+        {
+            currentCamRootTargetPos = statHandler.adsPosition;
+            currentHandTargetRot = initialLocalRotation;
 
-                // redDot 상태에 따라 타겟 Y 설정
-                targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
-            }
-            else
-            {
-                currentCamRootTargetPos = camRootOriginPos;
-                currentHandTargetRot = initialLocalRotation;
+            // redDot 상태에 따라 타겟 Y 설정
+            targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
+        }
+        else
+        {
+            currentCamRootTargetPos = camRootOriginPos;
+            currentHandTargetRot = initialLocalRotation;
 
-                // 정조준 해제 시 기본값으로 복구
-                targetCamY = 0.16f;
-            }
+            // 정조준 해제 시 기본값으로 복구
+            targetCamY = 0.16f;
+        }
 
         // FOV 보간
         float targetFOV = statHandler.isADS ? 40f : 60f;
@@ -190,13 +191,13 @@ public class WeaponFireController : MonoBehaviour
             EjectCasing();
             MuzzleFlash();
             ApplyRecoil();
-            SoundManager.Instance.PlaySFX(statHandler.weaponData.fireSound);
+            SoundManager.Instance.PlaySFX(statHandler.fireSound);
 
             currentAmmo--;
         }
         else
         {
-            SoundManager.Instance.PlaySFX(statHandler.weaponData.emptySound);
+            SoundManager.Instance.PlaySFX(statHandler.emptySound);
         }
     }
 
@@ -340,7 +341,7 @@ public class WeaponFireController : MonoBehaviour
         currentAmmo = 0;
         statHandler.gunAnimator.SetTrigger("Reload");
 
-        SoundManager.Instance.PlaySFX(statHandler.weaponData.reloadSound);
+        SoundManager.Instance.PlaySFX(statHandler.reloadSound);
 
         StartCoroutine(ReloadCoroutine());
     }

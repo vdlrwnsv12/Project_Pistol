@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: W0002
   m_EditorClassIdentifier: 
   ID: W0002
-  Name: "\uCD1D\uAE30 \uC774\uB9842"
+  Name: Glock
   Description: "\uCD1D\uAE30 \uC124\uBA852"
   ShootRecoil: 25
   DMG: 6
