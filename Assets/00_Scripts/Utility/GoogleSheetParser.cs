@@ -8,7 +8,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using Unity.EditorCoroutines.Editor;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 public class GoogleSheetParser : EditorWindow
@@ -25,7 +24,7 @@ public class GoogleSheetParser : EditorWindow
     private bool isFetchComplete = false;
     private int selectedSheetIndex = 0;
 
-    [MenuItem("Tool/Google Sheet Parsing Tool")]
+    [MenuItem("Tools/Google Sheet Parsing Tool")]
     private static void OpenWindow()
     {
         var window = GetWindow(typeof(GoogleSheetParser));
@@ -37,6 +36,8 @@ public class GoogleSheetParser : EditorWindow
         window.maxSize = new Vector2(300, 300);
         window.maximized = false;
     }
+
+    #region OnGUI
 
     private void OnGUI()
     {
@@ -80,17 +81,19 @@ public class GoogleSheetParser : EditorWindow
 
             GUILayout.Space(40);
 
-            if (GUILayout.Button("선택한 시트의 Json 데이터를 SO로 생성", GUILayout.Height(40)))
+            if (GUILayout.Button("선택한 시트의 데이터를 SO로 생성", GUILayout.Height(40)))
             {
-                ParseJsonToSO();
+                EditorCoroutineUtility.StartCoroutine(MakeSOAssetsFromJson(), this);
             }
         }
     }
 
+    #endregion
+
     #region FetchSheetInfo
 
     /// <summary>
-    /// 모든 시트 데이터 불러오기
+    /// 시트 이름과 ID를 배열로 저장
     /// </summary>
     private IEnumerator FetchSheetList()
     {
@@ -133,9 +136,14 @@ public class GoogleSheetParser : EditorWindow
         EditorCoroutineUtility.StartCoroutine(ParseGoogleSheet(sheetName, selectedSheet.sheetId.ToString()), this);
     }
 
-    private IEnumerator ParseGoogleSheet(string jsonFileName, string gid, bool notice = true)
+    /// <summary>
+    /// 선택한 구글 시트의 데이터를 Json 파일과 SO 스크립트로 생성
+    /// </summary>
+    /// <param name="selectedSheetName">선택한 시트 이름</param>
+    /// <param name="selectedSheetGID">선택한 시트 ID</param>
+    private IEnumerator ParseGoogleSheet(string selectedSheetName, string selectedSheetGID, bool notice = true)
     {
-        var sheetURL = $"{Google_Sheet_URL}/export?format=tsv&gid={gid}";
+        var sheetURL = $"{Google_Sheet_URL}/export?format=tsv&gid={selectedSheetGID}";
 
         var request = UnityWebRequest.Get(sheetURL);
         yield return request.SendWebRequest();
@@ -160,7 +168,7 @@ public class GoogleSheetParser : EditorWindow
         var keys = rows[0].Split('\t').ToList();
         var types = rows[1].Split('\t').ToList();
 
-        for (var i = 0; i < rows.Count; i++)
+        for (var i = 2; i < rows.Count; i++)
         {
             var rowData = rows[i].Split('\t').ToList();
 
@@ -172,11 +180,16 @@ public class GoogleSheetParser : EditorWindow
             }
         }
         
-        SaveJsonToFile(jsonFileName, jArray);
-        CreateSOClass(jsonFileName, keys, types);
+        SaveJsonToFile(selectedSheetName, jArray);
+        CreateSOClass(selectedSheetName, keys, types);
         AssetDatabase.Refresh();
     }
 
+    /// <summary>
+    /// 선택한 구글 시트의 데이터를 Json 파일로 생성
+    /// </summary>
+    /// <param name="jsonFileName">생성될 Json 파일 이름</param>
+    /// <param name="jArray">Json 데이터를 저장할 매개변수</param>
     private void SaveJsonToFile(string jsonFileName, JArray jArray)
     {
         var directoryPath = Path.Combine(Application.dataPath, "01_Resources", "Resources", "Data", "JSON");
@@ -193,9 +206,16 @@ public class GoogleSheetParser : EditorWindow
         Debug.Log($"{jsonFilePath} 경로에 JSon 파일 저장");
     }
     
-    private void CreateSOClass(string fileName, List<string> keys, List<string> types)
+    /// <summary>
+    /// 선택한 구글 시트의 데이터를 SO 스크립트로 생성
+    /// </summary>
+    /// <param name="sheetName">생성될 스크립트 파일 이름</param>
+    /// <param name="keys">변수 이름 배열</param>
+    /// <param name="types">변수 타입 배열</param>
+    private void CreateSOClass(string sheetName, List<string> keys, List<string> types)
     {
-        var className = fileName;
+        var className = $"{sheetName}SO";
+        var dataClassName = $"{sheetName}Data";
         var directoryPath = Path.Combine(Application.dataPath, "00_Scripts", "SO");
 
         if (!Directory.Exists(directoryPath))
@@ -203,17 +223,17 @@ public class GoogleSheetParser : EditorWindow
             Directory.CreateDirectory(directoryPath);
         }
         
-        var filePath = Path.Combine(directoryPath, $"{className}Datas.cs");
+        var filePath = Path.Combine(directoryPath, $"{className}.cs");
 
         using (var sw = new StreamWriter(filePath))
         {
             sw.WriteLine("using UnityEngine;");
             sw.WriteLine("using System.Collections.Generic;");
-            sw.WriteLine($"[CreateAssetMenu(fileName = \"{className}\", menuName = \"SO/{className}Datas\")]\r\n");
-            sw.WriteLine($"public class {className}Datas : ScriptableObject");
+            sw.WriteLine($"[CreateAssetMenu(fileName = \"{className}\", menuName = \"SO/{className}\")]\r");
+            sw.WriteLine($"public class {className} : ScriptableObject");
             sw.WriteLine("{");
 
-            // 데이터 필드 입력
+            // 스크립트 데이터 필드 입력
             for (var i = 0; i < keys.Count; i++)
             {
                 var fieldType = ConvertTypeToCSharp(types[i]);
@@ -221,10 +241,25 @@ public class GoogleSheetParser : EditorWindow
 
                 if (!string.IsNullOrEmpty(fieldName))
                 {
-                    sw.WriteLine($"public {fieldType} {fieldName};");
+                    sw.WriteLine($"    public {fieldType} {fieldName};");
                 }
             }
+            sw.WriteLine("}");
+            sw.WriteLine();
             
+            sw.WriteLine("[System.Serializable]");
+            sw.WriteLine($"public class {dataClassName}");
+            sw.WriteLine("{");
+            for (var i = 0; i < keys.Count; i++)
+            {
+                var fieldType = ConvertTypeToCSharp(types[i]);
+                var fieldName = keys[i];
+
+                if (!string.IsNullOrEmpty(fieldName))
+                {
+                    sw.WriteLine($"    public {fieldType} {fieldName};");
+                }
+            }
             sw.WriteLine("}");
         }
     }
@@ -283,70 +318,6 @@ public class GoogleSheetParser : EditorWindow
             default: return value;
         }
     }
-
-    #endregion
-
-    #region MakeSoFromJson
-
-    private void ParseJsonToSO()
-    {
-        EditorCoroutineUtility.StartCoroutine(ParseToSO(), this);
-    }
-
-    private IEnumerator ParseToSO()
-    {
-        var selectedSheet = sheetInfoList[selectedSheetIndex];
-        var sheetName = selectedSheet.sheetName;
-        var jsonPath = Path.Combine(Application.dataPath, "01_Resources", "Resources", "Data", "JSON", $"{sheetName}.json");
-        if (!File.Exists(jsonPath))
-        {
-            Debug.LogError($"Json 파일을 찾을 수 없습니다: {jsonPath}");
-            yield break;
-        }
-
-        var jsonText = File.ReadAllText(jsonPath);
-        JObject jsonObj = JObject.Parse(jsonText);
-        JArray dataArray = (JArray)jsonObj["Data"];
-
-        string soFolderPath = Path.Combine("Assets", "01_Resources", "Resources", "SO", sheetName);
-        if (!AssetDatabase.IsValidFolder(soFolderPath))
-        {
-            Directory.CreateDirectory(soFolderPath);
-        }
-
-        int idx = 0;
-        foreach (JObject item in dataArray)
-        {
-            if (idx == 0 || idx == 1) // 컬럼이 Scriptable object로 변환되서 변경 0줄 ~1줄은 제외
-            {
-                idx++;
-                continue;
-            }
-            CharacterDatas soAsset = ScriptableObject.CreateInstance<CharacterDatas>();
-
-            soAsset.ID = item["ID"]?.ToString();
-            soAsset.Name = item["Name"]?.ToString();
-            soAsset.Description = item["Description"]?.ToString();
-            soAsset.RCL = item["RCL"]?.ToObject<float>() ?? 0;
-            soAsset.HDL = item["HDL"]?.ToObject<float>() ?? 0;
-            soAsset.STP = item["STP"]?.ToObject<float>() ?? 0;
-            soAsset.SPD = item["SPD"]?.ToObject<float>() ?? 0;
-            soAsset.Cost = item["Cost"]?.ToObject<int>() ?? 0;
-            
-           
-            string assetName = $"{soAsset.ID}_{soAsset.Name}";
-            string assetPath = Path.Combine(soFolderPath, $"{assetName}.asset");
-
-            AssetDatabase.CreateAsset(soAsset, assetPath);
-        }
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-
-        Debug.Log($"ScriptableObject {dataArray.Count}개 생성 완료!");
-        
-        yield return null;
-    }
     
     private string ConvertTypeToCSharp(string type)
     {
@@ -366,6 +337,51 @@ public class GoogleSheetParser : EditorWindow
             case "Guid": return "System.Guid";
             default: return "string";
         }
+    }
+
+    #endregion
+
+    #region MakeSOAssets
+
+    private IEnumerator MakeSOAssetsFromJson()
+    {
+        CreateSOToolMenu();
+        yield return null;
+    }
+
+    private void CreateSOToolMenu()
+    {
+        var directoryPath = Path.Combine(Application.dataPath, "00_Scripts/Utility");
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        var dataClassPath = Path.Combine(directoryPath, $"JsonToSO.cs");
+        
+        using (var sw = new StreamWriter(dataClassPath))
+        {
+            sw.WriteLine("using UnityEngine;");
+            sw.WriteLine("using UnityEditor;");
+            sw.WriteLine("[System.Serializable]");
+            sw.WriteLine("public class JsonToSO : MonoBehaviour");
+            sw.WriteLine("{");
+
+            for (var i = 0; i < sheetInfoList.Count; i++)
+            {
+                sw.WriteLine($"    [MenuItem(\"Tools/JsonToSO/Create{sheetInfoList[i].sheetName}SO\")]");
+                sw.WriteLine($"    static void {sheetInfoList[i].sheetName}DataInit()");
+                sw.WriteLine("    {");
+                sw.WriteLine(
+                    $"        ScriptableObjectCreator.CreateScriptableObjectAssetsFromJson<{sheetInfoList[i].sheetName}Data>(\"{sheetInfoList[i].sheetName}.json\", typeof({sheetInfoList[i].sheetName}SO));");
+                sw.WriteLine("    }");
+            }
+
+            sw.WriteLine("}");
+        }
+
+        AssetDatabase.Refresh();
     }
 
     #endregion

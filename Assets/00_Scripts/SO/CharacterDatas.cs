@@ -1,6 +1,5 @@
 using UnityEngine;
-using DataDeclaration;
-
+using System.Collections.Generic;
 [CreateAssetMenu(fileName = "Character", menuName = "SO/CharacterDatas")]
 
 /// <summary>
@@ -18,6 +17,4 @@ public float HDL;
 public float STP;
 public float SPD;
 public int Cost;
-[field: SerializeField] public CharacterStat Stat { get; private set; }
-[field: SerializeField] public PlayerGroundData GroundData { get; private set; }
 }

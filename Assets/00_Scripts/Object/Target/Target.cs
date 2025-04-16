@@ -21,7 +21,7 @@ public class Target : MonoBehaviour
         Debug.Log($"타겟 초기화 ID: {data.ID}, Type: {data.Type}, HP: {data.BaseHp}");
     }
 
-    public void TakeDamage(int amount, Collider hitCollider)
+    public void TakeDamage(float amount, Collider hitCollider)
     {
         if (hitCollider != null && hitCollider.name == "Head")
         {

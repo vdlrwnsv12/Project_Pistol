@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
     #region Parameters
 
     [Header("스테이지 데이터")]
-    [SerializeField] private StageData[] stageDataArray; // 각 스테이지별 설정값 목록
+    [SerializeField] private WhiteChoco.StageData[] stageDataArray; // 각 스테이지별 설정값 목록
 
     [Header("상태 플래그")]
     private bool isStageStarted;       // 스테이지 시작 여부
@@ -58,7 +58,7 @@ public class StageManager : MonoBehaviour
     /// </summary>
     private void InitStage()
     {
-        StageData data = stageDataArray[currentStageIndex];
+        WhiteChoco.StageData data = stageDataArray[currentStageIndex];
 
         stageTimeLimit = data.stageTimeLimit;
         remainingTime = stageTimeLimit;
