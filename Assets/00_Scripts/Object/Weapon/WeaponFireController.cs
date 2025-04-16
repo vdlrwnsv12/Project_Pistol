@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WeaponFireController : MonoBehaviour
 {
-    private WeaponDatas weaponData;
+    private WeaponSO weaponData;
     private WeaponStatHandler statHandler;
     [SerializeField] private int currentAmmo;
     private Quaternion initialLocalRotation;
@@ -11,6 +11,12 @@ public class WeaponFireController : MonoBehaviour
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
+
+    public GameObject testUi;
+    public bool isLocked = true;
+
+    [SerializeField] private float targetCamY = 0.165f;
+
 
     #region Unity Methods
 
@@ -21,7 +27,7 @@ public class WeaponFireController : MonoBehaviour
         if (statHandler.weaponData == null)
         {
             string nameToSerch = gameObject.name.Replace("(Clone)", "").Trim();
-            statHandler.weaponData = Resources.Load<WeaponDatas>($"Data/SO/Weapon/{nameToSerch}");
+            statHandler.weaponData = Resources.Load<WeaponSO>($"Data/SO/WeaponSO/{nameToSerch}");
             if (statHandler.weaponData == null)
             {
                 Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'을(를) 찾을 수 없습니다.");
@@ -45,39 +51,81 @@ public class WeaponFireController : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && isLocked)
         {
             FireWeapon();
+            //statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
         {
             ReloadWeapon();
+            //statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
         }
-
+        if (Input.GetKeyDown(KeyCode.F))//테스트용 코드
+        {
+            if (isLocked)
+                UnlockCursor();
+            else
+                LockCursor();
+        }
+        #region 레이저 포인터 테스트 삭제해야함
+        if (statHandler.laserPointer.activeSelf == true)
+        {
+            statHandler.spreadAngle = 0;
+        }
+        else
+        {
+            statHandler.spreadAngle = 10.5f;
+        }
+        #endregion
         HandleADS();
     }
 
     #endregion
 
+    #region 테스트용 코드
+    void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        isLocked = true;
+    }
+
+    void UnlockCursor()
+    {
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        isLocked = false;
+    }
+    #endregion
+
     #region ADS
 
-    void HandleADS()//정조준
+    void HandleADS()
     {
-        if (Input.GetMouseButtonDown(1))
+
+
+        if (Input.GetMouseButtonDown(1) && !statHandler.isReloading)
         {
             statHandler.isADS = !statHandler.isADS;
+        }
+        if (statHandler.isADS)
+        {
+            currentCamRootTargetPos = statHandler.adsPosition;
+            currentHandTargetRot = initialLocalRotation;
 
-            if (statHandler.isADS)
-            {
-                currentCamRootTargetPos = statHandler.adsPosition;
-                currentHandTargetRot = initialLocalRotation; // 흔들기 시작점
-            }
-            else
-            {
-                currentCamRootTargetPos = camRootOriginPos;
-                currentHandTargetRot = initialLocalRotation;
-            }
+            // redDot 상태에 따라 타겟 Y 설정
+            targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
+        }
+        else
+        {
+            currentCamRootTargetPos = camRootOriginPos;
+            currentHandTargetRot = initialLocalRotation;
+
+            // 정조준 해제 시 기본값으로 복구
+            targetCamY = 0.16f;
         }
 
         // FOV 보간
@@ -88,7 +136,11 @@ public class WeaponFireController : MonoBehaviour
         statHandler.camRoot.localPosition = Vector3.Lerp(statHandler.camRoot.localPosition, currentCamRootTargetPos, Time.deltaTime * statHandler.camMoveSpeed);
         statHandler.handransform.localRotation = Quaternion.Lerp(statHandler.handransform.localRotation, currentHandTargetRot, Time.deltaTime * 10f);
 
-        // 흔들림
+        //Y 위치만 따로 부드럽게 보간
+        Vector3 camLocalPos = statHandler.playerCam.transform.localPosition;
+        camLocalPos.y = Mathf.Lerp(camLocalPos.y, targetCamY, Time.deltaTime * 10f);
+        statHandler.playerCam.transform.localPosition = camLocalPos;
+
         if (statHandler.isADS)
             WeaponShake();
     }
@@ -127,6 +179,10 @@ public class WeaponFireController : MonoBehaviour
             {
                 statHandler.gunAnimator?.SetTrigger("Fire");
             }
+            else if (currentAmmo == 1)
+            {
+                statHandler.gunAnimator?.SetBool("OutOfAmmo", true);
+            }
             else
             {
                 statHandler.gunAnimator?.SetBool("OutOfAmmo", true);
@@ -135,13 +191,13 @@ public class WeaponFireController : MonoBehaviour
             EjectCasing();
             MuzzleFlash();
             ApplyRecoil();
-            SoundManager.Instance.PlaySFX(statHandler.weaponData.fireSound);
+            SoundManager.Instance.PlaySFX(statHandler.fireSound);
 
             currentAmmo--;
         }
         else
         {
-            SoundManager.Instance.PlaySFX(statHandler.weaponData.emptySound);
+            SoundManager.Instance.PlaySFX(statHandler.emptySound);
         }
     }
 
@@ -175,7 +231,7 @@ public class WeaponFireController : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 Target target = hit.collider.GetComponentInParent<Target>();
-                target?.TakeDamage(weaponData.DMG * 100f, hit.collider);
+                target?.TakeDamage(weaponData.DMG, hit.collider);
             }
         }
         StartCoroutine(CameraShake(weaponData.DMG * 0.0125f));
@@ -226,6 +282,7 @@ public class WeaponFireController : MonoBehaviour
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
             {
+                statHandler.ejectPower = statHandler.weaponData.DMG * 40f;
                 float power = statHandler.ejectPower;
                 rb.AddExplosionForce(Random.Range(power * 0.7f, power),
                     statHandler.casingExitLocation.position - statHandler.casingExitLocation.right * 0.3f - statHandler.casingExitLocation.up * 0.6f, 1f);
@@ -233,7 +290,6 @@ public class WeaponFireController : MonoBehaviour
             }
 
             Destroy(casing, statHandler.destroyTimer);
-            SoundManager.Instance.PlaySFX(statHandler.weaponData.shellSound);
         }
     }
 
@@ -276,7 +332,7 @@ public class WeaponFireController : MonoBehaviour
 
     public void ReloadWeapon()
     {
-        if (currentAmmo == weaponData.MaxAmmo)
+        if (currentAmmo == weaponData.MaxAmmo && statHandler.isADS)
         {
             return;
         }
@@ -285,7 +341,7 @@ public class WeaponFireController : MonoBehaviour
         currentAmmo = 0;
         statHandler.gunAnimator.SetTrigger("Reload");
 
-        SoundManager.Instance.PlaySFX(statHandler.weaponData.reloadSound);
+        SoundManager.Instance.PlaySFX(statHandler.reloadSound);
 
         StartCoroutine(ReloadCoroutine());
     }

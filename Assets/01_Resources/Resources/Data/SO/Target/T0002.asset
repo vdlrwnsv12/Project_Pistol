@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: T0002
   m_EditorClassIdentifier: 
   ID: T0002
-  Name: "\uB4DC\uB860"
-  Description: "\uB4DC\uB860"
-  Type: 1
-  BaseHp: 50
-  Speed: 15
+  Name: Land
+  Description: 
+  Type: 0
+  Hp: 700
+  Level: 2
+  Speed: 10
+  DamageRate: 100
