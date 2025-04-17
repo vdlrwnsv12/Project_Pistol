@@ -19,12 +19,12 @@ public class Target : MonoBehaviour
     {
         if (data == null)
         {
-                TargetSO[] allDatas = Resources.LoadAll<TargetSO>("Data/SO/TargetSO");
-                if (allDatas.Length > 0)
-                {
-                    data = allDatas[Random.Range(0, allDatas.Length)];
-                    Debug.Log($"타겟 할당됨 {data.name}");
-                }
+            TargetSO[] allDatas = Resources.LoadAll<TargetSO>("Data/SO/TargetSO");
+            if (allDatas.Length > 0)
+            {
+                data = allDatas[Random.Range(0, allDatas.Length)];
+                Debug.Log($"타겟 할당됨 {data.name}");
+            }
             return;
         }
     }
@@ -37,6 +37,14 @@ public class Target : MonoBehaviour
             if (rend != null)
             {
                 rend.material = civilianMaterial;
+            }
+        }
+        else if (data.Name == "Airial")
+        {
+            Renderer rend = GetComponentInChildren<Renderer>();
+            if (rend != null)
+            {
+                rend.material.color = Color.cyan;
             }
         }
         currentHp = data.Hp;
@@ -66,7 +74,7 @@ public class Target : MonoBehaviour
             Die();
         }
     }
-    
+
     public void OnPlayerEnteredRange()
     {
         if (currentHp <= 0) return;
