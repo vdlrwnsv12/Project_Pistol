@@ -42,11 +42,13 @@ public class SoundManager : MonoBehaviour
 
         // Ensure the music and sfx sources are assigned
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();  // 효과음 소스
+        if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();  // 배경음악 소스
 
-//        musicSource.volume = backgroundMusicVol;
         sfxSource.volume = sfxVol;
-        //musicSource.loop = true;
+        musicSource.volume = backgroundMusicVol;
+        musicSource.loop = true;
     }
+
 
     void Start()
     {
