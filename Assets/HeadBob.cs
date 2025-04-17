@@ -6,16 +6,19 @@ using UnityEngine.Rendering;
 public class HeadBob : MonoBehaviour
 {
     // Start is called before the first frame update
-    [Range(0.001f, 0.01f)]
-    public float Amount = 0.002f;
+    [Range(0.1f, 1f)]
+    public float Amount = 1f;
 
     [Range(1f, 30f)]
     public float Frequency = 10.0f;
     [Range(10f, 100f)]
     public float Smooth = 10.0f;
-    void Start()
+
+    public Player Player;
+    private void Awake()
     {
-        
+        Player = GetComponentInParent<Player>();
+
     }
 
     // Update is called once per frame
@@ -35,8 +38,11 @@ public class HeadBob : MonoBehaviour
 
     private Vector3 StartHeadBob()
     {
+        float t = Mathf.InverseLerp(1f, 99f, Player.statHandler.MoveSTP);  // STP가 1일 때 0, 99일 때 1
+        float inverseEffect = 1f - t;  // 반비례 효과
+
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Lerp(pos.y, Mathf.Sin(Time.time * Frequency) * Amount * 1.4f, Smooth * Time.deltaTime);
+        pos.y += Mathf.Lerp(pos.y, Mathf.Sin(Time.time * Frequency) * Amount * inverseEffect, Smooth * Time.deltaTime);
         transform.localPosition += pos;
         return pos;
     }
