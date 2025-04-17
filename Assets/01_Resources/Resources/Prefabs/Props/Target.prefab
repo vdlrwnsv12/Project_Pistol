@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2303976083643935192}
   m_Layer: 7
   m_Name: Target
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,11 +68,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fea4c95a95974593972795849362ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetID: 0
-  Type: 2
-  Hp: 0
-  Score: 0
+  data: {fileID: 11400000, guid: 284345c8ecb2242e0b71227b7701668b, type: 2}
+  currentHp: 0
   anim: {fileID: 1445158767449883335}
+  upSound: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}
+  downSound: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
 --- !u!1 &4798047947267202406
 GameObject:
   m_ObjectHideFlags: 0

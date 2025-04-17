@@ -125,7 +125,7 @@ public class SoundManager : MonoBehaviour
         if (clip != null)
         {
             sfxSource.PlayOneShot(clip, sfxVol);
-            //Debug.Log($"사운드 출력{clip.name}");
+            Debug.Log($"사운드 출력{clip.name}");
         }
     }
     #endregion

@@ -227,7 +227,7 @@ public class WeaponFireController : MonoBehaviour
                 Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
                 GameObject impact = Instantiate(statHandler.bulletImpactPrefab, hit.point, hitRotation);
                 impact.transform.SetParent(hit.collider.transform);
-                Destroy(impact, 2f);
+                Destroy(impact, 5f);
             }
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
