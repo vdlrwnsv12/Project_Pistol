@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
-  
+    // protected readonly PlayerGroundData groundData;
+
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -28,7 +30,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
         input.playerActions.Reload.started += OnReload;
-       
+
     }
     protected virtual void RemoveInputActionCallbacks()
     {
@@ -66,12 +68,12 @@ public class PlayerBaseState : IState
 
     protected virtual void OnAttack(InputAction.CallbackContext context)
     {
-       
+
     }
-   
+
     protected virtual void OnReload(InputAction.CallbackContext context)
     {
-       
+
     }
     protected void StartAnimation(int animatorHash)
     {
@@ -83,10 +85,11 @@ public class PlayerBaseState : IState
         stateMachine.Player.Animator.SetBool(animatorHash, false);
     }
 
-   
+
     private void ReadMovementInput()
     {
         stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();
+
     }
     // 움직임 로직
 
@@ -116,24 +119,26 @@ public class PlayerBaseState : IState
     private void Move(Vector3 direction)
     {
         float movementSpeed = GetMovementSpeed();
-        stateMachine.Player.Controller.Move(((direction * movementSpeed)+stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
+        stateMachine.Player.Controller.Move(((direction * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
 
     }
 
     private float GetMovementSpeed()
     {
-        float noAimSpeed = stateMachine.MovementSpeed;
+        float moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
+
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
-            stateMachine.MovementSpeed = 1f;
+            moveSpeed = moveSpeed * 0.25f;
         }
         else
         {
-            stateMachine.MovementSpeed = 5f;
+            moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
         }
-        float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
+
+        moveSpeed *= stateMachine.Player.adsSpeedMultiplier;
+
+        //Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
         return moveSpeed;
     }
-
-  
 }

@@ -24,17 +24,4 @@ public class PlayerStatHandler
         stat.STP += stp;
         stat.SPD += spd;
     }
-    
-    //----------------------------------------------------------
-    // 테스트 코드
-    public PlayerStatHandler(CharacterSO data)
-    {
-        stat = new CharacterStat
-        {
-            HDL = data.HDL,
-            SPD = data.SPD,
-            RCL = data.RCL,
-            STP = data.STP
-        };
-    }
 }

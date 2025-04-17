@@ -4,8 +4,6 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    public static PlayerEquipment Instance { get; private set;}
-
     [Header("Weapon Prefabs")]
     public GameObject[] weaponPrefabs;
     private GameObject currentWeaponObject;
@@ -17,17 +15,6 @@ public class PlayerEquipment : MonoBehaviour
     public Camera playerCam;
     public FpsCamera fpsCamera;
     public GameObject playerObject;
-
-    void Awake()
-    {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
-
     public void SwitchWeapon(int index)
     {
         if (index < 0 || index >= weaponPrefabs.Length || index == currentWeaponIndex)

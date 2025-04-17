@@ -1395,12 +1395,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35182dbefa75aa04c9ed32b42e29afce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Data>k__BackingField: {fileID: 11400000, guid: 16094cd5696b79244a7d684b71a4a2cb,
-    type: 2}
+  <Data>k__BackingField: {fileID: 0}
   <AnimationData>k__BackingField:
     groundParameterName: '@Ground'
     idleParameterName: Idle
     walkParameterName: Walk
+    ReloadParameterName: Reload
     attackParameterName: '@Attack'
     aimParameterName: '@Aim'
   Animator: {fileID: 0}

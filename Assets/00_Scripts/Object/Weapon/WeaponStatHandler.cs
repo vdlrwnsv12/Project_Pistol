@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+
 
 public class WeaponStatHandler : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject playerObject;
 
     [Header("Prefabs")]
+    public List<ItemSO> equippedParts = new List<ItemSO>();
     public GameObject casingPrefab; //탄피
     public GameObject muzzleFlashPrefab; //총구 화염
     public GameObject bulletImpactPrefab; //탄흔
@@ -53,6 +56,9 @@ public class WeaponStatHandler : MonoBehaviour
     public AudioClip reloadSound;
     public AudioClip emptySound;
 
+    public float itemRecoil = 0;
+
+
     [HideInInspector] public Vector3 camRootOriginPos;
     [HideInInspector] public Quaternion initialLocalRotation;
     [HideInInspector] public float lastFireTime = 0f;
@@ -74,9 +80,64 @@ public class WeaponStatHandler : MonoBehaviour
     public FpsCamera GetFpsCamera() => fpsCamera;
     public GameObject GetPlayerObject() => playerObject;
 
+    public void EquipItem(ItemSO item)
+    {
+        if (!equippedParts.Contains(item))
+        {
+            equippedParts.Add(item);
+            ApplyItemStats(item);
+        }
+    }
+    public void UnEquipItem(ItemSO item)
+    {
+        Debug.Log("2");
+        equippedParts.Remove(item);
+        Debug.Log("3");
+        RemoveItemStats(item);
+    }
+    private void ApplyItemStats(ItemSO item)
+    {
+        // weaponData.RCL += item.RCL;
+        // weaponData.HDL += item.HDL;
+        // weaponData.STP += item.STP;
+        // weaponData.SPD += item.SPD;
+        weaponData.DMG += item.DMG;
+        weaponData.MaxAmmo += item.MaxAmmo;
+        // itemRecoil += item.ShootRecoil;
+        weaponData.ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
+    }
+    private void RemoveItemStats(ItemSO item)
+    {
+        // weaponData.RCL += item.RCL;
+        // weaponData.HDL += item.HDL;
+        // weaponData.STP += item.STP;
+        // weaponData.SPD += item.SPD;
+        weaponData.DMG -= item.DMG;
+        weaponData.MaxAmmo -= item.MaxAmmo;
+        weaponData.ShootRecoil /= 1f - (item.ShootRecoil * 0.01f);
+        Debug.Log("4");
+    }
     public void ToggleAttachment(GameObject attachment)
     {
-        if (attachment != null)
-            attachment.SetActive(!attachment.activeSelf);
+        if (attachment == null) return;
+
+
+        bool isActive = attachment.activeSelf;
+        ItemReference itemRef = attachment.GetComponent<ItemReference>();
+        if (!isActive)
+        {
+            EquipItem(itemRef.itemData); // 켤 때 스탯 적용
+        }
+        else
+        {
+            UnEquipItem(itemRef.itemData); // 끌 때 스탯 제거
+            Debug.Log("1");
+        }
+
+        attachment.SetActive(!isActive);
+
+
+        if (itemRef == null || itemRef.itemData == null) return;
+
     }
 }
