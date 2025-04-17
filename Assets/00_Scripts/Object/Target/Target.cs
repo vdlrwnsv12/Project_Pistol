@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using System.Xml;
 
 public class Target : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class Target : MonoBehaviour
     public TargetSO data; // 프리팹에 직접 넣는 방식
     public float currentHp;
     public Animator anim;
+    public Text lvText;
 
     [Header("시민일 경우 메테리얼")]
     public Material civilianMaterial;
@@ -48,6 +51,7 @@ public class Target : MonoBehaviour
             }
         }
         currentHp = data.Hp;
+        lvText.text = $"{data.Level}";
     }
 
     public void TakeDamage(float amount, Collider hitCollider)
