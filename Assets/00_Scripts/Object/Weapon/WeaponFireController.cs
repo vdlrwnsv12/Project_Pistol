@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WeaponFireController : MonoBehaviour
 {
@@ -11,9 +12,9 @@ public class WeaponFireController : MonoBehaviour
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
-
     public GameObject testUi;
     public bool isLocked = true;
+    [SerializeField]private List<GameObject> optics;
 
     [SerializeField] private float targetCamY = 0.165f;
 
@@ -42,6 +43,7 @@ public class WeaponFireController : MonoBehaviour
         camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
         currentAmmo = weaponData.MaxAmmo;
+        optics = new List<GameObject> { statHandler.redDot, statHandler.holographic };
     }
 
     void Update()
@@ -105,8 +107,6 @@ public class WeaponFireController : MonoBehaviour
 
     void HandleADS()
     {
-
-
         if (Input.GetMouseButtonDown(1) && !statHandler.isReloading)
         {
             statHandler.isADS = !statHandler.isADS;
@@ -117,7 +117,9 @@ public class WeaponFireController : MonoBehaviour
             currentHandTargetRot = initialLocalRotation;
 
             // redDot 상태에 따라 타겟 Y 설정
-            targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
+            // targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
+            bool isOpticActive = optics.Exists(optics => optics.activeSelf);//조준경이 하나라도 켜져 있으면
+            targetCamY = isOpticActive ? 0.18f : 0.16f;
         }
         else
         {

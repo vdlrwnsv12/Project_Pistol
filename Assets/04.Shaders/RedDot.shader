@@ -1,10 +1,11 @@
-Shader "Custom/RedDotSight"
+Shader "Custom/RedDot"
 {
     Properties
     {
-        _DotColor ("Dot Color", Color) = (5, 0, 0, 1)
         _MainTex ("Dot Texture", 2D) = "white" {}
-        _AlphaCutoff 
+        _DotColor ("Dot Color", Color) = (1, 0, 0, 1)
+        _GlowStrength ("Glow Strength", Range(0, 10)) = 1
+        _Thickness ("Dot Thickness", Range(0.5, 3)) = 1
     }
 
     SubShader
@@ -16,7 +17,7 @@ Shader "Custom/RedDotSight"
         {
             ZTest Always
             ZWrite Off
-            Blend One One // Additive
+            Blend One One
             Cull Off
 
             Stencil
@@ -30,9 +31,10 @@ Shader "Custom/RedDotSight"
             #pragma fragment frag
             #include "UnityCG.cginc"
 
-            fixed4 _DotColor;
             sampler2D _MainTex;
-            float4 _MainTex_ST;
+            fixed4 _DotColor;
+            float _GlowStrength;
+            float _Thickness;
 
             struct appdata
             {
@@ -50,14 +52,23 @@ Shader "Custom/RedDotSight"
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 texColor = tex2D(_MainTex, i.uv);
-                return _DotColor;
+                fixed4 texCol = tex2D(_MainTex, i.uv);
+
+                // 텍스처 알파를 두께 비율로 제곱 조절 (중심 확장 느낌)
+                float alpha = pow(texCol.a, 1.0 / _Thickness);
+
+                // 알파 컷팅
+                clip(alpha - 0.1);
+
+                // 최종 색상 = 도트 색상 * 조정된 알파 * 글로우 세기
+                float glow = alpha * _GlowStrength;
+                return fixed4(_DotColor.rgb * glow, glow);
             }
             ENDCG
         }
