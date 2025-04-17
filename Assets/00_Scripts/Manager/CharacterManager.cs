@@ -12,7 +12,6 @@ public class CharacterManager : MonoBehaviour
         get { return instance; }
     }
 
-    public CharacterSO SelectCharacter;
     private void Awake()
     {
         if(instance == null)
