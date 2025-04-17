@@ -1,14 +1,15 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(CharacterSO))]
+
 public class TesterWindow : EditorWindow
 {
     /// <summary>
     /// 사용법
-    /// Tools Player에 
+    /// Tools TesterWindow 선택  Play를 누른 후 Player에 삽입 
     /// </summary>
     private Player player;
     [MenuItem("Tools/Tester Window")]
@@ -52,3 +53,5 @@ public class TesterWindow : EditorWindow
 
 
 }
+
+#endif
