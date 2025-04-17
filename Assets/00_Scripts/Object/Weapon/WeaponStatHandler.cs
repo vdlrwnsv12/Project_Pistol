@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+
 
 public class WeaponStatHandler : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class WeaponStatHandler : MonoBehaviour
     public GameObject playerObject;
 
     [Header("Prefabs")]
-    private List<ItemSO> equippedParts = new List<ItemSO>();
+    public List<ItemSO> equippedParts = new List<ItemSO>();
     public GameObject casingPrefab; //탄피
     public GameObject muzzleFlashPrefab; //총구 화염
     public GameObject bulletImpactPrefab; //탄흔
@@ -90,12 +90,10 @@ public class WeaponStatHandler : MonoBehaviour
     }
     public void UnEquipItem(ItemSO item)
     {
-        if (!equippedParts.Contains(item))
-        {
-            equippedParts.Remove(item);
-            RemoveItemStats(item);
-
-        }
+        Debug.Log("2");
+        equippedParts.Remove(item);
+        Debug.Log("3");
+        RemoveItemStats(item);
     }
     private void ApplyItemStats(ItemSO item)
     {
@@ -105,7 +103,8 @@ public class WeaponStatHandler : MonoBehaviour
         // weaponData.SPD += item.SPD;
         weaponData.DMG += item.DMG;
         weaponData.MaxAmmo += item.MaxAmmo;
-        itemRecoil += item.ShootRecoil;
+        // itemRecoil += item.ShootRecoil;
+        weaponData.ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
     }
     private void RemoveItemStats(ItemSO item)
     {
@@ -115,25 +114,30 @@ public class WeaponStatHandler : MonoBehaviour
         // weaponData.SPD += item.SPD;
         weaponData.DMG -= item.DMG;
         weaponData.MaxAmmo -= item.MaxAmmo;
-        itemRecoil -= item.ShootRecoil;
+        weaponData.ShootRecoil /= 1f - (item.ShootRecoil * 0.01f);
+        Debug.Log("4");
     }
     public void ToggleAttachment(GameObject attachment)
     {
         if (attachment == null) return;
 
+
         bool isActive = attachment.activeSelf;
-        attachment.SetActive(!isActive);
-
         ItemReference itemRef = attachment.GetComponent<ItemReference>();
-        if (itemRef == null || itemRef.itemData == null) return;
-
         if (!isActive)
         {
-            ApplyItemStats(itemRef.itemData); // 켤 때 스탯 적용
+            EquipItem(itemRef.itemData); // 켤 때 스탯 적용
         }
         else
         {
-            RemoveItemStats(itemRef.itemData); // 끌 때 스탯 제거
+            UnEquipItem(itemRef.itemData); // 끌 때 스탯 제거
+            Debug.Log("1");
         }
+
+        attachment.SetActive(!isActive);
+
+
+        if (itemRef == null || itemRef.itemData == null) return;
+
     }
 }

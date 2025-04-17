@@ -9,7 +9,7 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     // protected readonly PlayerGroundData groundData;
-   
+
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -60,7 +60,7 @@ public class PlayerBaseState : IState
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
-      
+
     }
 
     protected virtual void OnLookStarted(InputAction.CallbackContext context)
@@ -133,18 +133,17 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        float baseSpeed = stateMachine.Player.statHandler.MovementSpeed;
-        float finalSpeed = baseSpeed;
+        float moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
 
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
             finalSpeed *= stateMachine.Player.adsSpeedMultiplier;  // 조준 중일 때 속도 감소
         
         }
-        
 
-        Debug.Log($"최종 이동 속도: {finalSpeed}");
-        return finalSpeed;
+        moveSpeed *= stateMachine.Player.adsSpeedMultiplier;
+
+        //Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
+        return moveSpeed;
     }
-
 }
