@@ -10,7 +10,6 @@ public class ShellFallSound : MonoBehaviour
         if (collision.gameObject.tag != "Gun")
         {
             SoundManager.Instance.PlaySFX(shellSound);
-            Debug.Log("탄피");
         }
     }
 }
