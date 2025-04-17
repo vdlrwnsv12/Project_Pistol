@@ -15,8 +15,8 @@ MonoBehaviour:
   ID: C0001
   Name: "\uC7AC\uC6D0"
   Description: "\uC870\uC900 \uD2B9\uD654 \uCE90\uB9AD\uD130"
-  RCL: 55
-  HDL: 45
-  STP: 30
-  SPD: 50
+  RCL: 8
+  HDL: 6
+  STP: 88
+  SPD: 1
   Cost: 0

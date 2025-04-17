@@ -38,6 +38,11 @@ public class TesterWindow : EditorWindow
             player.Data.HDL = EditorGUILayout.Slider("HDL", player.Data.HDL, 0f, 99f);
             player.Data.Cost = EditorGUILayout.IntField("Cost", player.Data.Cost);
 
+         
+            //player.HeadBob.Amount = EditorGUILayout.Slider("Amount", player.HeadBob.Amount, 0f, 1f);
+            //player.HeadBob.Frequency = EditorGUILayout.Slider("Frequency", player.HeadBob.Frequency, 0f, 30f);
+            //player.HeadBob.Smooth = EditorGUILayout.Slider("Smooth", player.HeadBob.Smooth,0f,100f);
+            
             player.adsSpeedMultiplier = EditorGUILayout.Slider("ADS 속도 비율", player.adsSpeedMultiplier, 0f, 1f);
             if (EditorGUI.EndChangeCheck())
             {

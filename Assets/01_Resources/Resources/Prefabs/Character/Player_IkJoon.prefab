@@ -2001,6 +2001,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 982432676637716630}
+  - component: {fileID: 1833960219246074422}
   m_Layer: 0
   m_Name: CameraRoot
   m_TagString: Untagged
@@ -2024,6 +2025,22 @@ Transform:
   - {fileID: 3605156350538395342}
   m_Father: {fileID: 8617233395470050005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1833960219246074422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035533044203177786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bd52e32ff008348ac0602d72685a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Amount: 0.002
+  Frequency: 10
+  Smooth: 10
+  Player: {fileID: 0}
 --- !u!1 &7094661046202893791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,6 +2640,7 @@ MonoBehaviour:
     attackParameterName: '@Attack'
     aimParameterName: '@Aim'
   Animator: {fileID: 310778866695122992}
+  adsSpeedMultiplier: 0.5
 --- !u!114 &6238428972350001171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2671,6 +2689,11 @@ MonoBehaviour:
   rotCamXAxisSpeed: 5
   rotCamYAxisSpeed: 5
   sensitivity: 0.05
+  isADS: 0
+  isMoving: 0
+  walkBobSpeed: 10
+  walkBobAmount: 0.05
+  stpValue: 1
 --- !u!114 &3894230257341414664
 MonoBehaviour:
   m_ObjectHideFlags: 0

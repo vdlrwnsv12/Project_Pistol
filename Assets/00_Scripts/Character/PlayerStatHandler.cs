@@ -8,6 +8,7 @@ public class PlayerStatHandler
     
     public CharacterStat Stat => stat;
     public float MovementSpeed => player.Data.SPD;
+    public float MoveSTP => player.Data.STP;
 
     public PlayerStatHandler(Player player)
     {
