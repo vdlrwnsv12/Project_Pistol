@@ -1,19 +1,19 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WeaponFireController : MonoBehaviour
 {
     private WeaponSO weaponData;
     private WeaponStatHandler statHandler;
-    [SerializeField] private int currentAmmo;
+    [SerializeField] public int currentAmmo;
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
-
-    public GameObject testUi;
     public bool isLocked = true;
+    [SerializeField]private List<GameObject> optics;
 
     [SerializeField] private float targetCamY = 0.165f;
 
@@ -38,10 +38,14 @@ public class WeaponFireController : MonoBehaviour
             }
         }
         weaponData = statHandler.weaponData;
+        statHandler.WeaponDataFromSO();
         initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
-        currentAmmo = weaponData.MaxAmmo;
+        currentAmmo = statHandler.MaxAmmo;
+        statHandler.BindToWeapon(this);
+        statHandler.onAmmoChanged(currentAmmo, statHandler.MaxAmmo);
+        optics = new List<GameObject> { statHandler.redDot, statHandler.holographic };
     }
 
     void Update()
@@ -105,8 +109,6 @@ public class WeaponFireController : MonoBehaviour
 
     void HandleADS()
     {
-
-
         if (Input.GetMouseButtonDown(1) && !statHandler.isReloading)
         {
             statHandler.isADS = !statHandler.isADS;
@@ -117,7 +119,9 @@ public class WeaponFireController : MonoBehaviour
             currentHandTargetRot = initialLocalRotation;
 
             // redDot 상태에 따라 타겟 Y 설정
-            targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
+            // targetCamY = (statHandler.redDot != null && statHandler.redDot.activeSelf) ? 0.18f : 0.16f;
+            bool isOpticActive = optics.Exists(optics => optics.activeSelf);//조준경이 하나라도 켜져 있으면
+            targetCamY = isOpticActive ? 0.18f : 0.16f;
         }
         else
         {
@@ -194,6 +198,8 @@ public class WeaponFireController : MonoBehaviour
             SoundManager.Instance.PlaySFX(statHandler.fireSound);
 
             currentAmmo--;
+
+            statHandler.onAmmoChanged?.Invoke(currentAmmo, statHandler.MaxAmmo);
         }
         else
         {
@@ -225,16 +231,16 @@ public class WeaponFireController : MonoBehaviour
                 Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
                 GameObject impact = Instantiate(statHandler.bulletImpactPrefab, hit.point, hitRotation);
                 impact.transform.SetParent(hit.collider.transform);
-                Destroy(impact, 2f);
+                Destroy(impact, 5f);
             }
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 Target target = hit.collider.GetComponentInParent<Target>();
-                target?.TakeDamage(weaponData.DMG, hit.collider);
+                target?.TakeDamage(statHandler.DMG, hit.collider);
             }
         }
-        StartCoroutine(CameraShake(weaponData.DMG * 0.0125f));
+        StartCoroutine(CameraShake(statHandler.DMG * 0.0125f));
     }
     void OnDrawGizmos()
     {
@@ -282,7 +288,7 @@ public class WeaponFireController : MonoBehaviour
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                statHandler.ejectPower = statHandler.weaponData.DMG * 40f;
+                statHandler.ejectPower = statHandler.DMG * 40f;
                 float power = statHandler.ejectPower;
                 rb.AddExplosionForce(Random.Range(power * 0.7f, power),
                     statHandler.casingExitLocation.position - statHandler.casingExitLocation.right * 0.3f - statHandler.casingExitLocation.up * 0.6f, 1f);
@@ -296,9 +302,9 @@ public class WeaponFireController : MonoBehaviour
     void CalculateFinalRecoil()
     {
         float rcl = statHandler.playerObject.GetComponent<Player>().Data.RCL;
-        finalRecoil = weaponData.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
+        finalRecoil = statHandler.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
         //finalRecoil = baseRecoil * (1f - statHandler.itemRecoil * 0.01f);
-        Debug.Log($"무기 반동:{weaponData.ShootRecoil}, 플레이어 반동제어:{rcl}, 최종 반동:{finalRecoil},");
+        Debug.Log($"무기 반동:{statHandler.ShootRecoil}, 플레이어 반동제어:{rcl}, 최종 반동:{finalRecoil},");
     }
 
     void ApplyRecoil()
@@ -334,7 +340,7 @@ public class WeaponFireController : MonoBehaviour
 
     public void ReloadWeapon()
     {
-        if (currentAmmo == weaponData.MaxAmmo && statHandler.isADS)
+        if (currentAmmo == statHandler.MaxAmmo && statHandler.isADS)
         {
             return;
         }
@@ -350,11 +356,12 @@ public class WeaponFireController : MonoBehaviour
 
     IEnumerator ReloadCoroutine()
     {
-        yield return new WaitForSeconds(weaponData.ReloadTime);
+        yield return new WaitForSeconds(statHandler.ReloadTime);
 
         statHandler.gunAnimator.SetBool("OutOfAmmo", false);
 
-        currentAmmo = weaponData.MaxAmmo;
+        currentAmmo = statHandler.MaxAmmo;
+        statHandler.onAmmoChanged(currentAmmo, statHandler.MaxAmmo);
         statHandler.isReloading = false;
     }
 

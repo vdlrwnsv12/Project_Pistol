@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class TestPartButton : MonoBehaviour
 {
-   public enum AttachmentType
+    public enum AttachmentType
     {
         RedDot,
+        Holographic,
         Laser,
         Compensator
     }
@@ -27,7 +28,10 @@ public class TestPartButton : MonoBehaviour
         switch (attachmentType)
         {
             case AttachmentType.RedDot:
-                handler.ToggleAttachment(handler.redDot);
+                handler.ToggleOpticAttachment(handler.redDot);
+                break;
+            case AttachmentType.Holographic:
+                handler.ToggleOpticAttachment(handler.holographic);
                 break;
             case AttachmentType.Laser:
                 handler.ToggleAttachment(handler.laserPointer);
