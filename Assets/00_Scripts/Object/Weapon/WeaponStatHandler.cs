@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponStatHandler : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class WeaponStatHandler : MonoBehaviour
     public Camera playerCam;
     public FpsCamera fpsCamera;
     public GameObject playerObject;
+    public Text bulletStatText;
 
     [Header("Prefabs")]
     public List<ItemSO> equippedParts = new List<ItemSO>();
@@ -50,20 +53,23 @@ public class WeaponStatHandler : MonoBehaviour
     public AudioClip reloadSound;
     public AudioClip emptySound;
 
+    [Header("Item Stat")]
     public float itemRecoil = 0;
-
+    
     [HideInInspector] public Vector3 camRootOriginPos;
     [HideInInspector] public Quaternion initialLocalRotation;
     [HideInInspector] public float lastFireTime = 0f;
+    public Action<int, int> onAmmoChanged;
 
     // 공유 변수 세팅
-    public void SetSharedReferences(Transform hand, Transform camRoot, Camera cam, FpsCamera fps, GameObject player)
+    public void SetSharedReferences(Transform hand, Transform camRoot, Camera cam, FpsCamera fps, GameObject player, Text bulletText)
     {
         this.handransform = hand;
         this.camRoot = camRoot;
         this.playerCam = cam;
         this.fpsCamera = fps;
         this.playerObject = player;
+        this.bulletStatText = bulletText;
     }
 
     public Transform GetHandTransform() => handransform;
@@ -164,5 +170,14 @@ public class WeaponStatHandler : MonoBehaviour
                 }
             }
         }
+    }
+    public void BindToWeapon(WeaponFireController fireController)
+    {
+        onAmmoChanged += UpdateBulletText;
+    }
+
+    private void UpdateBulletText(int currentAmmo, int MaxAmmo)
+    {
+        bulletStatText.text = $"{currentAmmo} / {MaxAmmo}";
     }
 }

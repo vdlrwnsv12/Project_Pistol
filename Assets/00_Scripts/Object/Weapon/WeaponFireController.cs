@@ -6,13 +6,12 @@ public class WeaponFireController : MonoBehaviour
 {
     private WeaponSO weaponData;
     private WeaponStatHandler statHandler;
-    [SerializeField] private int currentAmmo;
+    [SerializeField] public int currentAmmo;
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
-    public GameObject testUi;
     public bool isLocked = true;
     [SerializeField]private List<GameObject> optics;
 
@@ -43,6 +42,8 @@ public class WeaponFireController : MonoBehaviour
         camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
         currentAmmo = weaponData.MaxAmmo;
+        statHandler.BindToWeapon(this);
+        statHandler.onAmmoChanged(currentAmmo, weaponData.MaxAmmo);
         optics = new List<GameObject> { statHandler.redDot, statHandler.holographic };
     }
 
@@ -196,6 +197,8 @@ public class WeaponFireController : MonoBehaviour
             SoundManager.Instance.PlaySFX(statHandler.fireSound);
 
             currentAmmo--;
+
+            statHandler.onAmmoChanged?.Invoke(currentAmmo, weaponData.MaxAmmo);
         }
         else
         {
@@ -284,7 +287,7 @@ public class WeaponFireController : MonoBehaviour
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                statHandler.ejectPower = statHandler.weaponData.DMG * 40f;
+                statHandler.ejectPower = weaponData.DMG * 40f;
                 float power = statHandler.ejectPower;
                 rb.AddExplosionForce(Random.Range(power * 0.7f, power),
                     statHandler.casingExitLocation.position - statHandler.casingExitLocation.right * 0.3f - statHandler.casingExitLocation.up * 0.6f, 1f);
@@ -357,6 +360,7 @@ public class WeaponFireController : MonoBehaviour
         statHandler.gunAnimator.SetBool("OutOfAmmo", false);
 
         currentAmmo = weaponData.MaxAmmo;
+        statHandler.onAmmoChanged(currentAmmo, weaponData.MaxAmmo);
         statHandler.isReloading = false;
     }
 
