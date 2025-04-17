@@ -71,7 +71,7 @@ public class WeaponStatHandler : MonoBehaviour
     [HideInInspector] public float lastFireTime = 0f;
     public Action<int, int> onAmmoChanged;
 
-    public void WeaponDataFromSO()
+    public void WeaponDataFromSO() // ScriptableObject로부터 스탯 불러오기
     {
         if (weaponData == null)
         {
@@ -87,7 +87,7 @@ public class WeaponStatHandler : MonoBehaviour
         Cost = weaponData.Cost;
     }
 
-    // 공유 변수 세팅
+    // PlayerEquipment에서 참조 넘겨받음
     public void SetSharedReferences(Transform hand, Transform camRoot, Camera cam, FpsCamera fps, GameObject player, Text bulletText)
     {
         this.handransform = hand;
@@ -104,6 +104,7 @@ public class WeaponStatHandler : MonoBehaviour
     public FpsCamera GetFpsCamera() => fpsCamera;
     public GameObject GetPlayerObject() => playerObject;
 
+    // 조준경/부착물 교체용 파츠 장착
     public void EquipItem(ItemSO item)
     {
         if (!equippedParts.Contains(item))
@@ -119,7 +120,7 @@ public class WeaponStatHandler : MonoBehaviour
         RemoveItemStats(item);
     }
 
-    private void ApplyItemStats(ItemSO item)
+    private void ApplyItemStats(ItemSO item) // 아이템 효과 반영
     {
         DMG += item.DMG;
         MaxAmmo += item.MaxAmmo;
