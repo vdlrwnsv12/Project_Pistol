@@ -44,10 +44,7 @@ public class Player : MonoBehaviour
         stateMachine.ChangeState(stateMachine.IdleState);
 
     }
-    public void SetCharacterData(CharacterSO character)
-    {
-        Data = character;
-    }
+ 
     private void Update()
     {
         stateMachine.HandleInput();
