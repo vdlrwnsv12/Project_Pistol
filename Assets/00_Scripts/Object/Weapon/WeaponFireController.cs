@@ -38,12 +38,13 @@ public class WeaponFireController : MonoBehaviour
             }
         }
         weaponData = statHandler.weaponData;
+        statHandler.WeaponDataFromSO();
         initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
         statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
-        currentAmmo = weaponData.MaxAmmo;
+        currentAmmo = statHandler.MaxAmmo;
         statHandler.BindToWeapon(this);
-        statHandler.onAmmoChanged(currentAmmo, weaponData.MaxAmmo);
+        statHandler.onAmmoChanged(currentAmmo, statHandler.MaxAmmo);
         optics = new List<GameObject> { statHandler.redDot, statHandler.holographic };
     }
 
@@ -198,7 +199,7 @@ public class WeaponFireController : MonoBehaviour
 
             currentAmmo--;
 
-            statHandler.onAmmoChanged?.Invoke(currentAmmo, weaponData.MaxAmmo);
+            statHandler.onAmmoChanged?.Invoke(currentAmmo, statHandler.MaxAmmo);
         }
         else
         {
@@ -236,10 +237,10 @@ public class WeaponFireController : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 Target target = hit.collider.GetComponentInParent<Target>();
-                target?.TakeDamage(weaponData.DMG, hit.collider);
+                target?.TakeDamage(statHandler.DMG, hit.collider);
             }
         }
-        StartCoroutine(CameraShake(weaponData.DMG * 0.0125f));
+        StartCoroutine(CameraShake(statHandler.DMG * 0.0125f));
     }
     void OnDrawGizmos()
     {
@@ -287,7 +288,7 @@ public class WeaponFireController : MonoBehaviour
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                statHandler.ejectPower = weaponData.DMG * 40f;
+                statHandler.ejectPower = statHandler.DMG * 40f;
                 float power = statHandler.ejectPower;
                 rb.AddExplosionForce(Random.Range(power * 0.7f, power),
                     statHandler.casingExitLocation.position - statHandler.casingExitLocation.right * 0.3f - statHandler.casingExitLocation.up * 0.6f, 1f);
@@ -301,9 +302,9 @@ public class WeaponFireController : MonoBehaviour
     void CalculateFinalRecoil()
     {
         float rcl = statHandler.playerObject.GetComponent<Player>().Data.RCL;
-        finalRecoil = weaponData.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
+        finalRecoil = statHandler.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
         //finalRecoil = baseRecoil * (1f - statHandler.itemRecoil * 0.01f);
-        Debug.Log($"무기 반동:{weaponData.ShootRecoil}, 플레이어 반동제어:{rcl}, 최종 반동:{finalRecoil},");
+        Debug.Log($"무기 반동:{statHandler.ShootRecoil}, 플레이어 반동제어:{rcl}, 최종 반동:{finalRecoil},");
     }
 
     void ApplyRecoil()
@@ -339,7 +340,7 @@ public class WeaponFireController : MonoBehaviour
 
     public void ReloadWeapon()
     {
-        if (currentAmmo == weaponData.MaxAmmo && statHandler.isADS)
+        if (currentAmmo == statHandler.MaxAmmo && statHandler.isADS)
         {
             return;
         }
@@ -355,12 +356,12 @@ public class WeaponFireController : MonoBehaviour
 
     IEnumerator ReloadCoroutine()
     {
-        yield return new WaitForSeconds(weaponData.ReloadTime);
+        yield return new WaitForSeconds(statHandler.ReloadTime);
 
         statHandler.gunAnimator.SetBool("OutOfAmmo", false);
 
-        currentAmmo = weaponData.MaxAmmo;
-        statHandler.onAmmoChanged(currentAmmo, weaponData.MaxAmmo);
+        currentAmmo = statHandler.MaxAmmo;
+        statHandler.onAmmoChanged(currentAmmo, statHandler.MaxAmmo);
         statHandler.isReloading = false;
     }
 

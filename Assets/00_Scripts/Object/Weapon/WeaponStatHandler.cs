@@ -12,6 +12,16 @@ public class WeaponStatHandler : MonoBehaviour
     public bool isReloading = false;
     public bool isADS = false;
 
+    [Header("Weapon Stat")]
+    public string ID;
+    public string Name;
+    public string Description;
+    public float ShootRecoil;
+    public float DMG;
+    public float ReloadTime;
+    public int MaxAmmo;
+    public int Cost;
+
     [Header("Transforms")]
     public Transform barrelLocation;
     public Transform casingExitLocation;
@@ -55,11 +65,27 @@ public class WeaponStatHandler : MonoBehaviour
 
     [Header("Item Stat")]
     public float itemRecoil = 0;
-    
+
     [HideInInspector] public Vector3 camRootOriginPos;
     [HideInInspector] public Quaternion initialLocalRotation;
     [HideInInspector] public float lastFireTime = 0f;
     public Action<int, int> onAmmoChanged;
+
+    public void WeaponDataFromSO()
+    {
+        if (weaponData == null)
+        {
+            Debug.Log("WeaponSO없음");
+        }
+
+        ID = weaponData.ID;
+        Description = weaponData.Description;
+        ShootRecoil = weaponData.ShootRecoil;
+        DMG = weaponData.DMG;
+        ReloadTime = weaponData.ReloadTime;
+        MaxAmmo = weaponData.MaxAmmo;
+        Cost = weaponData.Cost;
+    }
 
     // 공유 변수 세팅
     public void SetSharedReferences(Transform hand, Transform camRoot, Camera cam, FpsCamera fps, GameObject player, Text bulletText)
@@ -95,21 +121,21 @@ public class WeaponStatHandler : MonoBehaviour
 
     private void ApplyItemStats(ItemSO item)
     {
-        weaponData.DMG += item.DMG;
-        weaponData.MaxAmmo += item.MaxAmmo;
-        weaponData.ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
+        DMG += item.DMG;
+        MaxAmmo += item.MaxAmmo;
+        ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
     }
 
     private void RemoveItemStats(ItemSO item)
     {
-        weaponData.DMG -= item.DMG;
-        weaponData.MaxAmmo -= item.MaxAmmo;
-        weaponData.ShootRecoil /= 1f - (item.ShootRecoil * 0.01f);
+        DMG -= item.DMG;
+        MaxAmmo -= item.MaxAmmo;
+        ShootRecoil /= 1f - (item.ShootRecoil * 0.01f);
     }
-/// <summary>
-/// 조준경 아닌 파츠 사용
-/// </summary>
-/// <param name="파츠이름F"></param>
+    /// <summary>
+    /// 조준경 아닌 파츠 사용
+    /// </summary>
+    /// <param name="파츠이름F"></param>
     public void ToggleAttachment(GameObject attachment) // 파츠 토글
     {
         if (attachment == null) return;
@@ -131,10 +157,10 @@ public class WeaponStatHandler : MonoBehaviour
         if (itemRef == null || itemRef.itemData == null) return;
     }
 
-/// <summary>
-/// 조준경 파츠 사용
-/// </summary>
-/// <param name="조준경 이름"></param>
+    /// <summary>
+    /// 조준경 파츠 사용
+    /// </summary>
+    /// <param name="조준경 이름"></param>
     public void ToggleOpticAttachment(GameObject selectedOptic) //조준경 토글
     {
         if (selectedOptic == null) return;

@@ -40,7 +40,6 @@ public class PlayerEquipment : MonoBehaviour
         if (handler != null)
         {
             handler.SetSharedReferences(handransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
-
             // 여기에서 InitReferences 호출
             var fireController = currentWeaponObject.GetComponent<WeaponFireController>();
             if (fireController != null)
