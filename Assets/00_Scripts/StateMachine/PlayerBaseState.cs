@@ -125,7 +125,7 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        float moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
+        float moveSpeed = stateMachine.Player.statHandler.Stat.SPD;
 
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
         {
@@ -133,7 +133,7 @@ public class PlayerBaseState : IState
         }
         else
         {
-            moveSpeed = stateMachine.Player.statHandler.MovementSpeed;
+            moveSpeed = stateMachine.Player.statHandler.Stat.SPD;
         }
 
         moveSpeed *= stateMachine.Player.adsSpeedMultiplier;
