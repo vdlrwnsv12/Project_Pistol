@@ -84,7 +84,9 @@ public class StageLoader : MonoBehaviour
     public void LoadNextStage()
     {
         int nextIndex = currentStageIndex + 1;
-        if (nextIndex >= stagePrefabs.Length)
+
+        StageData nextData = stageDatabase.GetStageByIndex(nextIndex);
+        if (nextData == null)
         {
             Debug.Log("모든 스테이지 완료!");
             return;
@@ -92,19 +94,14 @@ public class StageLoader : MonoBehaviour
 
         previousStage = currentStage;
 
-        // 위치, 회전 가져오기
-        Vector3 spawnPos = (stagePositions.Length > nextIndex) ? stagePositions[nextIndex] : Vector3.zero;
-        Quaternion spawnRot = (stageRotations.Length > nextIndex) ? Quaternion.Euler(stageRotations[nextIndex]) : Quaternion.identity;
+        GameObject prefab = stagePrefabs[nextIndex]; // or nextData.ID로 프리팹 매칭 가능
+        Vector3 pos = nextData.RoomPos;
+        Quaternion rot = Quaternion.Euler(nextData.RoomRot);
 
-        // 적용해서 인스턴스화
-        GameObject newStage = Instantiate(stagePrefabs[nextIndex], spawnPos, spawnRot);
-
-        // 4. 현재 스테이지 갱신
-        currentStage = newStage;
+        currentStage = Instantiate(prefab, pos, rot);
         currentStageIndex = nextIndex;
 
-        // 5. 위치, 회전 확인용 로그는 **위치 설정 이후에 출력**
-        Debug.Log($"Stage {currentStageIndex + 1} 로드 완료 (위치: {newStage.transform.position}, 회전: {newStage.transform.rotation.eulerAngles})");
+        Debug.Log($"Stage {currentStageIndex + 1} 로드 완료 (위치: {pos}, 회전: {rot.eulerAngles})");
     }
 
     /// <summary>
