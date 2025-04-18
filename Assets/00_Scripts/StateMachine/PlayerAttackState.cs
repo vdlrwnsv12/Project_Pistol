@@ -15,8 +15,19 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Enter();
         hasShot = false;
-        
+
+        Debug.Log("▶ AttackState Enter");
+        Debug.Log($"▶ Attack Bool Before: {stateMachine.Player.Animator.GetBool(stateMachine.Player.AnimationData.AttackParameterHash)}");
+
         StartAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
+
+        Debug.Log($"▶ Attack Bool After: {stateMachine.Player.Animator.GetBool(stateMachine.Player.AnimationData.AttackParameterHash)}");
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        StopAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
     }
 
     public override void Update()
@@ -41,11 +52,7 @@ public class PlayerAttackState : PlayerBaseState
         }
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-        StopAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
-    }
+  
 
    
     protected override void OnAttack(InputAction.CallbackContext context)
