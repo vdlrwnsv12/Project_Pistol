@@ -192,7 +192,7 @@ public class GoogleSheetParser : EditorWindow
     /// <param name="jArray">Json 데이터를 저장할 매개변수</param>
     private void SaveJsonToFile(string jsonFileName, JArray jArray)
     {
-        var directoryPath = Path.Combine(Application.dataPath, "01_Resources", "Resources", "Data", "JSON");
+        var directoryPath = Path.Combine(Application.dataPath, "Resources", "Data", "JSON");
 
         if (!Directory.Exists(directoryPath))
         {
