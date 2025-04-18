@@ -1,24 +1,40 @@
-using TMPro;
+using DataDeclaration;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    #region Enum
+    #region Singleton
 
-    /// <summary>
-    /// 스테이지 상태 정보
-    /// </summary>
-    public enum StageState
+    private static StageManager instance;
+
+    public static StageManager Instance
     {
-        Waiting, // 시작 전
-        Playing, // 진행 중
-        Cleared, // 클리어
-        Failed   // 실패
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<StageManager>();
+                if (instance == null)
+                {
+                    instance = FindAnyObjectByType<StageManager>();
+                    if (instance == null)
+                    {
+                        var go = new GameObject
+                        {
+                            name = nameof(StageManager)
+                        };
+                        instance = go.AddComponent<StageManager>();
+                    }
+                }
+            }
+
+            return instance;
+        }
     }
 
-    private StageState stageState;
-
     #endregion
+    
+    private StageState stageState;
 
     #region Parameters
 
@@ -43,6 +59,11 @@ public class StageManager : MonoBehaviour
 
     [Header("애니메이션")]
     [SerializeField] private Animator gateAnimator;     // 문 애니메이터
+    
+    public RewardSystem RewardSystem { get; private set; }
+    public ScoreSystem ScoreSystem { get; private set; }
+
+    private HUDUI hudUI;
 
     #endregion
 
@@ -79,9 +100,23 @@ public class StageManager : MonoBehaviour
         InitStage(); // TODO: StartStage 내에서 InitStage 호출 구조 변경 검토 필요
     }
 
-    /// <summary>
-    /// 스테이지 진행 업데이트
-    /// </summary>
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        
+        RewardSystem = new RewardSystem();
+        ScoreSystem = new ScoreSystem();
+        
+        InitHUDUI();
+    }
+
     private void Update()
     {
         if (stageState != StageState.Playing)
@@ -165,4 +200,11 @@ public class StageManager : MonoBehaviour
     }
 
     #endregion
+
+    private void InitHUDUI()
+    {
+        UIManager.Instance.InitUI<HUDUI>();
+        UIManager.Instance.ChangeMainUI(MainUIType.HUD);
+        hudUI = UIManager.Instance.CurMainUI as HUDUI;
+    }
 }

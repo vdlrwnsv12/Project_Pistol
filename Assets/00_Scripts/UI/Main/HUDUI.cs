@@ -88,6 +88,24 @@ public class HUDUI : MainUI
         spdGauge.fillAmount = stat.SPD / Constant.MAX_STAT;
         spdText.text = stat.SPD.ToString("N0");
     }
+    
+    /// <summary>
+    /// 캐릭터 스탯 UI 갱신 메서드
+    /// </summary>
+    public void UpdateStatValue(float rcl, float hdl, float stp, float spd)
+    {
+        rclGauge.fillAmount = rcl / Constant.MAX_STAT;
+        rclText.text = rcl.ToString("N0");
+
+        hdlGauge.fillAmount = hdl / Constant.MAX_STAT;
+        hdlText.text = hdl.ToString("N0");
+
+        stpGauge.fillAmount = stp / Constant.MAX_STAT;
+        stpText.text = stp.ToString("N0");
+
+        spdGauge.fillAmount = spd / Constant.MAX_STAT;
+        spdText.text = spd.ToString("N0");
+    }
 
     /// <summary>
     /// 캐릭터가 장착 중인 무기 이미지 UI 갱신 메서드

@@ -1,21 +1,18 @@
-using System;
 using DataDeclaration;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PopupReward : PopupUI
 {
-    private ItemData[] itemRewards;
+    private ItemSO[] itemRewards;
     [SerializeField] private RewardCard[] rewardCards;
 
     [SerializeField] private Button cancelBuyBtn;
 
-    public event Action<ItemData> OnClickItemReward;
-
     protected override void Awake()
     {
         base.Awake();
-        itemRewards = new ItemData[rewardCards.Length];
+        itemRewards = new ItemSO[rewardCards.Length];
 
         cancelBuyBtn.onClick.AddListener(OnClickCancelBuyButton);
     }
@@ -36,22 +33,28 @@ public class PopupReward : PopupUI
     /// </summary>
     private void InitReward()
     {
-        // //TODO: StageManager.Instance.RewardSystem 접근하기
-        // itemRewards = TestManager.Instance.RewardSystem.GetRandomItemReward();
-        // for (var i = 0; i < rewardCards.Length; i++)
-        // {
-        //     rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
-        //     rewardCards[i].rewardName.text = itemRewards[i].ItemName;
-        //     rewardCards[i].timeCost.text = $"-{itemRewards[i].Cost:N2}s";
-        //     rewardCards[i].rewardButton.onClick.RemoveAllListeners();
-        //     if (itemRewards[i].type == ItemApplyType.Player)
-        //     {
-        //         var playerItem = (PlayerItemData)itemRewards[i];
-        //         rewardCards[i].rewardButton.onClick.AddListener(() => TestManager.Instance.PlayerStatHandler.IncreaseStat(playerItem.Stat));
-        //         rewardCards[i].rewardButton.onClick.AddListener(() =>
-        //             ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(TestManager.Instance.PlayerStatHandler.Stat));
-        //         rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
-        //     }
-        // }
+        //TODO: 아이템 아이콘 이미지 넣기 추가
+        itemRewards = StageManager.Instance.RewardSystem.GetRandomItemReward();
+        for (var i = 0; i < rewardCards.Length; i++)
+        {
+            //rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
+            rewardCards[i].rewardName.text = itemRewards[i].Name;
+            rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
+            rewardCards[i].rewardButton.onClick.RemoveAllListeners();
+            var item = itemRewards[i];
+            
+            //TODO: 아이템 선택 시 실행할 로직 넣기
+            // if (itemRewards[i].ApplicationTarget == (int)ItemApplyType.Player)
+            // {
+            //     rewardCards[i].rewardButton.onClick.AddListener(() => StageManager.Instance.Player.StatHandler.IncreaseStat(item.RCL, item.HDL, item.STP, item.SPD));
+            //     rewardCards[i].rewardButton.onClick.AddListener(() =>
+            //         ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(StageManager.Instance.Player.StatHandler.Stat));
+            // }
+            // else
+            // {
+            //     rewardCards[i].rewardButton.onClick.AddListener(() => StageManager.Player.Equipment.WeaponStatHandler);
+            // }
+            rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
+        }
     }
 }

@@ -45,7 +45,7 @@ public class HeadBob : MonoBehaviour
 
     private Vector3 StartHeadBob()
     {
-        float t = Mathf.InverseLerp(1f, 99f, Player.statHandler.Stat.SPD);  // STP가 1일 때 0, 99일 때 1
+        float t = Mathf.InverseLerp(1f, 99f, Player.StatHandler.Stat.SPD);  // STP가 1일 때 0, 99일 때 1
         float inverseEffect = 1f - t;  // 반비례 효과
 
         Vector3 pos = Vector3.zero;

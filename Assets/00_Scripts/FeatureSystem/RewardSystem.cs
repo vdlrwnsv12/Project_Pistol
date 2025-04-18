@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RewardSystem
 {
-    private readonly ItemSO[] itemRewardPool = ResourceManager.Instance.LoadAll<ItemSO>("Data/SO/Item");    // 모든 아이템 SO
+    private readonly ItemSO[] itemRewardPool = ResourceManager.Instance.LoadAll<ItemSO>("Data/SO/ItemSO");    // 모든 아이템 SO
 
     //TODO: 조건 더 추가해야 함
     /// <summary>

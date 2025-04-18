@@ -25,8 +25,19 @@ namespace DataDeclaration
 
     public enum ItemApplyType
     {
-        Player,
+        Player = 1,
         Weapon
+    }
+    
+    /// <summary>
+    /// 스테이지 상태 정보
+    /// </summary>
+    public enum StageState
+    {
+        Waiting, // 시작 전
+        Playing, // 진행 중
+        Cleared, // 클리어
+        Failed   // 실패
     }
 
     #endregion
@@ -52,23 +63,24 @@ namespace DataDeclaration
 
         public float RCL
         {
-            get => Mathf.Clamp(rclValue, 0, Constant.MAX_STAT);
-            set => rclValue = value;
+            get => rclValue;
+            set => rclValue = Mathf.Clamp(value, 0, Constant.MAX_STAT);
         }
+
         public float HDL
         {
-            get => Mathf.Clamp(hdlValue, 0, Constant.MAX_STAT);
-            set => hdlValue = value;
+            get => hdlValue;
+            set => hdlValue = Mathf.Clamp(value, 0, Constant.MAX_STAT);
         }
         public float STP
         {
-            get => Mathf.Clamp(stpValue, 0, Constant.MAX_STAT);
-            set => stpValue = value;
+            get => stpValue;
+            set => stpValue = Mathf.Clamp(value, 0, Constant.MAX_STAT);
         }
         public float SPD
         {
-            get => Mathf.Clamp(spdValue, 0, Constant.MAX_STAT);
-            set => spdValue = value;
+            get => spdValue;
+            set => spdValue = Mathf.Clamp(value, 0, Constant.MAX_STAT);
         }
     }
 

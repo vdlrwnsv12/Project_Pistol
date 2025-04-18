@@ -53,7 +53,6 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
-        
         Move();
        
 
@@ -130,7 +129,7 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        float baseSpeed = stateMachine.Player.statHandler.Stat.SPD;
+        float baseSpeed = stateMachine.Player.StatHandler.Stat.SPD;
         float finalSpeed = baseSpeed;
 
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
