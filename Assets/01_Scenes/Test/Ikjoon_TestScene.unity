@@ -5852,6 +5852,11 @@ PrefabInstance:
       propertyPath: handTransform
       value: 
       objectReference: {fileID: 299548758}
+    - target: {fileID: 6710376573784999812, guid: b8870276ef24046fc876932b167bbf3c,
+        type: 3}
+      propertyPath: playerEquipment
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8170167947590372548, guid: b8870276ef24046fc876932b167bbf3c,
         type: 3}
       propertyPath: handTransform
@@ -5912,7 +5917,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6465326669290865639, guid: b8870276ef24046fc876932b167bbf3c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
