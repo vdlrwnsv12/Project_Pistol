@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
     #region Parameters
 
     [Header("스테이지 데이터")]
-    [SerializeField] private WhiteChoco.StageData[] stageDataArray; // 각 스테이지별 설정값 목록
+    [SerializeField] private ItemSO[] stageDataArray; // 각 스테이지별 설정값 목록
 
     [Header("상태 플래그")]
     private bool isStageStarted;       // 스테이지 시작 여부
@@ -41,11 +41,6 @@ public class StageManager : MonoBehaviour
     [SerializeField] private int currentStageIndex; // 현재 스테이지 인덱스
     private int maxStageCount => stageDataArray.Length; // 최대 스테이지 수
 
-    [Header("UI")]
-    [SerializeField] private TextMeshProUGUI timerText; // TODO: 리팩토링 필요 (UI 텍스트 매니저와 분리 여부 검토)
-    [SerializeField] private Color defaultColor;        // 기본 타이머 색상
-    private Color warningColor;                         // 경고 타이머 색상
-
     [Header("애니메이션")]
     [SerializeField] private Animator gateAnimator;     // 문 애니메이터
 
@@ -58,13 +53,13 @@ public class StageManager : MonoBehaviour
     /// </summary>
     private void InitStage()
     {
-        WhiteChoco.StageData data = stageDataArray[currentStageIndex];
+        ItemSO data = stageDataArray[currentStageIndex];
 
-        stageTimeLimit = data.stageTimeLimit;
-        remainingTime = stageTimeLimit;
-        warningThreshold = data.warningThreshold;
-        defaultColor = data.defaultColor;
-        warningColor = data.warningColor;
+        // stageTimeLimit = data.stageTimeLimit;
+        // remainingTime = stageTimeLimit;
+        // warningThreshold = data.warningThreshold;
+        // defaultColor = data.defaultColor;
+        // warningColor = data.warningColor;
 
         stageState = StageState.Playing;
         isStageStarted = true;
@@ -93,7 +88,6 @@ public class StageManager : MonoBehaviour
             return;
 
         remainingTime -= Time.deltaTime;
-        UpdateTimerUI();
 
         if (remainingTime <= 0f && !isStageFailed)
         {
@@ -141,16 +135,6 @@ public class StageManager : MonoBehaviour
         }
 
         InitStage();
-    }
-
-    /// <summary>
-    /// 타이머 UI 갱신
-    /// </summary>
-    private void UpdateTimerUI()
-    {
-        int time = Mathf.CeilToInt(remainingTime);
-        timerText.text = time.ToString();
-        timerText.color = time <= warningThreshold ? warningColor : defaultColor;
     }
 
     #endregion

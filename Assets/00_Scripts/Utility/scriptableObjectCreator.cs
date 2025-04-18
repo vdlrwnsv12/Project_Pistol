@@ -9,7 +9,7 @@ public static class ScriptableObjectCreator
 {
     public static void CreateScriptableObjectAssetsFromJson<T>(string jsonFileName, Type type) where T : new()
     {
-        var path = $"Assets/01_Resources/Resources/Data/JSON/{jsonFileName}";
+        var path = $"Assets/Resources/Data/JSON/{jsonFileName}";
         var json = File.ReadAllText(path);
         var dataArray = new List<T>(FromJson<T>(json));
 
@@ -30,7 +30,7 @@ public static class ScriptableObjectCreator
         var asset = ScriptableObject.CreateInstance(type);
         JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(data), asset);
 
-        var directoryPath = $"Assets/01_Resources/Resources/Data/SO/{type.Name}";
+        var directoryPath = $"Assets/Resources/Data/SO/{type.Name}";
 
         if (!Directory.Exists(directoryPath))
         {

@@ -16,7 +16,19 @@ public class FpsCamera : MonoBehaviour
 
     private float eulerAngleX;
     private float eulerAngleY;
+    public bool isADS = false;
+    public bool isMoving = false;
+    [SerializeField] private float walkBobSpeed = 10f;
+    [SerializeField] private float walkBobAmount = 0.05f;
 
+    private float bobTimer;
+    private Vector3 initialLocalPosition;
+
+    public float stpValue = 1f; // 외부에서 주입받을 STP 수치
+    private void Start()
+    {
+        initialLocalPosition = transform.localPosition;
+    }
     public void UpdateRotate(float mouseX, float mouseY)
     {
         eulerAngleY += mouseX * rotCamYAxisSpeed * sensitivity;
@@ -60,5 +72,21 @@ public class FpsCamera : MonoBehaviour
         if (angle < -360) angle += 360;
         if (angle > 360) angle -= 360;
         return Mathf.Clamp(angle, min, max);
+    }
+
+    public void UpdateHeadBob(bool isMoving)
+    {
+        if (isADS || !isMoving)
+        {
+            bobTimer = 0f;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPosition, Time.deltaTime * walkBobSpeed);
+            return;
+        }
+
+        bobTimer += Time.deltaTime * walkBobSpeed;
+
+        float bobAmountAdjusted = walkBobAmount / Mathf.Clamp(stpValue, 0.1f, 999f);
+        float newY = initialLocalPosition.y + Mathf.Sin(bobTimer) * bobAmountAdjusted;
+        transform.localPosition = new Vector3(initialLocalPosition.x, newY, initialLocalPosition.z);
     }
 }

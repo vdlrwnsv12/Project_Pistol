@@ -47,6 +47,6 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         AttackState = new PlayerAttackState(this);
         ReloadState = new PlayerReloadState(this);
-        MovementSpeed = player.statHandler.Stat.SPD;
+        //MovementSpeed = player.statHandler.MovementSpeed;
     }
 }
