@@ -20,9 +20,14 @@ namespace DoorScript
         [SerializeField] private StageLoader stageLoader;
 
         [Header("동작 선택")]
+        [SerializeField] private bool isRewardRoom = false;
         [SerializeField] private bool isNext = false;   // 다음 스테이지 로드
         [SerializeField] private bool isRemove = false; // 이전 스테이지 제거
 
+        [Header("프리팹 연결")]
+        [SerializeField] private GameObject rewardUIPrefab;
+
+        private GameObject spawnedRewardUI;
         private bool open = false;
         private bool stageHandled = false;
         private AudioSource audioSource;
@@ -57,9 +62,16 @@ namespace DoorScript
                     stageLoader.RemovePreviousStage();
                 }
 
+                // 보상 UI 표시
+                if (isRewardRoom)
+                {
+                    ShowRewardUI();
+                }
+
                 stageHandled = true;
             }
         }
+
 
         #endregion
 
@@ -83,6 +95,25 @@ namespace DoorScript
                 Time.deltaTime * 5f * smooth
             );
         }
+
+        /// <summary>
+        /// 보상 UI 프리팹을 화면에 표시
+        /// </summary>
+        private void ShowRewardUI()
+        {
+            if (rewardUIPrefab == null)
+            {
+                Debug.LogWarning("[Door] rewardUIPrefab이 할당되지 않았습니다.");
+                return;
+            }
+
+            if (spawnedRewardUI == null)
+            {
+                spawnedRewardUI = Instantiate(rewardUIPrefab);
+                Debug.Log("[Door] 보상 UI 생성 완료");
+            }
+        }
+
 
         #endregion
     }
