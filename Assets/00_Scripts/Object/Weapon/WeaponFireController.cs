@@ -55,11 +55,11 @@ public class WeaponFireController : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown("Fire1") && isLocked)
-        {
-            FireWeapon();
-            //statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
-        }
+        //if (Input.GetButtonDown("Fire1") && isLocked)
+        //{
+        //    FireWeapon();
+        //    //statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
+        //}
 
         if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
         {
@@ -168,10 +168,10 @@ public class WeaponFireController : MonoBehaviour
 
     #region 발사 관련
 
-    void FireWeapon()
+    public void FireWeapon()
     {
         statHandler.lastFireTime = Time.time;
-
+        Debug.Log("총알 나감!");
         if (weaponData == null)
         {
             return;
