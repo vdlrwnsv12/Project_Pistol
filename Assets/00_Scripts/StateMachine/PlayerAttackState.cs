@@ -69,4 +69,16 @@ public class PlayerAttackState : PlayerBaseState
 
     }
 
+    protected void Shoot()
+    {
+
+        Transform cam = stateMachine.MainCamTransform;
+        Ray ray = new Ray(cam.position, cam.forward);
+        Debug.Log("슈팅");
+        if (stateMachine.Player.PlayerEquipment.fireController != null && stateMachine.Player.PlayerEquipment.fireController.isLocked)
+        {
+            Debug.Log("if문 슈팅");
+            stateMachine.Player.PlayerEquipment.fireController.FireWeapon();
+        }
+    }
 }
