@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3463236568663873465}
   - component: {fileID: 7621758941386648945}
   m_Layer: 0
-  m_Name: Laser_Pistol_A
+  m_Name: I2005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

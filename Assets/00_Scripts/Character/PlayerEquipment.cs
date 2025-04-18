@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerEquipment : MonoBehaviour
 {
     private GameObject currentWeaponObject; // 현재 들고 있는 무기 오브젝트
-
     public WeaponFireController fireController;
     public WeaponStatHandler handler;
 

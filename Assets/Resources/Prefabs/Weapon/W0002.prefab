@@ -455,6 +455,14 @@ MonoBehaviour:
   weaponData: {fileID: 0}
   isReloading: 0
   isADS: 0
+  ID: 
+  Name: 
+  Description: 
+  ShootRecoil: 0
+  DMG: 0
+  ReloadTime: 0
+  MaxAmmo: 0
+  Cost: 0
   barrelLocation: {fileID: 8715180194844072911}
   casingExitLocation: {fileID: 4205307446877143790}
   handransform: {fileID: 0}
@@ -462,7 +470,7 @@ MonoBehaviour:
   playerCam: {fileID: 0}
   fpsCamera: {fileID: 0}
   playerObject: {fileID: 0}
-  equippedParts: []
+  bulletStatText: {fileID: 0}
   casingPrefab: {fileID: 4362657251999731927, guid: 4cb20e8abae957146a8b78e670d3fe74,
     type: 3}
   muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
@@ -500,8 +508,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAmmo: 0
   finalRecoil: 0
-  testUi: {fileID: 0}
   isLocked: 1
+  optics: []
   targetCamY: 0.165
 --- !u!95 &4561929742923346282
 Animator:
@@ -938,6 +946,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8469834802307671185}
     m_Modifications:
+    - target: {fileID: 3102733025318139500, guid: 4cc6746b5917745379af45b4fac45917,
+        type: 3}
+      propertyPath: m_Name
+      value: LaserPonter
+      objectReference: {fileID: 0}
     - target: {fileID: 3102733025318139500, guid: 4cc6746b5917745379af45b4fac45917,
         type: 3}
       propertyPath: m_IsActive

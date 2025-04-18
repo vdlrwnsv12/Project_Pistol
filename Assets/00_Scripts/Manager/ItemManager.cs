@@ -67,13 +67,20 @@ public class ItemManager : SingletonBehaviour<ItemManager>
         RemoveItemStats(item);
     }
 
-     private void ApplyItemStats(ItemSO item) // 아이템 효과 반영
+     public void ApplyItemStats(ItemSO item) // 아이템 효과 반영
     {
         weaponStatHandler.DMG += item.DMG;
-        weaponStatHandler.MaxAmmo += item.MaxAmmo;
+
+        if(item.MaxAmmo != 0)
+        {
+             weaponStatHandler.MaxAmmo += item.MaxAmmo;
+             weaponStatHandler.onAmmoChanged?.Invoke(-1, weaponStatHandler.MaxAmmo);
+        }
+        
         weaponStatHandler.ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
 
         playerStatHandler.IncreaseStat(item.RCL, item.HDL, item.STP, item.SPD);
+
     }
 
     private void RemoveItemStats(ItemSO item)

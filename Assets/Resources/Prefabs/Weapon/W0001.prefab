@@ -304,7 +304,6 @@ MonoBehaviour:
   fpsCamera: {fileID: 0}
   playerObject: {fileID: 0}
   bulletStatText: {fileID: 0}
-  equippedParts: []
   casingPrefab: {fileID: 4362657251999731927, guid: 4cb20e8abae957146a8b78e670d3fe74,
     type: 3}
   muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
@@ -826,11 +825,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedDotSight
       objectReference: {fileID: 0}
-    - target: {fileID: 7516507987042062088, guid: 6663b045ab8ad2a4ba716fe9bc180ecd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -856,6 +850,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4724531783877028247}
     m_Modifications:
+    - target: {fileID: 3102733025318139500, guid: 4cc6746b5917745379af45b4fac45917,
+        type: 3}
+      propertyPath: m_Name
+      value: LaserPointer
+      objectReference: {fileID: 0}
     - target: {fileID: 3102733025318139500, guid: 4cc6746b5917745379af45b4fac45917,
         type: 3}
       propertyPath: m_IsActive

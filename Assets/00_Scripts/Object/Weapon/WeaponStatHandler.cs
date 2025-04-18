@@ -33,7 +33,7 @@ public class WeaponStatHandler : MonoBehaviour
     public Text bulletStatText;
 
     [Header("Prefabs")]
-   
+
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
@@ -106,14 +106,27 @@ public class WeaponStatHandler : MonoBehaviour
     public FpsCamera GetFpsCamera() => fpsCamera;
     public GameObject GetPlayerObject() => playerObject;
 
-    
+
     public void BindToWeapon(WeaponFireController fireController)
     {
         onAmmoChanged += UpdateBulletText;
     }
 
+/// <summary>
+/// 현재 총알 상태
+/// </summary>
+/// <param name="currentAmmo">MaxAmmo만 바꿀떈 여기에 -1넣으셈</param>
+/// <param name="MaxAmmo"></param>
     private void UpdateBulletText(int currentAmmo, int MaxAmmo)
     {
-        bulletStatText.text = $"{currentAmmo} / {MaxAmmo}";
+        if (currentAmmo < 0)
+        {
+            string[] split = bulletStatText.text.Split('/');
+            string oldAmmo = split[0].Trim();
+            bulletStatText.text = $"{oldAmmo} / {MaxAmmo}";
+        }else
+        {
+            bulletStatText.text = $"{currentAmmo} / {MaxAmmo}";
+        }
     }
 }

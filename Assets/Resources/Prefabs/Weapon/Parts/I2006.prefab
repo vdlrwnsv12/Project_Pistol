@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7289535373275024425}
   - component: {fileID: 8227215056128718325}
   m_Layer: 0
-  m_Name: Muzzle_Pistol_Brake_A
+  m_Name: I2006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
