@@ -240,7 +240,7 @@ public class WeaponFireController : MonoBehaviour
                 target?.TakeDamage(statHandler.DMG, hit.collider);
             }
         }
-        StartCoroutine(CameraShake(statHandler.DMG * 0.0125f));
+        //StartCoroutine(CameraShake(statHandler.DMG * 0.0125f));
     }
     void OnDrawGizmos()
     {
