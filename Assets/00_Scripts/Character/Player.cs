@@ -17,10 +17,11 @@ public class Player : MonoBehaviour
     public FpsCamera FpsCamera { get; private set; }
 
     public WeaponStatHandler WeaponStatHandler { get; private set; }
-    private PlayerStateMachine stateMachine;
+    public PlayerStateMachine stateMachine;
 
     public HeadBob HeadBob { get; private set; }
 
+    public WeaponFireController WeaponFireController { get; private set; }
     [Range(0f, 1f)]
     public float adsSpeedMultiplier=0.5f;
     
@@ -33,8 +34,10 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         FpsCamera = GetComponent<FpsCamera>();
         HeadBob = GetComponentInChildren<HeadBob>();
+        WeaponFireController = GetComponentInChildren<WeaponFireController>();  
         statHandler = new PlayerStatHandler(this);
         stateMachine = new PlayerStateMachine(this);
+
     }
     private void Start()
     {

@@ -122,7 +122,7 @@ public class PlayerBaseState : IState
     {
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move(((direction * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
-        Debug.Log("무브 호출");
+//        Debug.Log("무브 호출");
         // 여기다 Head Bob 호출해야할 듯
         // Head Bob? 조준시 카메라 상하 움직이는거
         

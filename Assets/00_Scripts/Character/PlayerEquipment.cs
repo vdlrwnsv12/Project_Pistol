@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    public GameObject[] weaponPrefabs; // 무기 프리팹 배열 (인덱스로 선택)
     private GameObject currentWeaponObject; // 현재 들고 있는 무기 오브젝트
-    private int currentWeaponIndex = -1;
 
+    public WeaponFireController fireController;
+    public WeaponStatHandler handler;
+
+    [Header("공총 참조")]
     public Transform handransform; // 무기를 들 위치
     public Transform camRoot;      // 카메라 루트 (조준용 위치 이동에 사용)
     public Camera playerCam;       // 플레이어 카메라
@@ -16,27 +18,37 @@ public class PlayerEquipment : MonoBehaviour
     public GameObject playerObject;// 플레이어 오브젝트
     public Text bulletStatText;    // 탄약 표시용 UI
 
-    public void SwitchWeapon(int index)
+    public void SwitchWeapon()
     {
-        // 인덱스가 범위 밖이거나 이미 들고 있는 무기라면 리턴
-        if (index < 0 || index >= weaponPrefabs.Length || index == currentWeaponIndex)
+        var weaponSO = GameManager.Instance.selectedWeapon;
+
+        if(weaponSO == null || string.IsNullOrEmpty(weaponSO.ID))
+        {
+            Debug.Log("weaponSO없음");
             return;
+        }
 
-        // 기존 무기 제거
-        if (currentWeaponObject != null)
+        if(currentWeaponObject != null)
+        {
             Destroy(currentWeaponObject);
+        }
 
+        string path = $"Prefabs/Weapon/{weaponSO.ID}";
+        GameObject weaponPrefab = ResourceManager.Instance.Load<GameObject>(path);
+        if(weaponPrefab == null)
+        {
+            Debug.LogError($"무기 프리팹 로드 실패{path}");
+        }
         // 새 무기 생성 및 장착 위치에 붙임
-        currentWeaponObject = Instantiate(weaponPrefabs[index], handransform, false);
-        currentWeaponIndex = index;
+        currentWeaponObject = Instantiate(weaponPrefab, handransform, false);
 
         // 무기 스탯 핸들러 세팅
-        var handler = currentWeaponObject.GetComponent<WeaponStatHandler>();
+        handler = currentWeaponObject.GetComponent<WeaponStatHandler>();
         if (handler != null)
         {
             handler.SetSharedReferences(handransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
 
-            var fireController = currentWeaponObject.GetComponent<WeaponFireController>();
+            fireController = currentWeaponObject.GetComponent<WeaponFireController>();
             if (fireController != null)
                 fireController.InitReferences(); // 발사/재장전/조준 등 기능 초기화
         }
