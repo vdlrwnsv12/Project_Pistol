@@ -28,6 +28,17 @@ namespace DataDeclaration
         Player = 1,
         Weapon
     }
+    
+    /// <summary>
+    /// 스테이지 상태 정보
+    /// </summary>
+    public enum StageState
+    {
+        Waiting, // 시작 전
+        Playing, // 진행 중
+        Cleared, // 클리어
+        Failed   // 실패
+    }
 
     #endregion
 

@@ -33,30 +33,28 @@ public class PopupReward : PopupUI
     /// </summary>
     private void InitReward()
     {
-        // //TODO: StageManager.Instance.RewardSystem 접근하기
-        // itemRewards = TestManager.Instance.RewardSystem.GetRandomItemReward();
-        // for (var i = 0; i < rewardCards.Length; i++)
-        // {
-        //     rewardCards[i].rewardName.text = itemRewards[i].Name;
-        //     rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
-        //     rewardCards[i].rewardButton.onClick.RemoveAllListeners();
-        //     
-        //     var playerItem = itemRewards[i];
-        //     if (itemRewards[i].ApplicationTarget == (int)ItemApplyType.Player) // 플레이어 적용 아이템
-        //     {
-        //         rewardCards[i].rewardButton.onClick.AddListener(() =>
-        //             TestManager.Instance.StatHandler.IncreaseStat(playerItem.RCL, playerItem.HDL, playerItem.STP,
-        //                 playerItem.SPD));
-        //         rewardCards[i].rewardButton.onClick.AddListener(() =>
-        //             ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(TestManager.Instance.StatHandler.Stat));
-        //     }
-        //     else if (itemRewards[i].ApplicationTarget == (int)ItemApplyType.Weapon) // 무기 적용 아이템
-        //     {
-        //         rewardCards[i].rewardButton.onClick.AddListener(() =>
-        //             StageManager.Instance.Player.PlayerEquipment.WeaponStatHandler.ApplyItemStats(playerItem));
-        //     }
-        //
-        //     rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
-        // }
+        //TODO: 아이템 아이콘 이미지 넣기 추가
+        itemRewards = StageManager.Instance.RewardSystem.GetRandomItemReward();
+        for (var i = 0; i < rewardCards.Length; i++)
+        {
+            //rewardCards[i].rewardImage.sprite = itemRewards[i].Icon;
+            rewardCards[i].rewardName.text = itemRewards[i].Name;
+            rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
+            rewardCards[i].rewardButton.onClick.RemoveAllListeners();
+            var item = itemRewards[i];
+            
+            //TODO: 아이템 선택 시 실행할 로직 넣기
+            // if (itemRewards[i].ApplicationTarget == (int)ItemApplyType.Player)
+            // {
+            //     rewardCards[i].rewardButton.onClick.AddListener(() => StageManager.Instance.Player.StatHandler.IncreaseStat(item.RCL, item.HDL, item.STP, item.SPD));
+            //     rewardCards[i].rewardButton.onClick.AddListener(() =>
+            //         ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(StageManager.Instance.Player.StatHandler.Stat));
+            // }
+            // else
+            // {
+            //     rewardCards[i].rewardButton.onClick.AddListener(() => StageManager.Player.Equipment.WeaponStatHandler);
+            // }
+            rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
+        }
     }
 }
