@@ -41,7 +41,6 @@ public class WeaponFireController : MonoBehaviour
         statHandler.WeaponDataFromSO();
         initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
-        statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
         currentAmmo = statHandler.MaxAmmo;
         statHandler.BindToWeapon(this);
         statHandler.onAmmoChanged(currentAmmo, statHandler.MaxAmmo);

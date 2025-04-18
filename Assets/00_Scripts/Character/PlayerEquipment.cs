@@ -11,18 +11,16 @@ public class PlayerEquipment : MonoBehaviour
     public WeaponStatHandler handler;
 
     [Header("공총 참조")]
-    public Transform handransform; // 무기를 들 위치
+    public Transform handTransform; // 무기를 들 위치
     public Transform camRoot;      // 카메라 루트 (조준용 위치 이동에 사용)
     public Camera playerCam;       // 플레이어 카메라
     public FpsCamera fpsCamera;    // 커스텀 FPS 카메라 (흔들림 등 제어)
     public GameObject playerObject;// 플레이어 오브젝트
     public Text bulletStatText;    // 탄약 표시용 UI
 
-    public void SwitchWeapon()
+    public void SwitchWeapon(WeaponSO weapon)
     {
-        var weaponSO = GameManager.Instance.selectedWeapon;
-
-        if(weaponSO == null || string.IsNullOrEmpty(weaponSO.ID))
+        if(weapon == null || string.IsNullOrEmpty(weapon.ID))
         {
             Debug.Log("weaponSO없음");
             return;
@@ -33,20 +31,20 @@ public class PlayerEquipment : MonoBehaviour
             Destroy(currentWeaponObject);
         }
 
-        string path = $"Prefabs/Weapon/{weaponSO.ID}";
+        string path = $"Prefabs/Weapon/{weapon.ID}";
         GameObject weaponPrefab = ResourceManager.Instance.Load<GameObject>(path);
         if(weaponPrefab == null)
         {
             Debug.LogError($"무기 프리팹 로드 실패{path}");
         }
         // 새 무기 생성 및 장착 위치에 붙임
-        currentWeaponObject = Instantiate(weaponPrefab, handransform, false);
+        currentWeaponObject = Instantiate(weaponPrefab, handTransform, false);
 
         // 무기 스탯 핸들러 세팅
         handler = currentWeaponObject.GetComponent<WeaponStatHandler>();
         if (handler != null)
         {
-            handler.SetSharedReferences(handransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
+            handler.SetSharedReferences(handTransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
 
             fireController = currentWeaponObject.GetComponent<WeaponFireController>();
             if (fireController != null)
