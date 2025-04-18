@@ -15,9 +15,11 @@ public class HeadBob : MonoBehaviour
     public float Smooth = 10.0f;
 
     public Player Player;
+    private PlayerStateMachine stateMachine;
     private void Awake()
     {
         Player = GetComponentInParent<Player>();
+        stateMachine = Player?.stateMachine; // PlayerStateMachine에 접근
 
     }
 
@@ -29,16 +31,21 @@ public class HeadBob : MonoBehaviour
 
     void CheckForHeadbobTrigger()
     {
-        float headMagnitude = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).magnitude;
-        if(headMagnitude > 0)
+        if (Player == null || Player.stateMachine == null) return;
+
+        Vector2 movementInput = Player.stateMachine.MovementInput;
+        float headMagnitude = movementInput.magnitude;
+        //Debug.Log("no if 문 InputMagnitude" + headMagnitude);
+        if (headMagnitude > 0)
         {
             StartHeadBob();
+            Debug.Log("InputMagnitude" + headMagnitude);
         }
     }
 
     private Vector3 StartHeadBob()
     {
-        float t = Mathf.InverseLerp(1f, 99f, Player.statHandler.Stat.SPD);  // STP가 1일 때 0, 99일 때 1
+        float t = Mathf.InverseLerp(1f, 99f, Player.StatHandler.Stat.SPD);  // STP가 1일 때 0, 99일 때 1
         float inverseEffect = 1f - t;  // 반비례 효과
 
         Vector3 pos = Vector3.zero;

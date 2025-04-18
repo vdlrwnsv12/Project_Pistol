@@ -25,7 +25,7 @@ public class WeaponChangeHandler : MonoBehaviour
 
             //     // 새 무기 들고, 인덱스로 무기 변경
             //     currentWeapon = selector.gameObject;
-            playerEquipment.SwitchWeapon();
+            playerEquipment.SwitchWeapon(GameManager.Instance.selectedWeapon);
 
             // // 현재 바닥 무기 숨김 (플레이어 손으로 간다고 가정)
             // selector.gameObject.SetActive(false);

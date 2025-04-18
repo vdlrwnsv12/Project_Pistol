@@ -21,6 +21,7 @@ public class PlayerBaseState : IState
 
     public virtual void Exit()
     {
+        RemoveInputActionCallbacks();
     }
 
     protected virtual void AddInputActionCallbacks()
@@ -52,7 +53,6 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
-        
         Move();
        
 
@@ -123,17 +123,13 @@ public class PlayerBaseState : IState
     {
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move(((direction * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
-//        Debug.Log("무브 호출");
-        // 여기다 Head Bob 호출해야할 듯
-        // Head Bob? 조준시 카메라 상하 움직이는거
-        
-
-
+     
+   
     }
 
     private float GetMovementSpeed()
     {
-        float baseSpeed = stateMachine.Player.statHandler.Stat.SPD;
+        float baseSpeed = stateMachine.Player.StatHandler.Stat.SPD;
         float finalSpeed = baseSpeed;
 
         if (stateMachine.Player.WeaponStatHandler != null && stateMachine.Player.WeaponStatHandler.isADS)
@@ -147,4 +143,7 @@ public class PlayerBaseState : IState
         //Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
         return finalSpeed;
     }
+
+
+
 }

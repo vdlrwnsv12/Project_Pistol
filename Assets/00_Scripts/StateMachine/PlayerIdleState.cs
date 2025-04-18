@@ -17,11 +17,11 @@ public class PlayerIdleState : PlayerGroundState
 
     // To Do: Exit 적으면 공격을 안하고 나가짐 확인할 것
 
-    //public override void Exit()
-    //{
-    //    base.Exit();
-    //    StopAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
-    //}
+    public override void Exit()
+    {
+        base.Exit();
+        StopAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
+    }
 
     public override void Update()
     {

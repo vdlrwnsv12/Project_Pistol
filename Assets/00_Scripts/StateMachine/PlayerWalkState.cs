@@ -22,8 +22,10 @@ public class PlayerWalkState : PlayerGroundState
     }
     protected override void OnAttack(InputAction.CallbackContext context) // 걷고 공격
     {
+        Debug.Log("Walk에서 Attack!");
         base.OnAttack(context);
         stateMachine.ChangeState(stateMachine.AttackState);
+        
     }
     protected override void OnReload(InputAction.CallbackContext context) // 걷고 리로드
     {

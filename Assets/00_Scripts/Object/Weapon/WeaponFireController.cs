@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class WeaponFireController : MonoBehaviour
 {
     private WeaponSO weaponData;
-    private WeaponStatHandler statHandler;
+    public WeaponStatHandler statHandler;
     [SerializeField] public int currentAmmo;
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
@@ -41,7 +41,6 @@ public class WeaponFireController : MonoBehaviour
         statHandler.WeaponDataFromSO();
         initialLocalRotation = statHandler.handransform.localRotation;
         camRootOriginPos = statHandler.camRoot.localPosition;
-        statHandler.playerObject.GetComponent<Player>().SetWeaponStatHandler(statHandler);
         currentAmmo = statHandler.MaxAmmo;
         statHandler.BindToWeapon(this);
         statHandler.onAmmoChanged(currentAmmo, statHandler.MaxAmmo);
@@ -55,17 +54,17 @@ public class WeaponFireController : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown("Fire1") && isLocked)
-        {
-            FireWeapon();
-            //statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
-        }
+        //if (Input.GetButtonDown("Fire1") && isLocked)
+        //{
+        //    FireWeapon();
+        //    //statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
+        //}
 
-        if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
-        {
-            ReloadWeapon();
-            //statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
-        }
+        //if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
+        //{
+        //    ReloadWeapon();
+        //    //statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
+        //}
         if (Input.GetKeyDown(KeyCode.F))//테스트용 코드
         {
             if (isLocked)
@@ -168,10 +167,10 @@ public class WeaponFireController : MonoBehaviour
 
     #region 발사 관련
 
-    void FireWeapon()
+    public void FireWeapon()
     {
         statHandler.lastFireTime = Time.time;
-
+        Debug.Log("총알 나감!");
         if (weaponData == null)
         {
             return;

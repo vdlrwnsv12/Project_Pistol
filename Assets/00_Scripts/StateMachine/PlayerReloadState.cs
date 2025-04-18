@@ -12,11 +12,16 @@ public class PlayerReloadState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        //Debug.Log("Entered Reload State");
-
-        if (stateMachine.Player.WeaponStatHandler.isADS)
+ 
+        
+        if (!stateMachine.Player.PlayerEquipment.fireController.statHandler.isReloading)
         {
-            stateMachine.Player.WeaponStatHandler.isADS = false;
+            
+            if (stateMachine.Player.PlayerEquipment.fireController.statHandler.isADS)
+            {
+                stateMachine.Player.PlayerEquipment.fireController.statHandler.isADS = false;
+            }
+            stateMachine.Player.PlayerEquipment.fireController.ReloadWeapon();
         }
         StartAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
     }
