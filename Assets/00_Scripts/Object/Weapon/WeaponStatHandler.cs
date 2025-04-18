@@ -33,7 +33,7 @@ public class WeaponStatHandler : MonoBehaviour
     public Text bulletStatText;
 
     [Header("Prefabs")]
-    public List<ItemSO> equippedParts = new List<ItemSO>();
+    private List<ItemSO> equippedParts = new List<ItemSO>();
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
