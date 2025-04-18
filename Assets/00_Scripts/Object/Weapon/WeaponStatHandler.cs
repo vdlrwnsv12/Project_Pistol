@@ -33,7 +33,7 @@ public class WeaponStatHandler : MonoBehaviour
     public Text bulletStatText;
 
     [Header("Prefabs")]
-    public List<ItemSO> equippedParts = new List<ItemSO>();
+    private List<ItemSO> equippedParts = new List<ItemSO>();
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
@@ -124,14 +124,14 @@ public class WeaponStatHandler : MonoBehaviour
     {
         DMG += item.DMG;
         MaxAmmo += item.MaxAmmo;
-        ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
+        //ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
     }
 
     private void RemoveItemStats(ItemSO item)
     {
         DMG -= item.DMG;
         MaxAmmo -= item.MaxAmmo;
-        ShootRecoil /= 1f - (item.ShootRecoil * 0.01f);
+        //ShootRecoil /= 1f - (item.ShootRecoil * 0.01f);
     }
     /// <summary>
     /// 조준경 아닌 파츠 사용
