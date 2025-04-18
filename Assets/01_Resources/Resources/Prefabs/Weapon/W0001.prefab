@@ -285,9 +285,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfc90f7998e71a4a87ffd6ea2fe9c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: ffcd5a1b072384534a1c0b0c4ce57e09, type: 2}
+  weaponData: {fileID: 11400000, guid: 64643883e52f24f3e83db886bf8303e2, type: 2}
   isReloading: 0
   isADS: 0
+  ID: 
+  Name: 
+  Description: 
+  ShootRecoil: 0
+  DMG: 0
+  ReloadTime: 0
+  MaxAmmo: 0
+  Cost: 0
   barrelLocation: {fileID: 7871138460236415640}
   casingExitLocation: {fileID: 3019724882842368559}
   handransform: {fileID: 0}
@@ -295,6 +303,7 @@ MonoBehaviour:
   playerCam: {fileID: 0}
   fpsCamera: {fileID: 0}
   playerObject: {fileID: 0}
+  bulletStatText: {fileID: 0}
   equippedParts: []
   casingPrefab: {fileID: 4362657251999731927, guid: 4cb20e8abae957146a8b78e670d3fe74,
     type: 3}
@@ -333,8 +342,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAmmo: 0
   finalRecoil: 0
-  testUi: {fileID: 0}
   isLocked: 1
+  optics: []
   targetCamY: 0.16
 --- !u!95 &5409754431695144347
 Animator:
