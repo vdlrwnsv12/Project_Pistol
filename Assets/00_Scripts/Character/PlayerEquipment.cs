@@ -7,6 +7,9 @@ public class PlayerEquipment : MonoBehaviour
 {
     private GameObject currentWeaponObject; // 현재 들고 있는 무기 오브젝트
 
+    public WeaponFireController fireController;
+    public WeaponStatHandler handler;
+
     [Header("공총 참조")]
     public Transform handransform; // 무기를 들 위치
     public Transform camRoot;      // 카메라 루트 (조준용 위치 이동에 사용)
@@ -40,12 +43,12 @@ public class PlayerEquipment : MonoBehaviour
         currentWeaponObject = Instantiate(weaponPrefab, handransform, false);
 
         // 무기 스탯 핸들러 세팅
-        var handler = currentWeaponObject.GetComponent<WeaponStatHandler>();
+        handler = currentWeaponObject.GetComponent<WeaponStatHandler>();
         if (handler != null)
         {
             handler.SetSharedReferences(handransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
 
-            var fireController = currentWeaponObject.GetComponent<WeaponFireController>();
+            fireController = currentWeaponObject.GetComponent<WeaponFireController>();
             if (fireController != null)
                 fireController.InitReferences(); // 발사/재장전/조준 등 기능 초기화
         }

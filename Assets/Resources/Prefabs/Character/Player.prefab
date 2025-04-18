@@ -2588,9 +2588,8 @@ GameObject:
   - component: {fileID: 6465326669290865639}
   - component: {fileID: 6710376573784999812}
   - component: {fileID: 5118194535716268012}
-  - component: {fileID: 4977692004843855168}
   m_Layer: 0
-  m_Name: Player_IkJoon
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2774,11 +2773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2157147102f4f6245a875a875c8daa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs:
-  - {fileID: 1664334758681842411, guid: db0203257ef634b809abb7a29125b54a, type: 3}
-  - {fileID: 4796890075200562369, guid: 00391cfd6a6a74fc19a28b4d0398c3c8, type: 3}
-  - {fileID: 2616624622580714389, guid: bcce29f3715a94895913f1b73ecdd57b, type: 3}
-  - {fileID: 4579048895401998527, guid: a9b862338aea94351b495dd833317f85, type: 3}
+  fireController: {fileID: 0}
+  handler: {fileID: 0}
   handransform: {fileID: 1645938702522831574}
   camRoot: {fileID: 982432676637716630}
   playerCam: {fileID: 1214593486643530909}
@@ -2813,23 +2809,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectRange: 4
   checkInterval: 0.5
---- !u!114 &4977692004843855168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8810597487528185575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429582b160f8448ebabe9ce59cc1030d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAmmo: 0
-  finalRecoil: 0
-  isLocked: 1
-  optics: []
-  targetCamY: 0.165
 --- !u!1 &8949763449677050120
 GameObject:
   m_ObjectHideFlags: 0
