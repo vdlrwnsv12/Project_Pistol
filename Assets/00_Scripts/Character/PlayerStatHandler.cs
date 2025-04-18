@@ -1,18 +1,13 @@
 using DataDeclaration;
-using UnityEngine;
 
 public class PlayerStatHandler
 {
-    private Player player;
     private CharacterStat stat;
-    
+
     public CharacterStat Stat => stat;
-    public float MovementSpeed => player.Data.SPD;
-    public float MoveSTP => player.Data.STP;
 
     public PlayerStatHandler(Player player)
     {
-        this.player = player;
         stat = new CharacterStat
         {
             HDL = player.Data.HDL,
@@ -20,15 +15,13 @@ public class PlayerStatHandler
             RCL = player.Data.RCL,
             STP = player.Data.STP
         };
-        Debug.Log($"PlayerStatHandler Initialized: SPD = {stat.SPD}");
     }
-    
-    public void IncreaseStat(CharacterStat itemStat)
+
+    public void IncreaseStat(float rcl, float hdl, float stp, float spd)
     {
-        stat.RCL += itemStat.RCL;
-        stat.HDL += itemStat.HDL;
-        stat.STP += itemStat.STP;
-        stat.SPD += itemStat.SPD;
-        Debug.Log($"Stats Increased: SPD = {stat.SPD}");
+        stat.RCL += rcl;
+        stat.HDL += hdl;
+        stat.STP += stp;
+        stat.SPD += spd;
     }
 }
