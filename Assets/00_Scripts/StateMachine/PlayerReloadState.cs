@@ -12,8 +12,7 @@ public class PlayerReloadState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        //Debug.Log("Entered Reload State");
-
+ 
         
         if (!stateMachine.Player.PlayerEquipment.fireController.statHandler.isReloading)
         {

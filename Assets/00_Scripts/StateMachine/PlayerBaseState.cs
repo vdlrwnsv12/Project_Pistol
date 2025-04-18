@@ -124,12 +124,8 @@ public class PlayerBaseState : IState
     {
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move(((direction * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
-//        Debug.Log("무브 호출");
-        // 여기다 Head Bob 호출해야할 듯
-        // Head Bob? 조준시 카메라 상하 움직이는거
-        
-
-
+     
+   
     }
 
     private float GetMovementSpeed()
@@ -148,4 +144,18 @@ public class PlayerBaseState : IState
         //Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
         return finalSpeed;
     }
+
+    protected void Shoot()
+    {
+
+        Transform cam = stateMachine.MainCamTransform;
+        Ray ray = new Ray(cam.position, cam.forward);
+        Debug.Log("슈팅");
+        if (stateMachine.Player.PlayerEquipment.fireController != null && stateMachine.Player.PlayerEquipment.fireController.isLocked)
+        {
+            Debug.Log("if문 슈팅");
+            stateMachine.Player.PlayerEquipment.fireController.FireWeapon();
+        }
+    }
+
 }
