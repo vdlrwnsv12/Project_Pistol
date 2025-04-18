@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class WeaponFireController : MonoBehaviour
 {
     private WeaponSO weaponData;
-    private WeaponStatHandler statHandler;
+    public WeaponStatHandler statHandler;
     [SerializeField] public int currentAmmo;
     private Quaternion initialLocalRotation;
     private Vector3 camRootOriginPos;
@@ -61,11 +61,11 @@ public class WeaponFireController : MonoBehaviour
         //    //statHandler.ToggleAttachment(statHandler.redDot);//아이템 얻으면 이거 호출해야함 조만간 빼야함
         //}
 
-        if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
-        {
-            ReloadWeapon();
-            //statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
-        }
+        //if (Input.GetKeyDown(KeyCode.R) && !statHandler.isReloading)
+        //{
+        //    ReloadWeapon();
+        //    //statHandler.ToggleAttachment(statHandler.laserPointer);//이것도 빼야함
+        //}
         if (Input.GetKeyDown(KeyCode.F))//테스트용 코드
         {
             if (isLocked)

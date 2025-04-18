@@ -15,7 +15,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Enter();
         hasShot = false;
-       
+        
         StartAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
     }
 
@@ -34,7 +34,10 @@ public class PlayerAttackState : PlayerBaseState
         // 애니메이션 종료 시 Idle 상태로 전환
         if (animInfo.IsName("Attack") && animInfo.normalizedTime >= 1f)
         {
-            stateMachine.ChangeState(stateMachine.IdleState);
+            if (stateMachine.MovementInput != Vector2.zero)
+                stateMachine.ChangeState(stateMachine.WalkState); 
+            else
+                stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
 
@@ -47,13 +50,13 @@ public class PlayerAttackState : PlayerBaseState
    
     protected override void OnAttack(InputAction.CallbackContext context)
     {
-        // Idle에서 처리
-        if (stateMachine.MovementInput != Vector2.zero)
-        {
-            stateMachine.ChangeState(stateMachine.WalkState);
-            return;
-        }
-        stateMachine.ChangeState(stateMachine.IdleState);
+        //// Idle에서 처리
+        //if (stateMachine.MovementInput != Vector2.zero)
+        //{
+        //    stateMachine.ChangeState(stateMachine.WalkState);
+        //    return;
+        //}
+        //stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     private void Shoot()
@@ -61,6 +64,12 @@ public class PlayerAttackState : PlayerBaseState
         
         Transform cam = stateMachine.MainCamTransform;
         Ray ray = new Ray(cam.position, cam.forward);
+        Debug.Log("슈팅");
+        if (stateMachine.Player.PlayerEquipment.fireController != null && stateMachine.Player.PlayerEquipment.fireController.isLocked)
+        {
+            Debug.Log("if문 슈팅");
+            stateMachine.Player.PlayerEquipment.fireController.FireWeapon();
+        }
     }
 
 }

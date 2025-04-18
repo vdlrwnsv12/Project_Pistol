@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
 
     public HeadBob HeadBob { get; private set; }
 
-    public WeaponFireController WeaponFireController { get; private set; }
+  
+    public PlayerEquipment PlayerEquipment { get; private set; }
     [Range(0f, 1f)]
     public float adsSpeedMultiplier=0.5f;
     
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         FpsCamera = GetComponent<FpsCamera>();
         HeadBob = GetComponentInChildren<HeadBob>();
-        WeaponFireController = GetComponentInChildren<WeaponFireController>();  
+        PlayerEquipment =  GetComponentInChildren<PlayerEquipment>();
         statHandler = new PlayerStatHandler(this);
         stateMachine = new PlayerStateMachine(this);
 

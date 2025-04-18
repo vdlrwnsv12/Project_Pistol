@@ -21,6 +21,7 @@ public class PlayerBaseState : IState
 
     public virtual void Exit()
     {
+        RemoveInputActionCallbacks();
     }
 
     protected virtual void AddInputActionCallbacks()
