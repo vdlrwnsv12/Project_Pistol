@@ -38,7 +38,7 @@ public class PlayerAttackState : PlayerBaseState
         }
         Debug.Log($"{animInfo.normalizedTime}");
         // 애니메이션 종료 시 Idle 상태로 전환
-        if (animInfo.IsName("Attack") && animInfo.normalizedTime >= 1f)
+        if (animInfo.IsName("Attack") && animInfo.normalizedTime >= 1)
         {
             
             if (stateMachine.MovementInput != Vector2.zero)
@@ -66,6 +66,7 @@ public class PlayerAttackState : PlayerBaseState
         //    return;
         //}
         //stateMachine.ChangeState(stateMachine.IdleState);
+
     }
 
 }
