@@ -28,16 +28,16 @@ public class TestPartButton : MonoBehaviour
         switch (attachmentType)
         {
             case AttachmentType.RedDot:
-                handler.ToggleOpticAttachment(handler.redDot);
+                ItemManager.Instance.ToggleAttachment(handler.redDot);
                 break;
             case AttachmentType.Holographic:
-                handler.ToggleOpticAttachment(handler.holographic);
+                ItemManager.Instance.ToggleAttachment(handler.holographic);
                 break;
             case AttachmentType.Laser:
-                handler.ToggleAttachment(handler.laserPointer);
+                ItemManager.Instance.ToggleAttachment(handler.laserPointer);
                 break;
             case AttachmentType.Compensator:
-                handler.ToggleAttachment(handler.compensator);
+                ItemManager.Instance.ToggleAttachment(handler.compensator);
                 break;
         }
     }

@@ -26,7 +26,6 @@ public class Target : MonoBehaviour
             if (allDatas.Length > 0)
             {
                 data = allDatas[Random.Range(0, allDatas.Length)];
-                Debug.Log($"타겟 할당됨 {data.name}");
             }
             return;
         }

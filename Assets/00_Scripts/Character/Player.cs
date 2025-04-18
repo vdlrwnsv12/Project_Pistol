@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -42,9 +43,10 @@ public class Player : MonoBehaviour
        
 
         stateMachine.ChangeState(stateMachine.IdleState);
-
+        
+        ItemManager.Instance.playerStatHandler = statHandler;
+        Debug.Log("ItemManager.Instance 할당됨");
     }
- 
     private void Update()
     {
         stateMachine.HandleInput();

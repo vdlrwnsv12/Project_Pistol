@@ -33,7 +33,7 @@ public class WeaponStatHandler : MonoBehaviour
     public Text bulletStatText;
 
     [Header("Prefabs")]
-    private List<ItemSO> equippedParts = new List<ItemSO>();
+   
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     public GameObject bulletImpactPrefab;
@@ -85,6 +85,7 @@ public class WeaponStatHandler : MonoBehaviour
         ReloadTime = weaponData.ReloadTime;
         MaxAmmo = weaponData.MaxAmmo;
         Cost = weaponData.Cost;
+        ItemManager.Instance.weaponStatHandler = this;
     }
 
     // PlayerEquipment에서 참조 넘겨받음
@@ -96,6 +97,7 @@ public class WeaponStatHandler : MonoBehaviour
         this.fpsCamera = fps;
         this.playerObject = player;
         this.bulletStatText = bulletText;
+
     }
 
     public Transform GetHandTransform() => handransform;
@@ -104,100 +106,7 @@ public class WeaponStatHandler : MonoBehaviour
     public FpsCamera GetFpsCamera() => fpsCamera;
     public GameObject GetPlayerObject() => playerObject;
 
-    // 조준경/부착물 교체용 파츠 장착
-    public void EquipItem(ItemSO item)
-    {
-        if (!equippedParts.Contains(item))
-        {
-            equippedParts.Add(item);
-            ApplyItemStats(item);
-        }
-    }
-
-    public void UnEquipItem(ItemSO item)
-    {
-        equippedParts.Remove(item);
-        RemoveItemStats(item);
-    }
-
-    private void ApplyItemStats(ItemSO item) // 아이템 효과 반영
-    {
-        DMG += item.DMG;
-        MaxAmmo += item.MaxAmmo;
-        //ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);
-    }
-
-    private void RemoveItemStats(ItemSO item)
-    {
-        DMG -= item.DMG;
-        MaxAmmo -= item.MaxAmmo;
-        //ShootRecoil /= 1f - (item.ShootRecoil * 0.01f);
-    }
-    /// <summary>
-    /// 조준경 아닌 파츠 사용
-    /// </summary>
-    /// <param name="파츠이름F"></param>
-    public void ToggleAttachment(GameObject attachment) // 파츠 토글
-    {
-        if (attachment == null) return;
-
-        bool isActive = attachment.activeSelf;
-        ItemReference itemRef = attachment.GetComponent<ItemReference>();
-
-        if (!isActive)
-        {
-            EquipItem(itemRef.itemData);
-        }
-        else
-        {
-            UnEquipItem(itemRef.itemData);
-        }
-
-        attachment.SetActive(!isActive);
-
-        if (itemRef == null || itemRef.itemData == null) return;
-    }
-
-    /// <summary>
-    /// 조준경 파츠 사용
-    /// </summary>
-    /// <param name="조준경 이름"></param>
-    public void ToggleOpticAttachment(GameObject selectedOptic) //조준경 토글
-    {
-        if (selectedOptic == null) return;
-
-        // optics 그룹
-        List<GameObject> optics = new List<GameObject> { redDot, holographic };
-
-        foreach (var optic in optics)
-        {
-            if (optic == null) continue;
-            if (optic == selectedOptic)
-            {
-                bool willBeActive = !optic.activeSelf;
-                optic.SetActive(willBeActive);
-
-                ItemReference itemRef = optic.GetComponent<ItemReference>();
-                if (itemRef != null && itemRef.itemData != null)
-                {
-                    if (willBeActive)
-                        EquipItem(itemRef.itemData);
-                    else
-                        UnEquipItem(itemRef.itemData);
-                }
-            }
-            else
-            {
-                if (optic.activeSelf)
-                {
-                    optic.SetActive(false);
-                    ItemReference itemRef = optic.GetComponent<ItemReference>();
-                    if (itemRef != null && itemRef.itemData != null)
-                        UnEquipItem(itemRef.itemData);
-                }
-            }
-        }
-    }
+    
     public void BindToWeapon(WeaponFireController fireController)
     {
         onAmmoChanged += UpdateBulletText;
