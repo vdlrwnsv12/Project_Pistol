@@ -10,6 +10,7 @@ namespace DataDeclaration
     public enum MainUIType
     {
         None,
+        Start,
         HUD,
         Result,
     }
