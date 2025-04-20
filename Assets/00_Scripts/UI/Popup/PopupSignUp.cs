@@ -1,36 +1,28 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using DataDeclaration;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartUI : MainUI
+public class PopupSignUp : PopupUI
 {
     [SerializeField] private TMP_InputField idInputField;
     [SerializeField] private TMP_InputField passwordInputField;
-
-    [SerializeField] private Button signInBtn;
+    
     [SerializeField] private Button signUpBtn;
+    [SerializeField] private Button closeBtn;
     
     protected override void Awake()
     {
         base.Awake();
-        uiType = MainUIType.Start;
         
         InitIDInputField();
         InitPasswordInputField();
         
-        signInBtn.onClick.AddListener(OnClickSignInButton);
+        closeBtn.onClick.AddListener(CloseUI);
         signUpBtn.onClick.AddListener(OnClickSignUpButton);
-    }
-
-    public override void SetActiveUI(MainUIType activeUIType)
-    {
-        gameObject.SetActive(uiType == activeUIType);
     }
     
     private void InitIDInputField()
@@ -58,7 +50,7 @@ public class StartUI : MainUI
             Debug.Log("아이디 유효하지 않음");
         }
     }
-
+    
     private void ValidatePassword(string input)
     {
         var pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,30}$";
@@ -72,38 +64,33 @@ public class StartUI : MainUI
             Debug.Log("비밀번호 유효하지 않음");
         }
     }
-    
+
     private async void OnClickSignUpButton()
     {
         try
         {
-            await SignInWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
-            Debug.Log("로그인 성공");
-            SceneManager.LoadScene(1);
+            await SignUpWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
+            Debug.Log("회원가입 완료");
+            CloseUI();
         }
         catch
         {
-            Debug.Log("로그인 실패");
+            Debug.Log("회원가입 실패");
         }
-    }
-
-    private void OnClickSignInButton()
-    {
-        UIManager.Instance.OpenPopUpUI<PopupSignUp>();
     }
     
     /// <summary>
-    /// <para>사용자 이름/비밀번호 자격 증명을 사용하여 기존 플레이어를 로그인시킨다.</para>
+    /// <para>사용자 이름/비밀번호 자격 증명을 사용하여 새 플레이어를 생성한다.</para>
     /// <para>참고: 사용자 이름은 사용자 이름은 대소문자를 구분하지 않습니다. 최소 3자, 최대 20자여야 하며 문자 A-Z 및 a-z, 숫자, 기호 ., -, @, _만 지원한다.</para>
     /// <para>참고: 비밀번호는 대소문자를 구분합니다. 최소 8자, 최대 30자이며 소문자 1자, 대문자 1자, 숫자 1자, 기호 1자 이상을 포함해야 합니다.</para>
     /// </summary>
     /// <param name="username">사용자 이름</param>
     /// <param name="password">사용자 비밀번호</param>
-    private async Task SignInWithUsernamePasswordAsync(string username, string password)
+    private async Task SignUpWithUsernamePasswordAsync(string username, string password)
     {
         try
         {
-            await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, password);
+            await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, password);
         }
         catch (AuthenticationException ex)
         {
