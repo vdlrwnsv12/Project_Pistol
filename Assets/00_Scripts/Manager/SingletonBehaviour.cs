@@ -28,14 +28,12 @@ public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Component
 
     private static void SetupInstance()
     {
-        instance = (T)FindAnyObjectByType(typeof(T));
-        if (instance == null)
+        var go = new GameObject
         {
-            var go = new GameObject();
-            go.name = typeof(T).Name;
-            instance = go.AddComponent<T>();
-            DontDestroyOnLoad(go);
-        }
+            name = typeof(T).Name
+        };
+        instance = go.AddComponent<T>();
+        DontDestroyOnLoad(go);
     }
 
     private void RemoveDuplicates()
