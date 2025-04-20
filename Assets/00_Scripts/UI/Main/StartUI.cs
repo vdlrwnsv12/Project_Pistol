@@ -25,7 +25,7 @@ public class StartUI : MainUI
         InitPasswordInputField();
         
         signInBtn.onClick.AddListener(OnClickSignInButton);
-        signUpBtn.onClick.AddListener(OnClickSignUpButton);
+        signUpBtn.onClick.AddListener(OnClickSignUnButton);
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
@@ -73,7 +73,7 @@ public class StartUI : MainUI
         }
     }
     
-    private async void OnClickSignUpButton()
+    private async void OnClickSignInButton()
     {
         try
         {
@@ -87,7 +87,7 @@ public class StartUI : MainUI
         }
     }
 
-    private void OnClickSignInButton()
+    private void OnClickSignUnButton()
     {
         UIManager.Instance.OpenPopUpUI<PopupSignUp>();
     }
