@@ -1,7 +1,7 @@
 using Unity.Services.Authentication;
 using UnityEngine;
 
-public class GameManager : SingletonBehaviour<GameManager>
+public sealed class GameManager : SingletonBehaviour<GameManager>
 {
     public CharacterSO selectedCharacter;
     public WeaponSO selectedWeapon;

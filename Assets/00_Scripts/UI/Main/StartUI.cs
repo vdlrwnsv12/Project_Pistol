@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DataDeclaration;
@@ -16,23 +17,27 @@ public class StartUI : MainUI
     [SerializeField] private Button signInBtn;
     [SerializeField] private Button signUpBtn;
     
+    public override MainUIType UIType { get; protected set; }
+    public override bool IsDestroy { get; protected set; }
+
     protected override void Awake()
     {
         base.Awake();
-        uiType = MainUIType.Start;
-        
+        UIType = MainUIType.Start;
+        IsDestroy = true;
+
         InitIDInputField();
         InitPasswordInputField();
-        
+
         signInBtn.onClick.AddListener(OnClickSignInButton);
         signUpBtn.onClick.AddListener(OnClickSignUnButton);
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
     {
-        gameObject.SetActive(uiType == activeUIType);
+        gameObject.SetActive(UIType == activeUIType);
     }
-    
+
     private void InitIDInputField()
     {
         idInputField.characterLimit = 20;
@@ -72,14 +77,18 @@ public class StartUI : MainUI
             Debug.Log("비밀번호 유효하지 않음");
         }
     }
-    
+
     private async void OnClickSignInButton()
     {
         try
         {
             await SignInWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
             Debug.Log("로그인 성공");
-            SceneManager.LoadScene(1);
+            var operation = SceneManager.LoadSceneAsync(1);
+            if (operation != null && operation.isDone)
+            {
+                UIManager.Instance.ChangeMainUI(MainUIType.None);
+            }
         }
         catch
         {
@@ -89,9 +98,9 @@ public class StartUI : MainUI
 
     private void OnClickSignUnButton()
     {
-        UIManager.Instance.OpenPopUpUI<PopupSignUp>();
+        UIManager.Instance.OpenPopupUI<PopupSignUp>();
     }
-    
+
     /// <summary>
     /// <para>사용자 이름/비밀번호 자격 증명을 사용하여 기존 플레이어를 로그인시킨다.</para>
     /// <para>참고: 사용자 이름은 사용자 이름은 대소문자를 구분하지 않습니다. 최소 3자, 최대 20자여야 하며 문자 A-Z 및 a-z, 숫자, 기호 ., -, @, _만 지원한다.</para>

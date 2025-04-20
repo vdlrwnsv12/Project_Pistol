@@ -17,17 +17,21 @@ public class ResultUI : MainUI
 
     #endregion
     
+    public override MainUIType UIType { get; protected set; }
+    public override bool IsDestroy { get; protected set; }
+    
     protected override void Awake()
     {
         base.Awake();
-        uiType = MainUIType.Result;
+        UIType = MainUIType.Result;
+        IsDestroy = false;
 
         quitBtn.onClick.AddListener(OnClickQuitButton);
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
     {
-        gameObject.SetActive(uiType == activeUIType);
+        gameObject.SetActive(UIType == activeUIType);
     }
 
     /// <summary>

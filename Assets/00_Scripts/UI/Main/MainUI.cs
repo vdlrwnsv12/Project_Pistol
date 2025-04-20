@@ -5,8 +5,9 @@ using DataDeclaration;
 /// </summary>
 public abstract class MainUI : BaseUI
 {
-    protected MainUIType uiType;
-    
+    public abstract MainUIType UIType { get; protected set; }
+    public abstract bool IsDestroy { get; protected set; }
+
     /// <summary>
     /// Main UI 활성화
     /// </summary>

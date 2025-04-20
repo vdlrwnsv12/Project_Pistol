@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Unity Gaming Service 관리 클래스
 /// </summary>
-public class UGSManager : SingletonBehaviour<UGSManager>
+public sealed class UGSManager : SingletonBehaviour<UGSManager>
 {
     protected override async void Awake()
     {
