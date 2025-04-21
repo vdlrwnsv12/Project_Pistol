@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerEquipment : MonoBehaviour
 {
     private GameObject currentWeaponObject; // 현재 들고 있는 무기 오브젝트
-    public WeaponFireController fireController;
+    public WeaponFireController weaponFireController;
     public WeaponStatHandler weaponStatHandler;
     public Player player;
 
@@ -46,9 +46,10 @@ public class PlayerEquipment : MonoBehaviour
         {
             weaponStatHandler.SetSharedReferences(handTransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
 
-            fireController = currentWeaponObject.GetComponent<WeaponFireController>();
-            if (fireController != null)
-                fireController.InitReferences(); // 발사/재장전/조준 등 기능 초기화
+            weaponFireController = currentWeaponObject.GetComponent<WeaponFireController>();
+            if (weaponFireController != null)
+                weaponFireController.InitReferences(); // 발사/재장전/조준 등 기능 초기화
+                player.weaponFireController = weaponFireController;
         }
     }
 }

@@ -25,6 +25,7 @@ public class WeaponFireController : MonoBehaviour
     public void InitReferences()
     {
         weaponStatHandler = GetComponent<WeaponStatHandler>();
+        Player player = weaponStatHandler.playerObject.GetComponent<Player>();
 
         if (weaponStatHandler.weaponData == null)
         {
@@ -47,7 +48,8 @@ public class WeaponFireController : MonoBehaviour
         weaponStatHandler.BindToWeapon(this);
         weaponStatHandler.onAmmoChanged(currentAmmo, weaponStatHandler.MaxAmmo);
         optics = new List<GameObject> { weaponStatHandler.redDot, weaponStatHandler.holographic };
-        accuracyAmount = weaponStatHandler.playerObject.GetComponent<Player>().Data.HDL;
+        accuracyAmount = player.Data.HDL;
+        player.weaponFireController = this;
     }
 
     void Update()
@@ -73,7 +75,7 @@ public class WeaponFireController : MonoBehaviour
             weaponStatHandler.spreadAngle = 10.5f;
         }
         #endregion
-        HandleADS();
+        //HandleADS();
     }
 
     #endregion
@@ -97,7 +99,7 @@ public class WeaponFireController : MonoBehaviour
 
     #region ADS
 
-    void HandleADS()
+    public void HandleADS()
     {
         if (Input.GetMouseButtonDown(1) && !weaponStatHandler.isReloading)
         {
