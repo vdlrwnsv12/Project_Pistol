@@ -1,107 +1,91 @@
-using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
+/// <summary>
+/// Stage 데이터를 기반으로 프리팹을 자동 로드하고 플레이어를 배치하는 스테이지 로더
+/// </summary>
 public class StageLoader : MonoBehaviour
 {
-    [Header("스테이지 프리팹 리스트")]
-    [SerializeField] private GameObject[] stagePrefabs;
+    #region Fields
 
-    [Header("다음 스테이지 위치 배열 (Vector3)")]
-    [SerializeField] private Vector3[] stagePositions;
+    [Header("스테이지 JSON 데이터")]
+    [SerializeField] private TextAsset stageJsonFile;
 
-    [Header("다음 스테이지 회전 배열 (Euler Angles)")]
-    [SerializeField] private Vector3[] stageRotations;
-
-    [Header("플레이어 프리팹")]
+    [Header("플레이어 오브젝트")]
     [SerializeField] private GameObject playerObject;
 
-    private GameObject spawnedPlayer;
-
-    private GameObject previousStage;
-    private GameObject currentStage;
     private int currentStageIndex = 0;
+    private GameObject currentStage;
+    private GameObject previousStage;
+
+    private StageDataList stageDataList;
+
+    #endregion
+
+    #region Unity
+
+    private void Awake()
+    {
+        if (stageJsonFile == null)
+        {
+            Debug.LogError("[StageLoader] JSON 파일이 할당되지 않았습니다.");
+            return;
+        }
+
+        stageDataList = JsonUtility.FromJson<StageDataList>(stageJsonFile.text);
+    }
 
     private void Start()
     {
-        LoadInitialStage();
+        LoadStage(0);
     }
 
+    #endregion
+
+    #region Stage Logic
+
     /// <summary>
-    /// 시작 시 첫 스테이지 로드 및 플레이어 스폰
+    /// 특정 인덱스의 스테이지를 로드합니다.
     /// </summary>
-    private void LoadInitialStage()
+    /// <param name="index">스테이지 인덱스</param>
+    public void LoadStage(int index)
     {
-        if (stagePrefabs.Length == 0)
+        if (stageDataList == null || index >= stageDataList.Data.Count)
         {
-            Debug.LogWarning("Stage Prefabs가 비어 있습니다.");
+            Debug.LogWarning("[StageLoader] 스테이지 데이터가 비었거나 범위를 초과했습니다.");
             return;
         }
 
-        // 1스테이지 로드
-        currentStage = Instantiate(stagePrefabs[0], Vector3.zero, Quaternion.identity);
-        currentStageIndex = 0;
+        StageData data = stageDataList.Data[index];
 
-        Debug.Log("Stage 1 로드 완료");
-
-        // SpawnPoint 찾기
-        Transform spawnPoint = currentStage.transform.Find("SpawnPoint");
-
-        if (spawnPoint == null)
+        // RoomID로 프리팹 자동 로드 (Resources/Stage/Rooms/)
+        GameObject prefab = Resources.Load<GameObject>($"Prefabs/Stage/Rooms/{data.RoomID}");
+        if (prefab == null)
         {
-            Debug.LogWarning("SpawnPoint를 Stage 1에서 찾을 수 없습니다.");
+            Debug.LogError($"[StageLoader] 01_Resources/Resources/Prefabs/Stage/Rooms/{data.RoomID}.prefab 을 찾을 수 없습니다.");
             return;
         }
 
-        //이미 있는 플레이어를 위치로 이동
-        if (playerObject != null)
-        {
-            CharacterController cc = playerObject.GetComponent<CharacterController>();
-            if (cc != null)
-            {
-                cc.enabled = false; // 이동 전에 꺼줘야 위치 덮어쓰기 가능
-            }
+        Vector3 position = ToVector3(data.RoomPos);
+        Quaternion rotation = Quaternion.Euler(ToVector3(data.RoomRot));
 
-            playerObject.transform.position = spawnPoint.position;
-            playerObject.transform.rotation = spawnPoint.rotation;
+        // 이전 스테이지 저장 후 제거
+        previousStage = currentStage;
+        currentStage = Instantiate(prefab, position, rotation);
+        currentStageIndex = index;
 
-            if (cc != null)
-            {
-                cc.enabled = true;
-            }
+        // 플레이어 스폰 처리
+        SpawnPlayerToPoint(currentStage);
 
-            Debug.Log("씬에 있는 플레이어가 SpawnPoint에 배치되었습니다.");
-        }
-        else
-        {
-            Debug.LogWarning("playerObject가 할당되지 않았습니다.");
-        }
+        Debug.Log($"[StageLoader] {data.ID} 스테이지 로드 완료 at {position}");
     }
 
-
     /// <summary>
-    /// 다음 스테이지 로드 (NextPoint 위치 기준)
+    /// 다음 스테이지 로드
     /// </summary>
     public void LoadNextStage()
     {
-        int nextIndex = currentStageIndex + 1;
-
-        StageData nextData = stageDatabase.GetStageByIndex(nextIndex);
-        if (nextData == null)
-        {
-            Debug.Log("모든 스테이지 완료!");
-            return;
-        }
-
-        previousStage = currentStage;
-
-        GameObject prefab = stagePrefabs[nextIndex]; // or nextData.ID로 프리팹 매칭 가능
-        Vector3 pos = nextData.RoomPos;
-        Quaternion rot = Quaternion.Euler(nextData.RoomRot);
-
-        currentStage = Instantiate(prefab, pos, rot);
-        currentStageIndex = nextIndex;
-
-        Debug.Log($"Stage {currentStageIndex + 1} 로드 완료 (위치: {pos}, 회전: {rot.eulerAngles})");
+        LoadStage(currentStageIndex + 1);
     }
 
     /// <summary>
@@ -113,8 +97,64 @@ public class StageLoader : MonoBehaviour
         {
             Destroy(previousStage);
             previousStage = null;
-
-            Debug.Log("이전 스테이지 제거됨");
+            Debug.Log("[StageLoader] 이전 스테이지 제거됨");
         }
     }
+
+    #endregion
+
+    #region Utilities
+
+    /// <summary>
+    /// float 배열을 Vector3로 변환
+    /// </summary>
+    private Vector3 ToVector3(float[] arr)
+    {
+        if (arr == null || arr.Length < 3) return Vector3.zero;
+        return new Vector3(arr[0], arr[1], arr[2]);
+    }
+
+    /// <summary>
+    /// 스폰 포인트에 플레이어 배치
+    /// </summary>
+    private void SpawnPlayerToPoint(GameObject stage)
+    {
+        if (playerObject == null)
+        {
+            Debug.LogWarning("[StageLoader] 플레이어 오브젝트가 없습니다.");
+            return;
+        }
+
+        Transform spawnPoint = stage.transform.Find("SpawnPoint");
+        if (spawnPoint == null)
+        {
+            Debug.LogWarning("[StageLoader] SpawnPoint를 찾을 수 없습니다.");
+            return;
+        }
+
+        CharacterController cc = playerObject.GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+
+        playerObject.transform.position = spawnPoint.position;
+        playerObject.transform.rotation = spawnPoint.rotation;
+
+        if (cc != null) cc.enabled = true;
+
+        Debug.Log("[StageLoader] 플레이어가 SpawnPoint에 배치되었습니다.");
+    }
+
+    #endregion
 }
+
+#region Data Classes
+
+/// <summary>
+/// JSON 루트 데이터
+/// </summary>
+[System.Serializable]
+public class StageDataList
+{
+    public List<StageData> Data;
+}
+
+#endregion

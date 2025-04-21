@@ -1,7 +1,8 @@
 using UnityEngine;
+using System.Collections.Generic;
+[CreateAssetMenu(fileName = "Stage", menuName = "SO/StageDatas")]
 
-[CreateAssetMenu(fileName = "Stage", menuName = "SO/StageSO")]
-public class StageSO : ScriptableObject
+public class StageDatas : ScriptableObject
 {
     public string ID;
     public string Name;
@@ -9,6 +10,6 @@ public class StageSO : ScriptableObject
     public int Index;
     public string[] Targets;
     public string RoomID;
-    public Vector3 RoomPos;
-    public Vector3 RoomRot;
+    public float[] RoomPos;
+    public float[] RoomRot;
 }

@@ -13,8 +13,19 @@ MonoBehaviour:
   m_Name: S0001
   m_EditorClassIdentifier: 
   ID: S0001
-  Name: "\uC2A4\uD14C\uC774\uC9C01"
+  Name: "\uC2A4\uD14C\uC774\uC9C0 1-1"
+  Stage: 1
+  Index: 1
   Targets:
   - T0001
   - T0002
   - T0002
+  RoomID: R0001
+  RoomPos:
+  - 0
+  - 0
+  - 0
+  RoomRot:
+  - 0
+  - 0
+  - 0
