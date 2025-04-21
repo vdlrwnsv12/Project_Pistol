@@ -31,7 +31,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
         input.playerActions.Reload.started += OnReload;
-
+        //input.playerActions.Ads.started  
     }
     protected virtual void RemoveInputActionCallbacks()
     {
