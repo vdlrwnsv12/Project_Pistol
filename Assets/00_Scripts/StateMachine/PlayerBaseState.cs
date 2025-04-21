@@ -129,13 +129,12 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        float baseSpeed = stateMachine.Player.StatHandler.Stat.SPD * 0.1f;
+        float baseSpeed = stateMachine.Player.StatHandler.Stat.SPD * stateMachine.Player.speedMultiplier;
         float finalSpeed = baseSpeed;
 
         if (stateMachine.Player.PlayerEquipment.weaponStatHandler != null && stateMachine.Player.PlayerEquipment.weaponStatHandler.isADS)
         {
             finalSpeed *= stateMachine.Player.adsSpeedMultiplier;  // 조준 중일 때 속도 감소
-            Debug.Log("1");
         }
         return finalSpeed;
     }

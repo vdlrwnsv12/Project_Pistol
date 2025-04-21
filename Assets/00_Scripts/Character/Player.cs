@@ -22,7 +22,8 @@ public class Player : MonoBehaviour
     private HeadBob headBob;
 
     public PlayerEquipment PlayerEquipment { get; private set; }
-    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.05f;
+    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
+    [Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         FpsCamera = GetComponent<FpsCamera>();
         headBob = GetComponentInChildren<HeadBob>();
-        PlayerEquipment =  GetComponentInChildren<PlayerEquipment>();
+        PlayerEquipment = GetComponentInChildren<PlayerEquipment>();
         headBob = GetComponentInChildren<HeadBob>();
         StatHandler = new PlayerStatHandler(this);
         stateMachine = new PlayerStateMachine(this);
@@ -42,9 +43,9 @@ public class Player : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
-        
+
         stateMachine.ChangeState(stateMachine.IdleState);
-        
+
         ItemManager.Instance.playerStatHandler = StatHandler;
         Debug.Log("ItemManager.Instance 할당됨");
     }
@@ -58,5 +59,4 @@ public class Player : MonoBehaviour
     {
         stateMachine.PhysicsUpdate();
     }
-    
 }
