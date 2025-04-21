@@ -74,7 +74,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
         if(item.MaxAmmo != 0)
         {
              weaponStatHandler.MaxAmmo += item.MaxAmmo;
-             weaponStatHandler.onAmmoChanged?.Invoke(-1, weaponStatHandler.MaxAmmo);
+             //weaponStatHandler.onAmmoChanged?.Invoke(-1, weaponStatHandler.MaxAmmo);//UI
         }
         
         weaponStatHandler.ShootRecoil *= 1f - (item.ShootRecoil * 0.01f);

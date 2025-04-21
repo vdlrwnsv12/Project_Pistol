@@ -2393,7 +2393,7 @@ GameObject:
   - component: {fileID: 8170167947590372548}
   - component: {fileID: 5293823371981571893}
   m_Layer: 0
-  m_Name: Player
+  m_Name: C001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2607,13 +2607,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponFireController: {fileID: 0}
   weaponStatHandler: {fileID: 0}
-  player: {fileID: 0}
+  player: {fileID: 4469795634664268128}
   handTransform: {fileID: 1645938702522831574}
   camRoot: {fileID: 982432676637716630}
   playerCam: {fileID: 1214593486643530909}
   fpsCamera: {fileID: 6737512148647435761}
-  playerObject: {fileID: 8810597487528185575}
-  bulletStatText: {fileID: 0}
 --- !u!114 &5293823371981571893
 MonoBehaviour:
   m_ObjectHideFlags: 0

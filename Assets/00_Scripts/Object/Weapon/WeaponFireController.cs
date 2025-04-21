@@ -4,32 +4,50 @@ using System.Collections.Generic;
 
 public class WeaponFireController : MonoBehaviour
 {
-    private WeaponSO weaponData;
-    public WeaponStatHandler weaponStatHandler;
+     // === [참조용 컴포넌트] ===
+    private WeaponStatHandler weaponStatHandler;
+    private Player player;
+
+    // === [탄약] ===
     [SerializeField] public int currentAmmo;
+
+    // === [에임 / 조준 관련] ===
     private Vector3 camRootOriginPos;
     private Vector3 currentCamRootTargetPos;
     private Quaternion currentHandTargetRot;
-     private Quaternion initialLocalRotation;
+    private Quaternion initialLocalRotation;
+    [SerializeField] private float targetCamY = 0.165f; // 조준 시 카메라 Y 위치
+    [SerializeField] private float accuracyAmount; // 플레이어 조준 정확도 (손떨림에 영향)
 
-    public float finalRecoil;
-    public bool isLocked = true;
-    [SerializeField] private List<GameObject> optics;
+    // === [반동 관련] ===
+    [SerializeField] private float finalRecoil;
 
-    [SerializeField] private float targetCamY = 0.165f;
-    [SerializeField] private float accuracyAmount;
+    // === [테스트용] ===
+    [SerializeField] private bool isLocked = true; // F 키로 마우스 잠금 전환 (테스트용)
+    [SerializeField] private List<GameObject> optics; // redDot, holographic 등 조준경 그룹
 
+    // === [사운드 관련] ===
+    private AudioClip reloadSound;
+    private AudioClip emptyTrigger;
+    private AudioClip fireSound;
+
+    // === [이펙트 프리팹] ===
+    private GameObject casingPrefab;
+    private GameObject muzzleFlashPrefab;
+    private GameObject bulletImpactPrefab;
 
     #region Unity Methods
 
     public void InitReferences()
     {
         weaponStatHandler = GetComponent<WeaponStatHandler>();
-        Player player = weaponStatHandler.playerObject.GetComponent<Player>();
+        player = weaponStatHandler.player;
+
+        string nameToSerch = gameObject.name.Replace("(Clone)", "").Trim();
 
         if (weaponStatHandler.weaponData == null)
         {
-            string nameToSerch = gameObject.name.Replace("(Clone)", "").Trim();
+            
             weaponStatHandler.weaponData = Resources.Load<WeaponSO>($"Data/SO/WeaponSO/{nameToSerch}");
             if (weaponStatHandler.weaponData == null)
             {
@@ -40,16 +58,25 @@ public class WeaponFireController : MonoBehaviour
                 Debug.Log($"[InitReferences] WeaponData '{nameToSerch}'자동 할당.");
             }
         }
-        weaponData = weaponStatHandler.weaponData;
+
         weaponStatHandler.WeaponDataFromSO();
         initialLocalRotation = weaponStatHandler.handransform.localRotation;
         camRootOriginPos = weaponStatHandler.camRoot.localPosition;
         currentAmmo = weaponStatHandler.MaxAmmo;
-        weaponStatHandler.BindToWeapon(this);
-        weaponStatHandler.onAmmoChanged(currentAmmo, weaponStatHandler.MaxAmmo);
+        //weaponStatHandler.BindToWeapon(this);
+        //weaponStatHandler.onAmmoChanged(currentAmmo, weaponStatHandler.MaxAmmo);
         optics = new List<GameObject> { weaponStatHandler.redDot, weaponStatHandler.holographic };
         accuracyAmount = player.Data.HDL;
         player.weaponFireController = this;
+
+        fireSound = reloadSound = ResourceManager.Instance.Load<AudioClip>($"Audio/SFX/{nameToSerch}");
+        reloadSound = ResourceManager.Instance.Load<AudioClip>("Audio/SFX/Reload");
+        emptyTrigger = ResourceManager.Instance.Load<AudioClip>("Audio/SFX/EmptyTrigger");
+
+        casingPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/Props/Case");
+        muzzleFlashPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/Props/MuzzleFlash");
+        bulletImpactPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/Props/BulletHole");
+
     }
 
     void Update()
@@ -162,12 +189,6 @@ public class WeaponFireController : MonoBehaviour
     public void FireWeapon()
     {
         weaponStatHandler.lastFireTime = Time.time;
-        Debug.Log("총알 나감!");
-        if (weaponData == null)
-        {
-            return;
-        }
-
         if (currentAmmo > 0)
         {
             if (currentAmmo != 1)
@@ -186,15 +207,15 @@ public class WeaponFireController : MonoBehaviour
             EjectCasing();
             MuzzleFlash();
             ApplyRecoil();
-            SoundManager.Instance.PlaySFX(weaponStatHandler.fireSound);
+            SoundManager.Instance.PlaySFX(fireSound);
 
             currentAmmo--;
 
-            weaponStatHandler.onAmmoChanged?.Invoke(currentAmmo, weaponStatHandler.MaxAmmo);
+            //weaponStatHandler.onAmmoChanged?.Invoke(currentAmmo, weaponStatHandler.MaxAmmo);
         }
         else
         {
-            SoundManager.Instance.PlaySFX(weaponStatHandler.emptySound);
+            SoundManager.Instance.PlaySFX(emptyTrigger);
         }
     }
 
@@ -217,13 +238,12 @@ public class WeaponFireController : MonoBehaviour
         Ray ray = new Ray(weaponStatHandler.barrelLocation.position, shootDirection);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (weaponStatHandler.bulletImpactPrefab)
-            {
-                Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
-                GameObject impact = Instantiate(weaponStatHandler.bulletImpactPrefab, hit.point, hitRotation);
-                impact.transform.SetParent(hit.collider.transform);
-                Destroy(impact, 5f);
-            }
+
+            Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
+            GameObject impact = Instantiate(bulletImpactPrefab, hit.point, hitRotation);
+            impact.transform.SetParent(hit.collider.transform);
+            Destroy(impact, 5f);
+
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
@@ -231,7 +251,6 @@ public class WeaponFireController : MonoBehaviour
                 target?.TakeDamage(weaponStatHandler.DMG, hit.collider);
             }
         }
-        //StartCoroutine(CameraShake(weaponStatHandler.DMG * 0.0125f));
     }
     void OnDrawGizmos()
     {
@@ -263,19 +282,18 @@ public class WeaponFireController : MonoBehaviour
 
     void MuzzleFlash()
     {
-        if (weaponStatHandler.muzzleFlashPrefab)
-        {
-            GameObject flash = Instantiate(weaponStatHandler.muzzleFlashPrefab, weaponStatHandler.barrelLocation.position, weaponStatHandler.barrelLocation.rotation);
-            flash.transform.SetParent(weaponStatHandler.barrelLocation);
-            Destroy(flash, weaponStatHandler.destroyTimer);
-        }
+
+        GameObject flash = Instantiate(muzzleFlashPrefab, weaponStatHandler.barrelLocation.position, weaponStatHandler.barrelLocation.rotation);
+        flash.transform.SetParent(weaponStatHandler.barrelLocation);
+        Destroy(flash, weaponStatHandler.destroyTimer);
+
     }
 
     void EjectCasing()
     {
-        if (weaponStatHandler.casingPrefab && weaponStatHandler.casingExitLocation)
+        if (weaponStatHandler.casingExitLocation)
         {
-            GameObject casing = Instantiate(weaponStatHandler.casingPrefab, weaponStatHandler.casingExitLocation.position, weaponStatHandler.casingExitLocation.rotation);
+            GameObject casing = Instantiate(casingPrefab, weaponStatHandler.casingExitLocation.position, weaponStatHandler.casingExitLocation.rotation);
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -292,7 +310,7 @@ public class WeaponFireController : MonoBehaviour
 
     void CalculateFinalRecoil()
     {
-        float rcl = weaponStatHandler.playerObject.GetComponent<Player>().Data.RCL;
+        float rcl = player.Data.RCL;
         finalRecoil = weaponStatHandler.ShootRecoil * (0.2f + (0.8f * (1 - rcl / 99f)));
         //finalRecoil = baseRecoil * (1f - weaponStatHandler.itemRecoil * 0.01f);
         Debug.Log($"무기 반동:{weaponStatHandler.ShootRecoil}, 플레이어 반동제어:{rcl}, 최종 반동:{finalRecoil},");
@@ -303,28 +321,6 @@ public class WeaponFireController : MonoBehaviour
         CalculateFinalRecoil();
         weaponStatHandler.fpsCamera?.ApplyRecoil(finalRecoil);
     }
-
-    IEnumerator CameraShake(float intensity)
-    {
-        Vector3 originalPos = weaponStatHandler.playerObject.transform.localPosition;
-        float duration = 0.25f;
-        float timer = 0f;
-
-        while (timer < duration)
-        {
-            float damper = 1f - (timer / duration);
-            float x = Random.Range(-1f, 1f) * intensity * damper;
-            float y = Random.Range(-1f, 1f) * intensity * damper;
-
-            weaponStatHandler.playerObject.transform.localPosition = originalPos + new Vector3(x, y, 0f);
-
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        weaponStatHandler.playerObject.transform.localPosition = originalPos;
-    }
-
     #endregion
 
     #region 장전
@@ -340,7 +336,7 @@ public class WeaponFireController : MonoBehaviour
         currentAmmo = 0;
         weaponStatHandler.gunAnimator.SetTrigger("Reload");
 
-        SoundManager.Instance.PlaySFX(weaponStatHandler.reloadSound);
+        SoundManager.Instance.PlaySFX(reloadSound);
 
         StartCoroutine(ReloadCoroutine());
     }
@@ -352,7 +348,7 @@ public class WeaponFireController : MonoBehaviour
         weaponStatHandler.gunAnimator.SetBool("OutOfAmmo", false);
 
         currentAmmo = weaponStatHandler.MaxAmmo;
-        weaponStatHandler.onAmmoChanged(currentAmmo, weaponStatHandler.MaxAmmo);
+        //weaponStatHandler.onAmmoChanged(currentAmmo, weaponStatHandler.MaxAmmo);
         weaponStatHandler.isReloading = false;
     }
 
