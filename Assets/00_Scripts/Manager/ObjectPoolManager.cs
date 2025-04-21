@@ -3,7 +3,7 @@ using DataDeclaration;
 using UnityEngine;
 
 //TODO: 구현 중, 사용X
-public class ObjectPoolManager : SingletonBehaviour<ObjectPoolManager>
+public sealed class ObjectPoolManager : SingletonBehaviour<ObjectPoolManager>
 {
     private readonly Dictionary<int, Queue<GameObject>>
         pools = new(); // key: 리소스 InstanceID  value: IPoolable 상속받은 비활성화된 오브젝트

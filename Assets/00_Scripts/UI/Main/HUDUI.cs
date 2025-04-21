@@ -27,10 +27,14 @@ public class HUDUI : MainUI
     private Color32 originalColor;
     private Color32 currentColor;
 
+    public override MainUIType UIType { get; protected set; }
+    public override bool IsDestroy { get; protected set; }
+
     protected override void Awake()
     {
         base.Awake();
-        uiType = MainUIType.HUD;
+        UIType = MainUIType.HUD;
+        IsDestroy = false;
 
         originalColor = new Color32(221, 234, 249, 255);
         currentColor = new Color32(252, 192, 1, 255);
@@ -38,7 +42,7 @@ public class HUDUI : MainUI
 
     public override void SetActiveUI(MainUIType activeUIType)
     {
-        gameObject.SetActive(uiType == activeUIType);
+        gameObject.SetActive(UIType == activeUIType);
     }
 
     /// <summary>

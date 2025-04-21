@@ -2,27 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DataDeclaration;
+using UnityEngine.SceneManagement;
 
 public sealed class UIManager : SingletonBehaviour<UIManager>
 {
     private GameObject mainCanvas; // 메인 캔버스 게임오브젝트
+    private GameObject popupCanvas; // 팝업 캔버스 게임오브젝트
     private CanvasGroup fader; // 페이드 연출
     
-    private readonly List<MainUI> mainUIList = new(); // ScreenUI 관리용 리스트
-    private readonly Stack<PopupUI> curPopUpUIStack = new(); // Pop-Up UI 관리용 Stack
-    private readonly Dictionary<string, PopupUI> popUpUIPool = new(); // 비활성화 된 Pop-Up UI Pool
+    private readonly List<MainUI> mainUIList = new(); // MainUI 관리용 리스트
+    private readonly Stack<PopupUI> curPopupUIStack = new(); // Popup UI 관리용 Stack
+    private readonly Dictionary<string, PopupUI> popupUIPool = new(); // 비활성화 된 Popup UI Pool
     
-    public MainUI CurMainUI { get; private set; }
-    public PopupUI CurPopupUI { get; private set; }
+    public MainUI CurMainUI { get; private set; }   // 현재 활성화 된 Main UI
+    public PopupUI CurPopupUI { get; private set; } // 마지막으로 활성화 된 Popup UI
 
     protected override void Awake()
     {
         base.Awake();
         InitMainCanvas();
+        InitPopupCanvas();
         InitFader();
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     #region Public Method
+
+    #region Main UI
 
     /// <summary>
     /// ScreenUI를 상속받은 UI 클래스 생성 및 초기화
@@ -30,50 +42,57 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// <typeparam name="T">ScreenUI 클래스</typeparam>
     public void InitUI<T>() where T : MainUI
     {
-        //TODO: Resources.Load 나중에 Addressable로 바꾸기
-        var resource = ResourceManager.Instance.Load<GameObject>($"Prefabs/UI/Main/{typeof(T).Name}");
-        var ui = Instantiate(resource, mainCanvas.transform, false);
-        mainUIList.Add(ui.GetComponent<T>());
+        var mainUI = mainUIList.Find(o => o.GetType() == typeof(T));
+        if (mainUI == null)
+        {
+            //TODO: Resources.Load 나중에 Addressable로 바꾸기
+            var resource = ResourceManager.Instance.Load<T>($"Prefabs/UI/Main/{typeof(T).Name}");
+            mainUI = Instantiate(resource, mainCanvas.transform, false);
+            mainUIList.Add(mainUI);
+        }
+        ChangeMainUI(mainUI.UIType);
     }
 
     /// <summary>
-    /// ScreenUI 전환
+    /// Main UI 전환
     /// </summary>
-    /// <param name="activeUIType">전환하려고 하는 ScreenUI 타입</param>
+    /// <param name="activeUIType">전환하려고 하는 Main UI 타입</param>
     public void ChangeMainUI(MainUIType activeUIType)
     {
-        foreach (var screenUI in mainUIList)
+        foreach (var mainUI in mainUIList)
         {
-            screenUI.SetActiveUI(activeUIType);
-            if (screenUI.gameObject.activeSelf)
+            mainUI.SetActiveUI(activeUIType);
+            if (mainUI.gameObject.activeSelf)
             {
-                CurMainUI = screenUI;
+                CurMainUI = mainUI;
             }
         }
     }
 
+    #endregion
+    
+    #region Popup UI
     /// <summary>
     /// Resources/Prefabs/UI/PopUp/ 경로에 있는 Popup UI 리소스 생성
     /// </summary>
     /// <typeparam name="T">PopupUI 클래스</typeparam>
-    public void OpenPopUpUI<T>() where T : PopupUI
+    public void OpenPopupUI<T>() where T : PopupUI
     {
-        var uiName = typeof(T).Name;
-
-        if (curPopUpUIStack.TryPeek(out var latestUI))
-        {
-            latestUI.gameObject.SetActive(false);
-        }
+        // if (curPopupUIStack.TryPeek(out var latestUI))
+        // {
+        //     latestUI.gameObject.SetActive(false);
+        // }
 
         var openUI = FindPopUpUIInPool<T>();
         if (openUI == null)
         {
             var resource = ResourceManager.Instance.Load<T>($"Prefabs/UI/PopUp/{typeof(T).Name}");
-            openUI = Instantiate(resource, mainCanvas.transform, false);
+            openUI = Instantiate(resource, popupCanvas.transform, false);
         }
 
         openUI.gameObject.SetActive(true);
-        curPopUpUIStack.Push(openUI);
+        openUI.transform.SetAsLastSibling();
+        curPopupUIStack.Push(openUI);
         CurPopupUI = openUI;
     }
 
@@ -85,20 +104,21 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     {
         var uiName = popUpUI.GetType().Name;
 
-        if (curPopUpUIStack.TryPeek(out var latestUI))
-        {
-            latestUI.gameObject.SetActive(false);
-        }
+        // if (curPopupUIStack.TryPeek(out var latestUI))
+        // {
+        //     latestUI.gameObject.SetActive(false);
+        // }
 
         var openUI = FindPopUpUIInPool(uiName);
         if (openUI == null)
         {
             var resource = ResourceManager.Instance.Load<PopupUI>($"Prefabs/UI/PopUp/{uiName}");
-            openUI = Instantiate(resource, mainCanvas.transform, false);
+            openUI = Instantiate(resource, popupCanvas.transform, false);
         }
 
         openUI.gameObject.SetActive(true);
-        curPopUpUIStack.Push(openUI);
+        openUI.transform.SetAsLastSibling();
+        curPopupUIStack.Push(openUI);
         CurPopupUI = openUI;
     }
 
@@ -108,20 +128,21 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// <param name="uiName">리소스 이름</param>
     public void OpenPopUpUI(string uiName)
     {
-        if (curPopUpUIStack.TryPeek(out var latestUI))
-        {
-            latestUI.gameObject.SetActive(false);
-        }
+        // if (curPopupUIStack.TryPeek(out var latestUI))
+        // {
+        //     latestUI.gameObject.SetActive(false);
+        // }
 
         var openUI = FindPopUpUIInPool(uiName);
         if (openUI == null)
         {
             var resource = ResourceManager.Instance.Load<PopupUI>($"Prefabs/UI/PopUp/{uiName}");
-            openUI = Instantiate(resource, mainCanvas.transform, false);
+            openUI = Instantiate(resource, popupCanvas.transform, false);
         }
 
         openUI.gameObject.SetActive(true);
-        curPopUpUIStack.Push(openUI);
+        openUI.transform.SetAsLastSibling();
+        curPopupUIStack.Push(openUI);
         CurPopupUI = openUI;
     }
 
@@ -130,26 +151,29 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// </summary>
     public void ClosePopUpUI()
     {
-        var popUpUI = curPopUpUIStack.Pop();
+        var popUpUI = curPopupUIStack.Pop();
         popUpUI.gameObject.SetActive(false);
         CurPopupUI = null;
 
         var type = popUpUI.GetType();
-        if (popUpUIPool.ContainsKey(type.Name))
+        if (popupUIPool.ContainsKey(type.Name))
         {
-            popUpUIPool[type.Name] = popUpUI;
+            popupUIPool[type.Name] = popUpUI;
         }
         else
         {
-            popUpUIPool.Add(type.Name, popUpUI);
+            popupUIPool.Add(type.Name, popUpUI);
         }
 
-        if (curPopUpUIStack.TryPeek(out var prevUI))
+        if (curPopupUIStack.TryPeek(out var prevUI))
         {
             prevUI.gameObject.SetActive(true);
+            prevUI.transform.SetAsLastSibling();
             CurPopupUI = prevUI;
         }
     }
+    
+    #endregion
 
     /// <summary>
     /// 마우스 커서 On/Off
@@ -192,7 +216,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// <returns>비활성화된 Popup UI</returns>
     private T FindPopUpUIInPool<T>() where T : PopupUI
     {
-        return popUpUIPool.GetValueOrDefault(typeof(T).Name) as T;
+        return popupUIPool.GetValueOrDefault(typeof(T).Name) as T;
     }
 
     /// <summary>
@@ -202,7 +226,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// <returns>비활성화된 Popup UI</returns>
     private PopupUI FindPopUpUIInPool(string key)
     {
-        return popUpUIPool.GetValueOrDefault(key);
+        return popupUIPool.GetValueOrDefault(key);
     }
 
     /// <summary>
@@ -222,6 +246,20 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         DontDestroyOnLoad(mainCanvas);
     }
 
+    private void InitPopupCanvas()
+    {
+        popupCanvas = GameObject.Find("PopupCanvas");
+
+        if (popupCanvas == null)
+        {
+            //TODO: Resources.Load 나중에 Addressable로 바꾸기
+            var resource = ResourceManager.Instance.Load<GameObject>("Prefabs/UI/PopupCanvas");
+            popupCanvas = Instantiate(resource);
+        }
+        
+        DontDestroyOnLoad(popupCanvas);
+    }
+
     /// <summary>
     /// Fader 초기화
     /// </summary>
@@ -237,6 +275,47 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         }
 
         DontDestroyOnLoad(fader.gameObject);
+    }
+    
+    /// <summary>
+    /// Main Canvas에 있는 UI 정리
+    /// </summary>
+    private void ClearMainCanvas()
+    {
+        for (var i = 0; i < mainUIList.Count; i++)
+        {
+            if (mainUIList[i] == null || mainUIList[i].IsDestroy)
+            {
+                if (mainUIList[i] != null)
+                {
+                    Destroy(mainUIList[i].gameObject);
+                }
+                mainUIList.RemoveAt(i);
+            }
+            else
+            {
+                mainUIList[i].gameObject.SetActive(false);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Popup Canvas 정리
+    /// </summary>
+    private void ClearPopupCanvas()
+    {
+        curPopupUIStack.Clear();
+        popupUIPool.Clear();
+        for (var i = 0; i < popupCanvas.transform.childCount; i++)
+        {
+            Destroy(popupCanvas.transform.GetChild(i).gameObject);
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ClearMainCanvas();
+        ClearPopupCanvas();
     }
 
     #endregion

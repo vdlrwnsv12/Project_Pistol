@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : SingletonBehaviour<ResourceManager>
+public sealed class ResourceManager : SingletonBehaviour<ResourceManager>
 {
     private readonly Dictionary<string, object> resourcePools = new(); // 리소스 캐싱용
 

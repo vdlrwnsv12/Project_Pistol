@@ -16,15 +16,11 @@ public class StageManager : MonoBehaviour
                 instance = FindAnyObjectByType<StageManager>();
                 if (instance == null)
                 {
-                    instance = FindAnyObjectByType<StageManager>();
-                    if (instance == null)
+                    var go = new GameObject
                     {
-                        var go = new GameObject
-                        {
-                            name = nameof(StageManager)
-                        };
-                        instance = go.AddComponent<StageManager>();
-                    }
+                        name = nameof(StageManager)
+                    };
+                    instance = go.AddComponent<StageManager>();
                 }
             }
 
@@ -33,33 +29,28 @@ public class StageManager : MonoBehaviour
     }
 
     #endregion
-    
+
     private StageState stageState;
 
     #region Parameters
 
-    [Header("스테이지 데이터")]
-    [SerializeField] private ItemSO[] stageDataArray; // 각 스테이지별 설정값 목록
+    [Header("스테이지 데이터")] [SerializeField] private ItemSO[] stageDataArray; // 각 스테이지별 설정값 목록
 
-    [Header("상태 플래그")]
-    private bool isStageStarted;       // 스테이지 시작 여부
-    private bool isStageCleared;       // 스테이지 클리어 여부
-    private bool isStageFailed;        // 스테이지 실패 여부
-    private bool isGateOpened;         // 문이 열렸는지 여부
-    private bool hasPlayerExited;      // 플레이어가 탈출했는지 여부
+    [Header("상태 플래그")] private bool isStageStarted; // 스테이지 시작 여부
+    private bool isStageCleared; // 스테이지 클리어 여부
+    private bool isStageFailed; // 스테이지 실패 여부
+    private bool isGateOpened; // 문이 열렸는지 여부
+    private bool hasPlayerExited; // 플레이어가 탈출했는지 여부
 
-    [Header("타이머 설정")]
-    private float stageTimeLimit;      // 스테이지 제한 시간
-    private float remainingTime;       // 남은 시간
-    private float warningThreshold;    // 경고 색상 전환 임계 시간
+    [Header("타이머 설정")] private float stageTimeLimit; // 스테이지 제한 시간
+    private float remainingTime; // 남은 시간
+    private float warningThreshold; // 경고 색상 전환 임계 시간
 
-    [Header("스테이지 진행")]
-    [SerializeField] private int currentStageIndex; // 현재 스테이지 인덱스
+    [Header("스테이지 진행")] [SerializeField] private int currentStageIndex; // 현재 스테이지 인덱스
     private int maxStageCount => stageDataArray.Length; // 최대 스테이지 수
 
-    [Header("애니메이션")]
-    [SerializeField] private Animator gateAnimator;     // 문 애니메이터
-    
+    [Header("애니메이션")] [SerializeField] private Animator gateAnimator; // 문 애니메이터
+
     public RewardSystem RewardSystem { get; private set; }
     public ScoreSystem ScoreSystem { get; private set; }
 
@@ -110,10 +101,10 @@ public class StageManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         RewardSystem = new RewardSystem();
         ScoreSystem = new ScoreSystem();
-        
+
         InitHUDUI();
     }
 
