@@ -75,10 +75,10 @@ public class PlayerAttackState : PlayerBaseState
         Transform cam = stateMachine.MainCamTransform;
         Ray ray = new Ray(cam.position, cam.forward);
         Debug.Log("슈팅");
-        if (stateMachine.Player.PlayerEquipment.fireController != null && stateMachine.Player.PlayerEquipment.fireController.isLocked)
+        if (stateMachine.Player.PlayerEquipment.weaponFireController != null && stateMachine.Player.PlayerEquipment.weaponFireController.isLocked)
         {
             Debug.Log("if문 슈팅");
-            stateMachine.Player.PlayerEquipment.fireController.FireWeapon();
+            stateMachine.Player.PlayerEquipment.weaponFireController.FireWeapon();
         }
     }
 }

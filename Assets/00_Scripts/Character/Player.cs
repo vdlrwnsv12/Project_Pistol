@@ -17,14 +17,13 @@ public class Player : MonoBehaviour
 
     public ForceReceiver ForceReceiver { get; private set; }
     public FpsCamera FpsCamera { get; private set; }
-
-    public WeaponStatHandler WeaponStatHandler { get; private set; }
     public PlayerStateMachine stateMachine;
+    public WeaponFireController weaponFireController;
 
     private HeadBob headBob;
-
     public PlayerEquipment PlayerEquipment { get; private set; }
-    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.5f;
+    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
+    [Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
     private void Awake()
     {
@@ -35,7 +34,7 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         FpsCamera = GetComponent<FpsCamera>();
         headBob = GetComponentInChildren<HeadBob>();
-        PlayerEquipment =  GetComponentInChildren<PlayerEquipment>();
+        PlayerEquipment = GetComponentInChildren<PlayerEquipment>();
         headBob = GetComponentInChildren<HeadBob>();
         StatHandler = new PlayerStatHandler(this);
         stateMachine = new PlayerStateMachine(this);
@@ -44,9 +43,9 @@ public class Player : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
-        
+
         stateMachine.ChangeState(stateMachine.IdleState);
-        
+
         ItemManager.Instance.playerStatHandler = StatHandler;
         Debug.Log("ItemManager.Instance 할당됨");
     }
@@ -54,6 +53,12 @@ public class Player : MonoBehaviour
     {
         stateMachine.HandleInput();
         stateMachine.Update();
+        
+        if (weaponFireController != null)
+        {
+            weaponFireController.HandleADS();
+            Debug.Log("fire");
+        }
     }
 
     private void FixedUpdate()
