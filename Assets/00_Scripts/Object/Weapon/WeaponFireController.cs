@@ -13,9 +13,10 @@ public class WeaponFireController : MonoBehaviour
     private Quaternion currentHandTargetRot;
     public float finalRecoil;
     public bool isLocked = true;
-    [SerializeField]private List<GameObject> optics;
+    [SerializeField] private List<GameObject> optics;
 
     [SerializeField] private float targetCamY = 0.165f;
+    [SerializeField] private float accuracyAmount;
 
 
     #region Unity Methods
@@ -45,6 +46,7 @@ public class WeaponFireController : MonoBehaviour
         statHandler.BindToWeapon(this);
         statHandler.onAmmoChanged(currentAmmo, statHandler.MaxAmmo);
         optics = new List<GameObject> { statHandler.redDot, statHandler.holographic };
+        accuracyAmount = statHandler.playerObject.GetComponent<Player>().Data.HDL;
     }
 
     void Update()
@@ -135,10 +137,8 @@ public class WeaponFireController : MonoBehaviour
         if (statHandler.isADS)
             WeaponShake();
     }
-
     void WeaponShake()//손떨림
     {
-        float accuracyAmount = statHandler.playerObject.GetComponent<Player>().Data.HDL;
         float accuracy = Mathf.Clamp01((99f - accuracyAmount) / 98f);
         float shakeAmount = accuracy * 7.5f;
         float shakeSpeed = 0.7f;
@@ -150,6 +150,7 @@ public class WeaponFireController : MonoBehaviour
         Quaternion shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
         statHandler.handransform.localRotation = initialLocalRotation * shakeRotation;
     }
+
 
     #endregion
 

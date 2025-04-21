@@ -7,7 +7,8 @@ public class PlayerEquipment : MonoBehaviour
 {
     private GameObject currentWeaponObject; // 현재 들고 있는 무기 오브젝트
     public WeaponFireController fireController;
-    public WeaponStatHandler handler;
+    public WeaponStatHandler weaponStatHandler;
+    public Player player;
 
     [Header("공총 참조")]
     public Transform handTransform; // 무기를 들 위치
@@ -40,10 +41,10 @@ public class PlayerEquipment : MonoBehaviour
         currentWeaponObject = Instantiate(weaponPrefab, handTransform, false);
 
         // 무기 스탯 핸들러 세팅
-        handler = currentWeaponObject.GetComponent<WeaponStatHandler>();
-        if (handler != null)
+        weaponStatHandler = currentWeaponObject.GetComponent<WeaponStatHandler>();
+        if (weaponStatHandler != null)
         {
-            handler.SetSharedReferences(handTransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
+            weaponStatHandler.SetSharedReferences(handTransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
 
             fireController = currentWeaponObject.GetComponent<WeaponFireController>();
             if (fireController != null)

@@ -17,14 +17,12 @@ public class Player : MonoBehaviour
 
     public ForceReceiver ForceReceiver { get; private set; }
     public FpsCamera FpsCamera { get; private set; }
-
-    public WeaponStatHandler WeaponStatHandler { get; private set; }
     public PlayerStateMachine stateMachine;
 
     private HeadBob headBob;
 
     public PlayerEquipment PlayerEquipment { get; private set; }
-    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.5f;
+    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.05f;
 
     private void Awake()
     {
@@ -60,4 +58,5 @@ public class Player : MonoBehaviour
     {
         stateMachine.PhysicsUpdate();
     }
+    
 }
