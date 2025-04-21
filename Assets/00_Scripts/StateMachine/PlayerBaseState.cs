@@ -78,6 +78,11 @@ public class PlayerBaseState : IState
     {
 
     }
+       
+    protected virtual void OnAds(InputAction.CallbackContext context)
+    {
+
+    }
     protected void StartAnimation(int animatorHash)
     {
         stateMachine.Player.Animator.SetBool(animatorHash, true);
@@ -101,8 +106,6 @@ public class PlayerBaseState : IState
         Vector3 movementDirection = GetMovementDirection();
         //CameraRotate();
         Move(movementDirection);
-        //Rotate(movementDirection);
-
     }
 
 
@@ -123,8 +126,6 @@ public class PlayerBaseState : IState
     {
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move(((direction * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
-     
-   
     }
 
     private float GetMovementSpeed()
@@ -137,13 +138,7 @@ public class PlayerBaseState : IState
             finalSpeed *= stateMachine.Player.adsSpeedMultiplier;  // 조준 중일 때 속도 감소
         
         }
-
-        finalSpeed *= stateMachine.Player.adsSpeedMultiplier;
-
         //Debug.Log($"▶ 최종 이동 속도: {moveSpeed}");
         return finalSpeed;
     }
-
-
-
 }
