@@ -1,4 +1,5 @@
 using System.Collections;
+using test;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,13 +19,14 @@ public class Player : MonoBehaviour
     public ForceReceiver ForceReceiver { get; private set; }
     public FpsCamera FpsCamera { get; private set; }
     public PlayerStateMachine stateMachine;
-    public WeaponFireController weaponFireController;
 
     private HeadBob headBob;
-    public PlayerEquipment PlayerEquipment { get; private set; }
     [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
     [Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
+    public Transform weaponPos;
+    public Weapon Weapon { get; private set; }
+    
     private void Awake()
     {
         AnimationData.Initialize();
@@ -34,7 +36,6 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         FpsCamera = GetComponent<FpsCamera>();
         headBob = GetComponentInChildren<HeadBob>();
-        PlayerEquipment = GetComponentInChildren<PlayerEquipment>();
         headBob = GetComponentInChildren<HeadBob>();
         StatHandler = new PlayerStatHandler(this);
         stateMachine = new PlayerStateMachine(this);
@@ -54,9 +55,9 @@ public class Player : MonoBehaviour
         stateMachine.HandleInput();
         stateMachine.Update();
         
-        if (weaponFireController != null)
+        if (Weapon.Controller != null)
         {
-            weaponFireController.HandleADS();
+            //Weapon.Controller.HandleADS();
             Debug.Log("fire");
         }
     }
@@ -64,5 +65,11 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.PhysicsUpdate();
+    }
+    
+    public void InitWeapon(string weaponID)
+    {
+        var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
+        Weapon = Instantiate(resource, weaponPos.position, Quaternion.identity, weaponPos);
     }
 }

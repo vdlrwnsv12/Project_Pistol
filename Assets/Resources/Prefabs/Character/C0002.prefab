@@ -2547,15 +2547,12 @@ GameObject:
   - component: {fileID: 885200513107603228}
   - component: {fileID: 5095256736296830798}
   - component: {fileID: 3749418328014354632}
+  - component: {fileID: 1488924313831272859}
   - component: {fileID: 5374699021659894691}
   - component: {fileID: 6392229517349459206}
-  - component: {fileID: 1488924313831272859}
   - component: {fileID: 2382012030575174608}
   - component: {fileID: 2059565848322105370}
-  - component: {fileID: 5314877424023206736}
   - component: {fileID: 2838747444368745988}
-  - component: {fileID: 8960319032873908623}
-  - component: {fileID: 5294222772428652834}
   m_Layer: 0
   m_Name: C0002
   m_TagString: Untagged
@@ -2640,6 +2637,27 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &1488924313831272859
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9025276999409247381}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d94333081d3633d4aabe95d2c7df66ba, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5374699021659894691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2662,6 +2680,8 @@ MonoBehaviour:
     attackParameterName: '@Attack'
     aimParameterName: '@Aim'
   adsSpeedMultiplier: 0.07
+  speedMultiplier: 0.1
+  weaponPos: {fileID: 0}
 --- !u!114 &6392229517349459206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2674,27 +2694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f687cbbac610bed4c917b8b31c390dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1488924313831272859
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9025276999409247381}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d94333081d3633d4aabe95d2c7df66ba, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2382012030575174608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2728,20 +2727,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
---- !u!114 &5314877424023206736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9025276999409247381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2ef1482ed22435eaf2a9d781438053, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerEquipment: {fileID: 0}
-  currentWeapon: {fileID: 0}
 --- !u!114 &2838747444368745988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2756,40 +2741,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectRange: 4
   checkInterval: 0.5
---- !u!114 &8960319032873908623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9025276999409247381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2157147102f4f6245a875a875c8daa66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireController: {fileID: 0}
-  handler: {fileID: 0}
-  handTransform: {fileID: 2905395527965209232}
-  camRoot: {fileID: 5741327644788381179}
-  playerCam: {fileID: 7006647051990180261}
-  fpsCamera: {fileID: 2382012030575174608}
-  playerObject: {fileID: 9025276999409247381}
-  bulletStatText: {fileID: 6810124844033033055}
---- !u!114 &5294222772428652834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9025276999409247381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2ef1482ed22435eaf2a9d781438053, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerEquipment: {fileID: 8960319032873908623}
-  currentWeapon: {fileID: 0}
 --- !u!1 &9130135317069201030
 GameObject:
   m_ObjectHideFlags: 0

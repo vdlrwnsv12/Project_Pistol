@@ -14,14 +14,14 @@ public class PlayerReloadState : PlayerBaseState
         base.Enter();
  
         
-        if (!stateMachine.Player.PlayerEquipment.weaponStatHandler.isReloading)
+        if (!stateMachine.Player.Weapon.Controller.isReloading)
         {
             
-            if (stateMachine.Player.PlayerEquipment.weaponStatHandler.isADS)
+            if (stateMachine.IsAds)
             {
-                stateMachine.Player.PlayerEquipment.weaponStatHandler.isADS = false;
+                stateMachine.IsAds = false;
             }
-            stateMachine.Player.PlayerEquipment.weaponFireController.ReloadWeapon();
+            stateMachine.Player.Weapon.Controller.ReloadWeapon(stateMachine.IsAds);
         }
         StartAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
     }

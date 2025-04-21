@@ -37,6 +37,8 @@ public class PlayerStateMachine : StateMachine
     public PlayerWalkState WalkState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
     public PlayerReloadState ReloadState { get; private set; }
+    
+    public bool IsAds { get; set; }
 
     public PlayerStateMachine(Player player)
     {
@@ -48,5 +50,7 @@ public class PlayerStateMachine : StateMachine
         AttackState = new PlayerAttackState(this);
         ReloadState = new PlayerReloadState(this);
         //MovementSpeed = player.statHandler.MovementSpeed;
+
+        IsAds = false;
     }
 }

@@ -49,7 +49,7 @@ public class WeaponFireController : MonoBehaviour
         weaponStatHandler.onAmmoChanged(currentAmmo, weaponStatHandler.MaxAmmo);
         optics = new List<GameObject> { weaponStatHandler.redDot, weaponStatHandler.holographic };
         accuracyAmount = player.Data.HDL;
-        player.weaponFireController = this;
+        //player.weaponFireController = this;
     }
 
     void Update()

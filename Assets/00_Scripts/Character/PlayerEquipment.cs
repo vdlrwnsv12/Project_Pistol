@@ -49,7 +49,7 @@ public class PlayerEquipment : MonoBehaviour
             weaponFireController = currentWeaponObject.GetComponent<WeaponFireController>();
             if (weaponFireController != null)
                 weaponFireController.InitReferences(); // 발사/재장전/조준 등 기능 초기화
-                player.weaponFireController = weaponFireController;
+                //player.weaponFireController = weaponFireController;
         }
     }
 }
