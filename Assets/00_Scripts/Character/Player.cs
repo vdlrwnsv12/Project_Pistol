@@ -53,12 +53,12 @@ public class Player : MonoBehaviour
     {
         stateMachine.HandleInput();
         stateMachine.Update();
-        
-        if (weaponFireController != null)
-        {
-            weaponFireController.HandleADS();
-            Debug.Log("fire");
-        }
+
+        //if (weaponFireController != null)
+        //{
+        //    weaponFireController.HandleADS();
+        //    Debug.Log("fire");
+        //}
     }
 
     private void FixedUpdate()

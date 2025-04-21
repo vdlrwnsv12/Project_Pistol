@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
-                    "type": "Button",
-                    "id": "52df09d7-6223-4828-a92f-f8ae5f89c40b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Reload",
                     "type": "Button",
                     "id": "8e5be247-0047-4e73-a747-f370b7841160",
@@ -140,17 +131,6 @@
                 },
                 {
                     "name": "",
-                    "id": "7645f7a3-c20f-4ffe-8341-eac0a8532bb6",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5a853fb9-1670-4178-ac34-da4c8f70d74e",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -164,7 +144,7 @@
                     "name": "",
                     "id": "25680b17-ce42-4ec1-95c5-f3592a3ca0cd",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Ads",

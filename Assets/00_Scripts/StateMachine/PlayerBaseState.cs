@@ -55,8 +55,6 @@ public class PlayerBaseState : IState
     public virtual void Update()
     {
         Move();
-       
-
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -82,7 +80,11 @@ public class PlayerBaseState : IState
        
     protected virtual void OnAds(InputAction.CallbackContext context)
     {
-
+        if (stateMachine.Player.weaponFireController != null)
+        {
+            Debug.Log("OnAds");
+            stateMachine.Player.weaponFireController.HandleADS();
+        }
     }
     protected void StartAnimation(int animatorHash)
     {
