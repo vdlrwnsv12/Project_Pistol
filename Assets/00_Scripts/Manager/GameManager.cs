@@ -9,6 +9,10 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
     private string accessToken;
     private string playerID;
     private string playerName;
+    
+    public string AccessToken => accessToken;
+    public string PlayerID => playerID;
+    public string PlayerName => playerName;
 
     private void Start()
     {
@@ -16,33 +20,17 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
         SetPlayerData();
     }
 
-    private void Update()
-    {
-        Debug.Log($"접속 토큰: {accessToken}");
-        Debug.Log($"플레이어 ID: {playerID}");
-        Debug.Log($"플레이어 이름: {playerName}");
-        
-        if (AuthenticationService.Instance.IsSignedIn)
-        {
-            Debug.Log("로그인 상태입니다.");
-        }
-        else
-        {
-            Debug.Log("아직 로그인하지 않았습니다.");
-        }
-    }
-
-    public void SetPlayerData()
+    private void SetPlayerData()
     {
         accessToken = AuthenticationService.Instance.AccessToken;
         playerID = AuthenticationService.Instance.PlayerId;
         playerName = AuthenticationService.Instance.PlayerName;
     }
 
-    public static void LogOut()
+    public void LogOut()
     {
         AuthenticationService.Instance.SignOut();
-        GameManager.Instance.SetPlayerData();
+        SetPlayerData();
     }
     
     public static void GameQuit()
