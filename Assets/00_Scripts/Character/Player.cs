@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public PlayerStateMachine stateMachine;
 
     private HeadBob headBob;
-
+    private WeaponStatHandler weaponStatHandler;
     public PlayerEquipment PlayerEquipment { get; private set; }
     [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
     [Range(0f, 1f)] public float speedMultiplier = 0.1f;
@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
 
         ItemManager.Instance.playerStatHandler = StatHandler;
         Debug.Log("ItemManager.Instance 할당됨");
+
+        weaponStatHandler= PlayerEquipment.weaponStatHandler;
     }
     private void Update()
     {
