@@ -31,7 +31,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
         input.playerActions.Reload.started += OnReload;
-
+        input.playerActions.Ads.performed += OnAds;
     }
     protected virtual void RemoveInputActionCallbacks()
     {
@@ -40,6 +40,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.canceled -= OnLookStarted;
         input.playerActions.Attack.started -= OnAttack;
         input.playerActions.Reload.started -= OnReload;
+        input.playerActions.Ads.performed -= OnAds;
     }
 
     public virtual void HandleInput() // 입력 값
@@ -54,8 +55,6 @@ public class PlayerBaseState : IState
     public virtual void Update()
     {
         Move();
-       
-
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -78,10 +77,14 @@ public class PlayerBaseState : IState
     {
 
     }
-       
+       // TO DO HandleAds
     protected virtual void OnAds(InputAction.CallbackContext context)
     {
-
+        if (stateMachine.Player.weaponFireController != null)
+        {
+            Debug.Log("OnAds");
+            stateMachine.Player.weaponFireController.HandleADS();
+        }
     }
     protected void StartAnimation(int animatorHash)
     {

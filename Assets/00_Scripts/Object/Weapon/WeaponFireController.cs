@@ -101,8 +101,14 @@ public class WeaponFireController : MonoBehaviour
 
     public void HandleADS()
     {
-        if (Input.GetMouseButtonDown(1) && !weaponStatHandler.isReloading)
+        //if (Input.GetMouseButtonDown(1) && !weaponStatHandler.isReloading)
+        //{
+        //    weaponStatHandler.isADS = !weaponStatHandler.isADS;
+        //}
+        Debug.Log("HandleADS");
+        if (!weaponStatHandler.isReloading)
         {
+            Debug.Log("true false전환");
             weaponStatHandler.isADS = !weaponStatHandler.isADS;
         }
         if (weaponStatHandler.isADS)
