@@ -17,6 +17,11 @@ public class TestManager : SingletonBehaviour<TestManager>
         InitHUD();
     }
 
+    private void Start()
+    {
+        hudUI.UpdateStatValue(player.StatHandler.Stat.RCL, player.StatHandler.Stat.HDL, player.StatHandler.Stat.STP, player.StatHandler.Stat.SPD);
+    }
+
     private void Update()
     {
         #region 로그인 테스트 디버깅 로그
@@ -35,6 +40,8 @@ public class TestManager : SingletonBehaviour<TestManager>
         // }
 
         #endregion
+        
+        hudUI.UpdateRealTimeChanges(0, 0, player.Weapon.CurAmmo, player.Weapon.MaxAmmo);
     }
 
     private void InitPlayer(CharacterSO character, WeaponSO weapon)
@@ -50,8 +57,5 @@ public class TestManager : SingletonBehaviour<TestManager>
         UIManager.Instance.InitUI<HUDUI>();
         UIManager.Instance.ChangeMainUI(MainUIType.HUD);
         hudUI = UIManager.Instance.CurMainUI as HUDUI;
-        
-        hudUI.UpdateStatValue(player.StatHandler.Stat.RCL, player.StatHandler.Stat.HDL, player.StatHandler.Stat.STP, player.StatHandler.Stat.SPD);
-        hudUI.UpdateRealTimeChanges(0, 0, player.Weapon.CurAmmo, player.Weapon.MaxAmmo);
     }
 }

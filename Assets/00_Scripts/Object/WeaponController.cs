@@ -31,7 +31,7 @@ public class WeaponController : MonoBehaviour
         muzzleFlashPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/FX/MuzzleFlash");
         casingPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/Props/45ACP Bullet_Casing");
         bulletImpactPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/FX/BulletHole");
-
+        
         isReloading = false;
     }
 

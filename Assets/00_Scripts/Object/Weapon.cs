@@ -10,6 +10,7 @@ namespace test
         public int CurAmmo => Controller.CurAmmo;
         public int MaxAmmo => Stat.MaxAmmo;
 
+        public WeaponSO Data => data;
         public WeaponStatHandler Stat { get; private set; }
         public WeaponController Controller { get; private set; }
 

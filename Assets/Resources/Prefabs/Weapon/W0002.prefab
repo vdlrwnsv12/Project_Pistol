@@ -474,8 +474,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isReloading: 0
-  barrelLocation: {fileID: 0}
-  casingExitLocation: {fileID: 0}
+  barrelLocation: {fileID: 5902012968622935872}
+  casingExitLocation: {fileID: 4205307446877143790}
   spreadAngle: 10.5
 --- !u!114 &2491063483788136281
 MonoBehaviour:
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5980512b40af14534b0d71d2e203db32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: d4f8f05cf1109440caddfdd58edba2fe, type: 2}
 --- !u!1 &5184959247484279475
 GameObject:
   m_ObjectHideFlags: 0
