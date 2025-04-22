@@ -96,50 +96,22 @@ public class FpsCamera : MonoBehaviour
         return Mathf.Clamp(angle, min, max);
     }
 
-    private void HandleADS()
+    public void UpdateHeadBob(bool isMoving)
     {
-        Debug.Log("HandleADS");
-        if (!player.Weapon.Controller.isReloading)
+        if (isADS || !isMoving)
         {
-            Debug.Log("true false전환");
-            player.StateMachine.IsAds = !player.StateMachine.IsAds;
+            bobTimer = 0f;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPosition, Time.deltaTime * walkBobSpeed);
+            return;
         }
 
-        if (player.StateMachine.IsAds)
-        {
-            currentCamRootTargetPos = adsPosition;
-            currentHandTargetRot = initialLocalRotation;
+        bobTimer += Time.deltaTime * walkBobSpeed;
 
-            // redDot 상태에 따라 타겟 Y 설정
-            // targetCamY = (weaponStatHandler.redDot != null && weaponStatHandler.redDot.activeSelf) ? 0.18f : 0.16f;
-            // bool isOpticActive = optics.Exists(optics => optics.activeSelf); //조준경이 하나라도 켜져 있으면
-            // targetCamY = isOpticActive ? 0.18f : 0.16f;
-        }
-        else
-        {
-            currentCamRootTargetPos = camRootOriginPos;
-            currentHandTargetRot = initialLocalRotation;
-
-            // 정조준 해제 시 기본값으로 복구
-            targetCamY = 0.16f;
-        }
-
-        // FOV 보간
-        float targetFOV = player.StateMachine.IsAds ? 40f : 60f;
-        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, targetFOV,
-            Time.deltaTime * 10f);
-
-        // 위치/회전 보간
-        rootCam.localPosition = Vector3.Lerp(rootCam.localPosition,
-            currentCamRootTargetPos, Time.deltaTime * 10f);
-        player.WeaponPos.transform.localRotation = Quaternion.Lerp(player.WeaponPos.transform.localRotation,
-            currentHandTargetRot, Time.deltaTime * 10f);
-
-        //Y 위치만 따로 부드럽게 보간
-        Vector3 camLocalPos = mainCam.transform.localPosition;
-        camLocalPos.y = Mathf.Lerp(camLocalPos.y, targetCamY, Time.deltaTime * 10f);
-        mainCam.transform.localPosition = camLocalPos;
+        float bobAmountAdjusted = walkBobAmount / Mathf.Clamp(stpValue, 0.1f, 999f);
+        float newY = initialLocalPosition.y + Mathf.Sin(bobTimer) * bobAmountAdjusted;
+        transform.localPosition = new Vector3(initialLocalPosition.x, newY, initialLocalPosition.z);
     }
+}
 
     private void WeaponShake()
     {
