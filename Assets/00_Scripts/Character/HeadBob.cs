@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class HeadBob : MonoBehaviour
 {
@@ -16,11 +13,11 @@ public class HeadBob : MonoBehaviour
 
     public Player Player;
     private PlayerStateMachine stateMachine;
+    
     private void Awake()
     {
         Player = GetComponentInParent<Player>();
-        stateMachine = Player?.stateMachine; // PlayerStateMachine에 접근
-
+        stateMachine = Player?.StateMachine; // PlayerStateMachine에 접근
     }
 
     // Update is called once per frame
@@ -31,9 +28,9 @@ public class HeadBob : MonoBehaviour
 
     void CheckForHeadbobTrigger()
     {
-        if (Player == null || Player.stateMachine == null) return;
+        if (Player == null || Player.StateMachine == null) return;
 
-        Vector2 movementInput = Player.stateMachine.MovementInput;
+        Vector2 movementInput = Player.StateMachine.MovementInput;
         float headMagnitude = movementInput.magnitude;
         //Debug.Log("no if 문 InputMagnitude" + headMagnitude);
         if (headMagnitude > 0)

@@ -2516,7 +2516,7 @@ MonoBehaviour:
     aimParameterName: '@Aim'
   adsSpeedMultiplier: 0.07
   speedMultiplier: 0.1
-  weaponPos: {fileID: 3511924881204228392}
+  weaponPos: {fileID: 6807456455225148818}
 --- !u!114 &6392229517349459206
 MonoBehaviour:
   m_ObjectHideFlags: 0

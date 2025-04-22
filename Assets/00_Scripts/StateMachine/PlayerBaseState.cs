@@ -80,10 +80,10 @@ public class PlayerBaseState : IState
        // TO DO HandleAds
     protected virtual void OnAds(InputAction.CallbackContext context)
     {
-        if (stateMachine.Player.weaponFireController != null)
+        if (stateMachine.Player.Weapon.Controller != null)
         {
             Debug.Log("OnAds");
-            stateMachine.Player.weaponFireController.HandleADS();
+            //stateMachine.Player.Weapon.Controller.HandleADS();
         }
     }
     protected void StartAnimation(int animatorHash)

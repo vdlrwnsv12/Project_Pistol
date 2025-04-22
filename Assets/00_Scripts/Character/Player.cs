@@ -1,5 +1,3 @@
-using System.Collections;
-using test;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,58 +16,53 @@ public class Player : MonoBehaviour
 
     public ForceReceiver ForceReceiver { get; private set; }
     public FpsCamera FpsCamera { get; private set; }
-    public PlayerStateMachine stateMachine;
-
-    private HeadBob headBob;
+    public PlayerStateMachine StateMachine;
+    
     [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
     [Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
-    public Transform weaponPos;
+    [SerializeField] private GameObject weaponPos;
+    public GameObject WeaponPos => weaponPos;
     public Weapon Weapon { get; private set; }
     
     private void Awake()
     {
         AnimationData.Initialize();
         Animator = GetComponent<Animator>();
+        
         Input = GetComponent<PlayerController>();
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
+        
         FpsCamera = GetComponent<FpsCamera>();
-        headBob = GetComponentInChildren<HeadBob>();
-        headBob = GetComponentInChildren<HeadBob>();
         StatHandler = new PlayerStatHandler(this);
-        stateMachine = new PlayerStateMachine(this);
+        StateMachine = new PlayerStateMachine(this);
+
+        if (weaponPos == null)
+        {
+            weaponPos = gameObject.transform.Find("WeaponPos").gameObject;
+        }
     }
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
-
-        stateMachine.ChangeState(stateMachine.IdleState);
-
-        ItemManager.Instance.playerStatHandler = StatHandler;
-        Debug.Log("ItemManager.Instance 할당됨");
+        StateMachine.ChangeState(StateMachine.IdleState);
     }
+    
     private void Update()
     {
-        stateMachine.HandleInput();
-        stateMachine.Update();
-        
-        if (Weapon.Controller != null)
-        {
-            //Weapon.Controller.HandleADS();
-            Debug.Log("fire");
-        }
+        StateMachine.HandleInput();
+        StateMachine.Update();
     }
 
     private void FixedUpdate()
     {
-        stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
     
     public void InitWeapon(string weaponID)
     {
         var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
-        Weapon = Instantiate(resource, weaponPos.position, Quaternion.identity, weaponPos);
+        Weapon = Instantiate(resource, WeaponPos.transform.position, Quaternion.identity, WeaponPos.transform);
     }
 }

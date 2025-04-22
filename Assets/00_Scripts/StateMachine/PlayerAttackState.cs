@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerAttackState : PlayerBaseState
 {
@@ -36,7 +33,7 @@ public class PlayerAttackState : PlayerBaseState
             hasShot = true;
             Shoot();
         }
-        Debug.Log($"{animInfo.normalizedTime}");
+        
         // 애니메이션 종료 시 Idle 상태로 전환
         if (animInfo.IsName("Attack") && animInfo.normalizedTime >= 1)
         {
@@ -54,24 +51,8 @@ public class PlayerAttackState : PlayerBaseState
         }
     }
 
-  
-
-   
-    protected override void OnAttack(InputAction.CallbackContext context)
+    private void Shoot()
     {
-        //// Idle에서 처리
-        //if (stateMachine.MovementInput != Vector2.zero)
-        //{
-        //    stateMachine.ChangeState(stateMachine.WalkState);
-        //    return;
-        //}
-        //stateMachine.ChangeState(stateMachine.IdleState);
-
-    }
-
-    protected void Shoot()
-    {
-
         Transform cam = stateMachine.MainCamTransform;
         Ray ray = new Ray(cam.position, cam.forward);
         Debug.Log("슈팅");
