@@ -9,6 +9,7 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     // protected readonly PlayerGroundData groundData;
+   
 
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
@@ -55,8 +56,11 @@ public class PlayerBaseState : IState
     public virtual void Update()
     {
         Move();
+        
+        
+        
     }
-
+    // HandleAds Coroutine or 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
 
@@ -82,7 +86,6 @@ public class PlayerBaseState : IState
     {
         if (stateMachine.Player.weaponFireController != null)
         {
-            Debug.Log("OnAds");
             stateMachine.Player.weaponFireController.HandleADS();
         }
     }
