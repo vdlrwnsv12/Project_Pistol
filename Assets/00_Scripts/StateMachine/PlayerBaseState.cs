@@ -65,7 +65,7 @@ public class PlayerBaseState : IState
     protected virtual void OnLookStarted(InputAction.CallbackContext context)
     {
         Vector2 lookDelta = context.ReadValue<Vector2>();
-        stateMachine.Player.FpsCamera.UpdateRotate(lookDelta.x, lookDelta.y);
+        //stateMachine.Player.FpsCamera.UpdateRotate(lookDelta.x, lookDelta.y);
     }
 
     protected virtual void OnAttack(InputAction.CallbackContext context)
@@ -77,14 +77,13 @@ public class PlayerBaseState : IState
     {
 
     }
-       // TO DO HandleAds
+    
+    // TO DO HandleAds
     protected virtual void OnAds(InputAction.CallbackContext context)
     {
-        if (stateMachine.Player.Weapon.Controller != null)
-        {
-            Debug.Log("OnAds");
-            //stateMachine.Player.Weapon.Controller.HandleADS();
-        }
+        var isActive = stateMachine.Player.nonAds.gameObject.activeSelf;
+        stateMachine.Player.nonAds.gameObject.SetActive(!isActive);
+        stateMachine.Player.ads.gameObject.SetActive(isActive);
     }
     protected void StartAnimation(int animatorHash)
     {

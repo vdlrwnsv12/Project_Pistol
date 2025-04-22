@@ -1,7 +1,11 @@
+using Cinemachine;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public CinemachineVirtualCamera ads;
+    public CinemachineVirtualCamera nonAds;
+    
     // Player 입력 and 여러 컴포넌트 관리
     [field: SerializeField] public CharacterSO Data { get; set; }
 
@@ -15,7 +19,7 @@ public class Player : MonoBehaviour
     public PlayerStatHandler StatHandler;
 
     public ForceReceiver ForceReceiver { get; private set; }
-    public FpsCamera FpsCamera { get; private set; }
+    //public FpsCamera FpsCamera { get; private set; }
     public PlayerStateMachine StateMachine;
     
     [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
@@ -34,7 +38,7 @@ public class Player : MonoBehaviour
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
         
-        FpsCamera = GetComponent<FpsCamera>();
+        //FpsCamera = GetComponent<FpsCamera>();
         StatHandler = new PlayerStatHandler(this);
         StateMachine = new PlayerStateMachine(this);
 

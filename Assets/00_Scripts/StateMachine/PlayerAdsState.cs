@@ -19,7 +19,6 @@ public class PlayerAdsState : PlayerBaseState
     public override void Update()
     {
         base.Update();
-        WeaponShake();
     }
     
     private void WeaponShake()
