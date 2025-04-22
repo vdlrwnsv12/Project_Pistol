@@ -23,11 +23,16 @@ public class FpsCamera : MonoBehaviour
 
     private float bobTimer;
     private Vector3 initialLocalPosition;
-
+    //To DO Player를 넣어주어야함 
+    public Transform target;
     public float stpValue = 1f; // 외부에서 주입받을 STP 수치
     private void Start()
     {
-        initialLocalPosition = transform.localPosition;
+        
+    }
+    private void Update()
+    {
+        target.position = transform.position;   
     }
     public void UpdateRotate(float mouseX, float mouseY)
     {
@@ -35,7 +40,8 @@ public class FpsCamera : MonoBehaviour
         eulerAngleX -= mouseY * rotCamXAxisSpeed * sensitivity;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinx, limitMaxX);
-        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+        //transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+        target.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
 
     public void ApplyRecoil(float recoilAmount)
@@ -65,28 +71,10 @@ public class FpsCamera : MonoBehaviour
         eulerAngleX = targetX;
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
-
-
     private float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360) angle += 360;
         if (angle > 360) angle -= 360;
         return Mathf.Clamp(angle, min, max);
-    }
-
-    public void UpdateHeadBob(bool isMoving)
-    {
-        if (isADS || !isMoving)
-        {
-            bobTimer = 0f;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPosition, Time.deltaTime * walkBobSpeed);
-            return;
-        }
-
-        bobTimer += Time.deltaTime * walkBobSpeed;
-
-        float bobAmountAdjusted = walkBobAmount / Mathf.Clamp(stpValue, 0.1f, 999f);
-        float newY = initialLocalPosition.y + Mathf.Sin(bobTimer) * bobAmountAdjusted;
-        transform.localPosition = new Vector3(initialLocalPosition.x, newY, initialLocalPosition.z);
     }
 }

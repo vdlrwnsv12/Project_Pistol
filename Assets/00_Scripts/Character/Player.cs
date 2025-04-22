@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         Input = GetComponent<PlayerController>();
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
-        FpsCamera = GetComponent<FpsCamera>();
+        FpsCamera = GetComponentInChildren<FpsCamera>();
         headBob = GetComponentInChildren<HeadBob>();
         PlayerEquipment = GetComponentInChildren<PlayerEquipment>();
         headBob = GetComponentInChildren<HeadBob>();
