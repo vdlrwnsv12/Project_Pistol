@@ -96,33 +96,33 @@ public class FpsCamera : MonoBehaviour
         return Mathf.Clamp(angle, min, max);
     }
 
-    public void UpdateHeadBob(bool isMoving)
-    {
-        if (isADS || !isMoving)
-        {
-            bobTimer = 0f;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPosition, Time.deltaTime * walkBobSpeed);
-            return;
-        }
+    //public void UpdateHeadBob(bool isMoving)
+    //{
+    //    if (isADS || !isMoving)
+    //    {
+    //        bobTimer = 0f;
+    //        transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPosition, Time.deltaTime * walkBobSpeed);
+    //        return;
+    //    }
 
-        bobTimer += Time.deltaTime * walkBobSpeed;
+    //    bobTimer += Time.deltaTime * walkBobSpeed;
 
-        float bobAmountAdjusted = walkBobAmount / Mathf.Clamp(stpValue, 0.1f, 999f);
-        float newY = initialLocalPosition.y + Mathf.Sin(bobTimer) * bobAmountAdjusted;
-        transform.localPosition = new Vector3(initialLocalPosition.x, newY, initialLocalPosition.z);
-    }
-}
+    //    float bobAmountAdjusted = walkBobAmount / Mathf.Clamp(stpValue, 0.1f, 999f);
+    //    float newY = initialLocalPosition.y + Mathf.Sin(bobTimer) * bobAmountAdjusted;
+    //    transform.localPosition = new Vector3(initialLocalPosition.x, newY, initialLocalPosition.z);
+    //}
 
-    private void WeaponShake()
-    {
-        var accuracy = Mathf.Clamp01((99f - player.StatHandler.Stat.HDL) / 98f);
-        var shakeAmount = accuracy * 7.5f;
+    //private void WeaponShake()
+    //{
+    //    var accuracy = Mathf.Clamp01((99f - player.StatHandler.Stat.HDL) / 98f);
+    //    var shakeAmount = accuracy * 7.5f;
 
-        var rotX = (Mathf.PerlinNoise(Time.time * 0.7f, 0f) - 0.5f) * shakeAmount;
-        var rotY = (Mathf.PerlinNoise(0f, Time.time * 0.7f) - 0.5f) * shakeAmount * 3f;
-        var rotZ = (Mathf.PerlinNoise(Time.time * 0.7f, Time.time * 0.7f) - 0.5f) * shakeAmount;
+    //    var rotX = (Mathf.PerlinNoise(Time.time * 0.7f, 0f) - 0.5f) * shakeAmount;
+    //    var rotY = (Mathf.PerlinNoise(0f, Time.time * 0.7f) - 0.5f) * shakeAmount * 3f;
+    //    var rotZ = (Mathf.PerlinNoise(Time.time * 0.7f, Time.time * 0.7f) - 0.5f) * shakeAmount;
 
-        var shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
-        player.WeaponPos.transform.localRotation *= shakeRotation;
-    }
+    //    var shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
+    //    player.WeaponPos.transform.localRotation *= shakeRotation;
+    //}
+ 
 }
