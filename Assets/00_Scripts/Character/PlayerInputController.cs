@@ -1,25 +1,15 @@
-using Cinemachine;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+[RequireComponent(typeof(CharacterController), typeof(ForceReceiver))]
+public class PlayerInputController : MonoBehaviour
 {
     public PlayerInputs playerInputs { get; private set; }
     public PlayerInputs.PlayerActions playerActions { get; private set; }
-
-    private FpsCamera fpsCamera;
-
   
     private void Awake()
     {
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
-
-       
-    }
-
-    private void Update()
-    {
-        
     }
 
     private void OnEnable()
@@ -31,6 +21,4 @@ public class PlayerController : MonoBehaviour
     {
         playerInputs.Disable();
     }
-
-
 }

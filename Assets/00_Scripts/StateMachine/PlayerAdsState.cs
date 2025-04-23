@@ -13,7 +13,7 @@ public class PlayerAdsState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        playerHDL = stateMachine.Player.StatHandler.Stat.HDL;
+        playerHDL = stateMachine.Player.Stat.HDL;
     }
 
     public override void Update()

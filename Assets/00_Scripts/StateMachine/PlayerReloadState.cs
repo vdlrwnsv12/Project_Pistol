@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerReloadState : PlayerBaseState
 {
@@ -12,7 +9,6 @@ public class PlayerReloadState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
- 
         
         if (!stateMachine.Player.Weapon.Controller.isReloading)
         {
@@ -23,7 +19,7 @@ public class PlayerReloadState : PlayerBaseState
             }
             stateMachine.Player.Weapon.Controller.ReloadWeapon(stateMachine.IsAds);
         }
-        StartAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
+        StartAnimation(stateMachine.Player.AnimationData.ReloadParameterHash);
     }
  
     public override void Update()
@@ -36,15 +32,10 @@ public class PlayerReloadState : PlayerBaseState
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }
-
     }
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(stateMachine.Player.AnimationData.ReloadParamterHash);
-
+        StopAnimation(stateMachine.Player.AnimationData.ReloadParameterHash);
     }
-
-   
-
 }
