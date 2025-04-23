@@ -33,7 +33,7 @@ public class Target : MonoBehaviour
             return;
         }
     }
-    void Start()
+    void Start()//데이터 종류 별 메테리얼 변경
     {
         anim = GetComponent<Animator>();
         if (data.Name == "Civilian")
