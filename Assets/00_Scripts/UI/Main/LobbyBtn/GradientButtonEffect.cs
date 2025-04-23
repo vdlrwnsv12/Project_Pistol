@@ -46,9 +46,6 @@ public class GradientButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointe
         isPressed = false;
         targetImage.material = normalMaterial;
         text.color = Color.white;
-
     }
  
-
-
 }
