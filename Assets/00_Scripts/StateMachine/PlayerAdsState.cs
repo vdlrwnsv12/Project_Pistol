@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PlayerAdsState : PlayerBaseState
 {
-    private Transform weaponPos;
+    private Transform handPos;
     private float playerHDL;
     
     public PlayerAdsState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
-        weaponPos = base.stateMachine.Player.WeaponPos.transform;
+        handPos = base.stateMachine.Player.HandPos.transform;
     }
     
     public override void Enter()
@@ -31,6 +31,6 @@ public class PlayerAdsState : PlayerBaseState
         var rotZ = (Mathf.PerlinNoise(Time.time * 0.7f, Time.time * 0.7f) - 0.5f) * shakeAmount;
 
         var shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
-        weaponPos.localRotation *= shakeRotation;
+        handPos.localRotation *= shakeRotation;
     }
 }

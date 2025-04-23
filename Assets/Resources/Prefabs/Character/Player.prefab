@@ -679,6 +679,7 @@ GameObject:
   - component: {fileID: 1668102178848685213}
   - component: {fileID: 2819660496850369294}
   - component: {fileID: 8693130721051205512}
+  - component: {fileID: 8819192425646337126}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -723,6 +724,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36d1163fa822e8b418a0a603ec078d5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Damping: 0
+--- !u!114 &8819192425646337126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2787517919576357315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c41ac9245b87c4192012080077d830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damping: 0
@@ -1464,6 +1478,7 @@ GameObject:
   - component: {fileID: 3349147452989885642}
   - component: {fileID: 6106750395013164958}
   - component: {fileID: 6936123363324343341}
+  - component: {fileID: 3613260614321866209}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1508,6 +1523,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36d1163fa822e8b418a0a603ec078d5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Damping: 0
+--- !u!114 &3613260614321866209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771481676314704153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c41ac9245b87c4192012080077d830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damping: 0
@@ -2669,6 +2697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adsSpeedMultiplier: 0.07
   speedMultiplier: 0.1
+  <HandPos>k__BackingField: {fileID: 8491129691308365560}
   <NonAdsCamera>k__BackingField: {fileID: 5107409898686317628}
   <AdsCamera>k__BackingField: {fileID: 1233393646616594948}
   <ArmTransform>k__BackingField: {fileID: 6436634649671808206}

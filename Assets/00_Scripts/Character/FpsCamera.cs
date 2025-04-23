@@ -41,16 +41,7 @@ public class FpsCamera : MonoBehaviour
     {
         initialLocalPosition = transform.localPosition;
     }
-
-    private void Update()
-    {
-        // WeaponShake();
-        // if (player.StateMachine.IsAds)
-        // {
-        //     HandleADS();
-        // }
-    }
-
+    
     public void UpdateRotate(float mouseX, float mouseY)
     {
         eulerAngleY += mouseX * rotCamYAxisSpeed * sensitivity;
@@ -97,16 +88,3 @@ public class FpsCamera : MonoBehaviour
     }
     
 }
-
-    // private void WeaponShake()
-    // {
-    //     var accuracy = Mathf.Clamp01((99f - player.StatHandler.Stat.HDL) / 98f);
-    //     var shakeAmount = accuracy * 7.5f;
-    //
-    //     var rotX = (Mathf.PerlinNoise(Time.time * 0.7f, 0f) - 0.5f) * shakeAmount;
-    //     var rotY = (Mathf.PerlinNoise(0f, Time.time * 0.7f) - 0.5f) * shakeAmount * 3f;
-    //     var rotZ = (Mathf.PerlinNoise(Time.time * 0.7f, Time.time * 0.7f) - 0.5f) * shakeAmount;
-    //
-    //     var shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
-    //     player.WeaponPos.transform.localRotation *= shakeRotation;
-    // }

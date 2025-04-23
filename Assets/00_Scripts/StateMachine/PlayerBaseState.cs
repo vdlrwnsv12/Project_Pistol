@@ -139,12 +139,8 @@ public class PlayerBaseState : IState
         Quaternion offsetRotation = Quaternion.Euler(-90f, 0f, 0f);
 
         Debug.Log(stateMachine.RotationX);
-        //stateMachine.Player.AdsCamera.transform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0);
-        //stateMachine.Player.NonAdsCamera.transform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0);
         //stateMachine.Player.ArmTransform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0) * offsetRotation;
         
-        //stateMachine.Player.AdsCamera.transform.Rotate(Vector3.up * stateMachine.MouseInput.x);
-        //stateMachine.Player.NonAdsCamera.transform.Rotate(Vector3.up * stateMachine.MouseInput.x);
         stateMachine.Player.transform.Rotate(Vector3.up * stateMachine.MouseInput.x);
     }
 }
