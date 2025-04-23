@@ -18,6 +18,9 @@ public class Target : MonoBehaviour
     public AudioClip upSound;
     public AudioClip downSound;
 
+    [Header("UI")]
+    public Image hpBar;
+
     void Awake()
     {
         if (data == null)
@@ -30,7 +33,7 @@ public class Target : MonoBehaviour
             return;
         }
     }
-    void Start()
+    void Start()//데이터 종류 별 메테리얼 변경
     {
         anim = GetComponent<Animator>();
         if (data.Name == "Civilian")
@@ -51,6 +54,11 @@ public class Target : MonoBehaviour
         }
         currentHp = data.Hp;
         lvText.text = $"{data.Level}";
+
+        if(hpBar != null)
+        {
+            hpBar.fillAmount = 1f;
+        }
     }
 
     public void TakeDamage(float amount, Collider hitCollider)
@@ -71,6 +79,8 @@ public class Target : MonoBehaviour
         float realDamage = Mathf.Min(amount, currentHp);
         currentHp -= realDamage;
         Debug.Log($"표적이 받은 데미지: {realDamage}");
+
+        hpBar.fillAmount = currentHp / data.Hp;
 
         if (currentHp <= 0)
         {

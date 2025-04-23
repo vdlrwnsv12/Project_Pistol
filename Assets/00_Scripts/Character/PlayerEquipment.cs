@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UI;
 
 public class PlayerEquipment : MonoBehaviour
 {
@@ -13,10 +10,9 @@ public class PlayerEquipment : MonoBehaviour
     [Header("공총 참조")]
     public Transform handTransform; // 무기를 들 위치
     public Transform camRoot;      // 카메라 루트 (조준용 위치 이동에 사용)
-    public Camera playerCam;       // 플레이어 카메라
-    public FpsCamera fpsCamera;    // 커스텀 FPS 카메라 (흔들림 등 제어)
-    public GameObject playerObject;// 플레이어 오브젝트
-    public Text bulletStatText;    // 탄약 표시용 UI
+    public Camera playerCam;       // 플레이어 카메라 (정조준시 FOV수정에 사용)
+    public FpsCamera fpsCamera;    // 커스텀 FPS 카메라 (총 반동 튈 때 사용 제어)
+    // public Text bulletStatText;    // 탄약 표시용 UI
 
     public void SwitchWeapon(WeaponSO weapon)
     {
@@ -44,12 +40,12 @@ public class PlayerEquipment : MonoBehaviour
         weaponStatHandler = currentWeaponObject.GetComponent<WeaponStatHandler>();
         if (weaponStatHandler != null)
         {
-            weaponStatHandler.SetSharedReferences(handTransform, camRoot, playerCam, fpsCamera, playerObject, bulletStatText);
+            weaponStatHandler.SetSharedReferences(handTransform, camRoot, player, playerCam, fpsCamera);
 
             weaponFireController = currentWeaponObject.GetComponent<WeaponFireController>();
+            
             if (weaponFireController != null)
                 weaponFireController.InitReferences(); // 발사/재장전/조준 등 기능 초기화
-                player.weaponFireController = weaponFireController;
         }
     }
 }
