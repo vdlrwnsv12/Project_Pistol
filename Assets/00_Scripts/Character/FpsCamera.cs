@@ -1,15 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class FpsCamera : MonoBehaviour
 {
     [SerializeField] private float rotCamXAxisSpeed = 1;
     [SerializeField] private float rotCamYAxisSpeed = 1;
-    [SerializeField] private float sensitivity = 0.1f;
+    [SerializeField] private float sensitivity = 0.05f; // 초기 감도 값
+    private const string SensitivityKey = "MouseSensitivity";
 
     private float limitMinx = -80;
     private float limitMaxX = 50;
@@ -25,10 +22,13 @@ public class FpsCamera : MonoBehaviour
     private Vector3 initialLocalPosition;
 
     public float stpValue = 1f; // 외부에서 주입받을 STP 수치
+
     private void Start()
     {
         initialLocalPosition = transform.localPosition;
+        LoadSensitivity(); // OptionUI에서 캐시된 값을 불러와 감도 적용
     }
+
     public void UpdateRotate(float mouseX, float mouseY)
     {
         eulerAngleY += mouseX * rotCamYAxisSpeed * sensitivity;
@@ -66,7 +66,6 @@ public class FpsCamera : MonoBehaviour
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
 
-
     private float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360) angle += 360;
@@ -88,5 +87,23 @@ public class FpsCamera : MonoBehaviour
         float bobAmountAdjusted = walkBobAmount / Mathf.Clamp(stpValue, 0.1f, 999f);
         float newY = initialLocalPosition.y + Mathf.Sin(bobTimer) * bobAmountAdjusted;
         transform.localPosition = new Vector3(initialLocalPosition.x, newY, initialLocalPosition.z);
+    }
+
+    // 감도 값 설정
+    public void SetSensitivity(float hipValue)
+    {
+        sensitivity = hipValue * 0.02f;
+    }
+
+    // OptionUI에서 캐시된 감도 값을 불러오는 메서드
+    private void LoadSensitivity()
+    {
+        sensitivity = OptionUI.cachedHipSensitivity; // OptionUI에서 가져온 값 사용
+        SetSensitivity(sensitivity); // 감도 설정 적용
+    }
+
+    public float GetSensitivity()
+    {
+        return sensitivity;
     }
 }

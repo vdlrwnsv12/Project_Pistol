@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
+        //Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
 
         stateMachine.ChangeState(stateMachine.IdleState);
 

@@ -1,6 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//TODO: 사운드도 저장되게 만들어야함
+/// <summary>
+/// TestUIScene 오픈
+/// option 버튼 눌러서 팝업창 켜지는지 확인
+/// myRoom 버튼 눌러서 다른 팝업창 교체 되는지 확인(아무 UI나 넣은것임)
+/// Option창에서 사운드 슬라이더 바로 소리 잘 조절 되나 확인
+/// Player프리펩 하이어라키에 끌어다 놓기
+/// OPtion창의 마우스 감도(비 조준만) 조절 잘 되나 확인
+/// Player의 FpsCamera클래스의 sensitivity가 잘 바뀌나 확인
+/// </summary>
 public class OptionUI : PopupUI
 {
     [Header("Mouse Sensitivity")]
@@ -8,6 +18,14 @@ public class OptionUI : PopupUI
     public Text adsSensitivityText;
     public float hipSensitivity = 1f;
     public float adsSensitivity = 1f;
+
+    // 캐싱된 감도 값을 저장할 static 변수
+    public static float cachedHipSensitivity = 1f;
+    public static float cachedAdsSensitivity = 1f;
+
+    private const string HipSensitivityKey = "HipSensitivity";
+    private const string AdsSensitivityKey = "ADSSensitivity";
+
 
     [Header("Sound Sliders")]
     public Slider masterSlider;
@@ -21,7 +39,8 @@ public class OptionUI : PopupUI
     protected override void Awake()
     {
         base.Awake();
-        
+
+        //슬라이더 최대 최소값
         masterSlider.minValue = 0;
         masterSlider.maxValue = 100;
         seSlider.minValue = 0;
@@ -52,35 +71,45 @@ public class OptionUI : PopupUI
             SoundManager.Instance.SetMusicVolume(v / 100f);
         });
     }
-
     private void OnEnable()
     {
-        // SoundManager의 값을 가져와서 슬라이더에 적용
+        // PlayerPrefs 값 다시 불러오기
+        LoadSensitivity();
+
+        // 사운드 슬라이더 값 갱신
         masterSlider.value = SoundManager.Instance.masterVol * 100f;
         seSlider.value = SoundManager.Instance.sfxVol * 100f;
         bgmSlider.value = SoundManager.Instance.backgroundMusicVol * 100f;
 
-        // 슬라이더 값에 맞는 텍스트 갱신
         UpdateSoundTexts();
-
     }
+
 
     #region Sensitivity Control
     public void ChangeHipSensitivity(float delta)
     {
-        hipSensitivity = Mathf.Clamp(hipSensitivity + delta, 0f, 9.9f);
+        hipSensitivity = Mathf.Clamp(hipSensitivity + delta, 0.1f, 9.9f);
+        cachedHipSensitivity = hipSensitivity;  // 캐시된 값 갱신
+        PlayerPrefs.SetFloat(HipSensitivityKey, hipSensitivity);
         UpdateSensitivityTexts();
-        // GameSettings.Instance.HipSensitivity = hipSensitivity;
+
+        // FpsCamera의 감도 바로 업데이트
+        var camera = FindObjectOfType<FpsCamera>();
+        if (camera != null)
+        {
+            camera.SetSensitivity(hipSensitivity); // SetSensitivity 메서드를 사용하여 바로 적용
+        }
     }
 
-    public void ChangeADSSensitivity(float delta)
+    public void ChangeADSSensitivity(float delta)//정조준 민감도 아직 구현x
     {
-        adsSensitivity = Mathf.Clamp(adsSensitivity + delta, 0f, 9.9f);
+        adsSensitivity = Mathf.Clamp(adsSensitivity + delta, 0.1f, 9.9f);
+        cachedAdsSensitivity = adsSensitivity;  // 캐시된 값 갱신
+        PlayerPrefs.SetFloat(AdsSensitivityKey, adsSensitivity);
         UpdateSensitivityTexts();
-        // GameSettings.Instance.ADSSensitivity = adsSensitivity;
     }
 
-    private void UpdateSensitivityTexts()
+    private void UpdateSensitivityTexts()// 민감도 텍스트 갱신
     {
         hipSensitivityText.text = hipSensitivity.ToString("0.0");
         adsSensitivityText.text = adsSensitivity.ToString("0.0");
@@ -94,8 +123,13 @@ public class OptionUI : PopupUI
         bgmValueText.text = bgmSlider.value.ToString("0");
     }
 
-    public void OnClickClose()
+    private void LoadSensitivity()
     {
-        UIManager.Instance.ClosePopUpUI();
+        // PlayerPrefs에서 감도 값 불러오기
+        hipSensitivity = cachedHipSensitivity = PlayerPrefs.GetFloat(HipSensitivityKey, 1f);
+        adsSensitivity = cachedAdsSensitivity = PlayerPrefs.GetFloat(AdsSensitivityKey, 1f);
+
+        UpdateSensitivityTexts();
     }
+
 }
