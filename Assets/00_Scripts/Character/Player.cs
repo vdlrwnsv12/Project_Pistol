@@ -1,8 +1,9 @@
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(PlayerInputController))]
+[RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
 {
     private GameObject weaponPos;
@@ -18,17 +19,18 @@ public class Player : MonoBehaviour
     
     public Weapon Weapon { get; private set; }
 
-    public CharacterController Controller { get; private set; }
+    public CharacterController CharacterController { get; private set; }
     public ForceReceiver ForceReceiver { get; private set; }
-    public PlayerInputController Input { get; private set; }
+    public PlayerController Controller { get; private set; }
 
     public PlayerAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
-
+    
     [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
     
     [field: SerializeField] public Transform ArmTransform { get; private set; }
+    [field: SerializeField] public GameObject HandPos { get; private set; }
 
     #endregion
 
@@ -38,13 +40,11 @@ public class Player : MonoBehaviour
 
         Animator = GetComponent<Animator>();
 
-        Input = GetComponent<PlayerInputController>();
-        Controller = GetComponent<CharacterController>();
+        Controller = GetComponent<PlayerController>();
+        CharacterController = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
 
         InitCamera();
-        
-        initialLocalRotation = HandPos.transform.localRotation;
     }
 
     private void Start()
@@ -57,9 +57,16 @@ public class Player : MonoBehaviour
         StateMachine.HandleInput();
         StateMachine.Update();
 
-        if (StateMachine.IsAds)
+        if (StateMachine.MovementInput.magnitude > 0)
         {
-            WeaponShake();
+            Controller.StartHeadBob();
+            Controller.StartHeadBob();
+        }
+        Controller.WeaponShake();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            ApplyRecoil(Stat.RCL);
         }
     }
 
@@ -87,6 +94,22 @@ public class Player : MonoBehaviour
 
     private void InitCamera()
     {
+        if (AdsCamera && NonAdsCamera)
+        {
+            return;
+        }
+        
+        var virtualCams = GetComponentsInChildren<CinemachineVirtualCamera>();
+        if (virtualCams[0].name.Equals("ADSVirtualCam"))
+        {
+            AdsCamera = virtualCams[0];
+            NonAdsCamera = virtualCams[1];
+        }
+        else
+        {
+            AdsCamera = virtualCams[1];
+            NonAdsCamera = virtualCams[0];
+        }
     }
 
     public void InitWeapon(string weaponID)
@@ -94,23 +117,49 @@ public class Player : MonoBehaviour
         var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
         Weapon = Instantiate(resource, weaponPos.transform.position, Quaternion.identity, weaponPos.transform);
     }
+
+    #region 테스트
+
+    private float eulerAngleX;
+    private float eulerAngleY;
     
-    //TODO: 나중에 위치 변경
-    private Quaternion initialLocalRotation;
-    [field: SerializeField] public GameObject HandPos { get; private set; }
-    /// <summary>
-    /// 조준 시 캐릭터 HDL 수치에 따른 조준 흔들림 기능
-    /// </summary>
-    private void WeaponShake()
+    private float limitMinX = -80;
+    private float limitMaxX = 50;
+    
+    public void ApplyRecoil(float recoilAmount)
     {
-        var accuracy = Mathf.Clamp01((99f - Stat.HDL) / 98f);
-        var shakeAmount = accuracy * 7.5f;
-
-        var rotX = (Mathf.PerlinNoise(Time.time * 0.7f, 0f) - 0.5f) * shakeAmount;
-        var rotY = (Mathf.PerlinNoise(0f, Time.time * 0.7f) - 0.5f) * shakeAmount * 3f;
-        var rotZ = (Mathf.PerlinNoise(Time.time * 0.7f, Time.time * 0.7f) - 0.5f) * shakeAmount;
-
-        var shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
-        HandPos.transform.localRotation = initialLocalRotation * shakeRotation;
+        StopAllCoroutines();
+        StartCoroutine(RecoilCoroutine(recoilAmount));
     }
+
+    private IEnumerator RecoilCoroutine(float recoilAmount)
+    {
+        float duration = 0.075f; // 반동 걸리는 시간
+        float elapsed = 0f;
+
+        float startX = eulerAngleX;
+        float targetX = eulerAngleX - recoilAmount;
+        targetX = ClampAngle(targetX, limitMinX, limitMaxX);
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            eulerAngleX = Mathf.Lerp(startX, targetX, t);
+            ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+            yield return null;
+        }
+
+        eulerAngleX = targetX;
+        ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+    }
+    
+    private float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360) angle += 360;
+        if (angle > 360) angle -= 360;
+        return Mathf.Clamp(angle, min, max);
+    }
+
+    #endregion
 }

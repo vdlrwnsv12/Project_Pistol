@@ -7,6 +7,8 @@ public class PlayerStatHandler
     private float stp;
     private float spd;
 
+    private float finalRCL;
+
     public float RCL
     {
         get => rcl;

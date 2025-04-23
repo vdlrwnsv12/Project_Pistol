@@ -6,7 +6,7 @@ public class WeaponStatHandler
 
     public int MaxAmmo { get; private set; }
 
-    public float FinalRecoil { get; private set; }
+    public float Recoil { get; private set; }
 
     public float ReloadTime { get; private set; }
 
@@ -14,7 +14,7 @@ public class WeaponStatHandler
     {
         Damage = data.DMG;
         MaxAmmo = data.MaxAmmo;
-        FinalRecoil = data.ShootRecoil;
+        Recoil = data.ShootRecoil;
         ReloadTime = data.ReloadTime;
 
         weaponParts = 0;
@@ -23,8 +23,8 @@ public class WeaponStatHandler
     public void ChangeStat(float dmg, float recoil, int ammo, int partsValue)
     {
         Damage += dmg;
-        FinalRecoil += recoil;
+        Recoil += recoil;
         MaxAmmo += ammo;
-        weaponParts <<= partsValue;
+        weaponParts = 1 << partsValue;
     }
 }

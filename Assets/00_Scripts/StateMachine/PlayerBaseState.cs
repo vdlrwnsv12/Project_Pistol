@@ -22,7 +22,7 @@ public class PlayerBaseState : IState
 
     protected virtual void AddInputActionCallbacks()
     {
-        PlayerInputController input = stateMachine.Player.Input;
+        PlayerController input = stateMachine.Player.Controller;
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
@@ -31,7 +31,7 @@ public class PlayerBaseState : IState
     }
     protected virtual void RemoveInputActionCallbacks()
     {
-        PlayerInputController input = stateMachine.Player.Input;
+        PlayerController input = stateMachine.Player.Controller;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Look.canceled -= OnLookStarted;
         input.playerActions.Attack.started -= OnAttack;
@@ -92,15 +92,15 @@ public class PlayerBaseState : IState
 
     private void ReadMovementInput()
     {
-        stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();
-        stateMachine.MouseInput = stateMachine.Player.Input.playerActions.Look.ReadValue<Vector2>();
+        stateMachine.MovementInput = stateMachine.Player.Controller.playerActions.Movement.ReadValue<Vector2>();
+        stateMachine.MouseInput = stateMachine.Player.Controller.playerActions.Look.ReadValue<Vector2>();
     }
 
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
         float movementSpeed = GetMovementSpeed();
-        stateMachine.Player.Controller.Move(((movementDirection * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
+        stateMachine.Player.CharacterController.Move(((movementDirection * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
         
         RotateView();
     }
