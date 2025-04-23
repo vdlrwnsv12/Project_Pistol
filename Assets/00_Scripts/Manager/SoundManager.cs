@@ -15,15 +15,18 @@ public class SoundManager : MonoBehaviour
     private AudioSource sfxSource;
 
     [Header("Settings")]
+
     [Tooltip("마스터 볼륨")]
     [Range(0f, 1f)]
     public float masterVol = 1f;
-    [Tooltip("배경음악 볼륨")]
-    [Range(0f, 1f)]
-    public float backgroundMusicVol = 0.5f;
+
     [Tooltip("효과음 볼륨")]
     [Range(0f, 1f)]
     public float sfxVol = 0.5f;
+    
+    [Tooltip("배경음악 볼륨")]
+    [Range(0f, 1f)]
+    public float backgroundMusicVol = 0.5f;
 
     [Header("오디오 클립")]
     public AudioClip backgroundMusic;
@@ -41,17 +44,20 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Ensure the music and sfx sources are assigned
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();  // 효과음 소스
         if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();  // 배경음악 소스
-
         musicSource.loop = true;
-        PlayBackgroundMusic(backgroundMusic);
+
+        masterVol = PlayerPrefs.GetFloat("MasterVol", masterVol);
+        backgroundMusicVol = PlayerPrefs.GetFloat("MusicVol", backgroundMusicVol);
+        sfxVol = PlayerPrefs.GetFloat("SFXVol", sfxVol);
 
         // 초기 볼륨 설정
         SetMasterVolume(masterVol);
         SetSFXVolume(sfxVol);
         SetMusicVolume(backgroundMusicVol);
+
+        PlayBackgroundMusic(backgroundMusic);
     }
 
     private void OnEnable()
@@ -128,6 +134,7 @@ public class SoundManager : MonoBehaviour
     public void SetMasterVolume(float volume)
     {
         masterVol = Mathf.Clamp(volume, 0f, 1f);
+        PlayerPrefs.SetFloat("MasterVol", masterVol);
         sfxSource.volume = sfxVol * masterVol;
         musicSource.volume = backgroundMusicVol * masterVol;
     }
@@ -135,12 +142,14 @@ public class SoundManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxVol = Mathf.Clamp(volume, 0f, 1f);
+        PlayerPrefs.SetFloat("SFXVol", sfxVol);
         sfxSource.volume = sfxVol * masterVol; // masterVol도 반영
     }
 
     public void SetMusicVolume(float volume)
     {
         backgroundMusicVol = Mathf.Clamp(volume, 0f, 1f);
+        PlayerPrefs.SetFloat("MusicVol", backgroundMusicVol);
         musicSource.volume = backgroundMusicVol * masterVol; // masterVol도 반영
     }
     #endregion
