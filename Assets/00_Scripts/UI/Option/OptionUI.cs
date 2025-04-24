@@ -16,11 +16,11 @@ public class OptionUI : PopupUI
     [Header("Mouse Sensitivity")]
     public Text hipSensitivityText;
     public Text adsSensitivityText;
-    public float hipSensitivity = 1f;
-    public float adsSensitivity = 1f;
+    // public float hipSensitivity = 1f;
+    // public float adsSensitivity = 1f;
 
     // 캐싱된 감도 값을 저장할 static 변수
-    public static float cachedHipSensitivity = 1f;
+    [SerializeField]public static float cachedHipSensitivity = 1f;
     public static float cachedAdsSensitivity = 1f;
 
     private const string HipSensitivityKey = "HipSensitivity";
@@ -88,31 +88,31 @@ public class OptionUI : PopupUI
     #region Sensitivity Control
     public void ChangeHipSensitivity(float delta)
     {
-        hipSensitivity = Mathf.Clamp(hipSensitivity + delta, 0.1f, 9.9f);
-        cachedHipSensitivity = hipSensitivity;  // 캐시된 값 갱신
-        PlayerPrefs.SetFloat(HipSensitivityKey, hipSensitivity);
+        cachedHipSensitivity = Mathf.Clamp(cachedHipSensitivity + delta, 0.1f, 9.9f);
+        
+        PlayerPrefs.SetFloat(HipSensitivityKey, cachedHipSensitivity);
         UpdateSensitivityTexts();
 
         // FpsCamera의 감도 바로 업데이트
         var camera = FindObjectOfType<FpsCamera>();
         if (camera != null)
         {
-            camera.SetSensitivity(hipSensitivity); // SetSensitivity 메서드를 사용하여 바로 적용
+            camera.SetSensitivity(cachedHipSensitivity); // SetSensitivity 메서드를 사용하여 바로 적용
         }
     }
 
     public void ChangeADSSensitivity(float delta)//정조준 민감도 아직 구현x
     {
-        adsSensitivity = Mathf.Clamp(adsSensitivity + delta, 0.1f, 9.9f);
-        cachedAdsSensitivity = adsSensitivity;  // 캐시된 값 갱신
-        PlayerPrefs.SetFloat(AdsSensitivityKey, adsSensitivity);
+        cachedAdsSensitivity = Mathf.Clamp(cachedAdsSensitivity + delta, 0.1f, 9.9f);
+        //cachedAdsSensitivity = adsSensitivity;  // 캐시된 값 갱신
+        PlayerPrefs.SetFloat(AdsSensitivityKey, cachedAdsSensitivity);
         UpdateSensitivityTexts();
     }
 
     private void UpdateSensitivityTexts()// 민감도 텍스트 갱신
     {
-        hipSensitivityText.text = hipSensitivity.ToString("0.0");
-        adsSensitivityText.text = adsSensitivity.ToString("0.0");
+        hipSensitivityText.text = cachedHipSensitivity.ToString("0.0");
+        adsSensitivityText.text = cachedAdsSensitivity.ToString("0.0");
     }
     #endregion
 
@@ -126,8 +126,8 @@ public class OptionUI : PopupUI
     private void LoadSensitivity()
     {
         // PlayerPrefs에서 감도 값 불러오기
-        hipSensitivity = cachedHipSensitivity = PlayerPrefs.GetFloat(HipSensitivityKey, 1f);
-        adsSensitivity = cachedAdsSensitivity = PlayerPrefs.GetFloat(AdsSensitivityKey, 1f);
+        cachedHipSensitivity = PlayerPrefs.GetFloat(HipSensitivityKey, 1f);
+        cachedAdsSensitivity = PlayerPrefs.GetFloat(AdsSensitivityKey, 1f);
 
         UpdateSensitivityTexts();
     }

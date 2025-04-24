@@ -32,9 +32,9 @@ public class WeaponFireController : MonoBehaviour
     private AudioClip fireSound;
 
     // === [이펙트 프리팹] ===
-    private GameObject casingPrefab;
-    private GameObject muzzleFlashPrefab;
-    private GameObject bulletImpactPrefab;
+    [SerializeField]private GameObject casingPrefab;
+    [SerializeField]private GameObject muzzleFlashPrefab;
+    [SerializeField]private GameObject bulletImpactPrefab;
 
     #region Unity Methods
 

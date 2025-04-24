@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
     {
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
-
-       
     }
 
     private void Update()

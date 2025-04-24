@@ -6,8 +6,6 @@ public class FpsCamera : MonoBehaviour
     [SerializeField] private float rotCamXAxisSpeed = 1;
     [SerializeField] private float rotCamYAxisSpeed = 1;
     [SerializeField] private float sensitivity = 0.05f; // 초기 감도 값
-    private const string SensitivityKey = "MouseSensitivity";
-
     private float limitMinx = -80;
     private float limitMaxX = 50;
 

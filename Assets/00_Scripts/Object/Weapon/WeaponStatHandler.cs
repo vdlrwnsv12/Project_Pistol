@@ -28,7 +28,6 @@ public class WeaponStatHandler : MonoBehaviour
     public Transform camRoot;
     public Camera playerCam; //FOV 변경용
     public FpsCamera fpsCamera;
-    public GameObject playerObject;
     public Text bulletStatText;
 
     [Header("PartsPrefabs")]

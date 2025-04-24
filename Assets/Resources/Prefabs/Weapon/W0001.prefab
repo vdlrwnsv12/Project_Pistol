@@ -285,30 +285,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfc90f7998e71a4a87ffd6ea2fe9c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   weaponData: {fileID: 11400000, guid: 64643883e52f24f3e83db886bf8303e2, type: 2}
   isReloading: 0
   isADS: 0
-  ID: 
-  Name: 
-  Description: 
   ShootRecoil: 0
   DMG: 0
   ReloadTime: 0
   MaxAmmo: 0
-  Cost: 0
   barrelLocation: {fileID: 7871138460236415640}
   casingExitLocation: {fileID: 3019724882842368559}
   handransform: {fileID: 0}
   camRoot: {fileID: 0}
   playerCam: {fileID: 0}
   fpsCamera: {fileID: 0}
-  playerObject: {fileID: 0}
   bulletStatText: {fileID: 0}
-  casingPrefab: {fileID: 4362657251999731927, guid: 4cb20e8abae957146a8b78e670d3fe74,
-    type: 3}
-  muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
-    type: 3}
-  bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
   redDot: {fileID: 8763032021543482688}
   holographic: {fileID: 5243554218012060444}
   laserPointer: {fileID: 1857876749765720759}
@@ -319,9 +310,6 @@ MonoBehaviour:
   adsPosition: {x: 0.062, y: -0.007, z: 0}
   camMoveSpeed: 10
   gunAnimator: {fileID: 5409754431695144347}
-  fireSound: {fileID: 8300000, guid: 79c222471858d48718bd6b7efdc5ee69, type: 3}
-  reloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
-  emptySound: {fileID: 8300000, guid: 68d0787726f6647c38a9903288161331, type: 3}
   itemRecoil: 0
   camRootOriginPos: {x: 0, y: 0, z: 0}
   initialLocalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -338,13 +326,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429582b160f8448ebabe9ce59cc1030d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponStatHandler: {fileID: 0}
   currentAmmo: 0
+  targetCamY: 0.16
+  accuracyAmount: 0
   finalRecoil: 0
   isLocked: 1
   optics: []
-  targetCamY: 0.16
-  accuracyAmount: 0
+  casingPrefab: {fileID: 4362657251999731927, guid: 4cb20e8abae957146a8b78e670d3fe74,
+    type: 3}
+  muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
+    type: 3}
+  bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
 --- !u!95 &5409754431695144347
 Animator:
   serializedVersion: 5

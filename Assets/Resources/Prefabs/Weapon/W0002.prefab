@@ -452,30 +452,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfc90f7998e71a4a87ffd6ea2fe9c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   weaponData: {fileID: 0}
   isReloading: 0
   isADS: 0
-  ID: 
-  Name: 
-  Description: 
   ShootRecoil: 0
   DMG: 0
   ReloadTime: 0
   MaxAmmo: 0
-  Cost: 0
   barrelLocation: {fileID: 8715180194844072911}
   casingExitLocation: {fileID: 4205307446877143790}
   handransform: {fileID: 0}
   camRoot: {fileID: 0}
   playerCam: {fileID: 0}
   fpsCamera: {fileID: 0}
-  playerObject: {fileID: 0}
   bulletStatText: {fileID: 0}
-  casingPrefab: {fileID: 4362657251999731927, guid: 4cb20e8abae957146a8b78e670d3fe74,
-    type: 3}
-  muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
-    type: 3}
-  bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
   redDot: {fileID: 7142103419045724379}
   holographic: {fileID: 2101815474484177901}
   laserPointer: {fileID: 5948353401260505578}
@@ -483,13 +474,9 @@ MonoBehaviour:
   spreadAngle: 5
   destroyTimer: 2
   ejectPower: 300
-  fireCooldown: 0.7
   adsPosition: {x: 0.062, y: -0.007, z: 0}
   camMoveSpeed: 10
   gunAnimator: {fileID: 4561929742923346282}
-  fireSound: {fileID: 8300000, guid: b4316d1dccbd84e0388625bef9e210c9, type: 3}
-  reloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
-  emptySound: {fileID: 8300000, guid: 68d0787726f6647c38a9903288161331, type: 3}
   itemRecoil: 0
   camRootOriginPos: {x: 0, y: 0, z: 0}
   initialLocalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -507,10 +494,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentAmmo: 0
+  targetCamY: 0.165
+  accuracyAmount: 0
   finalRecoil: 0
   isLocked: 1
   optics: []
-  targetCamY: 0.165
+  casingPrefab: {fileID: 4362657251999731927, guid: 4cb20e8abae957146a8b78e670d3fe74,
+    type: 3}
+  muzzleFlashPrefab: {fileID: 1782395880954752, guid: 3dd9cf2e209c504448f1c4c6835675cf,
+    type: 3}
+  bulletImpactPrefab: {fileID: 100002, guid: a7fb2ae52cb954994832339fb807aa31, type: 3}
 --- !u!95 &4561929742923346282
 Animator:
   serializedVersion: 5
