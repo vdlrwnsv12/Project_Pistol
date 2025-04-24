@@ -65,6 +65,8 @@ public class Target : MonoBehaviour
     {
         if (currentHp <= 0) return;
 
+        anim.SetTrigger("Hit");
+
         if (hitCollider != null && hitCollider.name == "Head")
         {
             amount = Mathf.RoundToInt(amount * data.DamageRate * 1.2f);

@@ -2312,8 +2312,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hipSensitivityText: {fileID: 3147350236138197291}
   adsSensitivityText: {fileID: 8338861386293000835}
-  hipSensitivity: 1
-  adsSensitivity: 1
   masterSlider: {fileID: 1078432596707210356}
   seSlider: {fileID: 2939870601248828962}
   bgmSlider: {fileID: 6377072162562541342}
