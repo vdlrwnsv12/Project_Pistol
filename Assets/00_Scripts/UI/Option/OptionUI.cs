@@ -36,7 +36,7 @@ public class OptionUI : PopupUI
     public Text seValueText;
     public Text bgmValueText;
 
-    private FpsCamera camera;
+    //private FpsCamera camera;
     public GameObject resumeBtn;
 
     protected override void Awake()
@@ -76,7 +76,7 @@ public class OptionUI : PopupUI
     }
     private void OnEnable()
     {
-        camera = FindObjectOfType<FpsCamera>();
+        //camera = FindObjectOfType<FpsCamera>();
         // PlayerPrefs 값 다시 불러오기
         LoadSensitivity();
 
@@ -87,13 +87,13 @@ public class OptionUI : PopupUI
 
         UpdateSoundTexts();
 
-        if(camera == null)
-        {
-            resumeBtn.SetActive(false);
-        }else
-        {
-            resumeBtn.SetActive(true);
-        }
+        // if(GetComponent<Camera>() == null)
+        // {
+        //     resumeBtn.SetActive(false);
+        // }else
+        // {
+        //     resumeBtn.SetActive(true);
+        // }
     }
 
 
@@ -105,10 +105,10 @@ public class OptionUI : PopupUI
         PlayerPrefs.SetFloat(HipSensitivityKey, cachedHipSensitivity);
         UpdateSensitivityTexts();
 
-        if (camera != null)
-        {
-            camera.SetSensitivity(cachedHipSensitivity); // SetSensitivity 메서드를 사용하여 바로 적용
-        }
+        // if (GetComponent<Camera>() != null)
+        // {
+        //     GetComponent<Camera>().SetSensitivity(cachedHipSensitivity); // SetSensitivity 메서드를 사용하여 바로 적용
+        // }
     }
 
     public void ChangeADSSensitivity(float delta)//정조준 민감도 아직 구현x
