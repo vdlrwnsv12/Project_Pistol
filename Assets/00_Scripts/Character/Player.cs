@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
 
         InitCamera();
+        InitWeapon(GameManager.Instance.selectedWeapon.ID);
     }
 
     private void Start()
