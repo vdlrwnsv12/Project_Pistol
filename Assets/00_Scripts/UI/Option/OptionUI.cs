@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-//TODO: 사운드도 저장되게 만들어야함, 정조준 감도도 구현해야함
+//TODO: 정조준 감도 구현해야함
 /// <summary>
 /// TestUIScene 오픈
 /// option 버튼 눌러서 팝업창 켜지는지 확인
