@@ -19,9 +19,10 @@ public class StageLoader : MonoBehaviour
     private List<StageData> stageDataList;
     private GameObject currentStage;
     private GameObject previousStage;
+    private GameObject oldestStage; // 가장 오래된 스테이지 추적
     private int currentStageIndex = 0;
 
-    private bool playerSpawned = false; // ✅ 최초 1회만 스폰 포인트 적용
+    private bool playerSpawned = false; // 최초 1회만 스폰 포인트 적용
 
     #endregion
 
@@ -63,6 +64,8 @@ public class StageLoader : MonoBehaviour
             return;
         }
 
+        // 스테이지 추적 업데이트
+        oldestStage = previousStage;
         previousStage = currentStage;
 
         Vector3 position = ToVector3(data.RoomPos);
@@ -90,15 +93,15 @@ public class StageLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// 이전 스테이지 제거
+    /// 두 단계 전 스테이지 제거
     /// </summary>
     public void RemovePreviousStage()
     {
-        if (previousStage != null)
+        if (oldestStage != null)
         {
-            Destroy(previousStage);
-            previousStage = null;
-            Debug.Log("[StageLoader] 이전 스테이지 제거 완료");
+            Destroy(oldestStage);
+            oldestStage = null;
+            Debug.Log("[StageLoader] 가장 오래된 스테이지 제거 완료");
         }
     }
 
