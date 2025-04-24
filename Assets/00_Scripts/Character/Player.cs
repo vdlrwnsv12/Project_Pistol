@@ -7,7 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private GameObject weaponPos;
-    
+
     [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
     [Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public CharacterSO Data { get; private set; }
     public PlayerStatHandler Stat { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
-    
+
     public Weapon Weapon { get; private set; }
 
     public CharacterController CharacterController { get; private set; }
@@ -25,10 +25,10 @@ public class Player : MonoBehaviour
 
     public PlayerAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
-    
+
     [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
-    
+
     [field: SerializeField] public Transform ArmTransform { get; private set; }
     [field: SerializeField] public GameObject HandPos { get; private set; }
 
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        
+
         var virtualCams = GetComponentsInChildren<CinemachineVirtualCamera>();
         if (virtualCams[0].name.Equals("ADSVirtualCam"))
         {
@@ -116,17 +116,18 @@ public class Player : MonoBehaviour
     public void InitWeapon(string weaponID)
     {
         var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
-        Weapon = Instantiate(resource, weaponPos.transform.position, Quaternion.identity, weaponPos.transform);
+        Weapon = Instantiate(resource);
+        Weapon.transform.SetParent(weaponPos.transform, false);
     }
 
     #region 테스트
 
     private float eulerAngleX;
     private float eulerAngleY;
-    
+
     private float limitMinX = -80;
     private float limitMaxX = 50;
-    
+
     public void ApplyRecoil(float recoilAmount)
     {
         StopAllCoroutines();
@@ -154,7 +155,7 @@ public class Player : MonoBehaviour
         eulerAngleX = targetX;
         ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
-    
+
     private float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360) angle += 360;
