@@ -7,8 +7,8 @@ using TMPro;
 public class GradientButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerDownHandler, IPointerUpHandler
 {
     public Image targetImage;
-    public Material normalMaterial;
-    public Material gradientMaterial;
+    public Material normalMaterial; // 색깔 없음
+    public Material gradientMaterial; // 그라데이션 색깔
     public TextMeshProUGUI text;
     private bool isPointerOver = false; // 포인터가 머물러 있냐
     private bool isPressed = false;
