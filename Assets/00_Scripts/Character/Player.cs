@@ -1,69 +1,165 @@
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
 {
-    // Player 입력 and 여러 컴포넌트 관리
-    [field: SerializeField] public CharacterSO Data { get; set; }
-
-    [field: Header("Animations"), SerializeField]
-    public PlayerAnimationData AnimationData { get; private set; }
-
-    public Animator Animator { get; private set; }
-
-    public PlayerController Input { get; private set; }
-    public CharacterController Controller { get; private set; }
-    public PlayerStatHandler StatHandler;
-
-    public ForceReceiver ForceReceiver { get; private set; }
-    public FpsCamera FpsCamera { get; private set; }
-    public PlayerStateMachine stateMachine;
-    public WeaponFireController weaponFireController;
-
-    private HeadBob headBob;
-    public PlayerEquipment PlayerEquipment { get; private set; }
+    private GameObject weaponPos;
+    
     [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
     [Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
+    #region Properties
+
+    public CharacterSO Data { get; private set; }
+    public PlayerStatHandler Stat { get; private set; }
+    public PlayerStateMachine StateMachine { get; private set; }
+    
+    public Weapon Weapon { get; private set; }
+
+    public CharacterController CharacterController { get; private set; }
+    public ForceReceiver ForceReceiver { get; private set; }
+    public PlayerController Controller { get; private set; }
+
+    public PlayerAnimationData AnimationData { get; private set; }
+    public Animator Animator { get; private set; }
+    
+    [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
+    [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
+    
+    [field: SerializeField] public Transform ArmTransform { get; private set; }
+    [field: SerializeField] public GameObject HandPos { get; private set; }
+
+    #endregion
+
     private void Awake()
     {
-        AnimationData.Initialize();
+        InitPlayer();
+
         Animator = GetComponent<Animator>();
-        Input = GetComponent<PlayerController>();
-        Controller = GetComponent<CharacterController>();
+
+        Controller = GetComponent<PlayerController>();
+        CharacterController = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
-        FpsCamera = GetComponent<FpsCamera>();
-        headBob = GetComponentInChildren<HeadBob>();
-        PlayerEquipment = GetComponentInChildren<PlayerEquipment>();
-        headBob = GetComponentInChildren<HeadBob>();
-        StatHandler = new PlayerStatHandler(this);
-        stateMachine = new PlayerStateMachine(this);
+
+        InitCamera();
     }
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   // 커서 숨기기
-        Cursor.visible = false;
-
-        stateMachine.ChangeState(stateMachine.IdleState);
-
-        ItemManager.Instance.playerStatHandler = StatHandler;
-        Debug.Log("ItemManager.Instance 할당됨");
+        StateMachine.ChangeState(StateMachine.IdleState);
     }
+
     private void Update()
     {
-        stateMachine.HandleInput();
-        stateMachine.Update();
-        
-        if (weaponFireController != null)
+        StateMachine.HandleInput();
+        StateMachine.Update();
+
+        if (StateMachine.MovementInput.magnitude > 0)
         {
-            weaponFireController.HandleADS();
-            Debug.Log("fire");
+            Controller.StartHeadBob();
+            Controller.StartHeadBob();
+        }
+        Controller.WeaponShake();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            ApplyRecoil(Stat.RCL);
         }
     }
 
     private void FixedUpdate()
     {
-        stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
+
+    private void InitPlayer()
+    {
+        if (Data == null)
+        {
+            Data = GameManager.Instance.selectedCharacter;
+        }
+
+        if (weaponPos == null)
+        {
+            weaponPos = gameObject.transform.FindDeepChildByName("WeaponPos").gameObject;
+        }
+
+        Stat = new PlayerStatHandler(this);
+        StateMachine = new PlayerStateMachine(this);
+        AnimationData = new PlayerAnimationData();
+    }
+
+    private void InitCamera()
+    {
+        if (AdsCamera && NonAdsCamera)
+        {
+            return;
+        }
+        
+        var virtualCams = GetComponentsInChildren<CinemachineVirtualCamera>();
+        if (virtualCams[0].name.Equals("ADSVirtualCam"))
+        {
+            AdsCamera = virtualCams[0];
+            NonAdsCamera = virtualCams[1];
+        }
+        else
+        {
+            AdsCamera = virtualCams[1];
+            NonAdsCamera = virtualCams[0];
+        }
+    }
+
+    public void InitWeapon(string weaponID)
+    {
+        var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
+        Weapon = Instantiate(resource, weaponPos.transform.position, Quaternion.identity, weaponPos.transform);
+    }
+
+    #region 테스트
+
+    private float eulerAngleX;
+    private float eulerAngleY;
+    
+    private float limitMinX = -80;
+    private float limitMaxX = 50;
+    
+    public void ApplyRecoil(float recoilAmount)
+    {
+        StopAllCoroutines();
+        StartCoroutine(RecoilCoroutine(recoilAmount));
+    }
+
+    private IEnumerator RecoilCoroutine(float recoilAmount)
+    {
+        float duration = 0.075f; // 반동 걸리는 시간
+        float elapsed = 0f;
+
+        float startX = eulerAngleX;
+        float targetX = eulerAngleX - recoilAmount;
+        targetX = ClampAngle(targetX, limitMinX, limitMaxX);
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            eulerAngleX = Mathf.Lerp(startX, targetX, t);
+            ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+            yield return null;
+        }
+
+        eulerAngleX = targetX;
+        ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+    }
+    
+    private float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360) angle += 360;
+        if (angle > 360) angle -= 360;
+        return Mathf.Clamp(angle, min, max);
+    }
+
+    #endregion
 }

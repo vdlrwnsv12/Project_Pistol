@@ -1,110 +1,92 @@
-using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
+#region Main Class
+
+/// <summary>
+/// Stage 데이터를 기반으로 스테이지 프리팹을 로드하고 제어하는 클래스
+/// </summary>
 public class StageLoader : MonoBehaviour
 {
-    [Header("스테이지 프리팹 리스트")]
-    [SerializeField] private GameObject[] stagePrefabs;
+    #region Fields
 
-    [Header("다음 스테이지 위치 배열 (Vector3)")]
-    [SerializeField] private Vector3[] stagePositions;
-
-    [Header("다음 스테이지 회전 배열 (Euler Angles)")]
-    [SerializeField] private Vector3[] stageRotations;
+    [Header("JSON 데이터 (TextAsset)")]
+    [SerializeField] private TextAsset stageJson;
 
     [Header("플레이어 프리팹")]
     [SerializeField] private GameObject playerObject;
 
-    private GameObject spawnedPlayer;
-
-    private GameObject previousStage;
+    private List<StageData> stageDataList;
     private GameObject currentStage;
+    private GameObject previousStage;
     private int currentStageIndex = 0;
+
+    private bool playerSpawned = false; // ✅ 최초 1회만 스폰 포인트 적용
+
+    #endregion
+
+    #region Unity Methods
+
+    private void Awake()
+    {
+        var parsed = JsonUtility.FromJson<StageDataList>(stageJson.text);
+        stageDataList = parsed.Data;
+    }
 
     private void Start()
     {
-        LoadInitialStage();
+        LoadStage(0);
     }
 
+    #endregion
+
+    #region Stage Management
+
     /// <summary>
-    /// 시작 시 첫 스테이지 로드 및 플레이어 스폰
+    /// 지정 인덱스의 스테이지 로드
     /// </summary>
-    private void LoadInitialStage()
+    /// <param name="index">로드할 스테이지 인덱스</param>
+    public void LoadStage(int index)
     {
-        if (stagePrefabs.Length == 0)
+        if (index >= stageDataList.Count)
         {
-            Debug.LogWarning("Stage Prefabs가 비어 있습니다.");
+            Debug.LogWarning("[StageLoader] 더 이상 로드할 스테이지가 없습니다.");
             return;
         }
 
-        // 1스테이지 로드
-        currentStage = Instantiate(stagePrefabs[0], Vector3.zero, Quaternion.identity);
-        currentStageIndex = 0;
+        var data = stageDataList[index];
 
-        Debug.Log("Stage 1 로드 완료");
-
-        // SpawnPoint 찾기
-        Transform spawnPoint = currentStage.transform.Find("SpawnPoint");
-
-        if (spawnPoint == null)
+        GameObject prefab = Resources.Load<GameObject>($"Prefabs/Stage/Rooms/{data.RoomID}");
+        if (prefab == null)
         {
-            Debug.LogWarning("SpawnPoint를 Stage 1에서 찾을 수 없습니다.");
-            return;
-        }
-
-        //이미 있는 플레이어를 위치로 이동
-        if (playerObject != null)
-        {
-            CharacterController cc = playerObject.GetComponent<CharacterController>();
-            if (cc != null)
-            {
-                cc.enabled = false; // 이동 전에 꺼줘야 위치 덮어쓰기 가능
-            }
-
-            playerObject.transform.position = spawnPoint.position;
-            playerObject.transform.rotation = spawnPoint.rotation;
-
-            if (cc != null)
-            {
-                cc.enabled = true;
-            }
-
-            Debug.Log("씬에 있는 플레이어가 SpawnPoint에 배치되었습니다.");
-        }
-        else
-        {
-            Debug.LogWarning("playerObject가 할당되지 않았습니다.");
-        }
-    }
-
-
-    /// <summary>
-    /// 다음 스테이지 로드 (NextPoint 위치 기준)
-    /// </summary>
-    public void LoadNextStage()
-    {
-        int nextIndex = currentStageIndex + 1;
-        if (nextIndex >= stagePrefabs.Length)
-        {
-            Debug.Log("모든 스테이지 완료!");
+            Debug.LogError($"[StageLoader] {data.RoomID} 프리팹을 찾을 수 없습니다.");
             return;
         }
 
         previousStage = currentStage;
 
-        // 위치, 회전 가져오기
-        Vector3 spawnPos = (stagePositions.Length > nextIndex) ? stagePositions[nextIndex] : Vector3.zero;
-        Quaternion spawnRot = (stageRotations.Length > nextIndex) ? Quaternion.Euler(stageRotations[nextIndex]) : Quaternion.identity;
+        Vector3 position = ToVector3(data.RoomPos);
+        Quaternion rotation = Quaternion.Euler(ToVector3(data.RoomRot));
 
-        // 적용해서 인스턴스화
-        GameObject newStage = Instantiate(stagePrefabs[nextIndex], spawnPos, spawnRot);
+        currentStage = Instantiate(prefab, position, rotation);
+        currentStageIndex = index;
 
-        // 4. 현재 스테이지 갱신
-        currentStage = newStage;
-        currentStageIndex = nextIndex;
+        // SpawnPoint는 최초 한 번만 적용
+        if (!playerSpawned)
+        {
+            SpawnPlayer(currentStage);
+            playerSpawned = true;
+        }
 
-        // 5. 위치, 회전 확인용 로그는 **위치 설정 이후에 출력**
-        Debug.Log($"Stage {currentStageIndex + 1} 로드 완료 (위치: {newStage.transform.position}, 회전: {newStage.transform.rotation.eulerAngles})");
+        Debug.Log($"[StageLoader] Stage {data.ID} 로드 완료");
+    }
+
+    /// <summary>
+    /// 다음 스테이지 로드
+    /// </summary>
+    public void LoadNextStage()
+    {
+        LoadStage(currentStageIndex + 1);
     }
 
     /// <summary>
@@ -116,8 +98,65 @@ public class StageLoader : MonoBehaviour
         {
             Destroy(previousStage);
             previousStage = null;
-
-            Debug.Log("이전 스테이지 제거됨");
+            Debug.Log("[StageLoader] 이전 스테이지 제거 완료");
         }
     }
+
+    #endregion
+
+    #region Helpers
+
+    /// <summary>
+    /// 스테이지 내 SpawnPoint 위치로 플레이어 이동
+    /// </summary>
+    /// <param name="stage">현재 스테이지</param>
+    private void SpawnPlayer(GameObject stage)
+    {
+        if (playerObject == null) return;
+
+        Transform spawn = stage.transform.Find("SpawnPoint");
+        if (spawn == null)
+        {
+            Debug.LogWarning("[StageLoader] SpawnPoint를 찾을 수 없습니다.");
+            return;
+        }
+
+        CharacterController cc = playerObject.GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+
+        playerObject.transform.position = spawn.position;
+        playerObject.transform.rotation = spawn.rotation;
+
+        if (cc != null) cc.enabled = true;
+
+        Debug.Log("[StageLoader] 플레이어가 스폰되었습니다.");
+    }
+
+    /// <summary>
+    /// float 배열을 Vector3로 변환
+    /// </summary>
+    /// <param name="arr">[x, y, z] 배열</param>
+    /// <returns>Vector3로 변환된 값</returns>
+    private Vector3 ToVector3(float[] arr)
+    {
+        if (arr.Length < 3) return Vector3.zero;
+        return new Vector3(arr[0], arr[1], arr[2]);
+    }
+
+    #endregion
 }
+
+#endregion
+
+#region Data Classes
+
+/// <summary>
+/// 스테이지 데이터 리스트 (JSON 루트)
+/// </summary>
+[System.Serializable]
+public class StageDataList
+{
+    public List<StageData> Data;
+}
+
+#endregion
