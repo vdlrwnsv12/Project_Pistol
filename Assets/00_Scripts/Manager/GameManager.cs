@@ -5,7 +5,8 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
     public CharacterSO selectedCharacter;
     public WeaponSO selectedWeapon;
 
-    private bool isPuased = false;
+    public static bool isPuased = false;
+
 
     private void Update()
     {
@@ -16,7 +17,7 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
     }
 
 
-    private void ToggleGameState()
+    public static void ToggleGameState()
     {
         if (!isPuased)
         {

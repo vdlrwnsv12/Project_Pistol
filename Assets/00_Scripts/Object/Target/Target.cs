@@ -6,20 +6,21 @@ using System.Xml;
 public class Target : MonoBehaviour
 {
     [Header("타겟 데이터")]
-    public TargetSO data; // 프리팹에 직접 넣는 방식
-    public float currentHp;
-    public Animator anim;
-    public Text lvText;
+    [SerializeField]private TargetSO data; // 프리팹에 직접 넣는 방식
+    private float currentHp;
+    [SerializeField]private Animator anim;
+    [SerializeField]private Text lvText;
 
     [Header("시민일 경우 메테리얼")]
-    public Material civilianMaterial;
+    [SerializeField]private Material civilianMaterial;
 
     [Header("사운드")]
-    public AudioClip upSound;
-    public AudioClip downSound;
+    [SerializeField]private AudioClip upSound;
+    [SerializeField]private AudioClip downSound;
 
     [Header("UI")]
-    public Image hpBar;
+    [SerializeField]private Image hpBar;
+    [SerializeField]private GameObject targetUI;
 
     void Awake()
     {
@@ -103,6 +104,7 @@ public class Target : MonoBehaviour
 
     private void Die()
     {
+        Destroy(targetUI);
         anim.SetBool("Die", true);
         SoundManager.Instance.PlaySFX(downSound);
     }

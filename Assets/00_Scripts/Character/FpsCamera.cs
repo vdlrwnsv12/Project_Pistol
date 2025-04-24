@@ -29,6 +29,11 @@ public class FpsCamera : MonoBehaviour
 
     public void UpdateRotate(float mouseX, float mouseY)
     {
+        if(GameManager.isPuased)
+        {
+            return;
+        }
+
         eulerAngleY += mouseX * rotCamYAxisSpeed * sensitivity;
         eulerAngleX -= mouseY * rotCamXAxisSpeed * sensitivity;
 

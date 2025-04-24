@@ -36,6 +36,9 @@ public class OptionUI : PopupUI
     public Text seValueText;
     public Text bgmValueText;
 
+    private FpsCamera camera;
+    public GameObject resumeBtn;
+
     protected override void Awake()
     {
         base.Awake();
@@ -73,6 +76,7 @@ public class OptionUI : PopupUI
     }
     private void OnEnable()
     {
+        camera = FindObjectOfType<FpsCamera>();
         // PlayerPrefs 값 다시 불러오기
         LoadSensitivity();
 
@@ -82,6 +86,14 @@ public class OptionUI : PopupUI
         bgmSlider.value = SoundManager.Instance.backgroundMusicVol * 100f;
 
         UpdateSoundTexts();
+
+        if(camera == null)
+        {
+            resumeBtn.SetActive(false);
+        }else
+        {
+            resumeBtn.SetActive(true);
+        }
     }
 
 
@@ -93,8 +105,6 @@ public class OptionUI : PopupUI
         PlayerPrefs.SetFloat(HipSensitivityKey, cachedHipSensitivity);
         UpdateSensitivityTexts();
 
-        // FpsCamera의 감도 바로 업데이트
-        var camera = FindObjectOfType<FpsCamera>();
         if (camera != null)
         {
             camera.SetSensitivity(cachedHipSensitivity); // SetSensitivity 메서드를 사용하여 바로 적용
@@ -130,6 +140,16 @@ public class OptionUI : PopupUI
         cachedAdsSensitivity = PlayerPrefs.GetFloat(AdsSensitivityKey, 1f);
 
         UpdateSensitivityTexts();
+    }
+
+    public void OnClickExitBtn()
+    {
+        GameManager.GameQuit();
+    }
+
+    public void OnClickResumeBtn()
+    {
+        GameManager.ToggleGameState();
     }
 
 }

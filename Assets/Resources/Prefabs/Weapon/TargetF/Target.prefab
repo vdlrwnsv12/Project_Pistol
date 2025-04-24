@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 3489038753479779510}
   - component: {fileID: 4384042130789976492}
   m_Layer: 7
-  m_Name: Canvas
+  m_Name: TargetUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -595,13 +595,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 0}
-  currentHp: 0
   anim: {fileID: 9086198920025222691}
   lvText: {fileID: 904607236937820272}
   civilianMaterial: {fileID: 2100000, guid: d6a61cbb1afd94b9abd57a104ad49a9d, type: 2}
   upSound: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}
   downSound: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
   hpBar: {fileID: 4187348459703899338}
+  targetUI: {fileID: 7418473957862778906}
 --- !u!95 &9086198920025222691
 Animator:
   serializedVersion: 5
