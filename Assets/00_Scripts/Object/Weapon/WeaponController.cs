@@ -74,16 +74,14 @@ public class WeaponController : MonoBehaviour
             EjectCasing();
             MuzzleFlash();
 
-            //TODO: 사격 사운드 출력
-
-            SoundManager.Instance.PlaySFX(gameObject.name);
+            SoundManager.Instance.PlaySFX(weapon.Data.name);
 
             curAmmo--;
         }
         else
         {
             // 탄창 없을 경우
-            //TODO: 탄 없는 사운드 출력
+            SoundManager.Instance.PlaySFX("EmptyTrigger");
         }
 
         lastFireTime = 0f;
