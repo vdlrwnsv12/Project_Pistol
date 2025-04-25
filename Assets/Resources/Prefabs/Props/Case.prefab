@@ -101,6 +101,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3625037896966406280, guid: a737d62f4ff0b854a9d767507f039686,
+        type: 3}
+      propertyPath: m_TagString
+      value: Gun
+      objectReference: {fileID: 0}
     - target: {fileID: 8403992145370945202, guid: a737d62f4ff0b854a9d767507f039686,
         type: 3}
       propertyPath: m_CollisionDetection

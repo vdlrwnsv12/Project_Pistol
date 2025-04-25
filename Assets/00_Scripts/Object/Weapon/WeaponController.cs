@@ -76,6 +76,8 @@ public class WeaponController : MonoBehaviour
 
             //TODO: 사격 사운드 출력
 
+            SoundManager.Instance.PlaySFX(gameObject.name);
+
             curAmmo--;
         }
         else
@@ -202,7 +204,7 @@ public class WeaponController : MonoBehaviour
         curAmmo = 0;
         weapon.Anim.SetTrigger("Reload");
 
-        //SoundManager.Instance.PlaySFX(weaponStatHandler.reloadSound);
+        SoundManager.Instance.PlaySFX("Reload");
 
         StartCoroutine(ReloadCoroutine());
     }
