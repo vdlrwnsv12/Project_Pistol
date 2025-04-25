@@ -38,7 +38,7 @@ public class StageManager : MonoBehaviour
     private StageLoader roomLoader;
     
     public RewardSystem RewardSystem { get; private set; }
-    //private HitTracker hitTracker;
+    private HitTracker hitTracker;
 
     private HUDUI hudUI;
 
@@ -56,6 +56,7 @@ public class StageManager : MonoBehaviour
         SpawnPlayer(GameManager.Instance.selectedWeapon);
         
         RewardSystem = new RewardSystem();
+        hitTracker = new HitTracker();
     }
 
     private void Start()
@@ -67,13 +68,20 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
+        hitTracker.RemainTime -= Time.deltaTime;
+        
         if (hudUI != null)
         {
-            hudUI.UpdateRealTimeChanges(0, 999, Player.Weapon.CurAmmo, Player.Weapon.MaxAmmo);
+            hudUI.UpdateRealTimeChanges(hitTracker.GameScore, hitTracker.RemainTime, Player.Weapon.CurAmmo, Player.Weapon.MaxAmmo);
+        }
+
+        if (hitTracker.RemainTime <= 0)
+        {
+            GameOver();
         }
     }
 
-    public void GameOver()
+    private void GameOver()
     {
         UIManager.ToggleMouseCursor(true);
         
@@ -82,9 +90,10 @@ public class StageManager : MonoBehaviour
         var resultUI = UIManager.Instance.CurMainUI as ResultUI;
         if (resultUI != null)
         {
-            //TODO: HitTracker 완성 시 작업
-            //resultUI.SetResultValue(RankType.S, 9999, 99, 90, 9, 5);
+            resultUI.SetResultValue(hitTracker.Rank, hitTracker.GameScore, hitTracker.RemainTime, hitTracker.ShotAccuracy, hitTracker.HeadShotAccuracy, hitTracker.MaxDestroyTargetCombo);
         }
+        
+        Player.Controller.enabled = false;
     }
 
     /// <summary>
