@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         StateMachine.ChangeState(StateMachine.IdleState);
+        AdsCamera.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
     }
 
