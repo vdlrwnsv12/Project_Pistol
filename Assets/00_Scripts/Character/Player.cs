@@ -16,17 +16,15 @@ public class Player : MonoBehaviour
     public CharacterSO Data { get; private set; }
     public PlayerStatHandler Stat { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
-
     public Weapon Weapon { get; private set; }
-
     public CharacterController CharacterController { get; private set; }
     public ForceReceiver ForceReceiver { get; private set; }
     public PlayerController Controller { get; private set; }
-
     public PlayerAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerMotion Motion { get; private set; }
     public TargetSensor TargetSensor { get; private set; }  
+
     [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
     #endregion
