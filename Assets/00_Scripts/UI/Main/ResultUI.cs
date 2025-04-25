@@ -1,6 +1,8 @@
+using System.Collections;
 using DataDeclaration;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ResultUI : MainUI
@@ -24,7 +26,7 @@ public class ResultUI : MainUI
     {
         base.Awake();
         UIType = MainUIType.Result;
-        IsDestroy = false;
+        IsDestroy = true;
 
         quitBtn.onClick.AddListener(OnClickQuitButton);
     }
@@ -40,6 +42,7 @@ public class ResultUI : MainUI
     private void OnClickQuitButton()
     {
         //TODO: 미구현
+        StartCoroutine(GameOver());
     }
 
     /// <summary>
@@ -51,7 +54,7 @@ public class ResultUI : MainUI
     /// <param name="accuracy">명중률</param>
     /// <param name="headAccuracy">헤드샷 명중률</param>
     /// <param name="maxCombo">최대 콤보</param>
-    private void UpdateResultValue(RankType rank, int score, float remainTime, float accuracy, float headAccuracy,
+    public void SetResultValue(RankType rank, int score, float remainTime, float accuracy, float headAccuracy,
         int maxCombo)
     {
         rankText.text = rank.ToString();
@@ -61,5 +64,11 @@ public class ResultUI : MainUI
         accuracyText.text = $"명중률\n{accuracy:N2}%";
         headAccuracyText.text = $"헤드 명중률\n{headAccuracy:N2}%";
         maxComboText.text = $"최대 콤보\n{maxCombo:D2} Combo";
+    }
+
+    private IEnumerator GameOver()
+    {
+        yield return UIManager.Instance.FadeEffect(0, 1, 2, true);
+        SceneManager.LoadScene(1);
     }
 }
