@@ -29,7 +29,7 @@ namespace DataDeclaration
         Player = 1,
         Weapon
     }
-    
+
     /// <summary>
     /// 스테이지 상태 정보
     /// </summary>
@@ -53,7 +53,7 @@ namespace DataDeclaration
         public TextMeshProUGUI timeCost;
         public Button rewardButton;
     }
-    
+
     [Serializable]
     public struct CharacterStat
     {
@@ -97,23 +97,19 @@ namespace DataDeclaration
         public void Update();
         public void PhysicsUpdate(); // 물리 중력
     }
-    
+
     //TODO: 사용X, 수정해야함
     /// <summary>
     /// ObjectPooling을 위한 Interface
     /// </summary>
     public interface IPoolable
-    {
-        /// <summary>
-        /// 리소스의 InstanceID
-        /// </summary>
-        public int ResourceInstanceID { get; set; }
+{
+    GameObject GameObject { get; }  // 게임 오브젝트
+    int ResourceInstanceID { get; } // 리소스의 고유 Instance ID
+    bool IsAutoReturn { get; }      // 자동 반환 여부
+    float ReturnTime { get; }       // 자동 반환 대기 시간
+}
 
-        /// <summary>
-        /// 리소스의 Prefab
-        /// </summary>
-        public GameObject GameObject { get; }
-    }
 
     #endregion
 

@@ -15,18 +15,22 @@ public class SoundManager : MonoBehaviour
     private AudioSource sfxSource;
 
     [Header("Settings")]
-    [Tooltip("배경음악 볼륨")]
+
+    [Tooltip("마스터 볼륨")]
     [Range(0f, 1f)]
-    public float backgroundMusicVol = 0.5f;
+    public float masterVol = 1f;
+
     [Tooltip("효과음 볼륨")]
     [Range(0f, 1f)]
     public float sfxVol = 0.5f;
+    
+    [Tooltip("배경음악 볼륨")]
+    [Range(0f, 1f)]
+    public float backgroundMusicVol = 0.5f;
 
     [Header("오디오 클립")]
     public AudioClip backgroundMusic;
-    public Dictionary<String, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
-
-
+    public Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
 
     private void Awake()
     {
@@ -40,26 +44,30 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Ensure the music and sfx sources are assigned
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();  // 효과음 소스
         if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();  // 배경음악 소스
-
-        sfxSource.volume = sfxVol;
-        musicSource.volume = backgroundMusicVol;
         musicSource.loop = true;
-    }
 
-    void Update()
-    {
-        sfxSource.volume = sfxVol;
-        musicSource.volume = backgroundMusicVol;
-    }
+        masterVol = PlayerPrefs.GetFloat("MasterVol", masterVol);
+        backgroundMusicVol = PlayerPrefs.GetFloat("MusicVol", backgroundMusicVol);
+        sfxVol = PlayerPrefs.GetFloat("SFXVol", sfxVol);
 
+        // 초기 볼륨 설정
+        SetMasterVolume(masterVol);
+        SetSFXVolume(sfxVol);
+        SetMusicVolume(backgroundMusicVol);
 
-    void Start()
-    {
         PlayBackgroundMusic(backgroundMusic);
     }
+
+    private void OnEnable()
+    {
+        // 슬라이더 값 초기화
+        SetMasterVolume(masterVol);
+        SetSFXVolume(sfxVol);
+        SetMusicVolume(backgroundMusicVol);
+    }
+
     #region 배경음악 관련
     void PlayBackgroundMusic(AudioClip music)
     {
@@ -69,23 +77,19 @@ public class SoundManager : MonoBehaviour
             musicSource.Play();
         }
     }
+
     public void PauseBackgroundMusic()
     {
-        //ToDo 음악멈추기
+        musicSource.Pause();
     }
 
     public void ResumeBackgroundMusic()
     {
-        //ToDo 음악다시켜기
+        musicSource.Play();
     }
     #endregion
 
     #region 효과음 관련
-    /// <summary>
-    /// 사운드 넣고 싶은거 넣으세요
-    /// </summary>
-    /// <param name="string"></param>
-    /// <param name="AudioClip"></param>
     public void AddSoundEffect(string soundName, AudioClip clip)
     {
         if (!soundEffects.ContainsKey(soundName))
@@ -94,11 +98,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 사운드 효과 재생
-    /// </summary>
-    /// <param name="string"></param>
-    /// 
     public void PlaySFX(string soundName)
     {
         if (soundEffects.TryGetValue(soundName, out AudioClip clip))
@@ -115,7 +114,6 @@ public class SoundManager : MonoBehaviour
                 soundEffects[soundName] = clip;
                 sfxSource.pitch = 1f;
                 sfxSource.PlayOneShot(clip, sfxVol);
-                Debug.Log("현재 pitch: " + sfxSource.pitch);
             }
             else
             {
@@ -123,39 +121,36 @@ public class SoundManager : MonoBehaviour
             }
         }
     }
-    /// <summary>
-    /// 클립 직접 넘겨서 재생
-    /// </summary>
     public void PlaySFX(AudioClip clip)
     {
         if (clip != null)
         {
             sfxSource.PlayOneShot(clip, sfxVol);
-            Debug.Log($"사운드 출력{clip.name}");
         }
     }
     #endregion
 
     #region 볼륨
-    /// <summary>
-    /// 효과음 볼륨
-    /// </summary>
-    /// <param name="float"></param>
+    public void SetMasterVolume(float volume)
+    {
+        masterVol = Mathf.Clamp(volume, 0f, 1f);
+        PlayerPrefs.SetFloat("MasterVol", masterVol);
+        sfxSource.volume = sfxVol * masterVol;
+        musicSource.volume = backgroundMusicVol * masterVol;
+    }
+
     public void SetSFXVolume(float volume)
     {
         sfxVol = Mathf.Clamp(volume, 0f, 1f);
-        sfxSource.volume = sfxVol;
+        PlayerPrefs.SetFloat("SFXVol", sfxVol);
+        sfxSource.volume = sfxVol * masterVol; // masterVol도 반영
     }
 
-    /// <summary>
-    /// 배경음악 볼륨
-    /// </summary>
-    /// <param name="volume"></param>
     public void SetMusicVolume(float volume)
     {
         backgroundMusicVol = Mathf.Clamp(volume, 0f, 1f);
-        musicSource.volume = backgroundMusicVol;
+        PlayerPrefs.SetFloat("MusicVol", backgroundMusicVol);
+        musicSource.volume = backgroundMusicVol * masterVol; // masterVol도 반영
     }
     #endregion
 }
-
