@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
 
         InitCamera();
-        InitWeapon(GameManager.Instance.selectedWeapon.ID);
+        InitWeapon(GameManager.Instance.selectedWeapon.ID);//테스트용 병합시 삭제
     }
 
     private void Start()
