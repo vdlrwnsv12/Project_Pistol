@@ -17,6 +17,6 @@ MonoBehaviour:
   Description: "\uBC38\uB7F0\uC2A4\uD615 \uCE90\uB9AD\uD130"
   RCL: 40
   HDL: 40
-  STP: 40
-  SPD: 40
+  STP: 51
+  SPD: 99
   Cost: 1500

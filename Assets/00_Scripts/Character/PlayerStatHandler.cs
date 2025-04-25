@@ -1,28 +1,48 @@
-using DataDeclaration;
 using UnityEngine;
 
 public class PlayerStatHandler
 {
-    private CharacterStat stat;
+    private float rcl;
+    private float hdl;
+    private float stp;
+    private float spd;
 
-    public CharacterStat Stat => stat;
+    private float finalRCL;
+
+    public float RCL
+    {
+        get => rcl;
+        private set => rcl = Mathf.Clamp(value, 0, 99);
+    }
+    public float HDL
+    {
+        get => hdl;
+        private set => hdl = Mathf.Clamp(value, 0, 99);
+    }
+    public float STP
+    {
+        get => stp;
+        private set => stp = Mathf.Clamp(value, 0, 99);
+    }
+    public float SPD
+    {
+        get => spd;
+        private set => spd = Mathf.Clamp(value, 0, 99);
+    }
 
     public PlayerStatHandler(Player player)
     {
-        stat = new CharacterStat
-        {
-            HDL = player.Data.HDL,
-            SPD = player.Data.SPD,
-            RCL = player.Data.RCL,
-            STP = player.Data.STP
-        };
+        RCL = player.Data.RCL;
+        HDL = player.Data.HDL;
+        STP = player.Data.STP;
+        SPD = player.Data.SPD;
     }
 
-    public void IncreaseStat(float rcl, float hdl, float stp, float spd)
+    public void IncreaseStat(float rclValue, float hdlValue, float stpValue, float spdValue)
     {
-        stat.RCL += rcl;
-        stat.HDL += hdl;
-        stat.STP += stp;
-        stat.SPD += spd;
+        RCL += rclValue;
+        HDL += hdlValue;
+        STP += stpValue;
+        SPD += spdValue;
     }
 }

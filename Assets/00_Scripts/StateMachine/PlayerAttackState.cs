@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerAttackState : PlayerBaseState
 {
@@ -16,7 +13,6 @@ public class PlayerAttackState : PlayerBaseState
         base.Enter();
         hasShot = false;
         StartAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
-
     }
 
     public override void Exit()
@@ -28,6 +24,7 @@ public class PlayerAttackState : PlayerBaseState
     public override void Update()
     {
         base.Update();
+        
         var animInfo = stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0);
 
         // 애니메이션이 일정 진행률에 도달하면 한 번만 총알 발사
@@ -36,7 +33,7 @@ public class PlayerAttackState : PlayerBaseState
             hasShot = true;
             Shoot();
         }
-        Debug.Log($"{animInfo.normalizedTime}");
+        
         // 애니메이션 종료 시 Idle 상태로 전환
         if (animInfo.IsName("Attack") && animInfo.normalizedTime >= 1)
         {
@@ -54,31 +51,15 @@ public class PlayerAttackState : PlayerBaseState
         }
     }
 
-  
-
-   
-    protected override void OnAttack(InputAction.CallbackContext context)
+    private void Shoot()
     {
-        //// Idle에서 처리
-        //if (stateMachine.MovementInput != Vector2.zero)
-        //{
-        //    stateMachine.ChangeState(stateMachine.WalkState);
-        //    return;
-        //}
-        //stateMachine.ChangeState(stateMachine.IdleState);
-
-    }
-
-    protected void Shoot()
-    {
-
-        Transform cam = stateMachine.MainCamTransform;
+        Transform cam = stateMachine.Player.transform;
         Ray ray = new Ray(cam.position, cam.forward);
         Debug.Log("슈팅");
-        if (stateMachine.Player.PlayerEquipment.weaponFireController != null && stateMachine.Player.PlayerEquipment.weaponFireController.isLocked)
+        if (stateMachine.Player.Weapon.Controller != null)
         {
             Debug.Log("if문 슈팅");
-            stateMachine.Player.PlayerEquipment.weaponFireController.FireWeapon();
+            stateMachine.Player.Weapon.Controller.Fire(stateMachine.IsAds);
         }
     }
 }

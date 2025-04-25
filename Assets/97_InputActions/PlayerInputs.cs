@@ -55,15 +55,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Aim"",
-                    ""type"": ""Button"",
-                    ""id"": ""52df09d7-6223-4828-a92f-f8ae5f89c40b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""8e5be247-0047-4e73-a747-f370b7841160"",
@@ -162,17 +153,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7645f7a3-c20f-4ffe-8341-eac0a8532bb6"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""5a853fb9-1670-4178-ac34-da4c8f70d74e"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
@@ -186,7 +166,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""25680b17-ce42-4ec1-95c5-f3592a3ca0cd"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Ads"",
@@ -203,7 +183,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_Ads = m_Player.FindAction("Ads", throwIfNotFound: true);
     }
@@ -270,7 +249,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_Ads;
     public struct PlayerActions
@@ -280,7 +258,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @Ads => m_Wrapper.m_Player_Ads;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -301,9 +278,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @Aim.started += instance.OnAim;
-            @Aim.performed += instance.OnAim;
-            @Aim.canceled += instance.OnAim;
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
@@ -323,9 +297,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @Aim.started -= instance.OnAim;
-            @Aim.performed -= instance.OnAim;
-            @Aim.canceled -= instance.OnAim;
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
@@ -354,7 +325,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnAim(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnAds(InputAction.CallbackContext context);
     }

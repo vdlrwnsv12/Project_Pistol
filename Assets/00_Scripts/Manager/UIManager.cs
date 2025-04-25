@@ -23,13 +23,6 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         InitMainCanvas();
         InitPopupCanvas();
         InitFader();
-        
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     #region Public Method
