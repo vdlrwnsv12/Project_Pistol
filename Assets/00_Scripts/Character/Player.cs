@@ -43,9 +43,10 @@ public class Player : MonoBehaviour
         Controller = GetComponent<PlayerController>();
         CharacterController = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
+        
+        InitWeapon(GameManager.Instance.selectedWeapon.ID);//테스트용 병합시 삭제
 
         InitCamera();
-        InitWeapon(GameManager.Instance.selectedWeapon.ID);//테스트용 병합시 삭제
     }
 
     private void Start()
