@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: C0003
   m_EditorClassIdentifier: 
   ID: C0003
-  Name: "\uB3CC\uC1E0"
+  Name: "\uC81C\uD50C\uB9B0"
   Description: "\uBC38\uB7F0\uC2A4\uD615 \uCE90\uB9AD\uD130"
   RCL: 40
   HDL: 40
-  STP: 51
-  SPD: 99
+  STP: 40
+  SPD: 40
   Cost: 1500
