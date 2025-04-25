@@ -53,7 +53,7 @@ public class StageManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        SpawnPlayer(GameManager.Instance.selectedWeapon);
+        SpawnPlayer(GameManager.Instance.respawnPoint.position);
         
         RewardSystem = new RewardSystem();
         hitTracker = new HitTracker();
@@ -99,10 +99,10 @@ public class StageManager : MonoBehaviour
     /// <summary>
     /// 캐릭터 생성
     /// </summary>
-    private void SpawnPlayer(WeaponSO selectedWeapon)
+    private void SpawnPlayer(Vector3 spawnPoint)
     {
         var resource = ResourceManager.Instance.Load<Player>("Prefabs/Character/Player");
-        Player = Instantiate(resource);
+        Player = Instantiate(resource, spawnPoint, Quaternion.identity);
     }
 
     private void InitHUDUI()

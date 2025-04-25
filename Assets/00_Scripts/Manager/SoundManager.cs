@@ -31,8 +31,9 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     public AudioClip backgroundMusic;
     public Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();  // 효과음 소스
         if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();  // 배경음악 소스
         musicSource.loop = true;
