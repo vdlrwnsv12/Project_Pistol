@@ -8,19 +8,19 @@ public class WeaponController : MonoBehaviour
     private int curAmmo;
     private float lastFireTime;
     [HideInInspector] public bool isReloading;
-    
+
     [SerializeField] private Transform barrelLocation;
     [SerializeField] private Transform casingExitLocation;
 
     private GameObject muzzleFlashPrefab;
     private GameObject casingPrefab;
     private GameObject bulletImpactPrefab;
-    
-    [Header("Settings")]
-    [SerializeField, Range(0f, 20f)]
-    private float spreadAngle = 10.5f;
+
     private float ejectPower = 150f;
-    
+
+    private PoolableResource impactPoolable;
+    private PoolableResource casePoolable;
+
     public int CurAmmo => curAmmo;
 
     private void Awake()
@@ -28,10 +28,13 @@ public class WeaponController : MonoBehaviour
         weapon = GetComponent<Weapon>();
 
         muzzleFlashPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/FX/MuzzleFlash");
-        casingPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/Props/45ACP Bullet_Casing");
+        casingPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/Props/Case");
         bulletImpactPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/FX/BulletHole");
-        
+
         isReloading = false;
+
+        impactPoolable = bulletImpactPrefab.GetComponent<PoolableResource>();
+        casePoolable = casingPrefab.GetComponent<PoolableResource>();
     }
 
     private void Start()
@@ -64,18 +67,19 @@ public class WeaponController : MonoBehaviour
             {
                 weapon.Anim.SetBool("OutOfAmmo", true);
             }
+
             ShootRay(isAds);
             EjectCasing();
             MuzzleFlash();
 
-            //TODO: 사격 사운드 출력
-            
+            SoundManager.Instance.PlaySFX(weapon.Data.name);
+
             curAmmo--;
         }
         else
         {
             // 탄창 없을 경우
-            //TODO: 탄 없는 사운드 출력
+            SoundManager.Instance.PlaySFX("EmptyTrigger");
         }
 
         lastFireTime = 0f;
@@ -85,27 +89,36 @@ public class WeaponController : MonoBehaviour
     {
         Vector3 shootDirection;
 
-        if (isAds)
-        {
-            shootDirection = barrelLocation.forward;
-        }
-        else
-        {
-            float randomYaw = Random.Range(-spreadAngle, spreadAngle);//탄퍼짐 범위
-            float randomPitch = Random.Range(-spreadAngle, spreadAngle);
-            Quaternion spreadRot = Quaternion.Euler(randomPitch, randomYaw, 0f);
-            shootDirection = spreadRot * barrelLocation.forward;
-        }
+        shootDirection = barrelLocation.forward;
 
         Ray ray = new Ray(barrelLocation.position, shootDirection);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            // 탄흔 처리: GetComponent 한 번만 호출
             if (bulletImpactPrefab)
             {
-                Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
-                GameObject impact = Instantiate(bulletImpactPrefab, hit.point, hitRotation);
-                impact.transform.SetParent(hit.collider.transform);
-                Destroy(impact, 5f);
+                if (impactPoolable != null)
+                {
+                    Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
+                    GameObject impact =
+                        ObjectPoolManager.Instance.GetObjectInPool(impactPoolable, hit.point, hitRotation);
+                    impact.transform.SetParent(hit.collider.transform);
+
+                    // AutoReturn 처리
+                    if (impactPoolable != null && impactPoolable.IsAutoReturn)
+                    {
+                        ObjectPoolManager.Instance.AutoReturnToPool(impact, impactPoolable.ReturnTime);
+                    }
+                }
+                else
+                {
+                    // fallback: 풀링 컴포넌트가 없으면 인스턴스화
+                    Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
+                    GameObject impact = Instantiate(bulletImpactPrefab, hit.point, hitRotation);
+                    impact.transform.SetParent(hit.collider.transform);
+                    Destroy(impact, 5f);
+                    Debug.LogWarning("PoolableResource가 없어 Instantiate 사용됨");
+                }
             }
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
@@ -120,17 +133,36 @@ public class WeaponController : MonoBehaviour
     {
         if (casingPrefab && casingExitLocation)
         {
-            GameObject casing = Instantiate(casingPrefab, casingExitLocation.position, casingExitLocation.rotation);
+            if (casePoolable == null)
+            {
+                Debug.LogWarning("PoolableResource 컴포넌트가 casingPrefab에 없습니다.");
+                return;
+            }
+
+            GameObject casing = ObjectPoolManager.Instance.GetObjectInPool(
+                casePoolable,
+                casingExitLocation.position,
+                casingExitLocation.rotation
+            );
+
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                //TODO: 이건 뭐지???
                 ejectPower = stat.Damage * 40f;
                 float power = ejectPower;
-                
+
                 rb.AddExplosionForce(Random.Range(power * 0.7f, power),
-                    casingExitLocation.position - casingExitLocation.right * 0.3f - casingExitLocation.up * 0.6f, 1f);
+                    casingExitLocation.position - casingExitLocation.right * 0.3f - casingExitLocation.up * 0.6f,
+                    1f);
+
                 rb.AddTorque(new Vector3(0, Random.Range(100, 500), Random.Range(100, 1000)), ForceMode.Impulse);
+            }
+
+            // 자동 반환 확인 후 삭제
+            var poolableInstance = casing.GetComponent<PoolableResource>();
+            if (poolableInstance != null && poolableInstance.IsAutoReturn)
+            {
+                ObjectPoolManager.Instance.AutoReturnToPool(casing, poolableInstance.ReturnTime);
             }
         }
     }
@@ -154,11 +186,11 @@ public class WeaponController : MonoBehaviour
         {
             return;
         }
-        
+
         curAmmo = 0;
         weapon.Anim.SetTrigger("Reload");
 
-        //SoundManager.Instance.PlaySFX(weaponStatHandler.reloadSound);
+        SoundManager.Instance.PlaySFX("Reload");
 
         StartCoroutine(ReloadCoroutine());
     }
@@ -169,9 +201,8 @@ public class WeaponController : MonoBehaviour
 
         weapon.Anim.SetBool("OutOfAmmo", false);
 
-        curAmmo = stat.MaxAmmo; 
+        curAmmo = stat.MaxAmmo;
     }
 
     #endregion
-    
 }

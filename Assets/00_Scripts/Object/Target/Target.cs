@@ -6,17 +6,21 @@ using System.Xml;
 public class Target : MonoBehaviour
 {
     [Header("타겟 데이터")]
-    public TargetSO data; // 프리팹에 직접 넣는 방식
-    public float currentHp;
-    public Animator anim;
-    public Text lvText;
+    [SerializeField]private TargetSO data; // 프리팹에 직접 넣는 방식
+    private float currentHp;
+    [SerializeField]private Animator anim;
+    [SerializeField]private Text lvText;
 
     [Header("시민일 경우 메테리얼")]
-    public Material civilianMaterial;
+    [SerializeField]private Material civilianMaterial;
 
     [Header("사운드")]
-    public AudioClip upSound;
-    public AudioClip downSound;
+    [SerializeField]private AudioClip upSound;
+    [SerializeField]private AudioClip downSound;
+
+    [Header("UI")]
+    [SerializeField]private Image hpBar;
+    [SerializeField]private GameObject targetUI;
 
     void Awake()
     {
@@ -30,7 +34,7 @@ public class Target : MonoBehaviour
             return;
         }
     }
-    void Start()
+    void Start()//데이터 종류 별 메테리얼 변경
     {
         anim = GetComponent<Animator>();
         if (data.Name == "Civilian")
@@ -51,13 +55,20 @@ public class Target : MonoBehaviour
         }
         currentHp = data.Hp;
         lvText.text = $"{data.Level}";
+
+        if(hpBar != null)
+        {
+            hpBar.fillAmount = 1f;
+        }
     }
 
     public void TakeDamage(float amount, Collider hitCollider)
     {
         if (currentHp <= 0) return;
 
-        if (hitCollider != null && hitCollider.name == "Head")
+        anim.SetTrigger("Hit");
+
+        if (data.Name != "Civilian" && hitCollider != null && hitCollider.name == "Head")
         {
             amount = Mathf.RoundToInt(amount * data.DamageRate * 1.2f);
             Debug.Log($"헤드샷 데미지: {amount}");
@@ -70,7 +81,9 @@ public class Target : MonoBehaviour
 
         float realDamage = Mathf.Min(amount, currentHp);
         currentHp -= realDamage;
-        Debug.Log($"표적이 받은 데미지: {realDamage}");
+        Debug.Log($"{data.Name} 받은 데미지: {realDamage}");
+
+        hpBar.fillAmount = currentHp / data.Hp;
 
         if (currentHp <= 0)
         {
@@ -91,6 +104,7 @@ public class Target : MonoBehaviour
 
     private void Die()
     {
+        Destroy(targetUI);
         anim.SetBool("Die", true);
         SoundManager.Instance.PlaySFX(downSound);
     }

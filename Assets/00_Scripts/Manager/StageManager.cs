@@ -103,7 +103,6 @@ public class StageManager : MonoBehaviour
     {
         var resource = ResourceManager.Instance.Load<Player>("Prefabs/Character/Player");
         Player = Instantiate(resource);
-        Player.InitWeapon(selectedWeapon.ID);
     }
 
     private void InitHUDUI()

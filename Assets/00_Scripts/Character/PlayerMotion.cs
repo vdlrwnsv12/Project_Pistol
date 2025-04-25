@@ -42,14 +42,12 @@ public class PlayerMotion : MonoBehaviour
     public void StartHeadBob()
     {
         float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);  // STP가 1일 때 0, 99일 때 1
-        Debug.Log($"플레이어 스텝:: { player.Stat.STP}");
         float inverseEffect = 1f - t;  // 반비례 효과
 
         Vector3 pos = Vector3.zero;
         pos.z += Mathf.Lerp(pos.z, Mathf.Sin(Time.time * frequency) * amount * inverseEffect, smooth * Time.deltaTime);
 
         rootCam.localPosition = pos;
-        Debug.Log(ArmTransform.localPosition);
     }
 
     /// <summary>
