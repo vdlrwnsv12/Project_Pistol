@@ -1265,6 +1265,7 @@ GameObject:
   - component: {fileID: 206073286042454194}
   - component: {fileID: 4779161430363384402}
   - component: {fileID: 1676739952266147800}
+  - component: {fileID: 2075133211311784907}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1386,8 +1387,6 @@ MonoBehaviour:
   speedMultiplier: 0.1
   <NonAdsCamera>k__BackingField: {fileID: 4035878995279097143}
   <AdsCamera>k__BackingField: {fileID: 799297409611457844}
-  <ArmTransform>k__BackingField: {fileID: 3897598372907226556}
-  <HandPos>k__BackingField: {fileID: 5298456330518740627}
 --- !u!114 &206073286042454194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1400,10 +1399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f687cbbac610bed4c917b8b31c390dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootCam: {fileID: 6893897067050054614}
-  amount: 0.246
-  frequency: 10
-  smooth: 10
 --- !u!114 &4779161430363384402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1431,6 +1426,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectRange: 4
   checkInterval: 0.5
+--- !u!114 &2075133211311784907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3531467753066918567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca1a8cfde5bd3c49a4ce715c7af846e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ArmTransform>k__BackingField: {fileID: 3897598372907226556}
+  <HandPos>k__BackingField: {fileID: 5298456330518740627}
+  rootCam: {fileID: 6893897067050054614}
+  amount: 0.005
+  frequency: 10
+  smooth: 10
 --- !u!1 &3812044873675645748
 GameObject:
   m_ObjectHideFlags: 0

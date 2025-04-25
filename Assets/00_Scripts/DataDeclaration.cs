@@ -13,6 +13,7 @@ namespace DataDeclaration
         Start,
         HUD,
         Result,
+        Lobby
     }
 
     public enum RankType
