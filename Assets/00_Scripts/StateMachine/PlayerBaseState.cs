@@ -109,7 +109,6 @@ public class PlayerBaseState : IState
     {
         Vector3 forward = stateMachine.Player.transform.forward;
         Vector3 right = stateMachine.Player.transform.right;
-
         forward.y = 0;
         right.y = 0;
         forward.Normalize();

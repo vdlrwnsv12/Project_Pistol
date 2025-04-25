@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     public PlayerAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerMotion Motion { get; private set; }
+    public TargetSensor TargetSensor { get; private set; }  
     [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
     #endregion
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
         Motion = GetComponent<PlayerMotion>();
+        TargetSensor = GetComponent<TargetSensor>();
 
         InitCamera();
     }
