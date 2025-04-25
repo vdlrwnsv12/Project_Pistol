@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddf62260f22764808ab90dbce4376bf6, type: 3}
-  m_Name: C0001
+  m_Script: {fileID: 11500000, guid: 68ebd0a7f55f34d46a82db2233f6e705, type: 3}
+  m_Name: R2001
   m_EditorClassIdentifier: 
-  ID: C0001
-  Name: "\uD398\uD37C"
-  Description: "\uC870\uC900 \uD2B9\uD654 \uCE90\uB9AD\uD130"
-  RCL: 55
-  HDL: 45
-  STP: 30
-  SPD: 30
-  Cost: 0
+  ID: R2001
+  Targets:
+  - T0001
+  - T0002
+  - T0004
+  - T0004

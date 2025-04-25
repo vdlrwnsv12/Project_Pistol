@@ -13,7 +13,7 @@ public class ItemSO : ScriptableObject
     public float STP;
     public float SPD;
     public float DMG;
-    public float ShootRecoil;
+    public string ShootRecoil;
     public int MaxAmmo;
     public int WeaponParts;
     public string AppearanceRate;
@@ -32,7 +32,7 @@ public class ItemData
     public float STP;
     public float SPD;
     public float DMG;
-    public float ShootRecoil;
+    public string ShootRecoil;
     public int MaxAmmo;
     public int WeaponParts;
     public string AppearanceRate;
