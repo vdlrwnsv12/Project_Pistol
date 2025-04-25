@@ -138,7 +138,7 @@ public class PlayerBaseState : IState
         stateMachine.RotationX = Mathf.Clamp(stateMachine.RotationX, -70f, 70f);
         Quaternion offsetRotation = Quaternion.Euler(-90f, 0f, 0f);
         
-        stateMachine.Player.ArmTransform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0) * offsetRotation;
+        stateMachine.Player.Motion.ArmTransform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0) * offsetRotation;
         
         stateMachine.Player.transform.Rotate(Vector3.up * stateMachine.MouseInput.x);
     }
