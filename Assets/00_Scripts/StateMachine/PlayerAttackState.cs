@@ -13,7 +13,6 @@ public class PlayerAttackState : PlayerBaseState
         base.Enter();
         hasShot = false;
         StartAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
-
     }
 
     public override void Exit()
@@ -25,6 +24,7 @@ public class PlayerAttackState : PlayerBaseState
     public override void Update()
     {
         base.Update();
+        
         var animInfo = stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0);
 
         // 애니메이션이 일정 진행률에 도달하면 한 번만 총알 발사
@@ -53,7 +53,7 @@ public class PlayerAttackState : PlayerBaseState
 
     private void Shoot()
     {
-        Transform cam = stateMachine.MainCamTransform;
+        Transform cam = stateMachine.Player.transform;
         Ray ray = new Ray(cam.position, cam.forward);
         Debug.Log("슈팅");
         if (stateMachine.Player.Weapon.Controller != null)

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,19 +30,16 @@ public class PlayerIdleState : PlayerGroundState
             return;
         }
     }
-
     
     protected override void OnAttack(InputAction.CallbackContext context)
     {
-        
         // 버튼이 눌리는 순간 실행
         stateMachine.ChangeState(stateMachine.AttackState);
     }
+    
     protected override void OnReload(InputAction.CallbackContext context)
     {
         base.OnReload(context);
         stateMachine.ChangeState(stateMachine.ReloadState);
     }
-
-    
 }

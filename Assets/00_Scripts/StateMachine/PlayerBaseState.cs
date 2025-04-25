@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using DataDeclaration;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
-    // protected readonly PlayerGroundData groundData;
 
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
@@ -26,7 +22,7 @@ public class PlayerBaseState : IState
 
     protected virtual void AddInputActionCallbacks()
     {
-        PlayerController input = stateMachine.Player.Input;
+        PlayerController input = stateMachine.Player.Controller;
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
@@ -35,7 +31,7 @@ public class PlayerBaseState : IState
     }
     protected virtual void RemoveInputActionCallbacks()
     {
-        PlayerController input = stateMachine.Player.Input;
+        PlayerController input = stateMachine.Player.Controller;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Look.canceled -= OnLookStarted;
         input.playerActions.Attack.started -= OnAttack;
@@ -65,7 +61,6 @@ public class PlayerBaseState : IState
     protected virtual void OnLookStarted(InputAction.CallbackContext context)
     {
         Vector2 lookDelta = context.ReadValue<Vector2>();
-        //stateMachine.Player.FpsCamera.UpdateRotate(lookDelta.x, lookDelta.y);
     }
 
     protected virtual void OnAttack(InputAction.CallbackContext context)
@@ -77,13 +72,12 @@ public class PlayerBaseState : IState
     {
 
     }
-    
-    // TO DO HandleAds
+
     protected virtual void OnAds(InputAction.CallbackContext context)
     {
-        var isActive = stateMachine.Player.nonAds.gameObject.activeSelf;
-        stateMachine.Player.nonAds.gameObject.SetActive(!isActive);
-        stateMachine.Player.ads.gameObject.SetActive(isActive);
+        stateMachine.IsAds = !stateMachine.IsAds;
+        stateMachine.Player.AdsCamera.gameObject.SetActive(stateMachine.IsAds);
+        stateMachine.Player.NonAdsCamera.gameObject.SetActive(!stateMachine.IsAds);
     }
     protected void StartAnimation(int animatorHash)
     {
@@ -98,23 +92,23 @@ public class PlayerBaseState : IState
 
     private void ReadMovementInput()
     {
-        stateMachine.MovementInput = stateMachine.Player.Input.playerActions.Movement.ReadValue<Vector2>();
-
+        stateMachine.MovementInput = stateMachine.Player.Controller.playerActions.Movement.ReadValue<Vector2>();
+        stateMachine.MouseInput = stateMachine.Player.Controller.playerActions.Look.ReadValue<Vector2>();
     }
-    // 움직임 로직
 
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
-        //CameraRotate();
-        Move(movementDirection);
+        float movementSpeed = GetMovementSpeed();
+        stateMachine.Player.CharacterController.Move(((movementDirection * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
+        
+        RotateView();
     }
-
-
+    
     private Vector3 GetMovementDirection()
     {
-        Vector3 forward = stateMachine.MainCamTransform.forward; // 메인 카메라와 캐릭터가 바라보는 방향 같게 만들어줌
-        Vector3 right = stateMachine.MainCamTransform.right;
+        Vector3 forward = stateMachine.Player.transform.forward;
+        Vector3 right = stateMachine.Player.transform.right;
 
         forward.y = 0;
         right.y = 0;
@@ -124,21 +118,28 @@ public class PlayerBaseState : IState
         return forward * stateMachine.MovementInput.y + right * stateMachine.MovementInput.x;
     }
 
-    private void Move(Vector3 direction)
-    {
-        float movementSpeed = GetMovementSpeed();
-        stateMachine.Player.Controller.Move(((direction * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
-    }
-
     private float GetMovementSpeed()
     {
-        float baseSpeed = stateMachine.Player.StatHandler.Stat.SPD * stateMachine.Player.speedMultiplier;
+        float baseSpeed = stateMachine.Player.Stat.SPD * stateMachine.Player.speedMultiplier;
         float finalSpeed = baseSpeed;
 
-        if (stateMachine.Player.Weapon.Stat != null && stateMachine.IsAds)
+        if (stateMachine.IsAds)
         {
             finalSpeed *= stateMachine.Player.adsSpeedMultiplier;  // 조준 중일 때 속도 감소
         }
         return finalSpeed;
+    }
+
+    private void RotateView()
+    {
+        float sensitivity = 1f;
+
+        stateMachine.RotationX -= stateMachine.MouseInput.y * sensitivity;
+        stateMachine.RotationX = Mathf.Clamp(stateMachine.RotationX, -70f, 70f);
+        Quaternion offsetRotation = Quaternion.Euler(-90f, 0f, 0f);
+        
+        stateMachine.Player.ArmTransform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0) * offsetRotation;
+        
+        stateMachine.Player.transform.Rotate(Vector3.up * stateMachine.MouseInput.x);
     }
 }
