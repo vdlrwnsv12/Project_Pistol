@@ -63,11 +63,6 @@ public class Player : MonoBehaviour
             Controller.StartHeadBob();
         }
         Controller.WeaponShake();
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            ApplyRecoil(Stat.RCL);
-        }
     }
 
     private void FixedUpdate()
