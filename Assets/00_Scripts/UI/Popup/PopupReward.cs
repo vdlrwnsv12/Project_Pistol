@@ -42,7 +42,7 @@ public class PopupReward : PopupUI
             rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
             rewardCards[i].rewardButton.onClick.RemoveAllListeners();
             var item = itemRewards[i];
-            
+
             //TODO: 아이템 선택 시 실행할 로직 넣기
             // if (itemRewards[i].ApplicationTarget == (int)ItemApplyType.Player)
             // {
@@ -55,6 +55,16 @@ public class PopupReward : PopupUI
             //     rewardCards[i].rewardButton.onClick.AddListener(() => StageManager.Player.Equipment.WeaponStatHandler);
             // }
             rewardCards[i].rewardButton.onClick.AddListener(CloseUI);
+        }
+    }
+
+    protected override void CloseUI()
+    {
+        base.CloseUI();
+        if (StageManager.Instance.Player.Controller != null && StageManager.Instance.Player.Controller.isActiveAndEnabled)
+        {
+            UIManager.ToggleMouseCursor(false);
+            StageManager.Instance.PauseGame(false);
         }
     }
 }

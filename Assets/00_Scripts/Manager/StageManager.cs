@@ -29,16 +29,18 @@ public class StageManager : MonoBehaviour
     }
 
     #endregion
-    
+
+    private bool isGamePause;
+
     public Player Player { get; private set; }
-    
+
     public int CurStageIndex { get; set; }
     public int CurRoomIndex { get; set; }
-    
+
     private StageLoader roomLoader;
-    
+
     public RewardSystem RewardSystem { get; private set; }
-    private HitTracker hitTracker;
+    public HitTracker HitTracker { get; private set; }
 
     private HUDUI hudUI;
 
@@ -54,28 +56,34 @@ public class StageManager : MonoBehaviour
         }
 
         SpawnPlayer(GameManager.Instance.respawnPoint.position);
-        
+
         RewardSystem = new RewardSystem();
-        hitTracker = new HitTracker();
+        HitTracker = new HitTracker();
+
+        isGamePause = false;
     }
 
     private void Start()
     {
         UIManager.ToggleMouseCursor(false);
-        
+
         InitHUDUI();
     }
 
     private void Update()
     {
-        hitTracker.RemainTime -= Time.deltaTime;
-        
-        if (hudUI != null)
+        if (!isGamePause)
         {
-            hudUI.UpdateRealTimeChanges(hitTracker.GameScore, hitTracker.RemainTime, Player.Weapon.CurAmmo, Player.Weapon.MaxAmmo);
+            HitTracker.RemainTime -= Time.deltaTime;
         }
 
-        if (hitTracker.RemainTime <= 0)
+        if (hudUI != null)
+        {
+            hudUI.UpdateRealTimeChanges(HitTracker.GameScore, HitTracker.RemainTime, Player.Weapon.CurAmmo,
+                Player.Weapon.MaxAmmo);
+        }
+
+        if (HitTracker.RemainTime <= 0)
         {
             GameOver();
         }
@@ -84,15 +92,16 @@ public class StageManager : MonoBehaviour
     private void GameOver()
     {
         UIManager.ToggleMouseCursor(true);
-        
+
         UIManager.Instance.InitUI<ResultUI>();
         UIManager.Instance.ChangeMainUI(MainUIType.Result);
         var resultUI = UIManager.Instance.CurMainUI as ResultUI;
         if (resultUI != null)
         {
-            resultUI.SetResultValue(hitTracker.Rank, hitTracker.GameScore, hitTracker.RemainTime, hitTracker.ShotAccuracy, hitTracker.HeadShotAccuracy, hitTracker.MaxDestroyTargetCombo);
+            resultUI.SetResultValue(HitTracker.Rank, HitTracker.GameScore, HitTracker.RemainTime,
+                HitTracker.ShotAccuracy, HitTracker.HeadShotAccuracy, HitTracker.MaxDestroyTargetCombo);
         }
-        
+
         Player.Controller.enabled = false;
     }
 
@@ -116,6 +125,15 @@ public class StageManager : MonoBehaviour
             //hudUI.SetEquipImage();
             hudUI.UpdateStageInfo(CurStageIndex, CurRoomIndex);
             hudUI.UpdateStatValue(Player.Stat.RCL, Player.Stat.HDL, Player.Stat.STP, Player.Stat.SPD);
+        }
+    }
+
+    public void PauseGame(bool isPause)
+    {
+        isGamePause = isPause;
+        if (Player.Controller != null)
+        {
+            Player.Controller.enabled = !isGamePause;
         }
     }
 }
