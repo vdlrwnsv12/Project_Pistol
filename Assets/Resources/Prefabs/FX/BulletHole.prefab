@@ -9506,8 +9506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa765892725d94639a20f6ef8538c2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsAutoReturn>k__BackingField: 1
-  <ReturnTime>k__BackingField: 6
+  poolKey: bullethole
+  isAutoReturn: 1
+  returnTime: 5
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

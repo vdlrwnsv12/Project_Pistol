@@ -68,7 +68,7 @@ public class Target : MonoBehaviour
 
         anim.SetTrigger("Hit");
 
-        if (data.name != "Civilian" && hitCollider != null && hitCollider.name == "Head")
+        if (data.Name != "Civilian" && hitCollider != null && hitCollider.name == "Head")
         {
             amount = Mathf.RoundToInt(amount * data.DamageRate * 1.2f);
             Debug.Log($"헤드샷 데미지: {amount}");
@@ -81,7 +81,7 @@ public class Target : MonoBehaviour
 
         float realDamage = Mathf.Min(amount, currentHp);
         currentHp -= realDamage;
-        Debug.Log($"표적이 받은 데미지: {realDamage}");
+        Debug.Log($"{data.Name} 받은 데미지: {realDamage}");
 
         hpBar.fillAmount = currentHp / data.Hp;
 

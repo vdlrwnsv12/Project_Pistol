@@ -17,7 +17,7 @@ namespace DoorScript
         [SerializeField] private AudioClip closeClip;
 
         [Header("스테이지 연동")]
-        [SerializeField] private  RoomLoader roomLoader;
+        [SerializeField] private StageLoader stageLoader;
 
         [Header("동작 선택")]
         [SerializeField] private bool isRewardRoom = false;
@@ -40,36 +40,36 @@ namespace DoorScript
         {
             audioSource = GetComponent<AudioSource>();
 
-            if (roomLoader == null)
+            if (stageLoader == null)
             {
-                roomLoader = FindObjectOfType<RoomLoader>();
+                stageLoader = FindObjectOfType<StageLoader>();
             }
         }
 
         private void Update()
         {
-            RotateDoor();
-
-            if (open && !stageHandled && roomLoader != null)
-            {
-                if (isNext)
-                {
-                    roomLoader.LoadNextRoom();
-                }
-
-                if (isRemove)
-                {
-                    roomLoader.RemovePrevRoom();
-                }
-
-                // 보상 UI 표시
-                if (isRewardRoom)
-                {
-                    ShowRewardUI();
-                }
-
-                stageHandled = true;
-            }
+            // RotateDoor();
+            //
+            // if (open && !stageHandled && stageLoader != null)
+            // {
+            //     if (isNext)
+            //     {
+            //         stageLoader.LoadNextStage();
+            //     }
+            //
+            //     if (isRemove)
+            //     {
+            //         stageLoader.RemovePreviousStage();
+            //     }
+            //
+            //     // 보상 UI 표시
+            //     if (isRewardRoom)
+            //     {
+            //         ShowRewardUI();
+            //     }
+            //
+            //     stageHandled = true;
+            // }
         }
 
 

@@ -41,12 +41,10 @@ public class PlayerAttackState : PlayerBaseState
             if (stateMachine.MovementInput != Vector2.zero)
             {
                 stateMachine.ChangeState(stateMachine.WalkState);
-                Debug.Log("walk 전환");
             }
             else
             {
                 stateMachine.ChangeState(stateMachine.IdleState);
-                Debug.Log("idle전환");
             }
         }
     }
@@ -55,10 +53,8 @@ public class PlayerAttackState : PlayerBaseState
     {
         Transform cam = stateMachine.Player.transform;
         Ray ray = new Ray(cam.position, cam.forward);
-        Debug.Log("슈팅");
         if (stateMachine.Player.Weapon.Controller != null)
         {
-            Debug.Log("if문 슈팅");
             stateMachine.Player.Weapon.Controller.Fire(stateMachine.IsAds);
         }
     }

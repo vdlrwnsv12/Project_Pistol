@@ -17,4 +17,5 @@ MonoBehaviour:
   - T0001
   - T0002
   - T0004
-  - T0004
+  ActiveTartgetPos: 010000000200000003000000
+  ActiveWallPos: 00000000
