@@ -7,6 +7,6 @@ public class ShootingRoom : Room
 
     private void OnTriggerExit(Collider other)
     {
-        StageManager.Instance.HitTracker.RemainTime += 20f;
+        StageManager.Instance.RemainTime += 20f;
     }
 }

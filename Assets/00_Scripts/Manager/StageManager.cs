@@ -1,3 +1,4 @@
+using System;
 using DataDeclaration;
 using UnityEngine;
 
@@ -31,6 +32,14 @@ public class StageManager : MonoBehaviour
     #endregion
 
     private bool isGamePause;
+    private float remainTime;
+    
+    private int headHitCount = 0;
+    
+    private int destroyTargetCombo = 0;
+    private int maxDestroyTargetCombo = 0;
+    private float quickShotTimer;
+    private const float QUICK_SHOT_TIME = 2f;
 
     public Player Player { get; private set; }
 
@@ -38,9 +47,45 @@ public class StageManager : MonoBehaviour
     public int CurRoomIndex { get; set; }
 
     private StageLoader roomLoader;
+    
+    public int GameScore { get; set; }
+    public float RemainTime
+    {
+        get => Math.Max(0f, remainTime);
+        set => remainTime = value;
+    }
+    
+    public int MaxDestroyTargetCombo => maxDestroyTargetCombo;
+    public bool IsQuickShot { get; set; }
+    public float QuickShotTimer => quickShotTimer;
+    public int ShotCount { get; set; }
+    public int HitCount { get; set; }
 
-    public RewardSystem RewardSystem { get; private set; }
-    public HitTracker HitTracker { get; private set; }
+    public float ShotAccuracy
+    {
+        get
+        {
+            if (ShotCount == 0)
+            {
+                return 0;
+            }
+
+            return (float)HitCount / (float)ShotCount * 100f;
+        }
+    }
+
+    public float HeadShotAccuracy
+    {
+        get
+        {
+            if (HitCount == 0)
+            {
+                return 0;
+            }
+
+            return (float)headHitCount / (float)HitCount * 100f;
+        }
+    }
 
     private HUDUI hudUI;
 
@@ -57,10 +102,9 @@ public class StageManager : MonoBehaviour
 
         SpawnPlayer(GameManager.Instance.respawnPoint.position);
 
-        RewardSystem = new RewardSystem();
-        HitTracker = new HitTracker();
-
         isGamePause = false;
+        RemainTime = 20f;
+        IsQuickShot = false;
     }
 
     private void Start()
@@ -74,16 +118,26 @@ public class StageManager : MonoBehaviour
     {
         if (!isGamePause)
         {
-            HitTracker.RemainTime -= Time.deltaTime;
+            remainTime -= Time.deltaTime;
+        }
+
+        if (IsQuickShot)
+        {
+            quickShotTimer += Time.deltaTime;
+            if (quickShotTimer >= QUICK_SHOT_TIME)
+            {
+                quickShotTimer = 0f;
+                IsQuickShot = false;
+            }
         }
 
         if (hudUI != null)
         {
-            hudUI.UpdateRealTimeChanges(HitTracker.GameScore, HitTracker.RemainTime, Player.Weapon.CurAmmo,
+            hudUI.UpdateRealTimeChanges(GameScore, RemainTime, Player.Weapon.CurAmmo,
                 Player.Weapon.MaxAmmo);
         }
 
-        if (HitTracker.RemainTime <= 0)
+        if (remainTime <= 0)
         {
             GameOver();
         }
@@ -98,8 +152,8 @@ public class StageManager : MonoBehaviour
         var resultUI = UIManager.Instance.CurMainUI as ResultUI;
         if (resultUI != null)
         {
-            resultUI.SetResultValue(HitTracker.Rank, HitTracker.GameScore, HitTracker.RemainTime,
-                HitTracker.ShotAccuracy, HitTracker.HeadShotAccuracy, HitTracker.MaxDestroyTargetCombo);
+            resultUI.SetResultValue(GameScore, RemainTime,
+                ShotAccuracy, HeadShotAccuracy, MaxDestroyTargetCombo);
         }
 
         Player.Controller.enabled = false;
