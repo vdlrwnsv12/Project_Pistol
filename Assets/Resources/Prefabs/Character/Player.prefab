@@ -1441,7 +1441,7 @@ MonoBehaviour:
   <ArmTransform>k__BackingField: {fileID: 3897598372907226556}
   <HandPos>k__BackingField: {fileID: 5298456330518740627}
   rootCam: {fileID: 6893897067050054614}
-  amount: 0.005
+  amount: 0.0001
   frequency: 10
   smooth: 10
 --- !u!1 &3812044873675645748

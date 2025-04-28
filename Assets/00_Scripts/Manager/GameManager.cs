@@ -10,11 +10,11 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
     
     private void Update()
     {
-        //TODO: InputAction으로 변경
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ToggleGameState();
-        }
+        // //TODO: InputAction으로 변경
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     ToggleGameState();
+        // }
     }
 
 
