@@ -53,14 +53,8 @@ public class Player : MonoBehaviour
         StateMachine.HandleInput();
         StateMachine.Update();
 
-        if (StateMachine.MovementInput.magnitude > 0)
-        {
-            Motion.StartHeadBob();
-            Motion.StartHeadBob();
-        }
         Motion.WeaponShake();
     }
-
     private void FixedUpdate()
     {
         StateMachine.PhysicsUpdate();
