@@ -4,8 +4,15 @@
     "Targets": [
       "T0001",
       "T0002",
-      "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3
+    ],
+    "ActiveWallPos": [
+      0
     ]
   },
   {
@@ -13,8 +20,15 @@
     "Targets": [
       "T0001",
       "T0002",
-      "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3
+    ],
+    "ActiveWallPos": [
+      0
     ]
   },
   {
@@ -24,6 +38,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      0
     ]
   },
   {
@@ -33,6 +56,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      0
     ]
   },
   {
@@ -42,6 +74,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      0
     ]
   },
   {
@@ -51,6 +92,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1
     ]
   },
   {
@@ -60,6 +110,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      4,
+      7
+    ],
+    "ActiveWallPos": [
+      1
     ]
   },
   {
@@ -69,6 +128,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1
     ]
   },
   {
@@ -78,6 +146,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1
     ]
   },
   {
@@ -87,6 +164,15 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1
     ]
   },
   {
@@ -96,6 +182,16 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1,
+      2
     ]
   },
   {
@@ -105,6 +201,16 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1,
+      2
     ]
   },
   {
@@ -114,6 +220,16 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1,
+      2
     ]
   },
   {
@@ -123,6 +239,16 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1,
+      2
     ]
   },
   {
@@ -132,6 +258,16 @@
       "T0002",
       "T0004",
       "T0004"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "ActiveWallPos": [
+      1,
+      2
     ]
   }
 ]}
