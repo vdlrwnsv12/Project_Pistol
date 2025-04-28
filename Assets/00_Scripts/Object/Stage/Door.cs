@@ -48,28 +48,28 @@ namespace DoorScript
 
         private void Update()
         {
-            RotateDoor();
-
-            if (open && !stageHandled && stageLoader != null)
-            {
-                if (isNext)
-                {
-                    stageLoader.LoadNextStage();
-                }
-
-                if (isRemove)
-                {
-                    stageLoader.RemovePreviousStage();
-                }
-
-                // 보상 UI 표시
-                if (isRewardRoom)
-                {
-                    ShowRewardUI();
-                }
-
-                stageHandled = true;
-            }
+            // RotateDoor();
+            //
+            // if (open && !stageHandled && stageLoader != null)
+            // {
+            //     if (isNext)
+            //     {
+            //         stageLoader.LoadNextStage();
+            //     }
+            //
+            //     if (isRemove)
+            //     {
+            //         stageLoader.RemovePreviousStage();
+            //     }
+            //
+            //     // 보상 UI 표시
+            //     if (isRewardRoom)
+            //     {
+            //         ShowRewardUI();
+            //     }
+            //
+            //     stageHandled = true;
+            // }
         }
 
 

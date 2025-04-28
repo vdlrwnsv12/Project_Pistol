@@ -1,91 +1,111 @@
-using System.Collections.Generic;
 using System.Collections;
-using DataDeclaration;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 사용법
-/// 1. `GetObjectInPool`로 풀에서 오브젝트 꺼내옴
-///    - `IPoolable` 인터페이스 있는 애들만 관리됨
-///    - 위치 회전 부모 설정 가능
-/// 2. `ReturnObjectToPool`로 객체 풀에 반환함
-///    - 반환된 객체는 비활성화되고 나중에 재사용됨
-/// 3. `AutoReturnToPool`은 일정 시간 후 자동으로 객체 반환해줌
-///    - 정해진 시간 지나면 자동 반환됨
-///
-/// 예시
-/// 1. 객체 꺼내는 법
-///    GameObject pooledObject = ObjectPoolManager.Instance.GetObjectInPool(resource position rotation);
-///
-/// 2. 객체 반환하는 법
-///    ObjectPoolManager.Instance.ReturnObjectToPool(pooledObject);
-///    ObjectPoolManager.Instance.AutoReturnToPool(pooledObject, impactPoolable.ReturnTime);
+/// 풀링할 프리펩에 PoolableResource 붙이기
+/// 오브젝트 가져오기 예)ObjectPoolManager.Instance.GetObjectInPool(prefab.GetComponent<PoolableResource>(), 생성 위치, 생성 회전);
+/// 오브젝트 반환 예) ObjectPoolManager.Instance.ReturnToPool(사용이 끝난 오브젝트); or ''.Instance.AutoReturnToPool(사용이 끝난 오브젝트); 
+/// CreateNewPool()로 미리 풀 생성 가능.
 /// </summary>
-
 public sealed class ObjectPoolManager : SingletonBehaviour<ObjectPoolManager>
 {
-    private readonly Dictionary<int, Queue<GameObject>> pools = new();
-
-    public GameObject GetObjectInPool(IPoolable resource, Vector3 position, Quaternion rotation, Transform parent = null)
+    private class PoolData
     {
-        GameObject instance;
-        var key = resource.ResourceInstanceID;
+        public Queue<GameObject> PoolQueue;
+        public int MaxSize;
+        public PoolableResource Prefab;
+    }
 
-        if (pools.TryGetValue(key, out var queue) && queue.Count > 0)
+    private Dictionary<string, PoolData> poolDictionary = new Dictionary<string, PoolData>();
+
+    public GameObject GetObjectInPool(PoolableResource prefab, Vector3 position, Quaternion rotation)
+    {
+        if (!poolDictionary.ContainsKey(prefab.poolKey))
         {
-            instance = queue.Dequeue();
+            CreateNewPool(prefab, 5, 30);
+        }
+
+        var poolData = poolDictionary[prefab.poolKey];
+        var pool = poolData.PoolQueue;
+
+        GameObject obj;
+        if (pool.Count > 0)
+        {
+            obj = pool.Dequeue();
         }
         else
         {
-            instance = Instantiate(resource.GameObject);
+            if (poolData.PoolQueue.Count + 1 <= poolData.MaxSize)
+            {
+                obj = Instantiate(poolData.Prefab.gameObject);
+                obj.GetComponent<PoolableResource>().poolKey = prefab.poolKey; // 복제본도 키 설정
+            }
+            else
+            {
+                Debug.LogWarning($"Pool for {prefab.poolKey} has reached max size ({poolData.MaxSize}).");
+                return null;
+            }
         }
 
-        instance.transform.SetParent(parent ? parent : null);
-        instance.transform.SetPositionAndRotation(position, rotation);
-        instance.SetActive(true);
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
+        obj.SetActive(true);
 
-        // 인스턴스에서 Poolable 컴포넌트 꺼내서 적용
-        var poolable = instance.GetComponent<IPoolable>();
-        if (poolable != null && poolable.IsAutoReturn)
-        {
-            StartCoroutine(AutoReturn(instance, poolable.ReturnTime));
-        }
-
-        return instance;
+        return obj;
     }
 
-    private IEnumerator AutoReturn(GameObject obj, float delay)
+    public void ReturnToPool(GameObject obj)
     {
-        yield return new WaitForSeconds(delay);
-        if (obj != null && obj.activeInHierarchy)
-        {
-            ReturnObjectToPool(obj);
-        }
-    }
-
-    public void ReturnObjectToPool(GameObject instance)
-    {
-        var poolable = instance.GetComponent<IPoolable>();
+        var poolable = obj.GetComponent<PoolableResource>();
         if (poolable == null)
         {
-            Debug.LogWarning($"[ObjectPoolManager] 반환 실패: IPoolable이 없음");
+            Destroy(obj);
             return;
         }
 
-        int key = poolable.ResourceInstanceID;
-        if (!pools.TryGetValue(key, out var queue))
+        if (!poolDictionary.ContainsKey(poolable.poolKey))
         {
-            queue = new Queue<GameObject>();
-            pools[key] = queue;
+            Destroy(obj);
+            Debug.LogWarning($"No pool found for {poolable.poolKey}. Object destroyed.");
+            return;
         }
 
-        instance.SetActive(false);
-        instance.transform.SetParent(transform);
-        queue.Enqueue(instance);
+        obj.SetActive(false);
+        poolDictionary[poolable.poolKey].PoolQueue.Enqueue(obj);
     }
 
-    public void AutoReturnToPool(GameObject obj, float delay)
+    public void AutoReturnToPool(GameObject obj, float returnTime)
     {
-        StartCoroutine(AutoReturn(obj, delay));
+        StartCoroutine(ReturnAfterSeconds(obj, returnTime));
+    }
+
+    private IEnumerator ReturnAfterSeconds(GameObject obj, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        ReturnToPool(obj);
+    }
+
+    public void CreateNewPool(PoolableResource prefab, int initialSize, int maxSize)
+    {
+        if (poolDictionary.ContainsKey(prefab.poolKey))
+            return;
+
+        var newPool = new PoolData
+        {
+            PoolQueue = new Queue<GameObject>(),
+            MaxSize = maxSize,
+            Prefab = prefab
+        };
+
+        for (int i = 0; i < initialSize; i++)
+        {
+            GameObject obj = Instantiate(prefab.gameObject);
+            obj.SetActive(false);
+            obj.GetComponent<PoolableResource>().poolKey = prefab.poolKey;
+            newPool.PoolQueue.Enqueue(obj);
+        }
+
+        poolDictionary.Add(prefab.poolKey, newPool);
     }
 }

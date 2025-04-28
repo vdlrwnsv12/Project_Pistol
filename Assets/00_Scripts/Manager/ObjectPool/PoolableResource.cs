@@ -1,11 +1,13 @@
-using DataDeclaration;
 using UnityEngine;
 
-public class PoolableResource : MonoBehaviour, IPoolable
+/// <summary>
+/// PoolKey = 프리페별 고유한 이름 설정
+/// isAutoReturn 자동 반환 할지 안할지
+/// returnTime =  반환 시간
+/// </summary>
+public class PoolableResource : MonoBehaviour
 {
-    [field: SerializeField] public bool IsAutoReturn { get; private set; } = true;
-    [field: SerializeField] public float ReturnTime { get; private set; } = 5f;
-
-    public GameObject GameObject => gameObject;
-    public int ResourceInstanceID => gameObject.GetInstanceID();
+    public string poolKey;  // 풀 키 이름 지정
+    public bool isAutoReturn = true;
+    public float returnTime = 5f;
 }

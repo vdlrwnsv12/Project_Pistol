@@ -16,9 +16,6 @@ public class WeaponController : MonoBehaviour
     private GameObject casingPrefab;
     private GameObject bulletImpactPrefab;
 
-    [Header("Settings")]
-    [SerializeField, Range(0f, 20f)]
-    private float spreadAngle = 10.5f;
     private float ejectPower = 150f;
 
     private PoolableResource impactPoolable;
@@ -70,6 +67,7 @@ public class WeaponController : MonoBehaviour
             {
                 weapon.Anim.SetBool("OutOfAmmo", true);
             }
+
             ShootRay(isAds);
             EjectCasing();
             MuzzleFlash();
@@ -91,17 +89,7 @@ public class WeaponController : MonoBehaviour
     {
         Vector3 shootDirection;
 
-        if (isAds)
-        {
-            shootDirection = barrelLocation.forward;
-        }
-        else
-        {
-            float randomYaw = Random.Range(-spreadAngle, spreadAngle); // 탄퍼짐
-            float randomPitch = Random.Range(-spreadAngle, spreadAngle);
-            Quaternion spreadRot = Quaternion.Euler(randomPitch, randomYaw, 0f);
-            shootDirection = spreadRot * barrelLocation.forward;
-        }
+        shootDirection = barrelLocation.forward;
 
         Ray ray = new Ray(barrelLocation.position, shootDirection);
         if (Physics.Raycast(ray, out RaycastHit hit))
@@ -112,13 +100,14 @@ public class WeaponController : MonoBehaviour
                 if (impactPoolable != null)
                 {
                     Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
-                    GameObject impact = ObjectPoolManager.Instance.GetObjectInPool(impactPoolable, hit.point, hitRotation);
+                    GameObject impact =
+                        ObjectPoolManager.Instance.GetObjectInPool(impactPoolable, hit.point, hitRotation);
                     impact.transform.SetParent(hit.collider.transform);
 
                     // AutoReturn 처리
-                    if (impactPoolable != null && impactPoolable.IsAutoReturn)
+                    if (impactPoolable != null && impactPoolable.isAutoReturn)
                     {
-                        ObjectPoolManager.Instance.AutoReturnToPool(impact, impactPoolable.ReturnTime);
+                        ObjectPoolManager.Instance.AutoReturnToPool(impact, impactPoolable.returnTime);
                     }
                 }
                 else
@@ -144,7 +133,6 @@ public class WeaponController : MonoBehaviour
     {
         if (casingPrefab && casingExitLocation)
         {
-            
             if (casePoolable == null)
             {
                 Debug.LogWarning("PoolableResource 컴포넌트가 casingPrefab에 없습니다.");
@@ -172,9 +160,9 @@ public class WeaponController : MonoBehaviour
 
             // 자동 반환 확인 후 삭제
             var poolableInstance = casing.GetComponent<PoolableResource>();
-            if (poolableInstance != null && poolableInstance.IsAutoReturn)
+            if (poolableInstance != null && poolableInstance.isAutoReturn)
             {
-                ObjectPoolManager.Instance.AutoReturnToPool(casing, poolableInstance.ReturnTime);
+                ObjectPoolManager.Instance.AutoReturnToPool(casing, poolableInstance.returnTime);
             }
         }
     }
@@ -217,5 +205,4 @@ public class WeaponController : MonoBehaviour
     }
 
     #endregion
-
 }

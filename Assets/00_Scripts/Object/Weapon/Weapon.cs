@@ -26,6 +26,5 @@ public class Weapon : MonoBehaviour
         Controller = GetComponent<WeaponController>();
 
         Anim = GetComponent<Animator>();
-
     }
 }

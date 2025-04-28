@@ -23,6 +23,13 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         InitMainCanvas();
         InitPopupCanvas();
         InitFader();
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     #region Public Method
@@ -176,6 +183,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     public static void ToggleMouseCursor(bool isActivation)
     {
         Cursor.lockState = isActivation ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = isActivation;
     }
 
     /// <summary>
@@ -184,7 +192,8 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// <param name="startAlpha">시작 알파값</param>
     /// <param name="endAlpha">최종 알파값</param>
     /// <param name="duration">지속 시간</param>
-    public IEnumerator FadeEffect(float startAlpha, float endAlpha, float duration)
+    /// <param name="isReset">알파값 0 초기화 여부</param>
+    public IEnumerator FadeEffect(float startAlpha, float endAlpha, float duration, bool isReset = false)
     {
         var elapsedTime = 0f;
         fader.alpha = startAlpha;
@@ -196,6 +205,12 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         }
 
         fader.alpha = endAlpha;
+        
+        if (isReset)
+        {
+            yield return new WaitForEndOfFrame();
+            fader.alpha = 0;
+        }
     }
 
     #endregion

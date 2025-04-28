@@ -8,9 +8,8 @@ using UnityEngine;
 /// 효과음: SoundManager.Instance.PlaySFX("사운드 이름");
 /// </summary>
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonBehaviour<SoundManager>
 {
-    public static SoundManager Instance;
     private AudioSource musicSource;
     private AudioSource sfxSource;
 
@@ -32,18 +31,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip backgroundMusic;
     public Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        base.Awake();
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();  // 효과음 소스
         if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();  // 배경음악 소스
         musicSource.loop = true;

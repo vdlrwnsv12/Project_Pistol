@@ -1,4 +1,3 @@
-using System.Collections;
 using Cinemachine;
 using UnityEngine;
 
@@ -16,10 +15,13 @@ public class Player : MonoBehaviour
     public CharacterSO Data { get; private set; }
     public PlayerStatHandler Stat { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
+
     public Weapon Weapon { get; private set; }
+
     public CharacterController CharacterController { get; private set; }
     public ForceReceiver ForceReceiver { get; private set; }
     public PlayerController Controller { get; private set; }
+
     public PlayerAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerMotion Motion { get; private set; }
@@ -34,11 +36,14 @@ public class Player : MonoBehaviour
         InitPlayer();
 
         Animator = GetComponent<Animator>();
+
         Controller = GetComponent<PlayerController>();
         CharacterController = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
         Motion = GetComponent<PlayerMotion>();
         TargetSensor = GetComponent<TargetSensor>();
+        
+        InitWeapon(GameManager.Instance.selectedWeapon.ID);
 
         InitCamera();
     }
@@ -55,7 +60,6 @@ public class Player : MonoBehaviour
 
         if (StateMachine.MovementInput.magnitude > 0)
         {
-            Motion.StartHeadBob();
             Motion.StartHeadBob();
         }
         Motion.WeaponShake();
@@ -108,5 +112,4 @@ public class Player : MonoBehaviour
         var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
         Weapon = Instantiate(resource, weaponPos.transform.position, Quaternion.identity, weaponPos.transform);
     }
-
 }

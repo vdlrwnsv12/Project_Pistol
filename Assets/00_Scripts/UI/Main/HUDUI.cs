@@ -24,6 +24,7 @@ public class HUDUI : MainUI
 
     #endregion
     
+    private const float MAX_STAT = 99f;
     private Color32 originalColor;
     private Color32 currentColor;
 
@@ -74,40 +75,22 @@ public class HUDUI : MainUI
             stageIndex[i].color = (i == curStageIndex) ? currentColor : originalColor;
         }
     }
-
-    /// <summary>
-    /// 캐릭터 스탯 UI 갱신 메서드
-    /// </summary>
-    public void UpdateStatValue(CharacterStat stat)
-    {
-        rclGauge.fillAmount = stat.RCL / Constant.MAX_STAT;
-        rclText.text = stat.RCL.ToString("N0");
-
-        hdlGauge.fillAmount = stat.HDL / Constant.MAX_STAT;
-        hdlText.text = stat.HDL.ToString("N0");
-
-        stpGauge.fillAmount = stat.STP / Constant.MAX_STAT;
-        stpText.text = stat.STP.ToString("N0");
-
-        spdGauge.fillAmount = stat.SPD / Constant.MAX_STAT;
-        spdText.text = stat.SPD.ToString("N0");
-    }
     
     /// <summary>
     /// 캐릭터 스탯 UI 갱신 메서드
     /// </summary>
     public void UpdateStatValue(float rcl, float hdl, float stp, float spd)
     {
-        rclGauge.fillAmount = rcl / Constant.MAX_STAT;
+        rclGauge.fillAmount = rcl / MAX_STAT;
         rclText.text = rcl.ToString("N0");
 
-        hdlGauge.fillAmount = hdl / Constant.MAX_STAT;
+        hdlGauge.fillAmount = hdl / MAX_STAT;
         hdlText.text = hdl.ToString("N0");
 
-        stpGauge.fillAmount = stp / Constant.MAX_STAT;
+        stpGauge.fillAmount = stp / MAX_STAT;
         stpText.text = stp.ToString("N0");
 
-        spdGauge.fillAmount = spd / Constant.MAX_STAT;
+        spdGauge.fillAmount = spd / MAX_STAT;
         spdText.text = spd.ToString("N0");
     }
 
