@@ -18,6 +18,4 @@ public class CivilianTarget : BaseTarget
             }
         }
     }
-
-    //TODO: 헤드샷 구분 x 데미지 더 받게
 }
