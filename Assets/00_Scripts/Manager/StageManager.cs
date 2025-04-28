@@ -37,7 +37,7 @@ public class StageManager : MonoBehaviour
     public int CurStageIndex { get; set; }
     public int CurRoomIndex { get; set; }
 
-    private StageLoader roomLoader;
+    private PrototypeStageManager roomLoader;
 
     public RewardSystem RewardSystem { get; private set; }
     public HitTracker HitTracker { get; private set; }

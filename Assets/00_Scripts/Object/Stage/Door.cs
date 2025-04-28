@@ -17,7 +17,7 @@ namespace DoorScript
         [SerializeField] private AudioClip closeClip;
 
         [Header("스테이지 연동")]
-        [SerializeField] private StageLoader stageLoader;
+        [SerializeField] private PrototypeStageManager stageLoader;
 
         [Header("동작 선택")]
         [SerializeField] private bool isRewardRoom = false;
@@ -42,7 +42,7 @@ namespace DoorScript
 
             if (stageLoader == null)
             {
-                stageLoader = FindObjectOfType<StageLoader>();
+                stageLoader = FindObjectOfType<PrototypeStageManager>();
             }
         }
 
