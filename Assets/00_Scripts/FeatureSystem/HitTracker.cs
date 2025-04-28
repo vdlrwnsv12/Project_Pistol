@@ -12,7 +12,7 @@ public class HitTracker
     private float quickShotTimer = 0f;
     private const float QUICK_SHOT_TIME = 0f;
 
-    private float remainTime = 999f;
+    private float remainTime = 30f;
 
     private int shotCount = 0;
     private int hitCount = 0;
