@@ -55,6 +55,15 @@ public class Player : MonoBehaviour
 
         Motion.WeaponShake();
     }
+
+    private void LateUpdate()
+    {
+        if (StateMachine.MovementInput.magnitude > 0)
+        {
+            Motion.StartHeadBob();
+            Motion.StartHeadBob();
+        }
+    }
     private void FixedUpdate()
     {
         StateMachine.PhysicsUpdate();
