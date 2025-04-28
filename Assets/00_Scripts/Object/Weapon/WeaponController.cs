@@ -105,9 +105,9 @@ public class WeaponController : MonoBehaviour
                     impact.transform.SetParent(hit.collider.transform);
 
                     // AutoReturn 처리
-                    if (impactPoolable != null && impactPoolable.IsAutoReturn)
+                    if (impactPoolable != null && impactPoolable.isAutoReturn)
                     {
-                        ObjectPoolManager.Instance.AutoReturnToPool(impact, impactPoolable.ReturnTime);
+                        ObjectPoolManager.Instance.AutoReturnToPool(impact, impactPoolable.returnTime);
                     }
                 }
                 else
@@ -123,7 +123,7 @@ public class WeaponController : MonoBehaviour
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
-                Target target = hit.collider.GetComponentInParent<Target>();
+                BaseTarget target = hit.collider.GetComponentInParent<BaseTarget>();
                 target?.TakeDamage(stat.Damage, hit.collider);
             }
         }
@@ -160,9 +160,9 @@ public class WeaponController : MonoBehaviour
 
             // 자동 반환 확인 후 삭제
             var poolableInstance = casing.GetComponent<PoolableResource>();
-            if (poolableInstance != null && poolableInstance.IsAutoReturn)
+            if (poolableInstance != null && poolableInstance.isAutoReturn)
             {
-                ObjectPoolManager.Instance.AutoReturnToPool(casing, poolableInstance.ReturnTime);
+                ObjectPoolManager.Instance.AutoReturnToPool(casing, poolableInstance.returnTime);
             }
         }
     }
