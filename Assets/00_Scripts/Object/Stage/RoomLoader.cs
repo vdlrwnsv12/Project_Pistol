@@ -108,6 +108,10 @@ public class RoomLoader : MonoBehaviour
 
     #region Helpers
 
+    /// <summary>
+    /// 테스트용 스폰포인트
+    /// </summary>
+    /// <param name="room"></param>
     private void SpawnPlayer(GameObject room)
     {
         if (playerObject == null) return;
