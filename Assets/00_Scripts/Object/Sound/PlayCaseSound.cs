@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayCaseSound : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(!collision.gameObject.CompareTag("Gun"))
+        if(!other.gameObject.CompareTag("Gun"))
         {
             SoundManager.Instance.PlaySFX("Shell");
         }
