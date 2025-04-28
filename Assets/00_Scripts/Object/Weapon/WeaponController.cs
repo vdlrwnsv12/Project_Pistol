@@ -123,7 +123,7 @@ public class WeaponController : MonoBehaviour
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
-                Target target = hit.collider.GetComponentInParent<Target>();
+                BaseTarget target = hit.collider.GetComponentInParent<BaseTarget>();
                 target?.TakeDamage(stat.Damage, hit.collider);
             }
         }
