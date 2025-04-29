@@ -19,7 +19,7 @@ public abstract class BaseTarget : MonoBehaviour
 
     protected virtual void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         currentHp = data.Hp;
         lvText.text = $"{data.Level}";
 

@@ -26,7 +26,7 @@ public class TargetSensor : MonoBehaviour
         {
             if (hit.CompareTag("Target"))
             {
-                BaseTarget target = hit.GetComponent<BaseTarget>();
+                BaseTarget target = hit.GetComponentInParent<BaseTarget>();
                 if (target != null)
                 {
                     target.OnPlayerEnteredRange();
