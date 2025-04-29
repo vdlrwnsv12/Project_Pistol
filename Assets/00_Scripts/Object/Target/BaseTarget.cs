@@ -29,6 +29,13 @@ public abstract class BaseTarget : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        var origin = transform.eulerAngles;
+        transform.LookAt(StageManager.Instance.Player.transform);
+        transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
+    }
+
     public abstract void TakeDamage(float amount, Collider hitCollider);
 
     public void OnPlayerEnteredRange()
