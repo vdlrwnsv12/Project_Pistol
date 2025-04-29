@@ -1,10 +1,39 @@
 using UnityEngine;
 
 /// <summary>
-/// 방의 시작 지점을 나타내는 컴포넌트입니다.
-/// 이제 방향 설정 없이, 위치만 사용합니다.
+/// 방의 시작 지점입니다.  
+/// 플레이어가 닿으면 다음 방을 생성하며, 씬에 Z+ 방향 표시를 그립니다.
 /// </summary>
+[RequireComponent(typeof(BoxCollider))]
 public class StartPoint : MonoBehaviour
 {
-    // 별도 설정 필요 없음 (그냥 존재만 하면 됨)
+    private bool triggered = false;
+
+    private void Awake()
+    {
+        var collider = GetComponent<BoxCollider>();
+        collider.isTrigger = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (triggered) return;
+
+        if (other.CompareTag("Player"))
+        {
+            triggered = true;
+            PrototypeStageManager.Instance.SpawnNextRoom();
+        }
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(transform.position, 0.2f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 1.5f);
+    }
+#endif
 }

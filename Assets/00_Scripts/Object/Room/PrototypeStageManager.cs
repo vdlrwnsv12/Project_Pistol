@@ -2,144 +2,189 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// 스탠바이룸과 랜덤 3개 룸을 순차적으로 이어붙여 스테이지를 구성하는 매니저입니다.
-/// 현재 출구 방향(currentForward)을 갱신하여 다음 방을 자연스럽게 연결합니다.
+/// 스탠바이룸과 룸을 순차적으로 생성하고,  
+/// 스테이지 클리어를 자동 감지하는 매니저입니다.
 /// </summary>
 public class PrototypeStageManager : MonoBehaviour
 {
     #region Fields
 
-    [Header("Stage Settings")]
+    [Header("Prefab Settings")]
     public GameObject standbyRoomPrefab;
-    public List<GameObject> roomPrefabs; // R1001 ~ R1005 프리팹 리스트
+    public List<GameObject> roomPrefabs;
 
-    [Header("JSON Settings")]
-    public TextAsset roomDataJson; // Room.json 파일
+    private List<GameObject> selectedRooms = new List<GameObject>();
+    private Queue<GameObject> spawnedRooms = new Queue<GameObject>();
 
-    private RoomJsonWrapper roomDataList;
-    private List<RoomJsonData> currentStageRooms = new List<RoomJsonData>();
-
-    private GameObject currentStandbyRoom;
-    private List<GameObject> currentShootingRooms = new List<GameObject>();
+    private GameObject standbyRoomInstance;
+    private EndPoint lastEndPoint;
 
     private int currentStageId = 1;
-    private Vector3 currentForward = Vector3.forward; // 최초 방향: 앞으로(Z+)
+    private int roomSpawnIndex = 0;
+    private int roomClearCount = 0;
+    private Vector3 currentForward = Vector3.right;
+
+    public static PrototypeStageManager Instance { get; private set; }
 
     #endregion
 
     #region Unity Methods
 
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
     private void Start()
     {
-        LoadRoomData();
-        CreateStage();
+        StartStage();
     }
 
     #endregion
 
-    #region Private Methods
+    #region Stage Flow
 
-    private void LoadRoomData()
+    private void StartStage()
     {
-        if (roomDataJson == null)
-        {
-            Debug.LogError("RoomData JSON 파일이 연결되지 않았습니다.");
-            return;
-        }
+        selectedRooms = PickRandomRooms(roomPrefabs, 3);
+        roomSpawnIndex = 0;
+        roomClearCount = 0;
+        spawnedRooms.Clear();
 
-        roomDataList = JsonUtility.FromJson<RoomJsonWrapper>(roomDataJson.text);
+        SpawnStandbyRoom();
+        SpawnNextRoom(); // 첫 번째 Room 소환
     }
 
-    private void CreateStage()
+    private void SpawnStandbyRoom()
     {
-        if (roomDataList == null || roomDataList.Data == null)
+        standbyRoomInstance = Instantiate(standbyRoomPrefab);
+        standbyRoomInstance.transform.position = Vector3.zero;
+        standbyRoomInstance.transform.rotation = Quaternion.identity;
+
+        lastEndPoint = standbyRoomInstance.GetComponentInChildren<EndPoint>();
+        currentForward = lastEndPoint.GetManualForward();
+
+        spawnedRooms.Enqueue(standbyRoomInstance);
+    }
+
+    /// <summary>
+    /// 다음 방을 생성합니다.
+    /// </summary>
+    public void SpawnNextRoom()
+    {
+        if (roomSpawnIndex >= selectedRooms.Count)
         {
-            Debug.LogError("RoomData를 불러오지 못했습니다.");
+            Debug.Log("[Stage] 모든 방 생성 완료");
             return;
         }
 
-        currentStageRooms.Clear();
+        GameObject roomPrefab = selectedRooms[roomSpawnIndex];
+        GameObject roomInstance = Instantiate(roomPrefab);
 
-        foreach (var room in roomDataList.Data)
+        StartPoint startPoint = roomInstance.GetComponentInChildren<StartPoint>();
+        EndPoint endPoint = roomInstance.GetComponentInChildren<EndPoint>();
+
+        if (roomSpawnIndex == 0 && endPoint != null)
         {
-            if (room.ID.StartsWith($"R{currentStageId}"))
-            {
-                currentStageRooms.Add(room);
-            }
+            endPoint.isFirstEndPoint = false; // 첫 번째 룸만 StandbyRoom 제거
         }
 
-        if (currentStageRooms.Count < 3)
+        AlignRooms(lastEndPoint, startPoint, roomInstance);
+
+        lastEndPoint = endPoint;
+        currentForward = endPoint.GetManualForward();
+
+        spawnedRooms.Enqueue(roomInstance);
+        roomSpawnIndex++;
+    }
+
+    public void RemoveStandbyRoom()
+    {
+        if (standbyRoomInstance != null)
         {
-            Debug.LogError($"Stage {currentStageId}에 사용할 Room이 부족합니다.");
-            return;
+            Destroy(standbyRoomInstance);
+            standbyRoomInstance = null;
+            Debug.Log("[Remove] 스탠바이룸 제거 완료");
         }
+    }
 
-        // StandbyRoom 생성
-        currentStandbyRoom = Instantiate(standbyRoomPrefab);
-        currentStandbyRoom.transform.position = Vector3.zero;
-        currentStandbyRoom.transform.rotation = Quaternion.identity;
-
-        EndPoint lastEndPoint = currentStandbyRoom.GetComponentInChildren<EndPoint>();
-        currentForward = lastEndPoint.GetManualForward(); // 초기 방향 업데이트
-
-        // Room 3개 랜덤 선택
-        List<RoomJsonData> selectedRooms = PickRandomRooms(currentStageRooms, 3);
-
-        foreach (var roomData in selectedRooms)
+    public void RemoveOldestRoom()
+    {
+        if (spawnedRooms.Count > 0)
         {
-            GameObject roomPrefab = roomPrefabs.Find(x => x.name == roomData.ID);
-            if (roomPrefab == null)
+            GameObject oldestRoom = spawnedRooms.Dequeue();
+            if (oldestRoom != null)
             {
-                Debug.LogWarning($"{roomData.ID} 프리팹을 찾을 수 없습니다.");
-                continue;
+                Destroy(oldestRoom);
+
+                // StandbyRoom 삭제 체크
+                if (oldestRoom == standbyRoomInstance)
+                {
+                    standbyRoomInstance = null;
+                    Debug.Log("[Remove] 스탠바이룸 제거 완료");
+                }
+                else
+                {
+                    Debug.Log($"[Remove] {oldestRoom.name} 제거 완료");
+                }
             }
-
-            var roomInstance = Instantiate(roomPrefab);
-            roomInstance.name = roomPrefab.name;
-
-            StartPoint currStartPoint = roomInstance.GetComponentInChildren<StartPoint>();
-            EndPoint currEndPoint = roomInstance.GetComponentInChildren<EndPoint>();
-
-            if (lastEndPoint != null && currStartPoint != null)
-            {
-                AlignRooms(lastEndPoint, currStartPoint, roomInstance);
-            }
-
-            lastEndPoint = currEndPoint;
-            currentForward = currEndPoint.GetManualForward(); // 다음 방향 업데이트
-            currentShootingRooms.Add(roomInstance);
         }
     }
 
     /// <summary>
-    /// 이전 EndPoint의 방향을 기준으로, Y축 회전만 적용하여 Room을 정렬합니다.
+    /// 방을 클리어했을 때 호출합니다.
     /// </summary>
-    private void AlignRooms(EndPoint previousEndPoint, StartPoint currentStartPoint, GameObject currentRoom)
+    public void OnRoomCleared()
     {
-        if (previousEndPoint == null || currentStartPoint == null || currentRoom == null)
+        roomClearCount++;
+
+        if (roomClearCount >= selectedRooms.Count)
         {
-            Debug.LogError("AlignRooms 실패: 포인트나 룸이 null입니다.");
-            return;
+            Debug.Log($"[Stage {currentStageId}] 스테이지 클리어!");
+
+            StartNextStage(); // 바로 다음 스테이지 시작
         }
-
-        // 1. 이전 EndPoint에서 목표 방향 가져오기
-        Vector3 nextDirection = previousEndPoint.GetManualForward().normalized;
-
-        // 2. currentForward(현재 바라보는 방향)와 nextDirection(다음 갈 방향) 비교
-        float angle = Vector3.SignedAngle(Vector3.forward, currentForward, Vector3.up);
-
-        // 3. 현재 Room을 currentForward 방향에 맞춰 미리 회전
-        currentRoom.transform.Rotate(Vector3.up, angle);
-
-        // 4. 위치 덮어쓰기 (StartPoint를 EndPoint 위치로 이동)
-        Vector3 offset = previousEndPoint.transform.position - currentStartPoint.transform.position;
-        currentRoom.transform.position += offset;
     }
 
-    private List<RoomJsonData> PickRandomRooms(List<RoomJsonData> roomList, int count)
+    /// <summary>
+    /// 다음 스테이지를 시작합니다.
+    /// </summary>
+    private void StartNextStage()
     {
-        List<RoomJsonData> result = new List<RoomJsonData>();
-        List<RoomJsonData> temp = new List<RoomJsonData>(roomList);
+        ClearCurrentStage(); // 현재 스테이지 정리
+        currentStageId++;    // 스테이지 ID 증가
+
+        selectedRooms = PickRandomRooms(roomPrefabs, 3); // 새로운 3개 룸 리스트 뽑기
+        roomSpawnIndex = 0;
+        roomClearCount = 0;
+        spawnedRooms.Clear();
+
+        SpawnStandbyRoom(); // 새 스탠바이룸 생성
+        SpawnNextRoom();    // 새 첫 번째 룸 생성
+    }
+
+
+    private void ClearCurrentStage()
+    {
+        while (spawnedRooms.Count > 0)
+        {
+            var room = spawnedRooms.Dequeue();
+            if (room != null)
+            {
+                Destroy(room);
+            }
+        }
+    }
+
+    private List<GameObject> PickRandomRooms(List<GameObject> pool, int count)
+    {
+        List<GameObject> result = new List<GameObject>();
+        List<GameObject> temp = new List<GameObject>(pool);
 
         for (int i = 0; i < count && temp.Count > 0; i++)
         {
@@ -151,19 +196,21 @@ public class PrototypeStageManager : MonoBehaviour
         return result;
     }
 
-    public void ClearStage()
+    private void AlignRooms(EndPoint previousEndPoint, StartPoint currentStartPoint, GameObject currentRoom)
     {
-        if (currentStandbyRoom != null)
+        if (previousEndPoint == null || currentStartPoint == null || currentRoom == null)
         {
-            Destroy(currentStandbyRoom);
+            Debug.LogError("AlignRooms 실패: 포인트나 룸이 null입니다.");
+            return;
         }
 
-        foreach (var room in currentShootingRooms)
-        {
-            Destroy(room);
-        }
+        Vector3 nextDirection = previousEndPoint.GetManualForward().normalized;
+        float angle = Vector3.SignedAngle(Vector3.forward, currentForward, Vector3.up);
 
-        currentShootingRooms.Clear();
+        currentRoom.transform.Rotate(Vector3.up, angle);
+
+        Vector3 offset = previousEndPoint.transform.position - currentStartPoint.transform.position;
+        currentRoom.transform.position += offset;
     }
 
     #endregion
