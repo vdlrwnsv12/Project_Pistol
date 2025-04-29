@@ -11,6 +11,9 @@ public class StandbyRoom : Room
 
     private void OnTriggerExit(Collider other)
     {
-        OpenRewardUI();
+        if (other.CompareTag("Player"))
+        {
+            OpenRewardUI();
+        }
     }
 }

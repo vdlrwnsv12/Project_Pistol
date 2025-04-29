@@ -16,31 +16,27 @@ public class LandTarget : BaseTarget
         anim.SetTrigger("Hit");
         
         StageManager.Instance.HitCount++;
+        StageManager.Instance.DestroyTargetCombo++;
         bool isHeadShot;
 
         if (hitCollider != null && hitCollider.name == "Head")
         {
             amount = Mathf.RoundToInt(amount * data.DamageRate * 1.2f);
-            Debug.Log($"헤드샷 데미지: {amount}");
             isHeadShot = true;
+            StageManager.Instance.HeadHitCount++;
         }
         else
         {
             amount *= data.DamageRate;
-            Debug.Log($"바디샷 데미지: {amount}");
             isHeadShot = false;
         }
 
         float realDamage = Mathf.Min(amount, currentHp);
         currentHp -= realDamage;
-        Debug.Log($"{data.Name} 받은 데미지: {realDamage}");
         
-        StageManager.Instance.GameScore += (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(0) + QuickShotScore(StageManager.Instance.IsQuickShot));
-        Debug.Log($"기본 점수: {BaseScore(isHeadShot, realDamage)}");
-        Debug.Log($"원거리 점수: {RangeScore()}");
-        Debug.Log($"콤보 점수: {ComboScore(0)}");
-        Debug.Log($"큇 샷 점수: {QuickShotScore(StageManager.Instance.IsQuickShot)}");
+        StageManager.Instance.GameScore += (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
         StageManager.Instance.IsQuickShot = true;
+        StageManager.Instance.QuickShotTimer = 0f;
 
         hpBar.fillAmount = currentHp / data.Hp;
 

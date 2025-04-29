@@ -34,9 +34,6 @@ public class StageManager : MonoBehaviour
     private bool isGamePause;
     private float remainTime;
     
-    private int headHitCount = 0;
-    
-    private int destroyTargetCombo = 0;
     private int maxDestroyTargetCombo = 0;
     private float quickShotTimer;
     private const float QUICK_SHOT_TIME = 2f;
@@ -53,11 +50,16 @@ public class StageManager : MonoBehaviour
         set => remainTime = value;
     }
     
-    public int MaxDestroyTargetCombo => maxDestroyTargetCombo;
+    public int DestroyTargetCombo { get; set; }
+    public int MaxDestroyTargetCombo => Mathf.Max(DestroyTargetCombo, maxDestroyTargetCombo);
     public bool IsQuickShot { get; set; }
-    public float QuickShotTimer => quickShotTimer;
+    public float QuickShotTimer
+    {
+        set => quickShotTimer = value;
+    }
     public int ShotCount { get; set; }
     public int HitCount { get; set; }
+    public int HeadHitCount { get; set; }
     private PrototypeStageManager roomLoader;
 
     public float ShotAccuracy
@@ -82,7 +84,7 @@ public class StageManager : MonoBehaviour
                 return 0;
             }
 
-            return (float)headHitCount / (float)HitCount * 100f;
+            return (float)HeadHitCount / (float)HitCount * 100f;
         }
     }
 
@@ -127,6 +129,7 @@ public class StageManager : MonoBehaviour
             {
                 quickShotTimer = 0f;
                 IsQuickShot = false;
+                Debug.Log("큇샷 시간 초과");
             }
         }
 

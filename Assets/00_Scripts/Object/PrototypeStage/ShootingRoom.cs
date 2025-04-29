@@ -7,6 +7,9 @@ public class ShootingRoom : Room
 
     private void OnTriggerExit(Collider other)
     {
-        StageManager.Instance.RemainTime += 20f;
+        if (other.CompareTag("Player"))
+        {
+            StageManager.Instance.RemainTime += 20f;
+        }
     }
 }

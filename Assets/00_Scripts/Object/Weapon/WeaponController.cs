@@ -72,6 +72,7 @@ public class WeaponController : MonoBehaviour
             EjectCasing();
             MuzzleFlash();
 
+            StageManager.Instance.ShotCount++;
             SoundManager.Instance.PlaySFX(weapon.Data.name);
 
             curAmmo--;
