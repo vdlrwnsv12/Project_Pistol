@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/00_Scripts/SO/RoomData.cs.meta
+guid: d6e54fec49a957b4b99e1c45c6da55b1
+========
 guid: 868725d8fa5e14c55bee26df3e6be40e
+>>>>>>>> Dev:Assets/00_Scripts/Object/PrototypeStage/Room.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

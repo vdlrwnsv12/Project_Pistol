@@ -45,8 +45,6 @@ public class StageManager : MonoBehaviour
 
     public int CurStageIndex { get; set; }
     public int CurRoomIndex { get; set; }
-
-    private StageLoader roomLoader;
     
     public int GameScore { get; set; }
     public float RemainTime
@@ -60,6 +58,7 @@ public class StageManager : MonoBehaviour
     public float QuickShotTimer => quickShotTimer;
     public int ShotCount { get; set; }
     public int HitCount { get; set; }
+    private PrototypeStageManager roomLoader;
 
     public float ShotAccuracy
     {
