@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     private GameObject weaponPos;
 
-    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.03f;
+    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.01f;
     [Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
     #region Properties
@@ -23,10 +23,13 @@ public class Player : MonoBehaviour
     public PlayerAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerMotion Motion { get; private set; }
-    public TargetSensor TargetSensor { get; private set; }  
-
+    public TargetSensor TargetSensor { get; private set; }
+    private float stepTimer = 0f;
+    private float stepInterval = 0.4f; // 0.4초마다 흔든다 (스텝 간격)
     [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
+
+    [field: SerializeField] public CinemachineImpulseSource impulseSource;
     #endregion
 
     private void Awake()
@@ -52,17 +55,15 @@ public class Player : MonoBehaviour
     {
         StateMachine.HandleInput();
         StateMachine.Update();
-
-        Motion.WeaponShake();
-    }
-
-    private void LateUpdate()
-    {
         if (StateMachine.MovementInput.magnitude > 0)
         {
-            Motion.StartHeadBob();
-            Motion.StartHeadBob();
+            Motion.HeadbobUp();
         }
+        else
+        {
+           Motion.HeadbobDown();
+        }
+        Motion.WeaponShake();
     }
     private void FixedUpdate()
     {
