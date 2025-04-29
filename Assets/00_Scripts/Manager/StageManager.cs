@@ -41,7 +41,6 @@ public class StageManager : MonoBehaviour
     public Player Player { get; private set; }
 
     public int CurStageIndex { get; set; }
-    public int CurRoomIndex { get; set; }
     
     public int GameScore { get; set; }
     public float RemainTime
@@ -60,35 +59,12 @@ public class StageManager : MonoBehaviour
     public int ShotCount { get; set; }
     public int HitCount { get; set; }
     public int HeadHitCount { get; set; }
-    private PrototypeStageManager roomLoader;
+    public RoomCreator roomCreator;
 
-    public float ShotAccuracy
-    {
-        get
-        {
-            if (ShotCount == 0)
-            {
-                return 0;
-            }
+    private float shotAccuracy;
+    private float headShotAccuracy;
 
-            return (float)HitCount / (float)ShotCount * 100f;
-        }
-    }
-
-    public float HeadShotAccuracy
-    {
-        get
-        {
-            if (HitCount == 0)
-            {
-                return 0;
-            }
-
-            return (float)HeadHitCount / (float)HitCount * 100f;
-        }
-    }
-
-    private HUDUI hudUI;
+    public HUDUI HUDUI {get; private set;}
 
     private void Awake()
     {
@@ -100,10 +76,8 @@ public class StageManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        SpawnPlayer(GameManager.Instance.respawnPoint.position);
-
-        isGamePause = false;
+        
+        isGamePause = true;
         RemainTime = 20f;
         IsQuickShot = false;
     }
@@ -112,6 +86,11 @@ public class StageManager : MonoBehaviour
     {
         UIManager.ToggleMouseCursor(false);
 
+        var stagePoint = transform;
+        roomCreator.CreateStage(stagePoint, 1);
+
+        SpawnPlayer(roomCreator.StandbyRoom.RespawnPoint.position);
+        
         InitHUDUI();
     }
 
@@ -133,9 +112,9 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        if (hudUI != null)
+        if (HUDUI != null)
         {
-            hudUI.UpdateRealTimeChanges(GameScore, RemainTime, Player.Weapon.CurAmmo,
+            HUDUI.UpdateRealTimeChanges(GameScore, RemainTime, Player.Weapon.CurAmmo,
                 Player.Weapon.MaxAmmo);
         }
 
@@ -154,8 +133,9 @@ public class StageManager : MonoBehaviour
         var resultUI = UIManager.Instance.CurMainUI as ResultUI;
         if (resultUI != null)
         {
+            CalculateAccuracy();
             resultUI.SetResultValue(GameScore, RemainTime,
-                ShotAccuracy, HeadShotAccuracy, MaxDestroyTargetCombo);
+                shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
         }
 
         Player.Controller.enabled = false;
@@ -174,13 +154,13 @@ public class StageManager : MonoBehaviour
     {
         UIManager.Instance.InitUI<HUDUI>();
         UIManager.Instance.ChangeMainUI(MainUIType.HUD);
-        hudUI = UIManager.Instance.CurMainUI as HUDUI;
-        if (hudUI != null)
+        HUDUI = UIManager.Instance.CurMainUI as HUDUI;
+        if (HUDUI != null)
         {
             //TODO: 총기 사진 리소스 연결
             //hudUI.SetEquipImage();
-            hudUI.UpdateStageInfo(CurStageIndex, CurRoomIndex);
-            hudUI.UpdateStatValue(Player.Stat.RCL, Player.Stat.HDL, Player.Stat.STP, Player.Stat.SPD);
+            HUDUI.UpdateStageInfo(CurStageIndex, 0);
+            HUDUI.UpdateStatValue(Player.Stat.RCL, Player.Stat.HDL, Player.Stat.STP, Player.Stat.SPD);
         }
     }
 
@@ -191,5 +171,22 @@ public class StageManager : MonoBehaviour
         {
             Player.Controller.enabled = !isGamePause;
         }
+    }
+
+    private void CalculateAccuracy()
+    {
+        if (ShotCount == 0)
+        {
+            shotAccuracy =  0;
+        }
+
+        shotAccuracy = (float)HitCount / (float)ShotCount * 100f;
+        
+        if (HitCount == 0)
+        {
+            headShotAccuracy = 0;
+        }
+
+        headShotAccuracy = (float)HeadHitCount / (float)HitCount * 100f;
     }
 }

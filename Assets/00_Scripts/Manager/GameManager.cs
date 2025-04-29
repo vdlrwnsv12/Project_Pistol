@@ -2,7 +2,6 @@ using UnityEngine;
 
 public sealed class GameManager : SingletonBehaviour<GameManager>
 {
-    public Transform respawnPoint;
     public CharacterSO selectedCharacter;
     public WeaponSO selectedWeapon;
 

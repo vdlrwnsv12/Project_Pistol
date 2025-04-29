@@ -23,7 +23,7 @@ public class HUDUI : MainUI
     [SerializeField] private TextMeshProUGUI stpText;
 
     #endregion
-    
+
     private const float MAX_STAT = 99f;
     private Color32 originalColor;
     private Color32 currentColor;
@@ -69,13 +69,20 @@ public class HUDUI : MainUI
     {
         curStageText.text = $"현재 스테이지\tStage {curStage}";
 
-        for (var i = 0; i < stageIndex.Length; i++)
+        for (var i = 1; i <= stageIndex.Length; i++)
         {
-            stageIndex[i].color = currentColor;
-            stageIndex[i].color = (i == curStageIndex) ? currentColor : originalColor;
+            if (curStageIndex == 0)
+            {
+                stageIndex[i - 1].color = originalColor;
+            }
+            else
+            {
+                stageIndex[i - 1].color = currentColor;
+                stageIndex[i - 1].color = (i == curStageIndex) ? currentColor : originalColor;
+            }
         }
     }
-    
+
     /// <summary>
     /// 캐릭터 스탯 UI 갱신 메서드
     /// </summary>
