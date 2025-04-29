@@ -17,6 +17,9 @@ public class PlayerMotion : MonoBehaviour
     [Range(10f, 100f), SerializeField]
     private float smooth = 10.0f;
 
+    private float stepTimer = 0f;
+    private float stepInterval = 0.4f; // 0.4초마다 흔든다 (스텝 간격)
+
     #region
     private float eulerAngleX;
     private float eulerAngleY;
@@ -94,6 +97,25 @@ public class PlayerMotion : MonoBehaviour
         ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
 
+    public void HeadbobUp()
+    {
+        stepTimer += Time.deltaTime;
+
+        if (stepTimer >= stepInterval)
+        {
+            stepTimer = 0f; // 타이머 초기화
+
+            float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);
+            float force = Mathf.Lerp(1.0f, 0.1f, t);
+
+            player.impulseSource.GenerateImpulse(force * 0.02f); // 한번 흔들어줌
+        }
+    }
+
+    public void HeadbobDown()
+    {
+        stepTimer = Mathf.MoveTowards(stepTimer, stepInterval, Time.deltaTime * 2f);
+    }
     private float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360) angle += 360;
