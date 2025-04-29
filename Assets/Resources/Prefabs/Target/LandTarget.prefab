@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1068548442409469455}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 5621439197131031551}
   - {fileID: 607495932947345601}
   m_Father: {fileID: 8559657080434183212}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2160990604375539492
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,8 +58,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2160990604375539492}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00000009415697, y: 0.7071068, z: 0.7071067, w: 0.00000009415696}
-  m_LocalPosition: {x: -0.0000000038003214, y: 0.0001135223, z: -0.0000000018854571}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -162,7 +162,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3649347496368885693}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0.000000047078487, z: 0.000000047078487, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
@@ -195,7 +195,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4678143764172525979}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0.000000057601163, z: 0.000000057601163, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: -0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
@@ -265,6 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5531160593799034203}
+  - component: {fileID: 1970588136411256232}
   m_Layer: 0
   m_Name: LandTarget
   m_TagString: Untagged
@@ -280,14 +281,33 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5571452547547024368}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.44484612, z: 0, w: 0.89560705}
-  m_LocalPosition: {x: -4.03, y: 0, z: 3.02}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8559657080434183212}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -52.827, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1970588136411256232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5571452547547024368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abcab0f92b33541cda4a75d96c02b025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 31eaeee280c564f97b0f51641a14e407, type: 2}
+  anim: {fileID: 9086198920025222691}
+  lvText: {fileID: 904607236937820272}
+  upSound: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}
+  downSound: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
+  hpBar: {fileID: 4187348459703899338}
+  targetUI: {fileID: 7418473957862778906}
 --- !u!1 &7173846186958796755
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,8 +359,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5510955, y: 1.7134342, z: 0.0408606}
-  m_Center: {x: 0, y: 0.8567171, z: -0.029569697}
+  m_Size: {x: 0.1543818, y: 1.699596, z: 0.11900519}
+  m_Center: {x: 0.04947874, y: 0.7931274, z: -0.005734861}
 --- !u!1 &7418473957862778906
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,9 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8559657080434183212}
   - component: {fileID: 303319691222093958}
-  - component: {fileID: 6221239421519851520}
   - component: {fileID: 9086198920025222691}
-  - component: {fileID: 204773589108385195}
   m_Layer: 7
   m_Name: Target
   m_TagString: Target
@@ -581,28 +599,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5510955, y: 1.18, z: 0.0408606}
-  m_Center: {x: 0, y: 0.74, z: -0.029569697}
---- !u!114 &6221239421519851520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8512225779572762304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fea4c95a95974593972795849362ec7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  anim: {fileID: 9086198920025222691}
-  lvText: {fileID: 904607236937820272}
-  civilianMaterial: {fileID: 2100000, guid: d6a61cbb1afd94b9abd57a104ad49a9d, type: 2}
-  upSound: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}
-  downSound: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
-  hpBar: {fileID: 4187348459703899338}
-  targetUI: {fileID: 7418473957862778906}
+  m_Size: {x: 0.05584237, y: 1.1945059, z: 0.5194974}
+  m_Center: {x: 0.035501733, y: 0.74725306, z: -0.009502307}
 --- !u!95 &9086198920025222691
 Animator:
   serializedVersion: 5
@@ -624,25 +622,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &204773589108385195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8512225779572762304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abcab0f92b33541cda4a75d96c02b025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 31eaeee280c564f97b0f51641a14e407, type: 2}
-  anim: {fileID: 9086198920025222691}
-  lvText: {fileID: 904607236937820272}
-  upSound: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}
-  downSound: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
-  hpBar: {fileID: 4187348459703899338}
-  targetUI: {fileID: 7418473957862778906}
 --- !u!1 &9064079005297044233
 GameObject:
   m_ObjectHideFlags: 0
