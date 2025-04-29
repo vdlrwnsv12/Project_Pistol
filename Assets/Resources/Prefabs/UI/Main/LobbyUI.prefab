@@ -473,6 +473,7 @@ MonoBehaviour:
   characterText1: 
   characterText2: 
   characterText3: 
+  startBtn: {fileID: 5396561947982954514}
 --- !u!1 &5690682660166862013
 GameObject:
   m_ObjectHideFlags: 0
