@@ -20,13 +20,6 @@ public abstract class BaseTarget : MonoBehaviour
     protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        currentHp = data.Hp;
-        lvText.text = $"{data.Level}";
-
-        if (hpBar != null)
-        {
-            hpBar.fillAmount = 1f;
-        }
     }
 
     private void Update()
@@ -54,5 +47,18 @@ public abstract class BaseTarget : MonoBehaviour
         Destroy(targetUI);
         anim.SetBool("Die", true);
         SoundManager.Instance.PlaySFX(downSound);
+    }
+
+    public void InitData(TargetSO data)
+    {
+        this.data = data;
+        
+        currentHp = data.Hp;
+        lvText.text = $"{data.Level}";
+
+        if (hpBar != null)
+        {
+            hpBar.fillAmount = 1f;
+        }
     }
 }

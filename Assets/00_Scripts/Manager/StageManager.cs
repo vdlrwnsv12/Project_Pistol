@@ -39,8 +39,6 @@ public class StageManager : MonoBehaviour
     private const float QUICK_SHOT_TIME = 2f;
 
     public Player Player { get; private set; }
-
-    public int CurStageIndex { get; set; }
     
     public int GameScore { get; set; }
     public float RemainTime
@@ -160,7 +158,7 @@ public class StageManager : MonoBehaviour
         {
             //TODO: 총기 사진 리소스 연결
             //hudUI.SetEquipImage();
-            HUDUI.UpdateStageInfo(CurStageIndex, 0);
+            HUDUI.UpdateStageInfo(roomCreator.CurStageIndex, roomCreator.CurRoomIndex);
             HUDUI.UpdateStatValue(Player.Stat.RCL, Player.Stat.HDL, Player.Stat.STP, Player.Stat.SPD);
         }
     }

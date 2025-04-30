@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootingRoom : Room
@@ -45,8 +46,10 @@ public class ShootingRoom : Room
         
         for (var i = 0; i < targetIDList.Length; i++)
         {
-            var targetResource = ResourceManager.Instance.Load<GameObject>($"Prefabs/Target/LandTarget");
-            Instantiate(targetResource, targetPoints[i]);
+            var targetResource = ResourceManager.Instance.Load<BaseTarget>("Prefabs/Target/LandTarget");
+            var target = Instantiate(targetResource, targetPoints[i]);
+            var data = ResourceManager.Instance.Load<TargetSO>($"Data/SO/TargetSO/{targetIDList[i]}");
+            target.InitData(data);
         }
     }
 }
