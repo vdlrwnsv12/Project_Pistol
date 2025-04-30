@@ -41,6 +41,7 @@ public class PopupOption : PopupUI
 
     protected override void Awake()
     {
+        //TODO: 게임씬이 아니면 Resume버튼 비활성화
         base.Awake();
 
         //슬라이더 최대 최소값
@@ -149,7 +150,7 @@ public class PopupOption : PopupUI
 
     public void OnClickResumeBtn()
     {
-        GameManager.ToggleGameState();
+        UIManager.Instance.ClosePopUpUI();
     }
 
 }

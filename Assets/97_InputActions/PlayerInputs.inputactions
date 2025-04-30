@@ -180,6 +180,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "595753d2-4ed0-4dab-9df3-7d3fad1a09b2",
+            "actions": [
+                {
+                    "name": "Puase",
+                    "type": "Button",
+                    "id": "dd8e5fbd-490d-4075-b3d8-3bc68f7f56ef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "56820acc-0e5a-4236-86d7-6b7aaa7bdd8a",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Puase",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
