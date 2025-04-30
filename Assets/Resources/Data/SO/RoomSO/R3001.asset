@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: R3001
   Targets:
-  - T0001
   - T0002
-  - T0004
-  - T0004
-  ActiveTartgetPos: 01000000020000000300000004000000
-  ActiveWallPos: 0100000002000000
+  - T0002
+  - T0003
+  - T0003
+  - T0003
+  ActiveTartgetPos: 0100000002000000030000000400000005000000
+  ActiveWallPos: 00000000

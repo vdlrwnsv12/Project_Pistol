@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68ebd0a7f55f34d46a82db2233f6e705, type: 3}
-  m_Name: R1002
+  m_Name: R7003
   m_EditorClassIdentifier: 
-  ID: R1002
+  ID: R7003
   Targets:
-  - T0001
-  - T0001
-  - T0002
-  - T0002
-  ActiveTartgetPos: 01000000020000000300000004000000
+  - T0004
+  - T0004
+  - T0005
+  - T0005
+  - T0007
+  ActiveTartgetPos: 0100000002000000030000000400000005000000
   ActiveWallPos: 00000000

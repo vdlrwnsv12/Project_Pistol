@@ -3,13 +3,15 @@
     "ID": "R1001",
     "Targets": [
       "T0001",
+      "T0001",
       "T0002",
-      "T0004"
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
       2,
-      3
+      3,
+      4
     ],
     "ActiveWallPos": [
       0
@@ -19,13 +21,15 @@
     "ID": "R1002",
     "Targets": [
       "T0001",
+      "T0001",
       "T0002",
-      "T0004"
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
       2,
-      3
+      3,
+      4
     ],
     "ActiveWallPos": [
       0
@@ -35,9 +39,9 @@
     "ID": "R1003",
     "Targets": [
       "T0001",
+      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
@@ -53,9 +57,9 @@
     "ID": "R1004",
     "Targets": [
       "T0001",
+      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
@@ -71,9 +75,9 @@
     "ID": "R1005",
     "Targets": [
       "T0001",
+      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
@@ -88,10 +92,10 @@
   {
     "ID": "R2001",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0002",
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
@@ -100,34 +104,34 @@
       4
     ],
     "ActiveWallPos": [
-      1
+      0
     ]
   },
   {
     "ID": "R2002",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0002",
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
       2,
-      4,
-      7
+      3,
+      4
     ],
     "ActiveWallPos": [
-      1
+      0
     ]
   },
   {
     "ID": "R2003",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0002",
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
@@ -136,16 +140,16 @@
       4
     ],
     "ActiveWallPos": [
-      1
+      0
     ]
   },
   {
     "ID": "R2004",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0002",
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
@@ -154,16 +158,16 @@
       4
     ],
     "ActiveWallPos": [
-      1
+      0
     ]
   },
   {
     "ID": "R2005",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0002",
+      "T0002"
     ],
     "ActiveTartgetPos": [
       1,
@@ -172,102 +176,602 @@
       4
     ],
     "ActiveWallPos": [
-      1
+      0
     ]
   },
   {
     "ID": "R3001",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
     ],
     "ActiveTartgetPos": [
       1,
       2,
       3,
-      4
+      4,
+      5
     ],
     "ActiveWallPos": [
-      1,
-      2
+      0
     ]
   },
   {
     "ID": "R3002",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
     ],
     "ActiveTartgetPos": [
       1,
       2,
       3,
-      4
+      4,
+      5
     ],
     "ActiveWallPos": [
-      1,
-      2
+      0
     ]
   },
   {
     "ID": "R3003",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
     ],
     "ActiveTartgetPos": [
       1,
       2,
       3,
-      4
+      4,
+      5
     ],
     "ActiveWallPos": [
-      1,
-      2
+      0
     ]
   },
   {
     "ID": "R3004",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
     ],
     "ActiveTartgetPos": [
       1,
       2,
       3,
-      4
+      4,
+      5
     ],
     "ActiveWallPos": [
-      1,
-      2
+      0
     ]
   },
   {
     "ID": "R3005",
     "Targets": [
-      "T0001",
       "T0002",
-      "T0004",
-      "T0004"
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
     ],
     "ActiveTartgetPos": [
       1,
       2,
       3,
-      4
+      4,
+      5
     ],
     "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R4001",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "ActiveTartgetPos": [
       1,
-      2
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R4002",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R4003",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R4004",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R4005",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R5001",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R5002",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R5003",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R5004",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R5005",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R6001",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R6002",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R6003",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R6004",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R6005",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006",
+      "T0006"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R7001",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R7002",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R7003",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R7004",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R7005",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R8001",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005 T0008"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R8002",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005 T0008"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R8003",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005 T0008"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R8004",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005 T0008"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
+    ]
+  },
+  {
+    "ID": "R8005",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005 T0008"
+    ],
+    "ActiveTartgetPos": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ActiveWallPos": [
+      0
     ]
   }
 ]}
