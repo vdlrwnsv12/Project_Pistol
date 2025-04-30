@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: T0007
   Name: Airial
-  Description: 
   Type: 1
   Hp: 1200
   Level: 2

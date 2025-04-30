@@ -5,7 +5,6 @@ public class TargetSO : ScriptableObject
 {
     public string ID;
     public string Name;
-    public string Description;
     public int Type;
     public float Hp;
     public float Level;
@@ -18,7 +17,6 @@ public class TargetData
 {
     public string ID;
     public string Name;
-    public string Description;
     public int Type;
     public float Hp;
     public float Level;

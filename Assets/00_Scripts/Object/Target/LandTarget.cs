@@ -1,14 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LandTarget : BaseTarget
 {
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     public override void TakeDamage(float amount, Collider hitCollider)
     {
         if (currentHp <= 0) return;

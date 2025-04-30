@@ -44,7 +44,6 @@ public abstract class BaseTarget : MonoBehaviour
 
     protected virtual void Die()
     {
-        Destroy(targetUI);
         anim.SetBool("Die", true);
         SoundManager.Instance.PlaySFX(downSound);
     }

@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abcab0f92b33541cda4a75d96c02b025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 31eaeee280c564f97b0f51641a14e407, type: 2}
+  data: {fileID: 0}
   anim: {fileID: 2407554299109515649}
   lvText: {fileID: 258551731023559383}
   upSound: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}
