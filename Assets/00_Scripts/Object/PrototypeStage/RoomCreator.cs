@@ -8,7 +8,16 @@ public class RoomCreator : MonoBehaviour
 
     private StandbyRoom standbyRoom;
     private Dictionary<int, ShootingRoom> shootingRoomDict;
-    
+
+    private RoomSO[] stageRoomList;
+
+    private int curStageIndex;
+    public int CurRoomIndex { get; private set; }
+
+    public Room PrevRoom { get; set; }
+    public Room CurRoom { get; set; }
+    public Room NextRoom { get; set; }
+
     public StandbyRoom StandbyRoom => standbyRoom;
 
     private void Awake()
@@ -22,6 +31,7 @@ public class RoomCreator : MonoBehaviour
                 var roomList = new List<RoomSO>();
                 stageDataDict.Add(GetStageIndex(roomData.ID), roomList);
             }
+
             stageDataDict[GetStageIndex(roomData.ID)].Add(roomData);
         }
 
@@ -37,52 +47,55 @@ public class RoomCreator : MonoBehaviour
             shootingRoom.gameObject.SetActive(false);
             shootingRoomDict.Add(GetRoomNumber(room.name), shootingRoom);
         }
+        
+        curStageIndex = 1;
+        CurRoomIndex = 0;
+        stageRoomList = GetRandomRoomArray(curStageIndex);
     }
 
-    public void CreateStage(Transform lastEndPoint, int stageIndex)
+    public Room PlaceStandbyRoom(Transform curRoomEndPoint)
     {
-        StageManager.Instance.CurStageIndex = stageIndex;
-        
-        var roomList = GetRandomRoomArray(stageIndex);
-        
         var offsetRot = Quaternion.Inverse(standbyRoom.transform.rotation) * standbyRoom.StartPoint.rotation;
-        standbyRoom.transform.rotation = lastEndPoint.rotation * Quaternion.Inverse(offsetRot);
+        standbyRoom.transform.rotation = curRoomEndPoint.rotation * Quaternion.Inverse(offsetRot);
         var offsetPos = standbyRoom.StartPoint.position - standbyRoom.transform.position;
-        standbyRoom.transform.position = lastEndPoint.position - offsetPos;
+        standbyRoom.transform.position = curRoomEndPoint.position - offsetPos;
         standbyRoom.gameObject.SetActive(true);
-        standbyRoom.RoomIndex = 0;
+        return standbyRoom;
+    }
 
-        offsetRot = Quaternion.Inverse(shootingRoomDict[GetRoomNumber(roomList[0].ID)].transform.rotation) *
-                    shootingRoomDict[GetRoomNumber(roomList[0].ID)].StartPoint.rotation;
-        shootingRoomDict[GetRoomNumber(roomList[0].ID)].transform.rotation =
-            standbyRoom.EndPoint.transform.rotation * Quaternion.Inverse(offsetRot);
-        offsetPos = shootingRoomDict[GetRoomNumber(roomList[0].ID)].StartPoint.position - shootingRoomDict[GetRoomNumber(roomList[0].ID)].transform.position;
-        shootingRoomDict[GetRoomNumber(roomList[0].ID)].transform.position = standbyRoom.EndPoint.transform.position - offsetPos;
-        shootingRoomDict[GetRoomNumber(roomList[0].ID)].Data = roomList[0];
-        shootingRoomDict[GetRoomNumber(roomList[0].ID)].RoomIndex = 1;
-        shootingRoomDict[GetRoomNumber(roomList[0].ID)].gameObject.SetActive(true);
+    public Room PlaceShootingRoom(Transform curRoomEndPoint, int shootingRoomIndex)
+    {
+        var shootingRoom = shootingRoomDict[GetRoomNumber(stageRoomList[shootingRoomIndex].ID)];
 
-        offsetRot = Quaternion.Inverse(shootingRoomDict[GetRoomNumber(roomList[1].ID)].transform.rotation) *
-                    shootingRoomDict[GetRoomNumber(roomList[1].ID)].StartPoint.rotation;
-        shootingRoomDict[GetRoomNumber(roomList[1].ID)].transform.rotation =
-            shootingRoomDict[GetRoomNumber(roomList[0].ID)].EndPoint.transform.rotation * Quaternion.Inverse(offsetRot);
-        offsetPos = shootingRoomDict[GetRoomNumber(roomList[1].ID)].StartPoint.position - shootingRoomDict[GetRoomNumber(roomList[1].ID)].transform.position;
-        shootingRoomDict[GetRoomNumber(roomList[1].ID)].transform.position =
-            shootingRoomDict[GetRoomNumber(roomList[0].ID)].EndPoint.transform.position - offsetPos;
-        shootingRoomDict[GetRoomNumber(roomList[1].ID)].Data = roomList[1];
-        shootingRoomDict[GetRoomNumber(roomList[1].ID)].RoomIndex = 2;
-        shootingRoomDict[GetRoomNumber(roomList[1].ID)].gameObject.SetActive(true);
-        
-        offsetRot = Quaternion.Inverse(shootingRoomDict[GetRoomNumber(roomList[2].ID)].transform.rotation) *
-                    shootingRoomDict[GetRoomNumber(roomList[2].ID)].StartPoint.rotation;
-        shootingRoomDict[GetRoomNumber(roomList[2].ID)].transform.rotation =
-            shootingRoomDict[GetRoomNumber(roomList[1].ID)].EndPoint.transform.rotation * Quaternion.Inverse(offsetRot);
-        offsetPos = shootingRoomDict[GetRoomNumber(roomList[2].ID)].StartPoint.position - shootingRoomDict[GetRoomNumber(roomList[2].ID)].transform.position;
-        shootingRoomDict[GetRoomNumber(roomList[2].ID)].transform.position =
-            shootingRoomDict[GetRoomNumber(roomList[1].ID)].EndPoint.transform.position - offsetPos;
-        shootingRoomDict[GetRoomNumber(roomList[2].ID)].Data = roomList[2];
-        shootingRoomDict[GetRoomNumber(roomList[2].ID)].RoomIndex = 3;
-        shootingRoomDict[GetRoomNumber(roomList[2].ID)].gameObject.SetActive(true);
+        var offsetRot = Quaternion.Inverse(shootingRoom.transform.rotation) *
+                        shootingRoom.StartPoint.rotation;
+        shootingRoom.transform.rotation =
+            curRoomEndPoint.transform.rotation * Quaternion.Inverse(offsetRot);
+        var offsetPos = shootingRoom.StartPoint.position - shootingRoom.transform.position;
+        shootingRoom.transform.position = curRoomEndPoint.transform.position - offsetPos;
+        shootingRoom.Data = stageRoomList[shootingRoomIndex];
+        shootingRoom.gameObject.SetActive(true);
+        return shootingRoom;
+    }
+
+    public void DisablePrevRoom()
+    {
+        PrevRoom.gameObject.SetActive(false);
+    }
+
+    public void UpdateStageIndex()
+    {
+        if (CurRoomIndex == 3)
+        {
+            CurRoomIndex = 0;
+            curStageIndex++;
+            stageRoomList = GetRandomRoomArray(curStageIndex);
+        }
+        else
+        {
+            CurRoomIndex++;
+        }
+        StageManager.Instance.HUDUI.UpdateStageInfo(curStageIndex, CurRoomIndex);
     }
 
     private int GetStageIndex(string roomID)

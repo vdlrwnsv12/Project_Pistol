@@ -22,8 +22,14 @@ public class StandbyRoom : Room
         if (other.CompareTag("Player"))
         {
             OpenRewardUI();
-            StageManager.Instance.CurStageIndex++;
-            StageManager.Instance.HUDUI.UpdateStageInfo(StageManager.Instance.CurStageIndex, RoomIndex);
+            
+            StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
+            StageManager.Instance.roomCreator.CurRoom = this;
+            
+            StageManager.Instance.roomCreator.UpdateStageIndex();
+            StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
+            
+            StageManager.Instance.roomCreator.DisablePrevRoom();
         }
     }
 }

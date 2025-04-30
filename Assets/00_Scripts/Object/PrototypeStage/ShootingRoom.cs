@@ -21,12 +21,21 @@ public class ShootingRoom : Room
         {
             StageManager.Instance.PauseGame(false);
             StageManager.Instance.RemainTime += 20f;
-            StageManager.Instance.HUDUI.UpdateStageInfo(StageManager.Instance.CurStageIndex, RoomIndex);
-            if (RoomIndex == 2)
+            
+            StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
+            StageManager.Instance.roomCreator.CurRoom = this;
+            
+            StageManager.Instance.roomCreator.UpdateStageIndex();
+            
+            if (StageManager.Instance.roomCreator.CurRoomIndex == 3)
             {
-                var nextStage = StageManager.Instance.CurStageIndex + 1;
-                StageManager.Instance.roomCreator.CreateStage(endPoint, nextStage);
+                StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceStandbyRoom(endPoint);
             }
+            else
+            {
+                StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
+            }
+            StageManager.Instance.roomCreator.DisablePrevRoom();
         }
     }
 

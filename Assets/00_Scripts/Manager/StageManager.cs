@@ -87,8 +87,9 @@ public class StageManager : MonoBehaviour
         UIManager.ToggleMouseCursor(false);
 
         var stagePoint = transform;
-        roomCreator.CreateStage(stagePoint, 1);
-
+        roomCreator.CurRoom = roomCreator.PlaceStandbyRoom(stagePoint);
+        roomCreator.NextRoom = roomCreator.PlaceShootingRoom(roomCreator.CurRoom.EndPoint, 0);
+        
         SpawnPlayer(roomCreator.StandbyRoom.RespawnPoint.position);
         
         InitHUDUI();

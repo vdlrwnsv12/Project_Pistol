@@ -7,7 +7,6 @@ public abstract class Room : MonoBehaviour
     
     public Transform StartPoint => startPoint;
     public Transform EndPoint => endPoint;
-    public int RoomIndex { get; set; }
 
     protected virtual void Awake()
     {
