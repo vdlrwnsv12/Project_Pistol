@@ -16,6 +16,8 @@ public class PlayerReloadState : PlayerBaseState
             if (stateMachine.IsAds)
             {
                 stateMachine.IsAds = false;
+                stateMachine.Player.AdsCamera.gameObject.SetActive(false);
+                stateMachine.Player.NonAdsCamera.gameObject.SetActive(true);
             }
             stateMachine.Player.Weapon.Controller.ReloadWeapon(stateMachine.IsAds);
         }

@@ -15,7 +15,8 @@ MonoBehaviour:
   ID: R1001
   Targets:
   - T0001
+  - T0001
   - T0002
-  - T0004
-  ActiveTartgetPos: 010000000200000003000000
+  - T0002
+  ActiveTartgetPos: 01000000020000000300000004000000
   ActiveWallPos: 00000000

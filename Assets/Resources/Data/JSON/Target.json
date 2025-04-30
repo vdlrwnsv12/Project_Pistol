@@ -2,7 +2,6 @@
   {
     "ID": "T0001",
     "Name": "Land",
-    "Description": "Level 1 Target",
     "Type": 0,
     "Hp": 400.0,
     "Level": 1.0,

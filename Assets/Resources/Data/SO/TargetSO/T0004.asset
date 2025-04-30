@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: T0004
   Name: Land
-  Description: 
   Type: 0
   Hp: 1200
   Level: 4

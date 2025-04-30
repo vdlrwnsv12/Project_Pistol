@@ -72,6 +72,7 @@ public class WeaponController : MonoBehaviour
             EjectCasing();
             MuzzleFlash();
 
+            StageManager.Instance.ShotCount++;
             SoundManager.Instance.PlaySFX(weapon.Data.name);
 
             curAmmo--;
@@ -123,8 +124,12 @@ public class WeaponController : MonoBehaviour
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
-                Target target = hit.collider.GetComponentInParent<Target>();
+                BaseTarget target = hit.collider.GetComponentInParent<BaseTarget>();
                 target?.TakeDamage(stat.Damage, hit.collider);
+            }
+            else
+            {
+                StageManager.Instance.DestroyTargetCombo = 0;
             }
         }
     }

@@ -10,7 +10,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -26,7 +26,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -42,7 +42,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -58,7 +58,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -74,7 +74,7 @@
     "STP": 15.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -90,7 +90,7 @@
     "STP": 20.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -106,7 +106,7 @@
     "STP": 0.0,
     "SPD": 15.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -122,7 +122,7 @@
     "STP": 0.0,
     "SPD": 20.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -138,7 +138,7 @@
     "STP": 13.0,
     "SPD": 13.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -154,7 +154,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 3.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -170,7 +170,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 3,
     "WeaponParts": 0,
     "AppearanceRate": "1"
@@ -186,7 +186,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 1,
     "AppearanceRate": "1"
@@ -202,7 +202,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 1,
     "AppearanceRate": "1"
@@ -218,7 +218,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "0",
+    "ShootRecoil": 0.0,
     "MaxAmmo": 0,
     "WeaponParts": 2,
     "AppearanceRate": "1"
@@ -234,7 +234,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": "10",
+    "ShootRecoil": 10.0,
     "MaxAmmo": 0,
     "WeaponParts": 4,
     "AppearanceRate": "1"

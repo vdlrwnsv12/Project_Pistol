@@ -18,10 +18,10 @@ public class ResultUI : MainUI
     [Space] [SerializeField] private Button quitBtn;
 
     #endregion
-    
+
     public override MainUIType UIType { get; protected set; }
     public override bool IsDestroy { get; protected set; }
-    
+
     protected override void Awake()
     {
         base.Awake();
@@ -54,9 +54,29 @@ public class ResultUI : MainUI
     /// <param name="accuracy">명중률</param>
     /// <param name="headAccuracy">헤드샷 명중률</param>
     /// <param name="maxCombo">최대 콤보</param>
-    public void SetResultValue(RankType rank, int score, float remainTime, float accuracy, float headAccuracy,
+    public void SetResultValue(int score, float remainTime, float accuracy, float headAccuracy,
         int maxCombo)
     {
+        RankType rank;
+        switch (score)
+        {
+            case < 500:
+                rank = RankType.F;
+                break;
+            case < 1000:
+                rank = RankType.C;
+                break;
+            case < 2000:
+                rank = RankType.B;
+                break;
+            case < 3000:
+                rank = RankType.A;
+                break;
+            default:
+                rank = RankType.S;
+                break;
+        }
+
         rankText.text = rank.ToString();
         scoreText.text = $"<size=30>Score</size>\n<size=40>{score:D6}</size>";
 
