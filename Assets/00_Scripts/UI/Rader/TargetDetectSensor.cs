@@ -5,15 +5,13 @@ using UnityEngine;
 public class TargetDetectSensor : MonoBehaviour
 {
     public Transform raderCenter;
+    public RectTransform blipContainer;
     public RectTransform raderPanel;
     public GameObject blipPrefab;
 
     public float raderRange = 100f;
     public LayerMask targetLayer;
-
-
-    // 감지된 타겟 저장용
-    private HashSet<Transform> detectedTargets = new HashSet<Transform>();
+    
 
     void Update()
     {
@@ -27,7 +25,7 @@ public class TargetDetectSensor : MonoBehaviour
 
     void DetectTargets()
     {
-        foreach (Transform child in raderPanel)
+        foreach (Transform child in blipContainer)
         {
             if (child.CompareTag("Props"))
             {
@@ -45,11 +43,11 @@ public class TargetDetectSensor : MonoBehaviour
             if (distance > raderRange) continue;
 
             float distancePercent = distance / raderRange;
-            float radarRadius = raderPanel.rect.width / 2f;
+            float radarRadius = blipContainer.rect.width / 2f;
 
             Vector2 blipPos = new Vector2(offset.x, offset.z).normalized * radarRadius * distancePercent;
 
-            GameObject blip = Instantiate(blipPrefab, raderPanel);
+            GameObject blip = Instantiate(blipPrefab, blipContainer);
             blip.GetComponent<RectTransform>().anchoredPosition = blipPos;
         }
     }
