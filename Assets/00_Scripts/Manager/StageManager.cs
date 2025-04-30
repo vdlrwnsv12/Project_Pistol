@@ -48,7 +48,7 @@ public class StageManager : MonoBehaviour
     }
     
     public int DestroyTargetCombo { get; set; }
-    public int MaxDestroyTargetCombo => Mathf.Max(DestroyTargetCombo, maxDestroyTargetCombo);
+    public int MaxDestroyTargetCombo { get; set; }
     public bool IsQuickShot { get; set; }
     public float QuickShotTimer
     {

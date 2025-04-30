@@ -127,6 +127,10 @@ public class WeaponController : MonoBehaviour
                 BaseTarget target = hit.collider.GetComponentInParent<BaseTarget>();
                 target?.TakeDamage(stat.Damage, hit.collider);
             }
+            else
+            {
+                StageManager.Instance.DestroyTargetCombo = 0;
+            }
         }
     }
 
