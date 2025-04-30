@@ -23,6 +23,7 @@ public class ShootingRoom : Room
             StageManager.Instance.RemainTime += 20f;
             
             StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
+            StageManager.Instance.roomCreator.DisablePrevRoom();
             StageManager.Instance.roomCreator.CurRoom = this;
             
             StageManager.Instance.roomCreator.UpdateStageIndex();
@@ -35,7 +36,6 @@ public class ShootingRoom : Room
             {
                 StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
             }
-            StageManager.Instance.roomCreator.DisablePrevRoom();
         }
     }
 

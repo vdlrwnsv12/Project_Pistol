@@ -26,16 +26,16 @@ public class StandbyRoom : Room
                 StageManager.Instance.roomCreator.CurRoomIndex == 3)
             {
                 StageManager.Instance.GameOver();
+                return;
             }
             OpenRewardUI();
             
             StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
+            StageManager.Instance.roomCreator.DisablePrevRoom();
             StageManager.Instance.roomCreator.CurRoom = this;
             
             StageManager.Instance.roomCreator.UpdateStageIndex();
             StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
-            
-            StageManager.Instance.roomCreator.DisablePrevRoom();
         }
     }
 }
