@@ -311,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 2494313767616015759}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -338,6 +338,7 @@ MonoBehaviour:
   downSound: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
   hpBar: {fileID: 5265978048138649340}
   targetUI: {fileID: 1437801257222257608}
+  blipLayerObject: {fileID: 4121736819437573174}
 --- !u!1 &2591130275023911711
 GameObject:
   m_ObjectHideFlags: 0

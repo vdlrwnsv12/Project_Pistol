@@ -17,6 +17,9 @@ public abstract class BaseTarget : MonoBehaviour
     [SerializeField] protected Image hpBar;
     [SerializeField] protected GameObject targetUI;
 
+    [SerializeField] protected GameObject blipLayerObject;
+
+
     protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
@@ -52,6 +55,7 @@ public abstract class BaseTarget : MonoBehaviour
     protected virtual void Die()
     {
         Destroy(targetUI);
+        Destroy(blipLayerObject);//test
         anim.SetBool("Die", true);
         SoundManager.Instance.PlaySFX(downSound);
     }

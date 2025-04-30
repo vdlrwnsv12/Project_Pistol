@@ -53,6 +53,7 @@ MonoBehaviour:
   downSound: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
   hpBar: {fileID: 6829494462260871442}
   targetUI: {fileID: 6716688975559065943}
+  blipLayerObject: {fileID: 2405340372583666543}
   civilianMaterial: {fileID: 2100000, guid: d6a61cbb1afd94b9abd57a104ad49a9d, type: 2}
 --- !u!1 &1260817610292117429
 GameObject:
