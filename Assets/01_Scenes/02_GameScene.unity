@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b12abb279d87d438102315cf3b38d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsGamePause: 0
   roomCreator: {fileID: 72257614}
 --- !u!4 &1311678334
 Transform:
@@ -444,8 +445,8 @@ Camera:
   m_GameObject: {fileID: 702727291889003813}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
