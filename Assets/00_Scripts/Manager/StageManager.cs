@@ -31,7 +31,7 @@ public class StageManager : MonoBehaviour
 
     #endregion
 
-    private bool isGamePause;
+    public bool IsGamePause;
     private float remainTime;
     
     private int maxDestroyTargetCombo = 0;
@@ -77,7 +77,7 @@ public class StageManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        isGamePause = true;
+        IsGamePause = true;
         RemainTime = 20f;
         IsQuickShot = false;
     }
@@ -97,7 +97,7 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isGamePause)
+        if (!IsGamePause)
         {
             remainTime -= Time.deltaTime;
         }
@@ -125,7 +125,7 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
         UIManager.ToggleMouseCursor(true);
 
@@ -162,15 +162,6 @@ public class StageManager : MonoBehaviour
             //hudUI.SetEquipImage();
             HUDUI.UpdateStageInfo(CurStageIndex, 0);
             HUDUI.UpdateStatValue(Player.Stat.RCL, Player.Stat.HDL, Player.Stat.STP, Player.Stat.SPD);
-        }
-    }
-
-    public void PauseGame(bool isPause)
-    {
-        isGamePause = isPause;
-        if (Player.Controller != null)
-        {
-            Player.Controller.enabled = !isGamePause;
         }
     }
 

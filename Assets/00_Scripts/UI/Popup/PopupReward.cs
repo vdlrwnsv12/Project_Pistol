@@ -68,7 +68,7 @@ public class PopupReward : PopupUI
         if (StageManager.Instance.Player.Controller != null)
         {
             UIManager.ToggleMouseCursor(false);
-            StageManager.Instance.PauseGame(false);
+            StageManager.Instance.Player.Controller.enabled = true;
         }
     }
 

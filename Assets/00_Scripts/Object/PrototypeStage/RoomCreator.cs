@@ -11,7 +11,7 @@ public class RoomCreator : MonoBehaviour
 
     private RoomSO[] stageRoomList;
 
-    private int curStageIndex;
+    public int CurStageIndex { get; private set; }
     public int CurRoomIndex { get; private set; }
 
     public Room PrevRoom { get; set; }
@@ -48,9 +48,9 @@ public class RoomCreator : MonoBehaviour
             shootingRoomDict.Add(GetRoomNumber(room.name), shootingRoom);
         }
         
-        curStageIndex = 1;
+        CurStageIndex = 1;
         CurRoomIndex = 0;
-        stageRoomList = GetRandomRoomArray(curStageIndex);
+        stageRoomList = GetRandomRoomArray(CurStageIndex);
     }
 
     public Room PlaceStandbyRoom(Transform curRoomEndPoint)
@@ -88,14 +88,14 @@ public class RoomCreator : MonoBehaviour
         if (CurRoomIndex == 3)
         {
             CurRoomIndex = 0;
-            curStageIndex++;
-            stageRoomList = GetRandomRoomArray(curStageIndex);
+            CurStageIndex++;
+            stageRoomList = GetRandomRoomArray(CurStageIndex);
         }
         else
         {
             CurRoomIndex++;
         }
-        StageManager.Instance.HUDUI.UpdateStageInfo(curStageIndex, CurRoomIndex);
+        StageManager.Instance.HUDUI.UpdateStageInfo(CurStageIndex, CurRoomIndex);
     }
 
     private int GetStageIndex(string roomID)

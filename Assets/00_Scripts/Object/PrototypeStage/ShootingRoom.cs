@@ -19,7 +19,7 @@ public class ShootingRoom : Room
     {
         if (other.CompareTag("Player"))
         {
-            StageManager.Instance.PauseGame(false);
+            StageManager.Instance.IsGamePause = false;
             StageManager.Instance.RemainTime += 20f;
             
             StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;

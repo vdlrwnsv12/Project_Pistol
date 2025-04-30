@@ -14,13 +14,19 @@ public class StandbyRoom : Room
     {
         UIManager.Instance.OpenPopupUI<PopupReward>();
         UIManager.ToggleMouseCursor(true);
-        StageManager.Instance.PauseGame(true);
+        StageManager.Instance.IsGamePause = true;
+        StageManager.Instance.Player.Controller.enabled = false;
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            if (StageManager.Instance.roomCreator.CurStageIndex == 8 &&
+                StageManager.Instance.roomCreator.CurRoomIndex == 3)
+            {
+                StageManager.Instance.GameOver();
+            }
             OpenRewardUI();
             
             StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
