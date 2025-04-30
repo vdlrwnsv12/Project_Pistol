@@ -169,16 +169,20 @@ public class StageManager : MonoBehaviour
     {
         if (ShotCount == 0)
         {
-            shotAccuracy =  0;
+            shotAccuracy = 0;
+        }
+        else
+        {
+            shotAccuracy = (float)HitCount / (float)ShotCount * 100f;
         }
 
-        shotAccuracy = (float)HitCount / (float)ShotCount * 100f;
-        
         if (HitCount == 0)
         {
             headShotAccuracy = 0;
         }
-
-        headShotAccuracy = (float)HeadHitCount / (float)HitCount * 100f;
+        else
+        {
+            headShotAccuracy = (float)HeadHitCount / (float)HitCount * 100f;
+        }
     }
 }
