@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DataDeclaration;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,11 +13,7 @@ using Newtonsoft.Json.Linq;
 
 public class GoogleSheetParser : EditorWindow
 {
-    private const string API_URL =
-        "https://script.google.com/macros/s/AKfycbxaG8rWBKYvGxUSD8uFFj-YJDcP4rCbrJj_PO_h_XHwbtDq7-U1jzwfBwIAgDPt7oSX/exec"; // 배포 URL 입력
-
-    private const string Google_Sheet_URL =
-        "https://docs.google.com/spreadsheets/d/15bfHld_mkidiNNKJLPD6tfa6-ThFvU-kZK76TDynleA"; // 적용할 구글 시트 주소에서 /edit 전까지 입력
+    
 
     private List<SheetInfo> sheetInfoList = new();
 
@@ -100,7 +97,7 @@ public class GoogleSheetParser : EditorWindow
         isFetching = true;
 
         // API URL로 요청
-        var request = UnityWebRequest.Get(API_URL);
+        var request = UnityWebRequest.Get(Constants.API_URL);
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
@@ -143,7 +140,7 @@ public class GoogleSheetParser : EditorWindow
     /// <param name="selectedSheetGID">선택한 시트 ID</param>
     private IEnumerator ParseGoogleSheet(string selectedSheetName, string selectedSheetGID, bool notice = true)
     {
-        var sheetURL = $"{Google_Sheet_URL}/export?format=tsv&gid={selectedSheetGID}";
+        var sheetURL = $"{Constants.Google_Sheet_URL}/export?format=tsv&gid={selectedSheetGID}";
 
         var request = UnityWebRequest.Get(sheetURL);
         yield return request.SendWebRequest();
