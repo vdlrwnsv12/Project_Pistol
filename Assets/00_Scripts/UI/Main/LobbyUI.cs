@@ -13,9 +13,9 @@ public class LobbyUI : MainUI
     public string characterText2;
     public string characterText3;
     public Button startBtn;//테스트
-    protected override void Awake()
+    
+    private void Awake()
     {
-        base.Awake();
         UIType = MainUIType.Lobby;
         IsDestroy = true;
 

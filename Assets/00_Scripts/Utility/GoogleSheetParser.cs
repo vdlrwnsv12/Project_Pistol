@@ -213,7 +213,7 @@ public class GoogleSheetParser : EditorWindow
     {
         var className = $"{sheetName}SO";
         var dataClassName = $"{sheetName}Data";
-        var directoryPath = Path.Combine(Application.dataPath, "00_Scripts", "SO");
+        var directoryPath = Path.Combine(Application.dataPath, "00_Scripts", "Data", "SO");
 
         if (!Directory.Exists(directoryPath))
         {

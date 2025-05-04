@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class StageManager : SingletonBehaviour<StageManager>
 {
-    public bool IsGamePause;
+    public bool IsGamePause { get; set; }
     private float remainTime;
     
-    private int maxDestroyTargetCombo = 0;
     private float quickShotTimer;
 
     public Player Player { get; private set; }

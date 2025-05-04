@@ -31,9 +31,8 @@ public class HUDUI : MainUI
     public override MainUIType UIType { get; protected set; }
     public override bool IsDestroy { get; set; }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         UIType = MainUIType.HUD;
         IsDestroy = false;
 

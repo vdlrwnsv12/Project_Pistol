@@ -42,10 +42,9 @@ public class PopupOption : PopupUI
     public override bool IsDestroy { get; set; }
     public override bool IsHideNotFocus { get; protected set; }
 
-    protected override void Awake()
+    private void Awake()
     {
         //TODO: 게임씬이 아니면 Resume버튼 비활성화
-        base.Awake();
 
         //슬라이더 최대 최소값
         masterSlider.minValue = 0;

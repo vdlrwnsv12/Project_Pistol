@@ -26,8 +26,6 @@ public class Player : MonoBehaviour
     public Animator Animator { get; private set; }
     public PlayerMotion Motion { get; private set; }
     public TargetSensor TargetSensor { get; private set; }
-    private float stepTimer = 0f;
-    private float stepInterval = 0.4f; // 0.4초마다 흔든다 (스텝 간격)
     [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
 

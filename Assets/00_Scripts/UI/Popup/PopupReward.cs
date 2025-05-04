@@ -15,9 +15,8 @@ public class PopupReward : PopupUI
     public override bool IsDestroy { get; set; }
     public override bool IsHideNotFocus { get; protected set; }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         itemRewardPool = ResourceManager.Instance.LoadAll<ItemSO>("Data/SO/ItemSO");
         itemRewards = new ItemSO[rewardCards.Length];
 
