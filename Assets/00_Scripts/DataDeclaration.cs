@@ -7,6 +7,13 @@ namespace DataDeclaration
 {
     #region Enum
 
+    public enum Scene
+    {
+        Start,
+        Lobby,
+        Stage
+    }
+
     public enum MainUIType
     {
         None,
