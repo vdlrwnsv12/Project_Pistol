@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LobbyUI : MainUI
 {
     public override MainUIType UIType { get; protected set; }
-    public override bool IsDestroy { get; protected set; }
+    public override bool IsDestroy { get; set; }
 
     public string characterText1;
     public string characterText2;

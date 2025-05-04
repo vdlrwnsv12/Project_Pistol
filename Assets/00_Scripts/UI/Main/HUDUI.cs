@@ -29,7 +29,7 @@ public class HUDUI : MainUI
     private Color32 currentColor;
 
     public override MainUIType UIType { get; protected set; }
-    public override bool IsDestroy { get; protected set; }
+    public override bool IsDestroy { get; set; }
 
     protected override void Awake()
     {

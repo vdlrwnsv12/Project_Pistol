@@ -20,7 +20,7 @@ public class ResultUI : MainUI
     #endregion
 
     public override MainUIType UIType { get; protected set; }
-    public override bool IsDestroy { get; protected set; }
+    public override bool IsDestroy { get; set; }
 
     protected override void Awake()
     {

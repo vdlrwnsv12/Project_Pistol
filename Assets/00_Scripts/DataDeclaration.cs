@@ -42,6 +42,13 @@ namespace DataDeclaration
 
     #region Struct
 
+    public struct UserData
+    {
+        public string AccessToken;
+        public string UserID;
+        public string UserName;
+    }
+    
     [Serializable]
     public struct RewardCard
     {

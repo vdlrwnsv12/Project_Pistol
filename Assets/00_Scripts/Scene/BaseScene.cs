@@ -1,12 +1,6 @@
 public abstract class BaseScene
 {
-    public virtual void EnterScene()
-    {
-        
-    }
+    public abstract void EnterScene();
 
-    public virtual void ExitScene()
-    {
-        
-    }
+    public abstract void ExitScene();
 }

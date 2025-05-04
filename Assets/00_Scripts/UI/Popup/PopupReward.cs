@@ -12,6 +12,9 @@ public class PopupReward : PopupUI
 
     [SerializeField] private Button cancelBuyBtn;
 
+    public override bool IsDestroy { get; set; }
+    public override bool IsHideNotFocus { get; protected set; }
+
     protected override void Awake()
     {
         base.Awake();

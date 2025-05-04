@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Scene = DataDeclaration.Scene;
 
-public class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
+public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 {
-    public static Scene CurScene { get; private set; } = Scene.Stage;
+    public static Scene CurScene { get; private set; } = Scene.Start;
     public static Scene PrevScene { get; private set; }
     public static Scene NextScene { get; private set; }
 
@@ -15,14 +15,18 @@ public class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
     {
         base.Awake();
         Init();
+    }
+
+    private void Start()
+    {
         scenes[CurScene].EnterScene();
     }
 
-    private IEnumerator LoadScene()
+    public IEnumerator LoadScene(Scene nextScene)
     {
         yield return null;
 
-        var op = SceneManager.LoadSceneAsync((int)NextScene);
+        var op = SceneManager.LoadSceneAsync((int)nextScene);
         op.allowSceneActivation = false;
         
         while (!op.isDone)
@@ -38,7 +42,7 @@ public class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
                 op.allowSceneActivation = true;
                 
                 PrevScene = CurScene;
-                CurScene = NextScene;
+                CurScene = nextScene;
                 
                 scenes[PrevScene].ExitScene();
                 scenes[CurScene].EnterScene();
@@ -51,6 +55,5 @@ public class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
         scenes = new Dictionary<Scene, BaseScene>();
         scenes.Add(Scene.Start, new StartScene());
         scenes.Add(Scene.Lobby, new LobbyScene());
-        scenes.Add(Scene.Stage, new StageScene());
     }
 }
