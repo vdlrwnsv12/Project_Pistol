@@ -359,6 +359,7 @@ public class GoogleSheetParser : EditorWindow
         
         using (var sw = new StreamWriter(dataClassPath))
         {
+            sw.WriteLine($"#if UNITY_EDITOR");
             sw.WriteLine("using UnityEngine;");
             sw.WriteLine("using UnityEditor;");
             sw.WriteLine("[System.Serializable]");
@@ -376,6 +377,7 @@ public class GoogleSheetParser : EditorWindow
             }
 
             sw.WriteLine("}");
+            sw.WriteLine($"#endif");
         }
 
         AssetDatabase.Refresh();
