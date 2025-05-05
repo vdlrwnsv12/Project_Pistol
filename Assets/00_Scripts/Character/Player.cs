@@ -5,45 +5,39 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
 {
-    private GameObject weaponPos;
+    [Header("캐릭터 수치"), Tooltip("정조준 시 이동속도 배율"), Range(0f, 1f)]
+    public float adsSpeedMultiplier = 0.01f;
+    [Tooltip("기본 이동속도 배율"), Range(0f, 1f)] public float speedMultiplier = 0.1f;
 
-    [Range(0f, 1f)] public float adsSpeedMultiplier = 0.01f;
-    [Range(0f, 1f)] public float speedMultiplier = 0.1f;
+    [Space(20), Header("무기"), Tooltip("무기 장착 위치"), SerializeField]
+    private Transform weaponPos;
+
+    private PlayerStateMachine stateMachine;
 
     #region Properties
 
     public CharacterSO Data { get; private set; }
     public PlayerStatHandler Stat { get; private set; }
-    public PlayerStateMachine StateMachine { get; private set; }
 
     public Weapon Weapon { get; private set; }
-
-    public CharacterController CharacterController { get; private set; }
-    public ForceReceiver ForceReceiver { get; private set; }
+    
     public PlayerController Controller { get; private set; }
 
     public PlayerAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerMotion Motion { get; private set; }
-    public TargetSensor TargetSensor { get; private set; }
+
     [field: SerializeField] public CinemachineVirtualCamera NonAdsCamera { get; private set; }
     [field: SerializeField] public CinemachineVirtualCamera AdsCamera { get; private set; }
 
     [field: SerializeField] public CinemachineImpulseSource impulseSource;
+
     #endregion
 
     private void Awake()
     {
         InitPlayer();
 
-        Animator = GetComponent<Animator>();
-
-        Controller = GetComponent<PlayerController>();
-        CharacterController = GetComponent<CharacterController>();
-        ForceReceiver = GetComponent<ForceReceiver>();
-        Motion = GetComponent<PlayerMotion>();
-        TargetSensor = GetComponent<TargetSensor>();
-        
         InitWeapon(GameManager.Instance.selectedWeapon.ID);
 
         InitCamera();
@@ -51,28 +45,29 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        StateMachine.ChangeState(StateMachine.IdleState);
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     private void Update()
     {
-        StateMachine.HandleInput();
-        StateMachine.Update();
+        stateMachine.HandleInput();
+        stateMachine.Update();
 
-        if (StateMachine.MovementInput.magnitude > 0)
+        if (stateMachine.MovementInput.magnitude > 0)
         {
             Motion.HeadbobUp();
         }
         else
         {
-           Motion.HeadbobDown();
+            Motion.HeadbobDown();
         }
+
         Motion.WeaponShake();
     }
 
     private void FixedUpdate()
     {
-        StateMachine.PhysicsUpdate();
+        stateMachine.PhysicsUpdate();
     }
 
     private void InitPlayer()
@@ -82,14 +77,14 @@ public class Player : MonoBehaviour
             Data = GameManager.Instance.selectedCharacter;
         }
 
-        if (weaponPos == null)
-        {
-            weaponPos = gameObject.transform.FindDeepChildByName("WeaponPos").gameObject;
-        }
-
         Stat = new PlayerStatHandler(this);
-        StateMachine = new PlayerStateMachine(this);
+        stateMachine = new PlayerStateMachine(this);
         AnimationData = new PlayerAnimationData();
+
+        Animator = GetComponent<Animator>();
+
+        Controller = GetComponent<PlayerController>();
+        Motion = GetComponent<PlayerMotion>();
     }
 
     private void InitCamera()
@@ -112,9 +107,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void InitWeapon(string weaponID)
+    private void InitWeapon(string weaponID)
     {
+        if (weaponPos == null)
+        {
+            weaponPos = transform.FindDeepChildByName("WeaponPos");
+        }
+
         var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
-        Weapon = Instantiate(resource, weaponPos.transform.position, Quaternion.identity, weaponPos.transform);
+        Weapon = Instantiate(resource, weaponPos.position, Quaternion.identity, weaponPos);
     }
 }

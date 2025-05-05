@@ -1,3 +1,4 @@
+using DataDeclaration;
 using UnityEngine;
 
 public class PlayerStatHandler
@@ -12,22 +13,22 @@ public class PlayerStatHandler
     public float RCL
     {
         get => rcl;
-        private set => rcl = Mathf.Clamp(value, 0, 99);
+        private set => rcl = Mathf.Clamp(value, 0, Constants.MAX_STAT);
     }
     public float HDL
     {
         get => hdl;
-        private set => hdl = Mathf.Clamp(value, 0, 99);
+        private set => hdl = Mathf.Clamp(value, 0, Constants.MAX_STAT);
     }
     public float STP
     {
         get => stp;
-        private set => stp = Mathf.Clamp(value, 0, 99);
+        private set => stp = Mathf.Clamp(value, 0, Constants.MAX_STAT);
     }
     public float SPD
     {
         get => spd;
-        private set => spd = Mathf.Clamp(value, 0, 99);
+        private set => spd = Mathf.Clamp(value, 0, Constants.MAX_STAT);
     }
 
     public PlayerStatHandler(Player player)

@@ -1,5 +1,3 @@
-using DataDeclaration;
-
 public abstract class StateMachine
 {
     private IState currentState;
