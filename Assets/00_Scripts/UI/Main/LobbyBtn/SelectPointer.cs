@@ -1,5 +1,7 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class SelectPointer : MonoBehaviour
@@ -30,7 +32,19 @@ public class SelectPointer : MonoBehaviour
             {
                 GameManager.Instance.selectedCharacter = clickComp.Data;
                 Debug.Log($"{clickComp.Data.name} 선택됨!");
-          
+
+                if (hit.collider.CompareTag("Player"))
+                {
+                    transform.position = hit.collider.transform.position;
+
+                    CinemachineVirtualCamera vcam = GetComponent<CinemachineVirtualCamera>();
+                    if (vcam != null)
+                    {
+                        vcam.Follow = hit.collider.transform;
+                        vcam.LookAt = hit.collider.transform;
+                    }
+                }
+
                 GameObject popupGO = Instantiate(popupInformPrefab, popupParent);
                 PopupInform popup = popupGO.GetComponent<PopupInform>();
                 popup.SetCharacterInfo(clickComp.Data);
