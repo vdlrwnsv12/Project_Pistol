@@ -41,7 +41,12 @@ public class SelectPointer : MonoBehaviour
                     if (vcam != null)
                     {
                         vcam.Follow = hit.collider.transform; // 클릭시 이동
-                        vcam.LookAt = hit.collider.transform; 
+                        vcam.LookAt = hit.collider.transform;
+                        var transposer = vcam.GetCinemachineComponent<CinemachineTransposer>();
+                        if (transposer != null)
+                        {
+                            transposer.m_FollowOffset = new Vector3(0, 2, -3); // 원하는 거리로 조절
+                        }
                     }
                 }
 
