@@ -40,8 +40,8 @@ public class SelectPointer : MonoBehaviour
                     CinemachineVirtualCamera vcam = GetComponent<CinemachineVirtualCamera>();
                     if (vcam != null)
                     {
-                        vcam.Follow = hit.collider.transform;
-                        vcam.LookAt = hit.collider.transform;
+                        vcam.Follow = hit.collider.transform; // 클릭시 이동
+                        vcam.LookAt = hit.collider.transform; 
                     }
                 }
 
