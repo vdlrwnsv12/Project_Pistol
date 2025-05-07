@@ -27,7 +27,7 @@ public class SelectPointer : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Player clickComp = hit.collider.GetComponent<Player>();
+            SelectSO clickComp = hit.collider.GetComponent<SelectSO>();
             if (clickComp != null)
             {
                 GameManager.Instance.selectedCharacter = clickComp.Data;

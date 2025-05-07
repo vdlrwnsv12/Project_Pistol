@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     #region Properties
 
-    [field: SerializeField] public CharacterSO Data { get; private set; }
+    public CharacterSO Data { get; private set; }
     public PlayerStatHandler Stat { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
 
