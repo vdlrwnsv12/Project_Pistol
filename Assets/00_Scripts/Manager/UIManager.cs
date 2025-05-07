@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataDeclaration;
 using UnityEngine.SceneManagement;
+using Scene = UnityEngine.SceneManagement.Scene;
 
 public sealed class UIManager : SingletonBehaviour<UIManager>
 {

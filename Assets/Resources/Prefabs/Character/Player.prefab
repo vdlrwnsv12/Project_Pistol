@@ -1348,7 +1348,6 @@ GameObject:
   - component: {fileID: 3911741356019388072}
   - component: {fileID: 5677642393840069715}
   - component: {fileID: 206073286042454194}
-  - component: {fileID: 4779161430363384402}
   - component: {fileID: 1676739952266147800}
   - component: {fileID: 2075133211311784907}
   m_Layer: 0
@@ -1471,6 +1470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adsSpeedMultiplier: 0.629
   speedMultiplier: 0.1
+  weaponPos: {fileID: 7695437562673579491}
   <NonAdsCamera>k__BackingField: {fileID: 4035878995279097143}
   <AdsCamera>k__BackingField: {fileID: 799297409611457844}
   impulseSource: {fileID: 7888934095727771161}
@@ -1486,19 +1486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f687cbbac610bed4c917b8b31c390dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4779161430363384402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3531467753066918567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9795a6051555f242b11eeb9e553da92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
 --- !u!114 &1676739952266147800
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,41 +2,12 @@ using System;
 using DataDeclaration;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class StageManager : SingletonBehaviour<StageManager>
 {
-    #region Singleton
-
-    private static StageManager instance;
-
-    public static StageManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindAnyObjectByType<StageManager>();
-                if (instance == null)
-                {
-                    var go = new GameObject
-                    {
-                        name = nameof(StageManager)
-                    };
-                    instance = go.AddComponent<StageManager>();
-                }
-            }
-
-            return instance;
-        }
-    }
-
-    #endregion
-
-    public bool IsGamePause;
+    public bool IsGamePause { get; set; }
     private float remainTime;
     
-    private int maxDestroyTargetCombo = 0;
     private float quickShotTimer;
-    private const float QUICK_SHOT_TIME = 2f;
 
     public Player Player { get; private set; }
     
@@ -64,17 +35,10 @@ public class StageManager : MonoBehaviour
 
     public HUDUI HUDUI {get; private set;}
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-        
+        isDestroyOnLoad = true;
+        base.Awake();
         IsGamePause = true;
         RemainTime = 20f;
         IsQuickShot = false;
@@ -103,7 +67,7 @@ public class StageManager : MonoBehaviour
         if (IsQuickShot)
         {
             quickShotTimer += Time.deltaTime;
-            if (quickShotTimer >= QUICK_SHOT_TIME)
+            if (quickShotTimer >= Constants.QUICK_SHOT_TIME)
             {
                 quickShotTimer = 0f;
                 IsQuickShot = false;

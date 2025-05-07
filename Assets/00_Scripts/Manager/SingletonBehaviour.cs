@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Component
 {
+    protected static bool isDestroyOnLoad = false;
     private static T instance;
 
     public static T Instance
@@ -33,7 +34,6 @@ public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Component
             name = typeof(T).Name
         };
         instance = go.AddComponent<T>();
-        DontDestroyOnLoad(go);
     }
 
     private void RemoveDuplicates()
@@ -41,7 +41,10 @@ public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Component
         if (instance == null)
         {
             instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            if (!isDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this);
+            }
         }
         else if (instance != this)
         {

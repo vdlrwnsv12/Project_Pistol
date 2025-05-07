@@ -10,18 +10,15 @@ public class GradientButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointe
     public Material normalMaterial; // 색깔 없음
     public Material gradientMaterial; // 그라데이션 색깔
     public TextMeshProUGUI text;
-    private bool isPointerOver = false; // 포인터가 머물러 있냐
     private bool isPressed = false;
     public void OnPointerEnter(PointerEventData eventData) // 버튼위에 포인터
     {
-        isPointerOver = true;
         targetImage.material = gradientMaterial;
         text.color = Color.black;
     }
 
     public void OnPointerExit(PointerEventData eventData) // 버튼위에 커서가 벗어 났을 때 
     {
-        isPointerOver = false;
         targetImage.material = normalMaterial;
         if (isPressed)
         {

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 [System.Serializable]
@@ -29,3 +30,4 @@ public class JsonToSO : MonoBehaviour
         ScriptableObjectCreator.CreateScriptableObjectAssetsFromJson<RoomData>("Room.json", typeof(RoomSO));
     }
 }
+#endif
