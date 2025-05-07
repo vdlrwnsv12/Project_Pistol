@@ -45,7 +45,7 @@ public class SelectPointer : MonoBehaviour
                         var transposer = vcam.GetCinemachineComponent<CinemachineTransposer>();
                         if (transposer != null)
                         {
-                            transposer.m_FollowOffset = new Vector3(0, 2, -3); // 원하는 거리로 조절
+                            transposer.m_FollowOffset = new Vector3(-1.3f, 1, 0.5f); // 원하는 거리로 조절
                         }
                     }
                 }
