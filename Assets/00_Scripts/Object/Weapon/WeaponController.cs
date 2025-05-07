@@ -112,23 +112,21 @@ public class WeaponController : MonoBehaviour
     {
         if (casingPrefab && casingExitLocation)
         {
-            GameObject casing = ObjectPoolManager.Instance.GetObject(casingPrefab, casingExitLocation.position, casingExitLocation.rotation, 6f);
+            GameObject casing = ObjectPoolManager.Instance.GetObject(casingPrefab,
+                casingExitLocation.position,
+                casingExitLocation.rotation,
+                6f
+            );
+            
+            ShellCasing sc = casing.GetComponent<ShellCasing>();
 
-            Rigidbody rb = casing.GetComponent<Rigidbody>();
-            if (rb != null)
+            if (sc != null)
             {
-                ejectPower = stat.Damage * 40f;
-                float power = ejectPower;
-
-                rb.AddExplosionForce(Random.Range(power * 0.7f, power),
-                    casingExitLocation.position - casingExitLocation.right * 0.3f - casingExitLocation.up * 0.6f,
-                    1f);
-
-                rb.AddTorque(new Vector3(0, Random.Range(100, 500), Random.Range(100, 1000)), ForceMode.Impulse);
+                
+                float power = stat.Damage * 40f;
+                Vector3 direction = -casingExitLocation.right * 0.3f - casingExitLocation.up * 0.8f;
+                sc.SetEjectData(power, casingExitLocation.position, direction);
             }
-
-            // 자동 반환 확인 후 삭제
-            //ObjectPoolManager.Instance.AutoReturnToPool(casing, 5f);  // 5초 후 반환
         }
     }
 
