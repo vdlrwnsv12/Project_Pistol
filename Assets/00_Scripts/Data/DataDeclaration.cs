@@ -64,6 +64,10 @@ namespace DataDeclaration
 
     public static class Constants
     {
+        public const int LAST_STAGE_INDEX = 8;
+        public const int MAX_ROOM_INDEX = 3;
+
+        public const float ADDITIONAL_STAGE_TIME = 20f;
         public const float QUICK_SHOT_TIME = 2f;
 
         public const int MIN_STAT = 0;

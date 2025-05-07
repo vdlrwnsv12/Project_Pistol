@@ -53,7 +53,7 @@ public class PopupReward : PopupUI
             {
                 rewardCards[i].rewardButton.onClick.AddListener(() => StageManager.Instance.Player.Stat.IncreaseStat(item.RCL, item.HDL, item.STP, item.SPD));
                 rewardCards[i].rewardButton.onClick.AddListener(() =>
-                    ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue(StageManager.Instance.Player.Stat.RCL, StageManager.Instance.Player.Stat.HDL, StageManager.Instance.Player.Stat.STP, StageManager.Instance.Player.Stat.SPD));
+                    ((HUDUI)UIManager.Instance.CurMainUI).UpdateStatValue());
             }
             else
             {

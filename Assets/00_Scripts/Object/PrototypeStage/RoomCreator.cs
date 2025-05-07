@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataDeclaration;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomCreator : MonoBehaviour
 {
@@ -19,6 +22,8 @@ public class RoomCreator : MonoBehaviour
     public Room NextRoom { get; set; }
 
     public StandbyRoom StandbyRoom => standbyRoom;
+
+    public Action RoomChangedAction;
 
     private void Awake()
     {
@@ -51,6 +56,9 @@ public class RoomCreator : MonoBehaviour
         CurStageIndex = 1;
         CurRoomIndex = 0;
         stageRoomList = GetRandomRoomArray(CurStageIndex);
+
+        RoomChangedAction += UpdateStageIndex;
+        RoomChangedAction += DisablePrevRoom;
     }
 
     public Room PlaceStandbyRoom(Transform curRoomEndPoint)
@@ -83,9 +91,9 @@ public class RoomCreator : MonoBehaviour
         PrevRoom.gameObject.SetActive(false);
     }
 
-    public void UpdateStageIndex()
+    private void UpdateStageIndex()
     {
-        if (CurRoomIndex == 3)
+        if (CurRoomIndex == Constants.MAX_ROOM_INDEX)
         {
             CurRoomIndex = 0;
             CurStageIndex++;
@@ -95,7 +103,6 @@ public class RoomCreator : MonoBehaviour
         {
             CurRoomIndex++;
         }
-        StageManager.Instance.HUDUI.UpdateStageInfo(CurStageIndex, CurRoomIndex);
     }
 
     private int GetStageIndex(string roomID)

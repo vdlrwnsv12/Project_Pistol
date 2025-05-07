@@ -1,3 +1,4 @@
+using DataDeclaration;
 using UnityEngine;
 
 public class StandbyRoom : Room
@@ -22,8 +23,8 @@ public class StandbyRoom : Room
     {
         if (other.CompareTag("Player"))
         {
-            if (StageManager.Instance.roomCreator.CurStageIndex == 8 &&
-                StageManager.Instance.roomCreator.CurRoomIndex == 3)
+            if (StageManager.Instance.roomCreator.CurStageIndex == Constants.LAST_STAGE_INDEX &&
+                StageManager.Instance.roomCreator.CurRoomIndex == Constants.MAX_ROOM_INDEX)
             {
                 StageManager.Instance.GameOver();
                 return;
@@ -31,10 +32,9 @@ public class StandbyRoom : Room
             OpenRewardUI();
             
             StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
-            StageManager.Instance.roomCreator.DisablePrevRoom();
             StageManager.Instance.roomCreator.CurRoom = this;
             
-            StageManager.Instance.roomCreator.UpdateStageIndex();
+            StageManager.Instance.roomCreator.RoomChangedAction();
             StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
         }
     }

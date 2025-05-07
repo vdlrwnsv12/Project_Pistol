@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DataDeclaration;
 using UnityEngine;
 
 public class ShootingRoom : Room
@@ -39,15 +40,14 @@ public class ShootingRoom : Room
         if (other.CompareTag("Player"))
         {
             StageManager.Instance.IsGamePause = false;
-            StageManager.Instance.RemainTime += 20f;
+            StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
             
             StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
-            StageManager.Instance.roomCreator.DisablePrevRoom();
             StageManager.Instance.roomCreator.CurRoom = this;
             
-            StageManager.Instance.roomCreator.UpdateStageIndex();
+            StageManager.Instance.roomCreator.RoomChangedAction();
             
-            if (StageManager.Instance.roomCreator.CurRoomIndex == 3)
+            if (StageManager.Instance.roomCreator.CurRoomIndex == Constants.MAX_ROOM_INDEX)
             {
                 StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceStandbyRoom(endPoint);
             }

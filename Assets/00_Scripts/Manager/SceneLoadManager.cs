@@ -55,5 +55,6 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
         scenes = new Dictionary<Scene, BaseScene>();
         scenes.Add(Scene.Start, new StartScene());
         scenes.Add(Scene.Lobby, new LobbyScene());
+        scenes.Add(Scene.Stage, new StageScene());
     }
 }
