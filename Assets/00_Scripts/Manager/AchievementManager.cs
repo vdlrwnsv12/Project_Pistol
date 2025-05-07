@@ -7,7 +7,7 @@ public class AchievementManager : MonoBehaviour
     [SerializeField] private List<AchievementData> allAchievements;
     private HashSet<string> unlockedAchievements = new HashSet<string>();
 
-    [SerializeField]
+    [SerializeField] private UIAchievementView uiView;
 
     public static AchievementManager Instance {  get; private set; }
 
@@ -25,13 +25,13 @@ public class AchievementManager : MonoBehaviour
 
     public void CheckCondition(AchievementConditionType type, float value)
     {
-        foreach (var allAchievement in allAchievements)
+        foreach (var achievement in allAchievements)
         {
-            if (AchievementManager.conditionType == type &&
-                value >= AchievementManager.requiredValue &&
-                !unlockedAchievements.Contains(allAchievement.id))
+            if (achievement.conditionType == type &&
+                value >= achievement.requiredValue &&
+                !unlockedAchievements.Contains(achievement.id))
             {
-                unlock(allAchievement);
+                Unlock(achievement);
             }
         }
     }

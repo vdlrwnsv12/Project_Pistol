@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIAchievemenetView : MonoBehaviour
+public class UIAchievementView : MonoBehaviour
 {
     [SerializeField] private Transform listParent;
     [SerializeField] private GameObject achievementItemPrefab;
