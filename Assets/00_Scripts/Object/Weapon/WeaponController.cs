@@ -18,9 +18,6 @@ public class WeaponController : MonoBehaviour
 
     private float ejectPower = 150f;
 
-    private PoolableResource impactPoolable;
-    private PoolableResource casePoolable;
-
     public int CurAmmo => curAmmo;
 
     private void Awake()
@@ -32,9 +29,6 @@ public class WeaponController : MonoBehaviour
         bulletImpactPrefab = ResourceManager.Instance.Load<GameObject>("Prefabs/FX/BulletHole");
 
         isReloading = false;
-
-        impactPoolable = bulletImpactPrefab.GetComponent<PoolableResource>();
-        casePoolable = casingPrefab.GetComponent<PoolableResource>();
     }
 
     private void Start()
@@ -95,31 +89,15 @@ public class WeaponController : MonoBehaviour
         Ray ray = new Ray(barrelLocation.position, shootDirection);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // 탄흔 처리: GetComponent 한 번만 호출
+            // 탄흔 처리
             if (bulletImpactPrefab)
             {
-                if (impactPoolable != null)
-                {
-                    Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
-                    GameObject impact =
-                        ObjectPoolManager.Instance.GetObjectInPool(impactPoolable, hit.point, hitRotation);
-                    impact.transform.SetParent(hit.collider.transform);
+                Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
+                GameObject impact = ObjectPoolManager.Instance.GetObject(bulletImpactPrefab, hit.point, hitRotation, 5f);
+                impact.transform.SetParent(hit.collider.transform);
 
-                    // AutoReturn 처리
-                    if (impactPoolable != null && impactPoolable.isAutoReturn)
-                    {
-                        ObjectPoolManager.Instance.AutoReturnToPool(impact, impactPoolable.returnTime);
-                    }
-                }
-                else
-                {
-                    // fallback: 풀링 컴포넌트가 없으면 인스턴스화
-                    Quaternion hitRotation = Quaternion.LookRotation(hit.normal);
-                    GameObject impact = Instantiate(bulletImpactPrefab, hit.point, hitRotation);
-                    impact.transform.SetParent(hit.collider.transform);
-                    Destroy(impact, 5f);
-                    Debug.LogWarning("PoolableResource가 없어 Instantiate 사용됨");
-                }
+                // AutoReturn 처리
+                //ObjectPoolManager.Instance.AutoReturnToPool(impact, 5f);  // 5초 후 반환
             }
 
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
@@ -134,17 +112,7 @@ public class WeaponController : MonoBehaviour
     {
         if (casingPrefab && casingExitLocation)
         {
-            if (casePoolable == null)
-            {
-                Debug.LogWarning("PoolableResource 컴포넌트가 casingPrefab에 없습니다.");
-                return;
-            }
-
-            GameObject casing = ObjectPoolManager.Instance.GetObjectInPool(
-                casePoolable,
-                casingExitLocation.position,
-                casingExitLocation.rotation
-            );
+            GameObject casing = ObjectPoolManager.Instance.GetObject(casingPrefab, casingExitLocation.position, casingExitLocation.rotation, 6f);
 
             Rigidbody rb = casing.GetComponent<Rigidbody>();
             if (rb != null)
@@ -160,11 +128,7 @@ public class WeaponController : MonoBehaviour
             }
 
             // 자동 반환 확인 후 삭제
-            var poolableInstance = casing.GetComponent<PoolableResource>();
-            if (poolableInstance != null && poolableInstance.isAutoReturn)
-            {
-                ObjectPoolManager.Instance.AutoReturnToPool(casing, poolableInstance.returnTime);
-            }
+            //ObjectPoolManager.Instance.AutoReturnToPool(casing, 5f);  // 5초 후 반환
         }
     }
 
