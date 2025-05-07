@@ -5,9 +5,10 @@ using UnityEngine;
 /// <summary>
 /// 예시
 /// 배경음악: SoundManager.Instance.PlayBackgroundMusic("사운드 이름");
-/// 효과음: SoundManager.Instance.PlaySFX("사운드 이름");
+/// 효과음: SoundManager.Instance.PlaySFXForName("사운드 이름");
+/// 효과음: SoundManager.Instance.PlaySFXForName("등록한 사운드 클립");
 /// </summary>
-/// 
+
 [System.Serializable]
 public class SoundEffectData
 {

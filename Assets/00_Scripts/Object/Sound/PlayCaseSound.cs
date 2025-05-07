@@ -8,7 +8,7 @@ public class PlayCaseSound : MonoBehaviour
     {
         if(!other.gameObject.CompareTag("Gun"))
         {
-            SoundManager.Instance.PlaySFX("Shell");
+            SoundManager.Instance.PlaySFXForName("Shell");
         }
     }
 }
