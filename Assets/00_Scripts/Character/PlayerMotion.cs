@@ -39,19 +39,6 @@ public class PlayerMotion : MonoBehaviour
         initialLocalRotation = HandPos.transform.localRotation;
     }
 
-    /// <summary>
-    /// 조준 시 캐릭터 STP 수치에 따른 흔들림 기능
-    /// </summary>
-    public void StartHeadBob()
-    {
-        float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);  // STP가 1일 때 0, 99일 때 1
-        float inverseEffect = 1f - t;  // 반비례 효과
-
-        Vector3 pos = Vector3.zero;
-        pos.z += Mathf.Lerp(pos.z, Mathf.Sin(Time.time * frequency) * amount * inverseEffect, smooth * Time.deltaTime);
-
-        rootCam.localPosition = pos;
-    }
 
     /// <summary>
     /// 조준 시 캐릭터 HDL 수치에 따른 조준 흔들림 기능
