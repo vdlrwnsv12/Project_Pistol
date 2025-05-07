@@ -1,7 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 사용법
+/// ObjectPoolManager.Instance.GetObject(풀에서 가져올 프리펩, 위치, 회전, 반환될 시간);
+/// /// 예)GameObject impact = ObjectPoolManager.Instance.GetObject(bulletImpactPrefab, hit.point, hitRotation, 5f);
+/// 반환될 시간 -1f로 하면 ReturnToPool메서드를 호출해야만 반환됨
+/// 예)GameObject impact = ObjectPoolManager.Instance.GetObject(bulletImpactPrefab, hit.point, hitRotation, -1f);
+/// ObjectPoolManager.Instance.ReturnToPool(bullet.gameObject);
+/// GetObject를 했는데 풀에 없으면 새로운 객체 생성
+/// </summary>
 public interface IPoolable
 {
     void OnGetFromPool();      // 풀에서 꺼낼 때 호출
