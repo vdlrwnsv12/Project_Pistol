@@ -1,14 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LandTarget : BaseTarget
 {
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     public override void TakeDamage(float amount, Collider hitCollider)
     {
         if (currentHp <= 0) return;
@@ -16,7 +9,6 @@ public class LandTarget : BaseTarget
         anim.SetTrigger("Hit");
         
         StageManager.Instance.HitCount++;
-        StageManager.Instance.DestroyTargetCombo++;
         bool isHeadShot;
 
         if (hitCollider != null && hitCollider.name == "Head")
@@ -33,17 +25,22 @@ public class LandTarget : BaseTarget
 
         float realDamage = Mathf.Min(amount, currentHp);
         currentHp -= realDamage;
-        
-        StageManager.Instance.GameScore += (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
-        StageManager.Instance.IsQuickShot = true;
-        StageManager.Instance.QuickShotTimer = 0f;
 
         hpBar.fillAmount = currentHp / data.Hp;
 
         if (currentHp <= 0)
         {
+            StageManager.Instance.DestroyTargetCombo++;
+            if (StageManager.Instance.MaxDestroyTargetCombo <= StageManager.Instance.DestroyTargetCombo)
+            {
+                StageManager.Instance.MaxDestroyTargetCombo = StageManager.Instance.DestroyTargetCombo;
+            }
             Die();
         }
+        
+        StageManager.Instance.GameScore += (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
+        StageManager.Instance.IsQuickShot = true;
+        StageManager.Instance.QuickShotTimer = 0f;
     }
     
     private float BaseScore(bool isHeadShot, float dmg)

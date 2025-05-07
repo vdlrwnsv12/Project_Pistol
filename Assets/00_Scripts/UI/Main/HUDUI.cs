@@ -23,22 +23,32 @@ public class HUDUI : MainUI
     [SerializeField] private TextMeshProUGUI stpText;
 
     #endregion
-
-    private const float MAX_STAT = 99f;
+    
     private Color32 originalColor;
     private Color32 currentColor;
 
     public override MainUIType UIType { get; protected set; }
-    public override bool IsDestroy { get; protected set; }
+    public override bool IsDestroy { get; set; }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         UIType = MainUIType.HUD;
         IsDestroy = false;
 
         originalColor = new Color32(221, 234, 249, 255);
         currentColor = new Color32(252, 192, 1, 255);
+    }
+
+    private void Start()
+    {
+        StageManager.Instance.roomCreator.RoomChangedAction += UpdateStageInfo;
+        UpdateStageInfo();
+        UpdateStatValue();
+    }
+
+    private void Update()
+    {
+        UpdateRealTimeChanges();
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
@@ -49,36 +59,30 @@ public class HUDUI : MainUI
     /// <summary>
     /// 실시간의로 변경되는 UI 갱신 메서드
     /// </summary>
-    /// <param name="score">현재 점수</param>
-    /// <param name="remainTime">남은 시간</param>
-    /// <param name="curAmmo">현재 탄</param>
-    /// <param name="remainAmmo">남은 탄</param>
-    public void UpdateRealTimeChanges(int score, float remainTime, int curAmmo, int remainAmmo)
+    private void UpdateRealTimeChanges()
     {
-        scoreText.text = $"<size=36>Score</size>\n<size=50>{score:D6}</size>";
-        remainTimeText.text = $"TIME\n{remainTime:N2}";
-        ammoText.text = $"{curAmmo} / {remainAmmo}";
+        scoreText.text = $"<size=36>Score</size>\n<size=50>{StageManager.Instance.GameScore:D6}</size>";
+        remainTimeText.text = $"TIME\n{StageManager.Instance.RemainTime:N2}";
+        ammoText.text = $"{StageManager.Instance.Player.Weapon.CurAmmo} / {StageManager.Instance.Player.Weapon.MaxAmmo}";
     }
 
     /// <summary>
     /// Stage 정보 UI 갱신 메서드
     /// </summary>
-    /// <param name="curStage">현재 스테이지</param>
-    /// <param name="curStageIndex">현재 스테이지 페이즈</param>
-    public void UpdateStageInfo(int curStage, int curStageIndex)
+    private void UpdateStageInfo()
     {
-        curStageText.text = $"현재 스테이지\tStage {curStage}";
+        curStageText.text = $"현재 스테이지\tStage {StageManager.Instance.roomCreator.CurStageIndex}";
 
         for (var i = 1; i <= stageIndex.Length; i++)
         {
-            if (curStageIndex == 0)
+            if (StageManager.Instance.roomCreator.CurRoomIndex == 0)
             {
                 stageIndex[i - 1].color = originalColor;
             }
             else
             {
                 stageIndex[i - 1].color = currentColor;
-                stageIndex[i - 1].color = (i == curStageIndex) ? currentColor : originalColor;
+                stageIndex[i - 1].color = (i == StageManager.Instance.roomCreator.CurRoomIndex) ? currentColor : originalColor;
             }
         }
     }
@@ -86,19 +90,21 @@ public class HUDUI : MainUI
     /// <summary>
     /// 캐릭터 스탯 UI 갱신 메서드
     /// </summary>
-    public void UpdateStatValue(float rcl, float hdl, float stp, float spd)
+    public void UpdateStatValue()
     {
-        rclGauge.fillAmount = rcl / MAX_STAT;
-        rclText.text = rcl.ToString("N0");
+        var stat = StageManager.Instance.Player.Stat;
+        
+        rclGauge.fillAmount = stat.RCL / Constants.MAX_STAT;
+        rclText.text = stat.RCL.ToString("N0");
 
-        hdlGauge.fillAmount = hdl / MAX_STAT;
-        hdlText.text = hdl.ToString("N0");
+        hdlGauge.fillAmount = stat.HDL / Constants.MAX_STAT;
+        hdlText.text = stat.HDL.ToString("N0");
 
-        stpGauge.fillAmount = stp / MAX_STAT;
-        stpText.text = stp.ToString("N0");
+        stpGauge.fillAmount = stat.STP / Constants.MAX_STAT;
+        stpText.text = stat.STP.ToString("N0");
 
-        spdGauge.fillAmount = spd / MAX_STAT;
-        spdText.text = spd.ToString("N0");
+        spdGauge.fillAmount = stat.SPD / Constants.MAX_STAT;
+        spdText.text = stat.SPD.ToString("N0");
     }
 
     /// <summary>

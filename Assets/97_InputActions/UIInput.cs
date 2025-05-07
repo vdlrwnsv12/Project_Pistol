@@ -25,6 +25,6 @@ public class UIInput : MonoBehaviour
     }
      private void OnPause(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        GameStateManager.ToggleGameState();
+        //GameStateManager.ToggleGameState();
     }
 }

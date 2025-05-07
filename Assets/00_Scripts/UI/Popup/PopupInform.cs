@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
+
 public class PopupInform : PopupUI
 {
     public TextMeshProUGUI nameText;
@@ -21,4 +19,7 @@ public class PopupInform : PopupUI
                           $"RCL: {data.RCL.ToString().PadRight(5)} HDL: {data.HDL}\n" +
                           $"STP: {data.STP.ToString().PadRight(5)} SPD: {data.SPD}";
     }
+
+    public override bool IsDestroy { get; set; }
+    public override bool IsHideNotFocus { get; protected set; }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataDeclaration;
 using UnityEngine.SceneManagement;
+using Scene = UnityEngine.SceneManagement.Scene;
 
 public sealed class UIManager : SingletonBehaviour<UIManager>
 {
@@ -182,7 +183,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// <para>False: 마우스 커서 비활성화</para></param>
     public static void ToggleMouseCursor(bool isActivation)
     {
-        Cursor.lockState = isActivation ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.lockState = isActivation ? CursorLockMode.None : CursorLockMode.Confined;
         Cursor.visible = isActivation;
     }
 

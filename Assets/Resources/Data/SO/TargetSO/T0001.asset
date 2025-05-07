@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: T0001
   Name: Land
-  Description: Level 1 Target
   Type: 0
   Hp: 400
   Level: 1
