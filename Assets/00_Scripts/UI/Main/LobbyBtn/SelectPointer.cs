@@ -35,18 +35,18 @@ public class SelectPointer : MonoBehaviour
 
                 if (hit.collider.CompareTag("Player"))
                 {
-                    transform.position = hit.collider.transform.position;
+                        Transform target = hit.collider.transform;
+
+                        Vector3 cameraPosition = target.position + target.forward * 3f + Vector3.up * 3f;
 
                     CinemachineVirtualCamera vcam = GetComponent<CinemachineVirtualCamera>();
                     if (vcam != null)
                     {
-                        vcam.Follow = hit.collider.transform; // 클릭시 이동
-                        vcam.LookAt = hit.collider.transform;
-                        var transposer = vcam.GetCinemachineComponent<CinemachineTransposer>();
-                        if (transposer != null)
-                        {
-                            transposer.m_FollowOffset = new Vector3(-1.3f, 1, 0.5f); // 원하는 거리로 조절
-                        }
+                        vcam.Follow = null;
+                        vcam.LookAt = target;
+
+                        vcam.transform.position = cameraPosition;
+                        vcam.transform.LookAt(target);
                     }
                 }
 
