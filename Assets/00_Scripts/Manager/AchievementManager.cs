@@ -1,30 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class AchievementManager : MonoBehaviour
 {
-    [SerializeField] private List<AchievementData> allAchievements;
+    [SerializeField] private List<AchievementSO> allAchievements;
     private HashSet<string> unlockedAchievements = new HashSet<string>();
-
     [SerializeField] private UIAchievementView uiView;
 
-    public static AchievementManager Instance {  get; private set; }
+    public static AchievementManager Instance { get; private set; }
 
     private void Awake()
     {
-        if (Instance == null)
-        { 
+        if (Instance != null && Instance != this)
+        {
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
-
     }
 
     public void CheckCondition(AchievementConditionType type, float value)
     {
+        Debug.Log($"[도전과제 체크] {type} = {value}");
+
         foreach (var achievement in allAchievements)
         {
             if (achievement.conditionType == type &&
@@ -36,21 +34,21 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    private void Unlock (AchievementData data)
+    private void Unlock(AchievementSO data)
     {
+        Debug.Log($"[달성됨] {data.title}");
         unlockedAchievements.Add(data.id);
         uiView?.ShowUnlockedPopup(data);
     }
 
-    public List<AchievementData> GetUnlockedList()
+    public List<AchievementSO> GetUnlockedList()
     {
-        List<AchievementData> result = new List<AchievementData>();
-
-        foreach (var achievement in allAchievements)
+        var list = new List<AchievementSO>();
+        foreach (var a in allAchievements)
         {
-            if (unlockedAchievements.Contains(achievement.id))
-                result.Add(achievement);
+            if (unlockedAchievements.Contains(a.id))
+                list.Add(a);
         }
-        return result;
+        return list;
     }
 }

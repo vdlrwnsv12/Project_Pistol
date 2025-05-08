@@ -1,26 +1,44 @@
 using UnityEngine;
 
-public class playerStatTracker : MonoBehaviour
+public class PlayerStatTracker : MonoBehaviour
 {
-    public int comboCount;
-    public int headshotCount;
-    public int totalShots;
+    private int comboCount;
+    private int killCount;
+    private int itemCollected;
+    private int headshotCount;
+    private int totalShots;
+    private float survivalTime;
+    private bool isNoMissRun = true;
 
-    public void OnStageClear()
+    private void Update()
     {
-        AchievementManager.Instance.CheckCondition
-            (AchievementConditionType.StageClearcount, 1);
+        survivalTime += Time.deltaTime;
     }
 
     public void OnComboChanged(int combo)
     {
-        AchievementManager.Instance.CheckCondition
-            (AchievementConditionType.ComboMax, combo);
+        comboCount = combo;
+        AchievementManager.Instance?.CheckCondition(AchievementConditionType.ComboCount, combo);
+    }
+
+    public void OnEnemyKilled()
+    {
+        killCount++;
+        AchievementManager.Instance?.CheckCondition(AchievementConditionType.KillCount, killCount);
+    }
+
+    public void OnItemCollected()
+    {
+        itemCollected++;
+        AchievementManager.Instance?.CheckCondition(AchievementConditionType.ItemCollected, itemCollected);
     }
 
     public void OnHeadshot()
     {
         headshotCount++;
+        totalShots++;
+        float ratio = (float)headshotCount / totalShots;
+        AchievementManager.Instance?.CheckCondition(AchievementConditionType.HeadshotRatio, ratio);
     }
 
     public void OnShotFired()
@@ -28,13 +46,28 @@ public class playerStatTracker : MonoBehaviour
         totalShots++;
     }
 
-    public void OnLevelEnd()
+    public void OnMiss()
     {
-        if (totalShots > 0)
+        isNoMissRun = false;
+    }
+
+    public void OnStageClear()
+    {
+        AchievementManager.Instance?.CheckCondition(AchievementConditionType.StageClear, 1);
+
+        if (isNoMissRun)
         {
-            float headshotRatio = (float)headshotCount / totalShots;
-            AchievementManager.Instance.CheckCondition
-                (AchievementConditionType.HeadshotRatio, headshotRatio);
+            AchievementManager.Instance?.CheckCondition(AchievementConditionType.NoMissRun, 1);
         }
+
+        AchievementManager.Instance?.CheckCondition(AchievementConditionType.TimeSurvived, survivalTime);
+
+        comboCount = 0;
+        killCount = 0;
+        itemCollected = 0;
+        headshotCount = 0;
+        totalShots = 0;
+        survivalTime = 0f;
+        isNoMissRun = true;
     }
 }
