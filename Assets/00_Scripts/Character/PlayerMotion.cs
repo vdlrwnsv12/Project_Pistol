@@ -99,6 +99,13 @@ public class PlayerMotion : MonoBehaviour
         }
     }
 
+    public void ApplyRecoil()
+    {
+        float t = Mathf.InverseLerp(1f, 99f, player.Stat.RCL);
+        float force = Mathf.Lerp(1.0f, 0.1f, t);
+
+        player.stateMachine.RecoilOffsetX -= force * 5f;
+    }
     public void HeadbobDown()
     {
         stepTimer = Mathf.MoveTowards(stepTimer, stepInterval, Time.deltaTime * 2f);
