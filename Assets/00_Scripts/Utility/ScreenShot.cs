@@ -7,6 +7,7 @@ public class ObjectScreenshot : MonoBehaviour
 {
     /// <summary>
     /// 찍을 카메라 등록
+    /// 카메라의 cullingMask를 CaptureOnly로
     /// 이미지 크기 지정
     /// 찍을 오브젝트들 등록
     /// 찍을 오브젝트의 레이어를 CaptureOnly로 설정

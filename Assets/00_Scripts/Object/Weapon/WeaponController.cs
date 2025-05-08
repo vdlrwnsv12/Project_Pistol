@@ -16,8 +16,6 @@ public class WeaponController : MonoBehaviour
     private GameObject casingPrefab;
     private GameObject bulletImpactPrefab;
 
-    private float ejectPower = 150f;
-
     public int CurAmmo => curAmmo;
 
     private void Awake()
