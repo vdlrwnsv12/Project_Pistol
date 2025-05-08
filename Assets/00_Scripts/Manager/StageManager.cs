@@ -2,45 +2,14 @@ using System;
 using DataDeclaration;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class StageManager : SingletonBehaviour<StageManager>
 {
-    #region Singleton
-
-    private static StageManager instance;
-
-    public static StageManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindAnyObjectByType<StageManager>();
-                if (instance == null)
-                {
-                    var go = new GameObject
-                    {
-                        name = nameof(StageManager)
-                    };
-                    instance = go.AddComponent<StageManager>();
-                }
-            }
-
-            return instance;
-        }
-    }
-
-    #endregion
-
-    public bool IsGamePause;
+    public bool IsGamePause { get; set; }
     private float remainTime;
     
-    private int maxDestroyTargetCombo = 0;
     private float quickShotTimer;
-    private const float QUICK_SHOT_TIME = 2f;
 
     public Player Player { get; private set; }
-
-    public int CurStageIndex { get; set; }
     
     public int GameScore { get; set; }
     public float RemainTime
@@ -50,7 +19,7 @@ public class StageManager : MonoBehaviour
     }
     
     public int DestroyTargetCombo { get; set; }
-    public int MaxDestroyTargetCombo => Mathf.Max(DestroyTargetCombo, maxDestroyTargetCombo);
+    public int MaxDestroyTargetCombo { get; set; }
     public bool IsQuickShot { get; set; }
     public float QuickShotTimer
     {
@@ -64,35 +33,13 @@ public class StageManager : MonoBehaviour
     private float shotAccuracy;
     private float headShotAccuracy;
 
-    public HUDUI HUDUI {get; private set;}
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-        
+        isDontDestroyOnLoad = false;
+        base.Awake();
         IsGamePause = true;
         RemainTime = 20f;
         IsQuickShot = false;
-    }
-
-    private void Start()
-    {
-        UIManager.ToggleMouseCursor(false);
-
-        var stagePoint = transform;
-        roomCreator.CurRoom = roomCreator.PlaceStandbyRoom(stagePoint);
-        roomCreator.NextRoom = roomCreator.PlaceShootingRoom(roomCreator.CurRoom.EndPoint, 0);
-        
-        SpawnPlayer(roomCreator.StandbyRoom.RespawnPoint.position);
-        
-        InitHUDUI();
     }
 
     private void Update()
@@ -105,7 +52,7 @@ public class StageManager : MonoBehaviour
         if (IsQuickShot)
         {
             quickShotTimer += Time.deltaTime;
-            if (quickShotTimer >= QUICK_SHOT_TIME)
+            if (quickShotTimer >= Constants.QUICK_SHOT_TIME)
             {
                 quickShotTimer = 0f;
                 IsQuickShot = false;
@@ -113,16 +60,19 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        if (HUDUI != null)
-        {
-            HUDUI.UpdateRealTimeChanges(GameScore, RemainTime, Player.Weapon.CurAmmo,
-                Player.Weapon.MaxAmmo);
-        }
-
         if (remainTime <= 0)
         {
             GameOver();
         }
+    }
+    
+    public void InitStage()
+    {
+        var stagePoint = transform;
+        roomCreator.CurRoom = roomCreator.PlaceStandbyRoom(stagePoint);
+        roomCreator.NextRoom = roomCreator.PlaceShootingRoom(roomCreator.CurRoom.EndPoint, 0);
+        
+        SpawnPlayer(roomCreator.StandbyRoom.RespawnPoint.position);
     }
 
     public void GameOver()
@@ -134,7 +84,9 @@ public class StageManager : MonoBehaviour
         var resultUI = UIManager.Instance.CurMainUI as ResultUI;
         if (resultUI != null)
         {
-            CalculateAccuracy();
+            shotAccuracy = ShotCount == 0 ? 0 : (float)HitCount / ShotCount * 100f;
+            headShotAccuracy = HitCount == 0 ? 0 : (float)HeadHitCount / HitCount * 100f;
+            
             resultUI.SetResultValue(GameScore, RemainTime,
                 shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
         }
@@ -149,36 +101,5 @@ public class StageManager : MonoBehaviour
     {
         var resource = ResourceManager.Instance.Load<Player>("Prefabs/Character/Player");
         Player = Instantiate(resource, spawnPoint, Quaternion.identity);
-    }
-
-    private void InitHUDUI()
-    {
-        UIManager.Instance.InitUI<HUDUI>();
-        UIManager.Instance.ChangeMainUI(MainUIType.HUD);
-        HUDUI = UIManager.Instance.CurMainUI as HUDUI;
-        if (HUDUI != null)
-        {
-            //TODO: 총기 사진 리소스 연결
-            //hudUI.SetEquipImage();
-            HUDUI.UpdateStageInfo(CurStageIndex, 0);
-            HUDUI.UpdateStatValue(Player.Stat.RCL, Player.Stat.HDL, Player.Stat.STP, Player.Stat.SPD);
-        }
-    }
-
-    private void CalculateAccuracy()
-    {
-        if (ShotCount == 0)
-        {
-            shotAccuracy =  0;
-        }
-
-        shotAccuracy = (float)HitCount / (float)ShotCount * 100f;
-        
-        if (HitCount == 0)
-        {
-            headShotAccuracy = 0;
-        }
-
-        headShotAccuracy = (float)HeadHitCount / (float)HitCount * 100f;
     }
 }

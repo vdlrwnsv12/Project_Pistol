@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Component
 {
+    protected bool isDontDestroyOnLoad = true;
     private static T instance;
 
     public static T Instance
@@ -26,6 +27,9 @@ public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Component
         RemoveDuplicates();
     }
 
+    /// <summary>
+    /// 인스턴스 생성
+    /// </summary>
     private static void SetupInstance()
     {
         var go = new GameObject
@@ -33,15 +37,20 @@ public abstract class SingletonBehaviour<T> : MonoBehaviour where T : Component
             name = typeof(T).Name
         };
         instance = go.AddComponent<T>();
-        DontDestroyOnLoad(go);
     }
 
+    /// <summary>
+    /// 중복 인스턴스 제거 및 DontDestroyOnLoad 설정
+    /// </summary>
     private void RemoveDuplicates()
     {
         if (instance == null)
         {
             instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this);
+            }
         }
         else if (instance != this)
         {

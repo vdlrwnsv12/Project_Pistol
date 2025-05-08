@@ -5,10 +5,5 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseUI : MonoBehaviour
 {
-    protected UIManager uiManager;
-
-    protected virtual void Awake()
-    {
-        uiManager = UIManager.Instance;
-    }
+    public abstract bool IsDestroy { get; set; }
 }

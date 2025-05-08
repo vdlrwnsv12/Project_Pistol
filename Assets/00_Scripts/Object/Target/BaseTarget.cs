@@ -17,19 +17,9 @@ public abstract class BaseTarget : MonoBehaviour
     [SerializeField] protected Image hpBar;
     [SerializeField] protected GameObject targetUI;
 
-    [SerializeField] protected GameObject blipLayerObject;
-
-
     protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        currentHp = data.Hp;
-        lvText.text = $"{data.Level}";
-
-        if (hpBar != null)
-        {
-            hpBar.fillAmount = 1f;
-        }
     }
 
     private void Update()
@@ -54,9 +44,20 @@ public abstract class BaseTarget : MonoBehaviour
 
     protected virtual void Die()
     {
-        Destroy(targetUI);
-        Destroy(blipLayerObject);//test
         anim.SetBool("Die", true);
         SoundManager.Instance.PlaySFXForClip(downSound);
+    }
+
+    public void InitData(TargetSO data)
+    {
+        this.data = data;
+        
+        currentHp = data.Hp;
+        lvText.text = $"{data.Level}";
+
+        if (hpBar != null)
+        {
+            hpBar.fillAmount = 1f;
+        }
     }
 }

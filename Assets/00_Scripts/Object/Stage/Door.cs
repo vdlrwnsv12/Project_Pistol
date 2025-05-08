@@ -17,19 +17,13 @@ namespace DoorScript
         [SerializeField] private AudioClip closeClip;
 
         [Header("스테이지 연동")]
-        [SerializeField] private PrototypeStageManager stageLoader;
-
-        [Header("동작 선택")]
-        [SerializeField] private bool isRewardRoom = false;
-        [SerializeField] private bool isNext = false;   // 다음 스테이지 로드
-        [SerializeField] private bool isRemove = false; // 이전 스테이지 제거
+        //[SerializeField] private PrototypeStageManager stageLoader;
 
         [Header("프리팹 연결")]
         [SerializeField] private GameObject rewardUIPrefab;
 
         private GameObject spawnedRewardUI;
         private bool open = false;
-        private bool stageHandled = false;
         private AudioSource audioSource;
 
         #endregion
@@ -39,39 +33,7 @@ namespace DoorScript
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
-
-            if (stageLoader == null)
-            {
-                stageLoader = FindObjectOfType<PrototypeStageManager>();
-            }
         }
-
-        private void Update()
-        {
-            // RotateDoor();
-            //
-            // if (open && !stageHandled && stageLoader != null)
-            // {
-            //     if (isNext)
-            //     {
-            //         stageLoader.LoadNextStage();
-            //     }
-            //
-            //     if (isRemove)
-            //     {
-            //         stageLoader.RemovePreviousStage();
-            //     }
-            //
-            //     // 보상 UI 표시
-            //     if (isRewardRoom)
-            //     {
-            //         ShowRewardUI();
-            //     }
-            //
-            //     stageHandled = true;
-            // }
-        }
-
 
         #endregion
 
