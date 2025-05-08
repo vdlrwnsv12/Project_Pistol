@@ -986,6 +986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5286efa1a1bf21f4fa33e26ca692d838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoUI: {fileID: 26102800}
   canvas: {fileID: 1360534171}
 --- !u!1001 &446039226
 PrefabInstance:
