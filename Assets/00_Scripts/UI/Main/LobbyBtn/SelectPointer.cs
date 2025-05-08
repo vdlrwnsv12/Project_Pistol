@@ -1,5 +1,7 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class SelectPointer : MonoBehaviour
@@ -25,12 +27,29 @@ public class SelectPointer : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Player clickComp = hit.collider.GetComponent<Player>();
+            SelectSO clickComp = hit.collider.GetComponent<SelectSO>();
             if (clickComp != null)
             {
                 GameManager.Instance.selectedCharacter = clickComp.Data;
                 Debug.Log($"{clickComp.Data.name} 선택됨!");
-          
+
+                if (hit.collider.CompareTag("Player"))
+                {
+                    transform.position = hit.collider.transform.position;
+
+                    CinemachineVirtualCamera vcam = GetComponent<CinemachineVirtualCamera>();
+                    if (vcam != null)
+                    {
+                        vcam.Follow = hit.collider.transform; // 클릭시 이동
+                        vcam.LookAt = hit.collider.transform;
+                        var transposer = vcam.GetCinemachineComponent<CinemachineTransposer>();
+                        if (transposer != null)
+                        {
+                            transposer.m_FollowOffset = new Vector3(-1.3f, 1, 0.5f); // 원하는 거리로 조절
+                        }
+                    }
+                }
+
                 GameObject popupGO = Instantiate(popupInformPrefab, popupParent);
                 PopupInform popup = popupGO.GetComponent<PopupInform>();
                 popup.SetCharacterInfo(clickComp.Data);

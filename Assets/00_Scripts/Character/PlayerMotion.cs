@@ -39,19 +39,6 @@ public class PlayerMotion : MonoBehaviour
         initialLocalRotation = HandPos.transform.localRotation;
     }
 
-    /// <summary>
-    /// 조준 시 캐릭터 STP 수치에 따른 흔들림 기능
-    /// </summary>
-    public void StartHeadBob()
-    {
-        float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);  // STP가 1일 때 0, 99일 때 1
-        float inverseEffect = 1f - t;  // 반비례 효과
-
-        Vector3 pos = Vector3.zero;
-        pos.z += Mathf.Lerp(pos.z, Mathf.Sin(Time.time * frequency) * amount * inverseEffect, smooth * Time.deltaTime);
-
-        rootCam.localPosition = pos;
-    }
 
     /// <summary>
     /// 조준 시 캐릭터 HDL 수치에 따른 조준 흔들림 기능
@@ -69,33 +56,33 @@ public class PlayerMotion : MonoBehaviour
         HandPos.transform.localRotation = initialLocalRotation * shakeRotation;
     }
 
-    public void ApplyRecoil(float recoilAmount)
-    {
-        StopAllCoroutines();
-        StartCoroutine(RecoilCoroutine(recoilAmount));
-    }
+    //public void ApplyRecoil(float recoilAmount)
+    //{
+    //    StopAllCoroutines();
+    //    StartCoroutine(RecoilCoroutine(recoilAmount));
+    //}
 
-    private IEnumerator RecoilCoroutine(float recoilAmount)
-    {
-        float duration = 0.075f; // 반동 걸리는 시간
-        float elapsed = 0f;
+    //private IEnumerator RecoilCoroutine(float recoilAmount)
+    //{
+    //    float duration = 0.075f; // 반동 걸리는 시간
+    //    float elapsed = 0f;
 
-        float startX = eulerAngleX;
-        float targetX = eulerAngleX - recoilAmount;
-        targetX = ClampAngle(targetX, limitMinX, limitMaxX);
+    //    float startX = eulerAngleX;
+    //    float targetX = eulerAngleX - recoilAmount;
+    //    targetX = ClampAngle(targetX, limitMinX, limitMaxX);
 
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            eulerAngleX = Mathf.Lerp(startX, targetX, t);
-            ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
-            yield return null;
-        }
+    //    while (elapsed < duration)
+    //    {
+    //        elapsed += Time.deltaTime;
+    //        float t = elapsed / duration;
+    //        eulerAngleX = Mathf.Lerp(startX, targetX, t);
+    //        ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+    //        yield return null;
+    //    }
 
-        eulerAngleX = targetX;
-        ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
-    }
+    //    eulerAngleX = targetX;
+    //    ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+    //}
 
     public void HeadbobUp()
     {
@@ -112,6 +99,13 @@ public class PlayerMotion : MonoBehaviour
         }
     }
 
+    public void ApplyRecoil()
+    {
+        float t = Mathf.InverseLerp(1f, 99f, player.Stat.RCL);
+        float force = Mathf.Lerp(1.0f, 0.1f, t);
+
+        player.stateMachine.RecoilOffsetX -= force * 5f;
+    }
     public void HeadbobDown()
     {
         stepTimer = Mathf.MoveTowards(stepTimer, stepInterval, Time.deltaTime * 2f);

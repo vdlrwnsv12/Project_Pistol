@@ -7,7 +7,7 @@ public class PlayerStateMachine : StateMachine
     public Vector2 MouseInput;
     public float RotationX;
     public bool IsAds;
-
+    public float RecoilOffsetX = 0f;
     public PlayerIdleState IdleState { get; private set; }
     public PlayerWalkState WalkState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }

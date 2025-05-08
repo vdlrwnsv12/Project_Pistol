@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [Space(20), Header("무기"), Tooltip("무기 장착 위치"), SerializeField]
     private Transform weaponPos;
 
-    private PlayerStateMachine stateMachine;
+    public PlayerStateMachine stateMachine;
 
     #region Properties
 
