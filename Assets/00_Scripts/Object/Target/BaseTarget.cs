@@ -38,14 +38,14 @@ public abstract class BaseTarget : MonoBehaviour
         if (!anim.GetBool("Up")) // 안 올라가있을 때만
         {
             anim.SetBool("Up", true);
-            SoundManager.Instance.PlaySFX(upSound);
+            SoundManager.Instance.PlaySFXForClip(upSound);
         }
     }
 
     protected virtual void Die()
     {
         anim.SetBool("Die", true);
-        SoundManager.Instance.PlaySFX(downSound);
+        SoundManager.Instance.PlaySFXForClip(downSound);
     }
 
     public void InitData(TargetSO data)
