@@ -56,7 +56,6 @@ public class AchievementManager : MonoBehaviour
     /// <param name="value">현재 값</param>
     public void CheckCondition(AchievementConditionType type, float value)
     {
-        Debug.Log($"[도전과제 체크] {type} = {value}");
 
         foreach (var achievement in allAchievements)
         {
@@ -77,19 +76,18 @@ public class AchievementManager : MonoBehaviour
     /// <returns>달성된 도전과제 리스트</returns>
     public List<AchievementSO> GetUnlockedList()
     {
-        List<AchievementSO> result = new List<AchievementSO>();
+        List<AchievementSO> list = new List<AchievementSO>();
 
         foreach (var achievement in allAchievements)
         {
             if (achievement == null) continue;
-
             if (unlockedAchievements.Contains(achievement.id))
             {
-                result.Add(achievement);
+                list.Add(achievement);
             }
         }
 
-        return result;
+        return list;
     }
 
     #endregion
@@ -106,6 +104,14 @@ public class AchievementManager : MonoBehaviour
         Debug.Log($"[도전과제 달성] {data.title}");
 
         uiView?.ShowUnlockedPopup(data);
+    }
+
+    /// <summary>
+    /// 해당 도전과제가 달성되었는지 확인합니다.
+    /// </summary>
+    public bool IsUnlocked(string id)
+    {
+        return unlockedAchievements.Contains(id);
     }
 
     #endregion

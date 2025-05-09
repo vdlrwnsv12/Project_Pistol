@@ -16,6 +16,7 @@ public class AchievementDebugUI : MonoBehaviour
 
     [Header("연동된 시스템")]
     [SerializeField] private PlayerStatTracker tracker;
+    [SerializeField] private UIAchievementMainUI uiMain;
     [SerializeField] private UIAchievementView uiView;
 
     #endregion
@@ -24,31 +25,38 @@ public class AchievementDebugUI : MonoBehaviour
 
     private void Start()
     {
-        if (tracker == null || uiView == null)
+        if (tracker == null || uiMain == null)
         {
-            Debug.LogError("[DebugUI] tracker 또는 uiView 연결이 누락되었습니다.");
+            Debug.LogError("트래커 또는 UI가 연결되지 않았습니다.");
             return;
         }
 
         if (headshotButton != null)
-        {
-            headshotButton.onClick.AddListener(TriggerHeadshotTest);
-        }
+            headshotButton.onClick.AddListener(() =>
+            {
+                tracker.OnHeadshot();  // 헤드샷 처리
+                tracker.OnShotFired();
+                tracker.OnLevelEnd();  // 헤드샷 비율 체크
+            });
 
         if (comboButton != null)
-        {
-            comboButton.onClick.AddListener(TriggerComboTest);
-        }
+            comboButton.onClick.AddListener(() =>
+            {
+                tracker.OnComboChanged(10);  // 콤보 테스트
+            });
 
         if (stageClearButton != null)
-        {
-            stageClearButton.onClick.AddListener(TriggerStageClearTest);
-        }
+            stageClearButton.onClick.AddListener(() =>
+            {
+                tracker.OnStageClear();  // 스테이지 클리어
+            });
 
         if (showListButton != null)
-        {
-            showListButton.onClick.AddListener(TriggerListDisplay);
-        }
+            showListButton.onClick.AddListener(() =>
+            {
+                var list = AchievementManager.Instance.GetUnlockedList();
+                uiMain.ShowList(list);  // UI에 리스트 출력
+            });
     }
 
     #endregion
