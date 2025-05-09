@@ -73,10 +73,16 @@ public class PlayerMotion : MonoBehaviour
 
     public void ApplyRecoil()
     {
-        float t = Mathf.InverseLerp(1f, 99f, player.Stat.RCL);
-        float force = Mathf.Lerp(1.0f, 0.1f, t);
+        // 공식: ShootRecoil × (0.2 + (0.8 × (1 - RCL/99)))
+        float rcl = player.Stat.RCL; // 1~99 플레이어
+        float t = Mathf.InverseLerp(1f, 99f, rcl);
+        float controlFactor = Mathf.Lerp(1.0f, 0.2f, t); // RCL 높을수록 감소
 
-        player.stateMachine.RecoilOffsetX -= force * 5f;
+        float weaponRecoil = player.Weapon.Stat.Recoil; 
+        float inverseWeapon = 1f / Mathf.Clamp(weaponRecoil, 0.1f, 100f); // 역수
+
+        float recoil = inverseWeapon * controlFactor;
+        player.stateMachine.RecoilOffsetX -= recoil * 5f;
     }
     public void HeadbobDown()
     {
