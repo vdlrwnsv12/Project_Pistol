@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Scene = DataDeclaration.Scene;
 
+
 public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 {
     public static Scene CurScene { get; private set; } = Scene.Stage;
