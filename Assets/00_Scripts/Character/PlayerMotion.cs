@@ -79,10 +79,10 @@ public class PlayerMotion : MonoBehaviour
         float controlFactor = Mathf.Lerp(1.0f, 0.2f, t); // RCL 높을수록 감소
 
         float weaponRecoil = player.Weapon.Stat.Recoil; 
-        float inverseWeapon = 1f / Mathf.Clamp(weaponRecoil, 0.1f, 100f); // 역수
+       // float inverseWeapon = 1f / Mathf.Clamp(weaponRecoil, 0.1f, 100f); // 역수
 
-        float recoil = inverseWeapon * controlFactor;
-        player.stateMachine.RecoilOffsetX -= recoil * 5f;
+        float recoil = weaponRecoil * controlFactor;
+        player.stateMachine.RecoilOffsetX -= recoil * 2f;
     }
     public void HeadbobDown()
     {
