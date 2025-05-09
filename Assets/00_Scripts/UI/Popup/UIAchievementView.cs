@@ -25,6 +25,8 @@ public class UIAchievementView : MonoBehaviour
     #region List Fields
 
     [Header("도전과제 리스트 UI")]
+    [Tooltip("도전과제 전체를 담고있는 패널")]
+    [SerializeField] private GameObject listPanel;
     [Tooltip("도전과제 아이템을 생성할 부모 트랜스폼")]
     [SerializeField] private Transform listParent;
 
@@ -60,6 +62,8 @@ public class UIAchievementView : MonoBehaviour
     /// <param name="unlocked">달성된 도전과제 리스트</param>
     public void ShowList(List<AchievementSO> unlocked)
     {
+        Debug.Log($"[UI] 출력한 도전과제 수: {unlocked.Count}");
+
         if (listParent == null || achievementItemPrefab == null)
         {
             Debug.LogError("[UIAchievementView] 리스트 관련 UI가 연결되지 않았습니다.");
@@ -80,8 +84,23 @@ public class UIAchievementView : MonoBehaviour
             {
                 itemText.text = data.title;
             }
+
+            Debug.Log($"[UI] 출력됨 : {data.title}");
         }
     }
+
+    /// <summary>
+    /// 도전과제 리스트 UI를 켜거나 끕니다.
+    /// </summary>
+    /// <param name="active">true = 열기 / false = 닫기</param>
+    public void ToggleListPanel(bool active)
+    {
+        if (listPanel != null)
+        {
+            listPanel.SetActive(active);
+        }
+    }
+
 
     #endregion
 

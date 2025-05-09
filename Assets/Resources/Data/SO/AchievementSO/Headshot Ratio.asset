@@ -15,6 +15,5 @@ MonoBehaviour:
   id: 4
   title: asdf
   description: asdf
-  type: 3
   conditionType: 5
-  requiredValue: 15
+  requiredValue: 10

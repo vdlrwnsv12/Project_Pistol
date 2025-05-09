@@ -91,11 +91,13 @@ public class AchievementDebugUI : MonoBehaviour
     /// </summary>
     private void TriggerListDisplay()
     {
-        Debug.Log("[DebugUI] 도전과제 리스트 출력");
+        Debug.Log("[DebugUI] 도전과제 리스트 열기");
+
         var unlocked = AchievementManager.Instance?.GetUnlockedList();
         if (unlocked != null)
         {
             uiView.ShowList(unlocked);
+            uiView.ToggleListPanel(true); // 리스트 켜기
         }
     }
 
