@@ -56,34 +56,6 @@ public class PlayerMotion : MonoBehaviour
         HandPos.transform.localRotation = initialLocalRotation * shakeRotation;
     }
 
-    //public void ApplyRecoil(float recoilAmount)
-    //{
-    //    StopAllCoroutines();
-    //    StartCoroutine(RecoilCoroutine(recoilAmount));
-    //}
-
-    //private IEnumerator RecoilCoroutine(float recoilAmount)
-    //{
-    //    float duration = 0.075f; // 반동 걸리는 시간
-    //    float elapsed = 0f;
-
-    //    float startX = eulerAngleX;
-    //    float targetX = eulerAngleX - recoilAmount;
-    //    targetX = ClampAngle(targetX, limitMinX, limitMaxX);
-
-    //    while (elapsed < duration)
-    //    {
-    //        elapsed += Time.deltaTime;
-    //        float t = elapsed / duration;
-    //        eulerAngleX = Mathf.Lerp(startX, targetX, t);
-    //        ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
-    //        yield return null;
-    //    }
-
-    //    eulerAngleX = targetX;
-    //    ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
-    //}
-
     public void HeadbobUp()
     {
         stepTimer += Time.deltaTime;
