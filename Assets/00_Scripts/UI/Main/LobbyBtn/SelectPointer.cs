@@ -156,7 +156,7 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
         if (vcam != null && gunTable != null)
         {
             Vector3 targetPos = gunTable.position + Vector3.up * 3.4f;
-            Quaternion targetRot = Quaternion.Euler(80f, 0f, 0f);
+            Quaternion targetRot = Quaternion.Euler(85f, 0f, 0f);
             CamMove(targetPos, targetRot);
         }
     }
