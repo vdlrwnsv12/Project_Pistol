@@ -152,6 +152,11 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// </summary>
     public void ClosePopUpUI()
     {
+        if(curPopupUIStack.Count == 0)
+        {
+            Debug.LogWarning("팝 할거 없음");
+            return;
+        }
         var popUpUI = curPopupUIStack.Pop();
         popUpUI.gameObject.SetActive(false);
         CurPopupUI = null;
@@ -326,6 +331,5 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         ClearMainCanvas();
         ClearPopupCanvas();
     }
-
     #endregion
 }
