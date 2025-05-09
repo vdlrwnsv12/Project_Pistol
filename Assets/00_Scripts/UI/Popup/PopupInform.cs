@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public class PopupInform : PopupUI
 {
-    private ICameraReturnable camReturnTarget;
+    private ICameraMovable camMoveTarget;
 
+    private CharacterSO characterSO;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI statusText;
@@ -23,6 +24,7 @@ public class PopupInform : PopupUI
     public void SetCharacterInfo(CharacterSO data)
     {
         Debug.Log($"SetCharacterInfo 호출됨: {data.Name}");
+        characterSO = data;
         nameText.text = data.Name;
         descriptionText.text = data.Description;
         statusText.text = $"Status\n" +
@@ -30,19 +32,21 @@ public class PopupInform : PopupUI
                           $"STP: {data.STP.ToString().PadRight(5)} SPD: {data.SPD}";
     }
 
-    public void SetCamReturnTarget(ICameraReturnable target)
+    public void SetCamReturnTarget(ICameraMovable target)
     {
-        camReturnTarget = target;
+        camMoveTarget = target;
     }
     private void OnBackButtonClicked()
     {
-        camReturnTarget?.CamReturn();
+        camMoveTarget?.CamReturn();
         UIManager.Instance.ClosePopUpUI();
     }
 
     private void OnSelectButtonClicked()
     {
         //ToDo: 선택버튼 클릭시 게임매니저에 캐릭터 데이터 보내고 총기 선택으로 카메라 이동
+        GameManager.Instance.selectedCharacter = characterSO;
+        Debug.Log($"{GameManager.Instance.selectedCharacter}선택");
     }
 
     public override bool IsDestroy { get; set; }

@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public interface ICameraReturnable
+public interface ICameraMovable
 {
     void CamMove(Vector3 targetPos, Quaternion targetRot);
     void CamReturn();
 }
-public class SelectPointer : MonoBehaviour, ICameraReturnable
+public class SelectPointer : MonoBehaviour, ICameraMovable
 {
     //public GameObject popupInformPrefab; // 프리팹 연결해줘야 함
     //public Transform popupParent; // 보통 Canvas 같은 곳 (선택)
@@ -47,6 +48,11 @@ public class SelectPointer : MonoBehaviour, ICameraReturnable
 
     public void OnCamera(InputAction.CallbackContext context)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
@@ -60,7 +66,7 @@ public class SelectPointer : MonoBehaviour, ICameraReturnable
                 if (hit.collider.CompareTag("Player"))
                 {
                     UIManager.Instance.ClosePopUpUI();
-                    
+
                     Transform target = hit.collider.transform;
 
                     Vector3 cameraPosition = target.position + target.forward * 3f + Vector3.up * 3f;
@@ -74,9 +80,9 @@ public class SelectPointer : MonoBehaviour, ICameraReturnable
 
                         // vcam.transform.position = cameraPosition;
                         // vcam.transform.LookAt(target);
-                        
+
                         CamMove(cameraPosition, cameraRotation);
-                        
+
                     }
                 }
 
@@ -97,7 +103,7 @@ public class SelectPointer : MonoBehaviour, ICameraReturnable
         popup.SetCharacterInfo(data);
         popup.SetCamReturnTarget(this);
     }
-    
+
     public void CamReturn()
     {
         Debug.Log("[SelectPointer] CamReturn 호출됨");
@@ -105,7 +111,7 @@ public class SelectPointer : MonoBehaviour, ICameraReturnable
         {
             vcam.Follow = null;
             vcam.LookAt = null;
-        
+
             CamMove(originCamPos, originCamRot);
 
             // vcam.transform.position = originCamPos;
