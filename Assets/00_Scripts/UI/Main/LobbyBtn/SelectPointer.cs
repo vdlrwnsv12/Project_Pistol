@@ -44,7 +44,7 @@ public class SelectPointer : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (PopupInform.LastInstance != null && UIManager.Instance.HasPop())
+            if (PopupInform.LastInstance != null)
             {
                 UIManager.Instance.ClosePopUpUI();
             }
