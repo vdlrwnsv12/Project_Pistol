@@ -46,7 +46,14 @@ public class PopupInform : PopupUI
     {
         //ToDo: 선택버튼 클릭시 게임매니저에 캐릭터 데이터 보내고 총기 선택으로 카메라 이동
         GameManager.Instance.selectedCharacter = characterSO;
+
         Debug.Log($"{GameManager.Instance.selectedCharacter}선택");
+
+        if(camMoveTarget is SelectPointer pointer)
+        {
+            pointer.MoveToGunTable();
+        }
+        UIManager.Instance.ClosePopUpUI();
     }
 
     public override bool IsDestroy { get; set; }

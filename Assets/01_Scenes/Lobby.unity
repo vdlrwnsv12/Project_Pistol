@@ -291,7 +291,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1950516498552850, guid: 5e93b18aeba68324cb0c6196b3791c1d, type: 3}
       propertyPath: m_Name
-      value: Training table
+      value: GunTable
       objectReference: {fileID: 0}
     - target: {fileID: 4896801035141906, guid: 5e93b18aeba68324cb0c6196b3791c1d, type: 3}
       propertyPath: m_LocalScale.x
@@ -453,7 +453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354854749}
   serializedVersion: 2
-  m_LocalRotation: {x: -1e-45, y: 0.52917916, z: 1e-45, w: 0.84851015}
+  m_LocalRotation: {x: 3e-45, y: 0.52917916, z: -1e-45, w: 0.84851015}
   m_LocalPosition: {x: 15.219723, y: 4.8, z: -7.3993883}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -473,6 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95b99d2a8b11e345af753e25e980498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunTable: {fileID: 1461566564}
 --- !u!1 &391714522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,6 +1340,12 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.25, z: 1}
   m_Center: {x: 0, y: 0.65, z: 0}
+--- !u!4 &1461566564 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4896801035141906, guid: 5e93b18aeba68324cb0c6196b3791c1d,
+    type: 3}
+  m_PrefabInstance: {fileID: 192670941}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1486450462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,7 +1433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486450462}
   serializedVersion: 2
-  m_LocalRotation: {x: -1e-45, y: 0.52917916, z: 1e-45, w: 0.84851015}
+  m_LocalRotation: {x: 3e-45, y: 0.52917916, z: -1e-45, w: 0.84851015}
   m_LocalPosition: {x: 15.219723, y: 4.8, z: -7.3993883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
