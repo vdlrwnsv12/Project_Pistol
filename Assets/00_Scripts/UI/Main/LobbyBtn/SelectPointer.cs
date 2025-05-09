@@ -13,8 +13,6 @@ public interface ICameraMovable
 }
 public class SelectPointer : MonoBehaviour, ICameraMovable
 {
-    //public GameObject popupInformPrefab; // 프리팹 연결해줘야 함
-    //public Transform popupParent; // 보통 Canvas 같은 곳 (선택)
     public PlayerInputs inputActions;
     private Vector3 originCamPos;
     private Quaternion originCamRot;
@@ -61,43 +59,48 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
             clickComp = hit.collider.GetComponent<SelectSO>();
             if (clickComp != null)
             {
-                GameManager.Instance.selectedCharacter = clickComp.Data;
-                Debug.Log($"{clickComp.Data.name} 선택됨!");
-
-                if (hit.collider.CompareTag("Player"))
+                if (hit.collider.CompareTag("Player") && clickComp.characterData != null)
                 {
-                    UIManager.Instance.ClosePopUpUI();
-
-                    Transform target = hit.collider.transform;
-
-                    Vector3 cameraPosition = target.position + target.forward * 3f + Vector3.up * 3f;
-                    Quaternion cameraRotation = Quaternion.LookRotation(target.position - cameraPosition);
-
-                    //CinemachineVirtualCamera vcam = GetComponent<CinemachineVirtualCamera>();
-                    if (vcam != null)
-                    {
-                        vcam.Follow = null;
-                        vcam.LookAt = null;
-
-                        // vcam.transform.position = cameraPosition;
-                        // vcam.transform.LookAt(target);
-
-                        CamMove(cameraPosition, cameraRotation);
-
-                    }
+                    GameManager.Instance.selectedCharacter = null;
+                    Debug.Log($"{clickComp.characterData.name} 선택됨!");
+                    SelectCharactor(hit, clickComp.characterData);
                 }
-
-                //GameObject popupGO = Instantiate(popupInformPrefab, popupParent);
-
-                UIManager.Instance.OpenPopUpUI("PopupInform");
-                StartCoroutine(SetPopupInfoDelayed(clickComp.Data));
-
-                Debug.Log("직접 팝업 인스턴스 생성 완료!");
+                else if (hit.collider.CompareTag("Gun") && clickComp.weaponData != null)
+                {
+                    GameManager.Instance.selectedWeapon = clickComp.weaponData;
+                    Debug.Log($"{clickComp.weaponData.name} 선택됨!");
+                    SelectGun(hit, clickComp.weaponData);
+                }
             }
         }
     }
+    #region 캐릭터 선택관련
+    private void SelectCharactor(RaycastHit hit, CharacterSO data)
+    {
+        UIManager.Instance.ClosePopUpUI();
 
-    private IEnumerator SetPopupInfoDelayed(CharacterSO data)
+        UIManager.Instance.OpenPopUpUI("PopupInform");
+
+
+        Debug.Log("직접 팝업 인스턴스 생성 완료!");
+
+        Transform target = hit.collider.transform;
+
+        Vector3 cameraPosition = target.position + target.forward * 3f + Vector3.up * 3f;
+        Quaternion cameraRotation = Quaternion.LookRotation(target.position - cameraPosition);
+
+        if (vcam != null)
+        {
+            vcam.Follow = null;
+            vcam.LookAt = null;
+
+            CamMove(cameraPosition, cameraRotation);
+        }
+
+        StartCoroutine(SetPopupCharacterInfoDelayed(data));
+    }
+
+    private IEnumerator SetPopupCharacterInfoDelayed(CharacterSO data)
     {
         yield return null;
         PopupInform popup = PopupInform.LastInstance;
@@ -105,6 +108,50 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
         popup.SetCamReturnTarget(this);
     }
 
+    #endregion
+
+    #region 총 선택 관련
+    private IEnumerator SetPopupWeaponInfoDelayed(WeaponSO data)
+    {
+        yield return null;
+        PopupInform popup = PopupInform.LastInstance;
+        popup.SetWeaponInfo(data);
+        popup.SetCamReturnTarget(this);
+    }
+
+    private void SelectGun(RaycastHit hit, WeaponSO data)
+    {
+        if (GameManager.Instance.selectedCharacter == null)
+        {
+            Debug.LogWarning("캐릭터가 선택되지 않았습니다. 총을 선택할 수 없습니다.");
+            return;
+        }
+
+        UIManager.Instance.ClosePopUpUI();
+        //GameManager.Instance.selectedWeapon = data;
+        UIManager.Instance.OpenPopUpUI("PopupInform");
+        
+
+        Debug.Log("직접 팝업 인스턴스 생성 완료!");
+
+        Transform target = hit.collider.transform;
+
+        Vector3 offset = new Vector3(0f, 1.5f, 0f); // 위에서 내려다보기
+        Vector3 cameraPosition = target.position + offset;
+        Quaternion cameraRotation = Quaternion.Euler(90f, 0f, 0f); // 완전 수직 아래를 바라봄
+
+        if (vcam != null)
+        {
+            vcam.Follow = null;
+            vcam.LookAt = null;
+
+            CamMove(cameraPosition, cameraRotation);
+            StartCoroutine(SetPopupWeaponInfoDelayed(data));
+        }
+    }
+    #endregion
+
+    #region 카메라 이동관련
     public void CamReturn()
     {
         Debug.Log("[SelectPointer] CamReturn 호출됨");
@@ -114,9 +161,6 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
             vcam.LookAt = null;
 
             CamMove(originCamPos, originCamRot);
-
-            // vcam.transform.position = originCamPos;
-            // vcam.transform.rotation = originCamRot;
         }
     }
 
@@ -151,7 +195,7 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
 
     public void MoveToGunTable()
     {
-        if(vcam != null && gunTable != null)
+        if (vcam != null && gunTable != null)
         {
             Vector3 targetPos = gunTable.position + Vector3.up * 3.4f;
             Quaternion targetRot = Quaternion.Euler(80f, 0f, 0f);
@@ -162,4 +206,5 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
     {
         return t < 0.5f ? 2f * t * t : -1f + (4f - 2f * t) * t;
     }
+    #endregion
 }
