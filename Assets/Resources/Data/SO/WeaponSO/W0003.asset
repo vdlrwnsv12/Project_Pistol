@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: W0003
   Name: H&K
   Description: "\uCD1D\uAE30 \uC124\uBA853"
-  ShootRecoil: 35
+  ShootRecoil: 10
   DMG: 8
   ReloadTime: 2
   MaxAmmo: 7
