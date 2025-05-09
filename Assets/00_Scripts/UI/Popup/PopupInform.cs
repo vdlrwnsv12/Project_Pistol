@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class PopupInform : PopupUI
 {
+    /// <summary>
+    /// 캐릭터, 무기 정보를 보여주기 위한 팝업UI클래스
+    /// </summary>
+    
+    //마지막으로 생성된 PopupInform 인스턴스 저장
     public static PopupInform LastInstance { get; private set; }
 
     [Header("UI Elements")]
@@ -14,20 +19,24 @@ public class PopupInform : PopupUI
     public Button backButton;
     public Button selectButton;
 
-    private ICameraMovable camMoveTarget;
-    private CharacterSO characterSO;
-    private WeaponSO weaponSO;
-
-    public override bool IsDestroy { get; set; }
+    private ICameraMovable camMoveTarget; //카메라 복귀 대상
+    private CharacterSO characterSO; //현재 표시중인 캐릭터 데이터
+    private WeaponSO weaponSO; //현재 표시중인 무기데이터
+ 
+    public override bool IsDestroy { get; set; } //이거랑 아래건 모르겠음 윤익준이 안했음
     public override bool IsHideNotFocus { get; protected set; }
 
     private void Awake()
     {
-        LastInstance = this;
+        LastInstance = this; //생성된 인스턴스 저장
+        //버튼 이벤트 등록
         backButton.onClick.AddListener(OnBackButtonClicked);
         selectButton.onClick.AddListener(OnSelectButtonClicked);
     }
 
+    /// <summary>
+    /// 캐릭터 정보를 UI에 설정
+    /// </summary>
     public void SetCharacterInfo(CharacterSO data)
     {
         characterSO = data;
@@ -37,6 +46,9 @@ public class PopupInform : PopupUI
         Debug.Log($"SetCharacterInfo 호출됨: {data.Name}");
     }
 
+    /// <summary>
+    /// 무기 정보를 UI에 설정
+    /// </summary>
     public void SetWeaponInfo(WeaponSO data)
     {
         weaponSO = data;
@@ -46,21 +58,29 @@ public class PopupInform : PopupUI
         Debug.Log($"SetGunInfo 호출됨: {data.Name}");
     }
 
+    /// <summary>
+    /// 카메라 복귀 대상
+    /// </summary>
     public void SetCamReturnTarget(ICameraMovable target)
     {
         camMoveTarget = target;
     }
 
+    /// <summary>
+    /// 뒤로가기 버튼 눌렀을때
+    /// </summary>
     private void OnBackButtonClicked()
     {
         if (GameManager.Instance.selectedWeapon == null)
         {
+            //무기 선택 전이면 카메라 원래 위치로
             camMoveTarget?.CamReturn();
             GameManager.Instance.selectedCharacter = null;
             weaponSO = null;
         }
         else if (camMoveTarget is SelectPointer pointer)
         {
+            //무기 선택 후면 카메라 총기 테이블로
             pointer.MoveToGunTable();
             GameManager.Instance.selectedWeapon = null;
             weaponSO = null;
@@ -69,22 +89,30 @@ public class PopupInform : PopupUI
         UIManager.Instance.ClosePopUpUI();
     }
 
+    /// <summary>
+    /// 선택 버튼 눌렀을때
+    /// </summary>
     private void OnSelectButtonClicked()
     {
+        //캐릭터와 무기 정보가 모두 선택됐으면 게임 씬으로 (테스트용 코드라 지워야함) 
         if(GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon !=null)
         {
             SceneManager.LoadScene("02_GameScene");//테스트용 코드
             return;
         }
+        // 아직 무기선택 전이면 총기 테이블로
         if (camMoveTarget is SelectPointer pointer)
         {
             pointer.MoveToGunTable();
-            UpdateSelectedData();
+            UpdateSelectedData(); //선택 데이터 저장
         }
 
         UIManager.Instance.ClosePopUpUI();
     }
 
+    /// <summary>
+    /// 선택한 데이터 GameManager에 저장
+    /// </summary>
     private void UpdateSelectedData()
     {
         if (GameManager.Instance.selectedCharacter == null)
@@ -98,6 +126,9 @@ public class PopupInform : PopupUI
         }
     }
 
+    /// <summary>
+    /// 캐릭터 상태 텍스트 초기화
+    /// </summary>
     private string FormatCharacterStatus(CharacterSO data)
     {
         return $"Status\n" +
