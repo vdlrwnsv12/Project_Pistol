@@ -128,17 +128,23 @@ public class PlayerBaseState : IState
         }
         return finalSpeed;
     }
-
     private void RotateView()
     {
         float sensitivity = 1f;
 
         stateMachine.RotationX -= stateMachine.MouseInput.y * sensitivity;
-        stateMachine.RotationX = Mathf.Clamp(stateMachine.RotationX, -70f, 70f);
+
+        // 전체 회전 계산 (마우스 + 반동)
+        float totalX = stateMachine.RotationX + stateMachine.RecoilOffsetX;
+
+        totalX = Mathf.Clamp(totalX, -70f, 70f);
+
+        // RotationX에서 RecoilOffsetX를 다시 계산해서 RotationX만 조정 (순수 마우스 기준)
+        stateMachine.RotationX = totalX - stateMachine.RecoilOffsetX;
+
         Quaternion offsetRotation = Quaternion.Euler(-90f, 0f, 0f);
-        
-        stateMachine.Player.Motion.ArmTransform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0) * offsetRotation;
-        
+        stateMachine.Player.Motion.ArmTransform.localRotation = Quaternion.Euler(totalX, 0, 0) * offsetRotation;
+
         stateMachine.Player.transform.Rotate(Vector3.up * stateMachine.MouseInput.x);
     }
 }
