@@ -10,6 +10,12 @@ public class PopupInform : PopupUI
     public Button backButton;
     public Button selectButton;
 
+    public static PopupInform LastInstance {get; private set;}
+    private void Awake()
+    {
+        LastInstance = this;
+    }
+
     public void SetCharacterInfo(CharacterSO data)
     {
         Debug.Log($"SetCharacterInfo 호출됨: {data.Name}");

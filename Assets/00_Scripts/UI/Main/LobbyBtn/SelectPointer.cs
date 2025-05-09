@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class SelectPointer : MonoBehaviour
 {
-    public GameObject popupInformPrefab; // 프리팹 연결해줘야 함
+    //public GameObject popupInformPrefab; // 프리팹 연결해줘야 함
     public Transform popupParent; // 보통 Canvas 같은 곳 (선택)
     public PlayerInputs inputActions;
     private void Awake()
@@ -16,6 +16,10 @@ public class SelectPointer : MonoBehaviour
         AddInputActionCallbacks();
     }
 
+    void OnEnable()
+    {
+        
+    }
     public void AddInputActionCallbacks()
     {
         inputActions.Camera.ClickCharacter.started += OnCamera;
@@ -50,8 +54,13 @@ public class SelectPointer : MonoBehaviour
                     }
                 }
 
-                GameObject popupGO = Instantiate(popupInformPrefab, popupParent);
-                PopupInform popup = popupGO.GetComponent<PopupInform>();
+                //GameObject popupGO = Instantiate(popupInformPrefab, popupParent);
+                if(PopupInform.LastInstance != null)
+                {
+                    UIManager.Instance.ClosePopUpUI();
+                }
+                UIManager.Instance.OpenPopUpUI("PopupInform");
+                PopupInform popup = PopupInform.LastInstance;
                 popup.SetCharacterInfo(clickComp.Data);
 
                 Debug.Log("직접 팝업 인스턴스 생성 완료!");
