@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// 오브젝트 클릭시 카메라 이동 + 데이터 저장
+/// </summary>
 public interface ICameraMovable
 {
     void CamMove(Vector3 targetPos, Quaternion targetRot);

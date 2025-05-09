@@ -44,6 +44,10 @@ public class HUDUI : MainUI
         StageManager.Instance.roomCreator.RoomChangedAction += UpdateStageInfo;
         UpdateStageInfo();
         UpdateStatValue();
+
+        var weapon = GameManager.Instance.selectedWeapon;
+        var image = ResourceManager.Instance.Load<Sprite>($"Sprites/{weapon.ID}");
+        SetEquipImage(image);
     }
 
     private void Update()
@@ -110,8 +114,9 @@ public class HUDUI : MainUI
     /// <summary>
     /// 캐릭터가 장착 중인 무기 이미지 UI 갱신 메서드
     /// </summary>
-    public void SetEquipImage(Image weaponImage)
+    public void SetEquipImage(Sprite weaponImage)
     {
-        equipImage = weaponImage;
+        equipImage.sprite = weaponImage;
+        Debug.LogWarning($"{weaponImage.name}");
     }
 }
