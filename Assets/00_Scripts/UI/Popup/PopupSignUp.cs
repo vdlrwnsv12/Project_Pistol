@@ -44,7 +44,7 @@ public class PopupSignUp : PopupUI
         {
             await UserManager.Instance.SignUpWithUsernamePasswordAsync(idInputField.text, passwordInputField.text, nameInputField.text);
             Debug.Log("회원가입 완료");
-            UIManager.Instance.ClosePopUpUI();
+            CloseUI();
         }
         catch
         {

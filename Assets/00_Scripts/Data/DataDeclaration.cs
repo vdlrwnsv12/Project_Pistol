@@ -47,6 +47,9 @@ namespace DataDeclaration
         public string AccessToken;
         public string UserID;
         public string UserName;
+        
+        public CharacterSO SelectedCharacter;
+        public WeaponSO SelectedWeapon;
     }
     
     [Serializable]
@@ -64,6 +67,14 @@ namespace DataDeclaration
 
     public static class Constants
     {
+        #region User Data
+
+        // Key 값으로 사용할 상수
+        // 공백, 한글, 특수문자 금지
+        public const string USER_NAME = "User_Name";
+
+        #endregion
+        
         public const int LAST_STAGE_INDEX = 8;
         public const int MAX_ROOM_INDEX = 3;
 

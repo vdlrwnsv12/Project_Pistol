@@ -40,6 +40,7 @@ public class PopupSignIn : PopupUI
 
     private void OnClickSignUpButton()
     {
+        CloseUI();
         UIManager.Instance.OpenPopupUI<PopupSignUp>();
     }
     
@@ -47,10 +48,9 @@ public class PopupSignIn : PopupUI
     {
         try
         {
-            AuthenticationService.Instance.SignedIn += UIManager.Instance.ClosePopUpUI;
             await UserManager.Instance.SignInWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
             Debug.Log("로그인 성공");
-            AuthenticationService.Instance.SignedIn -= UIManager.Instance.ClosePopUpUI;
+            CloseUI();
         }
         catch
         {

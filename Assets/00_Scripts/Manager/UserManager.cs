@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataDeclaration;
 using Unity.Services.Authentication;
+using Unity.Services.CloudSave;
 using Unity.Services.Core;
 using UnityEngine;
 
@@ -46,9 +48,13 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
         try
         {
             await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(userID, password);
+            userData.AccessToken = AuthenticationService.Instance.AccessToken;
+            userData.UserID = AuthenticationService.Instance.PlayerId;
             try
             {
                 await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
+                SaveData(Constants.USER_NAME, userName);
+                userData.UserName = AuthenticationService.Instance.PlayerName;
             }
             catch (Exception e)
             {
@@ -86,6 +92,7 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
             userData.UserID = AuthenticationService.Instance.PlayerId;
             await AuthenticationService.Instance.GetPlayerNameAsync();
             userData.UserName = AuthenticationService.Instance.PlayerName;
+            //userData.UserName = LoadData(Constants.USER_NAME);
         }
         catch (AuthenticationException ex)
         {
@@ -98,6 +105,47 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
             Debug.LogException(ex);
             Debug.Log("요청 실패: " + ex.Message);
             throw;
+        }
+    }
+
+    public async void SaveData(string key, object data)
+    {
+        try
+        {
+            var saveData = new Dictionary<string, object>{ { key, data } };
+            await CloudSaveService.Instance.Data.Player.SaveAsync(saveData);
+            Debug.Log("데이터 저장 성공");
+        }
+        catch (CloudSaveException e)
+        {
+            Debug.LogException(e);
+            Debug.Log("데이터 저장 실패");
+        }
+    }
+
+    public async Task<T> LoadData<T>(string key)
+    {
+        try
+        {
+            var loadData = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>{key});
+            var data = loadData[key].Value.ToString();
+            Debug.Log("데이터 불러오기 성공");
+            
+            if (typeof(T) == typeof(int))
+                return (T)(object)Convert.ToInt32(data);
+            if (typeof(T) == typeof(float))
+                return (T)(object)Convert.ToSingle(data);
+            if (typeof(T) == typeof(bool))
+                return (T)(object)Convert.ToBoolean(data);
+            if (typeof(T) == typeof(string))
+                return (T)(object)data.ToString();
+            var json = data.ToString();
+            return JsonUtility.FromJson<T>(json);
+        }
+        catch
+        {
+            Debug.Log("데이터 불러오기 실패");
+            return default;
         }
     }
 
