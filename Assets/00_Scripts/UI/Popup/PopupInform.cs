@@ -92,6 +92,8 @@ public class PopupInform : PopupUI
     /// </summary>
     private void OnSelectButtonClicked()
     {
+        UIManager.Instance.ClosePopUpUI();
+        
         //캐릭터와 무기 정보가 모두 선택됐으면 게임 씬으로 (테스트용 코드라 지워야함) 
         if(GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon !=null)
         {
@@ -104,8 +106,6 @@ public class PopupInform : PopupUI
             pointer.MoveToGunTable();
             UpdateSelectedData(); //선택 데이터 저장
         }
-
-        UIManager.Instance.ClosePopUpUI();
     }
 
     /// <summary>
