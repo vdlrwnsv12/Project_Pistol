@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,21 +20,19 @@ public class PopupSignUp : PopupUI
         IsDestroy = true;
         IsHideNotFocus = true;
         
-        InitIDInputField();
-        InitPasswordInputField();
+        InitInputField();
         
         signUpBtn.onClick.AddListener(OnClickSignUpButton);
         closeBtn.onClick.AddListener(CloseUI);
     }
     
-    private void InitIDInputField()
+    private void InitInputField()
     {
+        // ID inputField 초기화
         idInputField.characterLimit = 20;
         idInputField.onEndEdit.AddListener(ValidateString.ValidateID);
-    }
-
-    private void InitPasswordInputField()
-    {
+        
+        // 비밀번호 inputField 초기화
         passwordInputField.characterLimit = 30;
         passwordInputField.onEndEdit.AddListener(ValidateString.ValidatePassword);
     }
@@ -46,9 +45,10 @@ public class PopupSignUp : PopupUI
             Debug.Log("회원가입 완료");
             CloseUI();
         }
-        catch
+        catch (Exception e)
         {
             Debug.Log("회원가입 실패");
+            Debug.LogException(e);
         }
     }
 }
