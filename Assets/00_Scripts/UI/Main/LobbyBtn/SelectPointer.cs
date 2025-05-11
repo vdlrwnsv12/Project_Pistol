@@ -77,8 +77,8 @@ public class SelectPointer : MonoBehaviour
                 }
 
                 //GameObject popupGO = Instantiate(popupInformPrefab, popupParent);
-
-                UIManager.Instance.OpenPopUpUI("PopupInform");
+                
+                UIManager.Instance.OpenPopupUI<PopupInform>();
                 PopupInform popup = PopupInform.LastInstance;
                 popup.SetCharacterInfo(clickComp.Data);
 

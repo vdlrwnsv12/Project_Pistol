@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class StartUI : MainUI
 {
     public override MainUIType UIType { get; protected set; }
-    public override bool IsDestroy { get; set; }
-    
 
     [SerializeField] private TextMeshProUGUI gameTitle;
     [SerializeField] private Button startBtn;
@@ -16,8 +14,6 @@ public class StartUI : MainUI
 
     private void Awake()
     {
-        IsDestroy = true;
-        
         gameTitle.gameObject.SetActive(false);
         startBtn.gameObject.SetActive(false);
         signOutBtn.gameObject.SetActive(false);

@@ -6,7 +6,6 @@ using DataDeclaration;
 public abstract class MainUI : BaseUI
 {
     public abstract MainUIType UIType { get; protected set; }
-    public abstract override bool IsDestroy { get; set; }
 
     /// <summary>
     /// Main UI 활성화

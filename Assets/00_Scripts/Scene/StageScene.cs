@@ -4,10 +4,11 @@ public class StageScene : BaseScene
     {
         UIManager.ToggleMouseCursor(false);
         StageManager.Instance.InitStage();
-        UIManager.Instance.InitUI<HUDUI>();
+        UIManager.Instance.InitMainUI<HUDUI>();
     }
 
     public override void ExitScene()
     {
+        base.ExitScene();
     }
 }

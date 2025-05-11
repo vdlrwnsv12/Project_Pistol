@@ -9,15 +9,9 @@ public class PopupSignIn : PopupUI
 
     [SerializeField] private Button signInBtn;
     [SerializeField] private Button signUpBtn;
-    
-    public override bool IsDestroy { get; set; }
-    public override bool IsHideNotFocus { get; protected set; }
 
     private void Awake()
     {
-        IsDestroy = true;
-        IsHideNotFocus = true;
-        
         InitIDInputField();
         InitPasswordInputField();
         

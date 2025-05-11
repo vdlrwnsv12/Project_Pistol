@@ -3,9 +3,6 @@
 /// </summary>
 public abstract class PopupUI : BaseUI
 {
-    public abstract override bool IsDestroy { get; set; }
-    public abstract bool IsHideNotFocus { get; protected set; }
-    
     /// <summary>
     /// 팝업창 닫기
     /// </summary>

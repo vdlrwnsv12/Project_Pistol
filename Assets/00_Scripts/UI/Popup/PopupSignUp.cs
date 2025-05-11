@@ -11,15 +11,9 @@ public class PopupSignUp : PopupUI
     
     [SerializeField] private Button signUpBtn;
     [SerializeField] private Button closeBtn;
-    
-    public override bool IsDestroy { get; set; }
-    public override bool IsHideNotFocus { get; protected set; }
 
     private void Awake()
     {
-        IsDestroy = true;
-        IsHideNotFocus = true;
-        
         InitInputField();
         
         signUpBtn.onClick.AddListener(OnClickSignUpButton);
