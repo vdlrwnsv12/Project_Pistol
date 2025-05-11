@@ -254,7 +254,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32877544}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07095279, y: 0.5159856, z: -0.042941332, w: 0.8525729}
+  m_LocalRotation: {x: 0.070952795, y: 0.5159856, z: -0.042941332, w: 0.8525729}
   m_LocalPosition: {x: -7.24, y: 0.997, z: -2.42}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2631,6 +2631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2124376769}
+  cameraPositionTarget: {fileID: 1860829173}
 --- !u!1 &514709489
 GameObject:
   m_ObjectHideFlags: 0
@@ -5721,7 +5722,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1089984498}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07095279, y: 0.5159856, z: -0.042941332, w: 0.8525729}
+  m_LocalRotation: {x: 0.070952795, y: 0.5159856, z: -0.042941332, w: 0.8525729}
   m_LocalPosition: {x: -7.24, y: 0.997, z: -2.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

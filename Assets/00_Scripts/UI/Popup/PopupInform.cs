@@ -22,9 +22,7 @@ public class PopupInform : PopupUI
     private ICameraMovable camMoveTarget; //카메라 복귀 대상
     private CharacterSO characterSO; //현재 표시중인 캐릭터 데이터
     private WeaponSO weaponSO; //현재 표시중인 무기데이터
- 
-    public override bool IsDestroy { get; set; } //이거랑 아래건 모르겠음 윤익준이 안했음
-    public override bool IsHideNotFocus { get; protected set; }
+
 
     private void Awake()
     {

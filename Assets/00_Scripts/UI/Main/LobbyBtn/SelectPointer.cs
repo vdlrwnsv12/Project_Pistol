@@ -64,7 +64,8 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
     {
         GameManager.Instance.selectedCharacter = null; //게임매니저 캐릭터 데이터 삭제
         UIManager.Instance.ClosePopUpUI();
-        UIManager.Instance.OpenPopUpUI("PopupInform");
+        UIManager.Instance.OpenPopupUI<PopupInform>();
+
 
         Transform target = hit.collider.transform; 
         Vector3 cameraPosition = target.position + target.forward * 3f + Vector3.up * 3f; //카메라 위치 클릭한 대상 앞쪽으로 이동
@@ -93,7 +94,8 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
         GameManager.Instance.selectedWeapon = clickComp.weaponData; 
 
         UIManager.Instance.ClosePopUpUI();
-        UIManager.Instance.OpenPopUpUI("PopupInform");
+        UIManager.Instance.OpenPopupUI<PopupInform>();
+
 
         Transform target = hit.collider.transform; //총기 위치정보
         Vector3 cameraPosition = target.position + new Vector3(0f, 1.5f, 0f); // 카메라를 총기 바로 위로
