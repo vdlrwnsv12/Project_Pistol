@@ -38,7 +38,7 @@ public class StageManager : SingletonBehaviour<StageManager>
         isDontDestroyOnLoad = false;
         base.Awake();
         IsGamePause = true;
-        RemainTime = 20f;
+        RemainTime = Constants.INIT_STAGE_TIME;
         IsQuickShot = false;
     }
 
@@ -79,8 +79,7 @@ public class StageManager : SingletonBehaviour<StageManager>
     {
         UIManager.ToggleMouseCursor(true);
 
-        UIManager.Instance.InitUI<ResultUI>();
-        UIManager.Instance.ChangeMainUI(MainUIType.Result);
+        UIManager.Instance.InitMainUI<ResultUI>();
         var resultUI = UIManager.Instance.CurMainUI as ResultUI;
         if (resultUI != null)
         {

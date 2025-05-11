@@ -6,5 +6,6 @@ public class LobbyScene : BaseScene
 
     public override void ExitScene()
     {
+        base.ExitScene();
     }
 }

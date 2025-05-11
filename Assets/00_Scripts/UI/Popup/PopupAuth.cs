@@ -1,23 +1,22 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupSignUp : PopupUI
+public class PopupAuth : PopupUI
 {
     [SerializeField] private TMP_InputField idInputField;
     [SerializeField] private TMP_InputField passwordInputField;
     [SerializeField] private TMP_InputField nameInputField;
     
-    [SerializeField] private Button signUpBtn;
-    [SerializeField] private Button closeBtn;
+    [SerializeField] private Button signUpOrCloseBtn;
+    [SerializeField] private Button signInOrUpBtn;
 
     private void Awake()
     {
         InitInputField();
         
-        signUpBtn.onClick.AddListener(OnClickSignUpButton);
-        closeBtn.onClick.AddListener(CloseUI);
+        signUpOrCloseBtn.onClick.AddListener(OnClickSignInButton);
+        signInOrUpBtn.onClick.AddListener(OnClickSignUpButton);
     }
     
     private void InitInputField()
@@ -29,20 +28,27 @@ public class PopupSignUp : PopupUI
         // 비밀번호 inputField 초기화
         passwordInputField.characterLimit = 30;
         passwordInputField.onEndEdit.AddListener(ValidateString.ValidatePassword);
+        
+        nameInputField.gameObject.SetActive(false);
     }
-
-    private async void OnClickSignUpButton()
+    
+    private void OnClickSignUpButton()
+    {
+        CloseUI();
+        UIManager.Instance.OpenPopupUI<PopupSignUp>();
+    }
+    
+    private async void OnClickSignInButton()
     {
         try
         {
-            await UserManager.Instance.SignUpWithUsernamePasswordAsync(idInputField.text, passwordInputField.text, nameInputField.text);
-            Debug.Log("회원가입 완료");
+            await UserManager.Instance.SignInWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
+            Debug.Log("로그인 성공");
             CloseUI();
         }
-        catch (Exception e)
+        catch
         {
-            Debug.Log("회원가입 실패");
-            Debug.LogException(e);
+            Debug.Log("로그인 실패");
         }
     }
 }

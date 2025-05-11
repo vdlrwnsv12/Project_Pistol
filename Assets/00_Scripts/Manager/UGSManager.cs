@@ -30,7 +30,7 @@ public sealed class UGSManager : SingletonBehaviour<UGSManager>
     /// 인증 이벤트 등록
     /// <para>플레이어의 상태에 대한 업데이트를 받으려면, SignedIn, SignInFailed, SignedOut 이벤트 핸들러에 함수를 등록한다.</para>
     /// </summary>
-    public static void SetupEvents()
+    private static void SetupEvents()
     {
         AuthenticationService.Instance.SignedIn += () =>
         {

@@ -8,7 +8,6 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 {
     public static Scene CurScene { get; private set; } = Scene.Stage;
     public static Scene PrevScene { get; private set; }
-    public static Scene NextScene { get; private set; }
 
     private Dictionary<Scene, BaseScene> scenes;
 
