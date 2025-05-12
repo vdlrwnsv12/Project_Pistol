@@ -110,6 +110,17 @@ public class Weapon : MonoBehaviour
         attachment.SetActive(true);
         Stat.RemoveStat(item.DMG, -item.ShootRecoil, item.MaxAmmo, group);
         equippedPartsMask |= (1 << group);
+
+        if(group == 1) //활성화 파츠가 optic이라면 시점 상승 근데...이게 맞나? 이렇게 하면 안될거같은데
+        {
+            Transform adsCamTransform = GameObject.Find("AdsCamTransform")?.transform; 
+            if(adsCamTransform != null)
+            {
+                Vector3 pos = adsCamTransform.localPosition;
+                pos.z = 0.0018f;
+                adsCamTransform.localPosition = pos;
+            }
+        }
     }
 
 }
