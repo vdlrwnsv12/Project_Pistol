@@ -156,8 +156,9 @@ GameObject:
   - component: {fileID: 3261647627406963845}
   - component: {fileID: 1940040615355579168}
   - component: {fileID: 4397940824206839786}
+  - component: {fileID: 8374522092232363}
   m_Layer: 0
-  m_Name: RedDotSight
+  m_Name: I2003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,6 +231,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8374522092232363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2740549847351701055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ec2afa5273e4f8f80517e615448fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: 889401bec89de4656a8df3b1742a9224, type: 2}
 --- !u!1 &2850253121489628522
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,8 +321,9 @@ GameObject:
   - component: {fileID: 2430426849232773860}
   - component: {fileID: 1591256945905921345}
   - component: {fileID: 3598851688377129355}
+  - component: {fileID: 363891593802488610}
   m_Layer: 0
-  m_Name: HolographicSight
+  m_Name: I2004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -381,6 +396,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &363891593802488610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3094339060767340638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ec2afa5273e4f8f80517e615448fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: 2d6d065ff7d5e4147a137dc8dbf409b3, type: 2}
 --- !u!1 &3110323834075353662
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +1002,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 64643883e52f24f3e83db886bf8303e2, type: 2}
+  equippedParts:
+  - {fileID: 0}
 --- !u!1 &7186912033030998499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,8 +1098,9 @@ GameObject:
   - component: {fileID: 6277308088777172111}
   - component: {fileID: 3883267562446572119}
   - component: {fileID: 4004780935259131167}
+  - component: {fileID: 1638545815481139522}
   m_Layer: 0
-  m_Name: Muzzle_Pistol_Brake_A
+  m_Name: I2006
   m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1140,6 +1171,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1638545815481139522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263482613834607837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ec2afa5273e4f8f80517e615448fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: d2ad711f2948d4edeb8ec641c1bc0bcd, type: 2}
 --- !u!1 &7628643524958114892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,8 +1361,9 @@ GameObject:
   - component: {fileID: 9014835703807354959}
   - component: {fileID: 5383203269361084394}
   - component: {fileID: 7876810677408355104}
+  - component: {fileID: 8011458387457420412}
   m_Layer: 0
-  m_Name: LaserPointer
+  m_Name: I2005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1390,6 +1435,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8011458387457420412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8525580055148131061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ec2afa5273e4f8f80517e615448fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: cc458d261991e468e9035e2ec10344fe, type: 2}
 --- !u!1 &8961086310901690387
 GameObject:
   m_ObjectHideFlags: 0
