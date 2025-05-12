@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private WeaponSO data;
 
-    [SerializeField] private List<ItemSO> equippedParts = new List<ItemSO>();
+    // [SerializeField] private List<ItemSO> equippedParts = new List<ItemSO>();
 
     private int equippedPartsMask = 0;
 
@@ -74,40 +74,42 @@ public class Weapon : MonoBehaviour
         if (itemInfo == null || itemInfo.itemData == null) return;
 
         ItemSO item = itemInfo.itemData;
-        int partGroup = item.WeaponParts;
+        int group = item.WeaponParts;
         bool willBeActive = !attachment.activeSelf;
 
-        if(willBeActive)
+        //같은 그룹 파츠 하나만 활성화
+        if (willBeActive)
         {
-            if((equippedPartsMask & (1 << partGroup)) != 0)
+            DisableSameGroupParts(attachment, group);
+            EnableParts(attachment, item, group);
+        }
+    }
+
+    private void DisableSameGroupParts(GameObject current, int group)
+    {
+        foreach (Transform child in current.transform.parent)
+        {
+            GameObject sibling = child.gameObject;
+            if (sibling == current || !sibling.activeSelf) continue;
+
+            ItemInformation siblingInfo = sibling.GetComponent<ItemInformation>();
+            if (siblingInfo == null || siblingInfo.itemData == null) continue;
+
+            if (siblingInfo.itemData.WeaponParts == group)
             {
-                foreach(Transform child in attachment.transform.parent)
-                {
-                    GameObject sibling = child.gameObject;
-                    if(sibling == attachment || !sibling.activeSelf) continue;
-                    
-                    ItemInformation siblingInfo = sibling.GetComponent<ItemInformation>();
-                    if(sibling == null || siblingInfo.itemData == null) continue;
-
-                    if (siblingInfo.itemData.WeaponParts == partGroup)
-                    {
-                        sibling.SetActive(false);
-                        Stat.RemoveStat(siblingInfo.itemData.DMG, -siblingInfo.itemData.ShootRecoil, siblingInfo.itemData.MaxAmmo, partGroup);
-                    }
-                }
+                sibling.SetActive(false);
+                Stat.RemoveStat(siblingInfo.itemData.DMG, -siblingInfo.itemData.ShootRecoil, siblingInfo.itemData.MaxAmmo, group);
             }
-            attachment.SetActive(true);
-            Stat.ChangeStat(item.DMG, -item.ShootRecoil, item.MaxAmmo, partGroup);
-            
-            equippedPartsMask |= (1 << partGroup);
         }
-        else
-        {
-            attachment.SetActive(false);
-            Stat.RemoveStat(item.DMG, -item.ShootRecoil, item.MaxAmmo, partGroup);
+    }
 
-            equippedPartsMask &= ~(1 << partGroup);
-        }
+
+
+    private void EnableParts(GameObject attachment, ItemSO item, int group)
+    {
+        attachment.SetActive(true);
+        Stat.RemoveStat(item.DMG, -item.ShootRecoil, item.MaxAmmo, group);
+        equippedPartsMask |= (1 << group);
     }
 
 }

@@ -1514,6 +1514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ArmTransform>k__BackingField: {fileID: 3897598372907226556}
   <HandPos>k__BackingField: {fileID: 5298456330518740627}
+  finalRecoil: 0
 --- !u!1 &3812044873675645748
 GameObject:
   m_ObjectHideFlags: 0

@@ -200,14 +200,14 @@ GameObject:
   - component: {fileID: 7141531003594937778}
   - component: {fileID: 6103515530352138775}
   - component: {fileID: 8309418666750439133}
-  - component: {fileID: -7690975936891741814}
+  - component: {fileID: 3561075587634513414}
   m_Layer: 0
   m_Name: I2003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7141531003594937778
 Transform:
   m_ObjectHideFlags: 0
@@ -216,8 +216,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7516507987042062088}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.042699993, z: -0.037500024}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0000000074505797, w: 1}
+  m_LocalPosition: {x: 0, y: 0.042700004, z: -0.037500035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -275,7 +275,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-7690975936891741814
+--- !u!114 &3561075587634513414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7516507987042062088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3d6ee91e6ac4f3fa749dc55ffba794, type: 3}
+  m_Script: {fileID: 11500000, guid: f6ec2afa5273e4f8f80517e615448fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: 889401bec89de4656a8df3b1742a9224, type: 2}

@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedCharacter: {fileID: 11400000, guid: 70c1d457bdae24bb0bd7b0f3f88badc9, type: 2}
-  selectedWeapon: {fileID: 11400000, guid: c8362271cc21a440f8f34c489a59b063, type: 2}
+  selectedWeapon: {fileID: 11400000, guid: 64643883e52f24f3e83db886bf8303e2, type: 2}
 --- !u!4 &234444874
 Transform:
   m_ObjectHideFlags: 0

@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 407308260780844473}
   - component: {fileID: 7448484842896853857}
   - component: {fileID: 7289535373275024425}
-  - component: {fileID: 8227215056128718325}
+  - component: {fileID: 6555439147299946682}
   m_Layer: 0
   m_Name: I2006
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3924715766607588843}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0399, z: 0.16}
+  m_LocalPosition: {x: -0, y: 0.0399, z: 0.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8227215056128718325
+--- !u!114 &6555439147299946682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3924715766607588843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3d6ee91e6ac4f3fa749dc55ffba794, type: 3}
+  m_Script: {fileID: 11500000, guid: f6ec2afa5273e4f8f80517e615448fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: d2ad711f2948d4edeb8ec641c1bc0bcd, type: 2}
