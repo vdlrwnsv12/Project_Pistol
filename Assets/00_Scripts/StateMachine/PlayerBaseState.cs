@@ -27,6 +27,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
         input.playerActions.Reload.started += OnReload;
+        input.playerActions.Interact.started += OnInteract;
         input.playerActions.Ads.performed += OnAds;
     }
     protected virtual void RemoveInputActionCallbacks()
@@ -36,6 +37,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.canceled -= OnLookStarted;
         input.playerActions.Attack.started -= OnAttack;
         input.playerActions.Reload.started -= OnReload;
+        input.playerActions.Interact.started -= OnInteract;
         input.playerActions.Ads.performed -= OnAds;
     }
 
@@ -78,6 +80,11 @@ public class PlayerBaseState : IState
         stateMachine.IsAds = !stateMachine.IsAds;
         stateMachine.Player.AdsCamera.gameObject.SetActive(stateMachine.IsAds);
         stateMachine.Player.NonAdsCamera.gameObject.SetActive(!stateMachine.IsAds);
+    }
+
+    protected virtual void OnInteract(InputAction.CallbackContext context)
+    {
+
     }
     protected void StartAnimation(int animatorHash)
     {
