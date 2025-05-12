@@ -908,8 +908,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6664617112370845053}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7017449, y: -0.14425243, z: -0.21851909, w: 0.66256684}
-  m_LocalPosition: {x: -0.00001309521, y: 0.0018841042, z: -0.00079883507}
+  m_LocalRotation: {x: -0.7267935, y: -0.10467414, z: -0.19301423, w: 0.65081495}
+  m_LocalPosition: {x: 0.00003, y: -0.00001, z: -0.00006}
   m_LocalScale: {x: 0.0150000015, y: 0.012000003, z: 0.011999994}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -961,7 +961,6 @@ MonoBehaviour:
   isReloading: 0
   barrelLocation: {fileID: 1082154945215448148}
   casingExitLocation: {fileID: 4566589175462892212}
-  spreadAngle: 10.5
 --- !u!114 &1141942656081591906
 MonoBehaviour:
   m_ObjectHideFlags: 0
