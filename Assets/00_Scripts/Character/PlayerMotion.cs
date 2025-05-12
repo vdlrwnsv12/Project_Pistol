@@ -9,25 +9,9 @@ public class PlayerMotion : MonoBehaviour
     [field: SerializeField] public Transform ArmTransform { get; private set; }
     [field: SerializeField] public GameObject HandPos { get; private set; }
 
-    public Transform rootCam;
-
-    [Range(0.0001f, 1f), SerializeField]
-    private float amount = 0.005f;
-    [Range(1f, 30f), SerializeField]
-    private float frequency = 10.0f;
-    [Range(10f, 100f), SerializeField]
-    private float smooth = 10.0f;
-
     private float stepTimer = 0f;
     private float stepInterval = 0.4f; // 0.4초마다 흔든다 (스텝 간격)
 
-    #region
-    private float eulerAngleX;
-    private float eulerAngleY;
-
-    private float limitMinX = -80;
-    private float limitMaxX = 50;
-    #endregion
 
     private Quaternion initialLocalRotation;
     private void Awake()
