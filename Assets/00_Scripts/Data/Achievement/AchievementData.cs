@@ -8,16 +8,9 @@ using System;
 [Serializable]
 public class AchievementData
 {
-    /// <summary>도전과제 이름</summary>
     public string title;
-
-    /// <summary>도전과제 설명</summary>
     public string description;
-
-    /// <summary>도전과제 카테고리</summary>
     public AchievementCategory category;
-
-    /// <summary>달성 여부</summary>
     public bool isCompleted;
 }
 

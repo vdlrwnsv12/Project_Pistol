@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 /// <summary>
 /// 도전과제 UI 메인 컨트롤러 (리스트 + 상세 정보 출력 패널 + 패널 토글)
@@ -16,6 +17,7 @@ public class AchievementMainUI : MonoBehaviour
     [SerializeField] private GameObject detailPanelPrefab;       // 상세정보 패널 프리팹
 
     private GameObject currentDetailPanel;
+    private CanvasGroup detailCanvasGroup;
     private AchievementItemUI currentSelectedItem;
     private Dictionary<AchievementItemUI, int> originalSiblingIndices = new();
 
@@ -28,7 +30,6 @@ public class AchievementMainUI : MonoBehaviour
     /// <summary>
     /// 도전과제 리스트 생성 및 출력
     /// </summary>
-    /// <param name="achievements">도전과제 목록</param>
     public void ShowList(List<AchievementSO> achievements)
     {
         currentAchievements = achievements;
@@ -39,77 +40,72 @@ public class AchievementMainUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        originalSiblingIndices.Clear();
+
         // 도전과제 항목 생성
         foreach (var data in currentAchievements)
         {
             GameObject itemGO = Instantiate(achievementItemPrefab, listParent);
             AchievementItemUI itemUI = itemGO.GetComponent<AchievementItemUI>();
-            itemUI.Initialize(data, this); // 데이터 및 MainUI 연결
+            itemUI.Initialize(data, this);
+
+            // 초기 위치 기억
+            originalSiblingIndices[itemUI] = itemGO.transform.GetSiblingIndex();
         }
 
-        // 초기 선택 없음 (모두 닫힘 상태)
         currentSelectedItem = null;
     }
 
     /// <summary>
     /// 도전과제 항목 클릭 시 호출
     /// </summary>
-    /// <param name="clickedItem">클릭된 항목</param>
     public void OnClickAchievementItem(AchievementItemUI clickedItem)
     {
-        // 같은 항목 다시 클릭 시 → 닫기
         if (currentSelectedItem == clickedItem)
         {
-            CloseDetail();
+            AnimateDetailClose();
             return;
         }
 
-        // 기존 열려있는 항목 복원
+        // 이전 항목 복원
         if (currentSelectedItem != null)
         {
             RestorePreviousItemPosition();
         }
 
-        // 클릭된 항목 최상단 이동
+        // 위치 기억 & 최상단 이동
         SaveOriginalSiblingIndex(clickedItem);
         clickedItem.transform.SetSiblingIndex(0);
 
-        // 상세 패널 생성 또는 활성화
+        // 슬라이드 애니메이션 (항목)
+        RectTransform itemRect = clickedItem.GetComponent<RectTransform>();
+        itemRect.DOAnchorPosY(-45f, 0.3f).SetEase(Ease.OutCubic);
+
+        // 상세 패널 생성 (최초)
         if (currentDetailPanel == null)
         {
             currentDetailPanel = Instantiate(detailPanelPrefab, listParent);
+            detailCanvasGroup = currentDetailPanel.GetComponent<CanvasGroup>();
         }
 
-        currentDetailPanel.SetActive(true);
-
-        // 상세 패널을 클릭 항목 아래로 이동
+        // 위치 조정
         int detailIndex = clickedItem.transform.GetSiblingIndex() + 1;
         currentDetailPanel.transform.SetSiblingIndex(detailIndex);
 
-        // 상세 UI 데이터 설정
+        // 데이터 표시
         var detailUI = currentDetailPanel.GetComponent<AchievementDetailUI>();
         detailUI.SetData(clickedItem.AchievementData);
+
+        // 애니메이션
+        AnimateDetailOpen();
 
         currentSelectedItem = clickedItem;
     }
 
-    /// <summary>
-    /// 상세정보 닫고 위치 복원
-    /// </summary>
-    private void CloseDetail()
-    {
-        if (currentDetailPanel != null)
-        {
-            currentDetailPanel.SetActive(false);
-        }
+    #endregion
 
-        RestorePreviousItemPosition();
-        currentSelectedItem = null;
-    }
+    #region Private Methods
 
-    /// <summary>
-    /// 원래 위치 기억
-    /// </summary>
     private void SaveOriginalSiblingIndex(AchievementItemUI item)
     {
         if (!originalSiblingIndices.ContainsKey(item))
@@ -118,9 +114,6 @@ public class AchievementMainUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 원래 위치로 복구
-    /// </summary>
     private void RestorePreviousItemPosition()
     {
         if (currentSelectedItem == null)
@@ -131,13 +124,42 @@ public class AchievementMainUI : MonoBehaviour
         if (originalSiblingIndices.TryGetValue(currentSelectedItem, out int originalIndex))
         {
             currentSelectedItem.transform.SetSiblingIndex(originalIndex);
-            originalSiblingIndices.Remove(currentSelectedItem);
         }
     }
 
-    /// <summary>
-    /// 리스트 패널 토글
-    /// </summary>
+    private void AnimateDetailOpen()
+    {
+        currentDetailPanel.SetActive(true);
+
+        RectTransform rect = currentDetailPanel.GetComponent<RectTransform>();
+        detailCanvasGroup.alpha = 0f;
+        rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, -50f);
+
+        detailCanvasGroup.DOFade(1f, 0.3f);
+        rect.DOAnchorPosY(-650f, 0.3f).SetEase(Ease.OutCubic);  //최종 상세정보 위치 보정
+    }
+
+    private void AnimateDetailClose()
+    {
+        if (currentDetailPanel == null) return;
+
+        RectTransform rect = currentDetailPanel.GetComponent<RectTransform>();
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(detailCanvasGroup.DOFade(0f, 0.2f));
+        seq.Join(rect.DOAnchorPosY(-50f, 0.2f));
+        seq.OnComplete(() =>
+        {
+            currentDetailPanel.SetActive(false);
+            RestorePreviousItemPosition();
+            currentSelectedItem = null;
+        });
+    }
+
+    #endregion
+
+    #region UI Controls
+
     public void ToggleListPanel()
     {
         if (listPanel != null)
