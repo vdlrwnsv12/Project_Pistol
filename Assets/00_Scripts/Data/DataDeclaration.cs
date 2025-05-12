@@ -42,11 +42,17 @@ namespace DataDeclaration
 
     #region Struct
 
+    [Serializable]
     public struct UserData
     {
-        public string AccessToken;
+        public string AccessToken;  // 토큰 확인용
         public string UserID;
         public string UserName;
+
+        public int BestScore;
+        
+        public string SelectedCharacterID;
+        public string SelectedWeaponID;
     }
     
     [Serializable]
@@ -64,9 +70,19 @@ namespace DataDeclaration
 
     public static class Constants
     {
+        #region User Data
+
+        // Key 값으로 사용할 상수
+        // 공백, 한글, 특수문자 금지
+        public const string USER_DATA = "User_Data";
+        public const string USER_NAME = "User_Name";
+
+        #endregion
+        
         public const int LAST_STAGE_INDEX = 8;
         public const int MAX_ROOM_INDEX = 3;
 
+        public const float INIT_STAGE_TIME = 20f;
         public const float ADDITIONAL_STAGE_TIME = 20f;
         public const float QUICK_SHOT_TIME = 2f;
 

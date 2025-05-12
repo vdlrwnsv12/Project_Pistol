@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class LobbyUI : MainUI
 {
     public override MainUIType UIType { get; protected set; }
-    public override bool IsDestroy { get; set; }
 
     public string characterText1;
     public string characterText2;
@@ -17,7 +16,6 @@ public class LobbyUI : MainUI
     private void Awake()
     {
         UIType = MainUIType.Lobby;
-        IsDestroy = true;
 
         startBtn.onClick.AddListener(OnClickStartButton);//테스트
     }

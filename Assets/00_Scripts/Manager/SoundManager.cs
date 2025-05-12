@@ -5,8 +5,16 @@ using UnityEngine;
 /// <summary>
 /// 예시
 /// 배경음악: SoundManager.Instance.PlayBackgroundMusic("사운드 이름");
-/// 효과음: SoundManager.Instance.PlaySFX("사운드 이름");
+/// 효과음: SoundManager.Instance.PlaySFXForName("사운드 이름");
+/// 효과음: SoundManager.Instance.PlaySFXForName("등록한 사운드 클립");
 /// </summary>
+
+[System.Serializable]
+public class SoundEffectData
+{
+    public string name;
+    public AudioClip clip;
+}
 
 public class SoundManager : SingletonBehaviour<SoundManager>
 {
@@ -22,33 +30,60 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     [Tooltip("효과음 볼륨")]
     [Range(0f, 1f)]
     public float sfxVol = 0.5f;
-    
+
     [Tooltip("배경음악 볼륨")]
     [Range(0f, 1f)]
     public float backgroundMusicVol = 0.5f;
 
     [Header("오디오 클립")]
     public AudioClip backgroundMusic;
-    public Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
+    public List<SoundEffectData> sfxList = new List<SoundEffectData>();
+    private Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
+
+    private void InitializeSFXDictionary()
+    {
+        foreach (var sfx in sfxList)
+        {
+            if (!soundEffects.ContainsKey(sfx.name))
+            {
+                soundEffects[sfx.name] = sfx.clip;
+            }
+        }
+    }
 
     protected override void Awake()
     {
         base.Awake();
-        if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();  // 효과음 소스
-        if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();  // 배경음악 소스
+        DontDestroyOnLoad(gameObject);
+
+        if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
+        if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.loop = true;
 
+        // 볼륨 로드
         masterVol = PlayerPrefs.GetFloat("MasterVol", masterVol);
         backgroundMusicVol = PlayerPrefs.GetFloat("MusicVol", backgroundMusicVol);
         sfxVol = PlayerPrefs.GetFloat("SFXVol", sfxVol);
 
-        // 초기 볼륨 설정
+        // 볼륨 설정
         SetMasterVolume(masterVol);
         SetSFXVolume(sfxVol);
         SetMusicVolume(backgroundMusicVol);
 
-        PlayBackgroundMusic(backgroundMusic);
+        // 딕셔너리 초기화
+        InitializeSFXDictionary();
+
+        // 배경음악 재생
+        if (backgroundMusic != null)
+        {
+            PlayBackgroundMusic(backgroundMusic);
+        }
+        else
+        {
+            Debug.LogWarning("배경음악이 할당되지 않았습니다.");
+        }
     }
+
 
     private void OnEnable()
     {
@@ -59,7 +94,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     }
 
     #region 배경음악 관련
-    void PlayBackgroundMusic(AudioClip music)
+    public void PlayBackgroundMusic(AudioClip music)
     {
         if (music != null)
         {
@@ -80,6 +115,18 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     #endregion
 
     #region 효과음 관련
+    private void PlayClip(AudioClip clip)
+    {
+        if (clip == null)
+        {
+            Debug.LogWarning("재생할 클립이 null");
+            return;
+        }
+
+        sfxSource.pitch = 1f;
+        sfxSource.PlayOneShot(clip, sfxVol);
+    }
+
     public void AddSoundEffect(string soundName, AudioClip clip)
     {
         if (!soundEffects.ContainsKey(soundName))
@@ -88,35 +135,32 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         }
     }
 
-    public void PlaySFX(string soundName)
+
+    public void PlaySFXForName(string soundName)
     {
         if (soundEffects.TryGetValue(soundName, out AudioClip clip))
         {
-            sfxSource.pitch = 1f;
-            sfxSource.PlayOneShot(clip, sfxVol);
+            PlayClip(clip);
         }
         else
         {
+            // Resources 폴더에서 로드 시도
             clip = Resources.Load<AudioClip>("Audio/SFX/" + soundName);
 
             if (clip != null)
             {
-                soundEffects[soundName] = clip;
-                sfxSource.pitch = 1f;
-                sfxSource.PlayOneShot(clip, sfxVol);
+                soundEffects[soundName] = clip;  // 캐싱
+                PlayClip(clip);
             }
             else
             {
-                Debug.Log("sound 못찾음 " + soundName);
+                Debug.LogWarning($"효과음 '{soundName}'을(를) 찾을 수 없습니다.");
             }
         }
     }
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFXForClip(AudioClip clip)
     {
-        if (clip != null)
-        {
-            sfxSource.PlayOneShot(clip, sfxVol);
-        }
+        PlayClip(clip);
     }
     #endregion
 

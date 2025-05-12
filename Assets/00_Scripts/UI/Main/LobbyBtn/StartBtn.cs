@@ -1,20 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class StartBtn : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     [SerializeField] private GameObject canvas;
-  
+    [SerializeField] private Transform cameraPositionTarget;
+
+    private Vector3 moveOffset = new Vector3(3f, 0f, 0f);
+
     public void OffLobbyUI()
     {
-        canvas.SetActive(false);
+        SetLobbyUI(false);
+        MoveCameraPosition(+1);
     }
+
     public void OnLobbyUI()
     {
-        canvas.SetActive(true);
+        SetLobbyUI(true);
+        MoveCameraPosition(-1);
+    }
+
+    private void SetLobbyUI(bool isOn)
+    {
+        canvas.SetActive(isOn);
+    }
+
+    private void MoveCameraPosition(int direction)
+    {
+        cameraPositionTarget.position += moveOffset * direction;
     }
 }

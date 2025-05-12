@@ -2,5 +2,8 @@ public abstract class BaseScene
 {
     public abstract void EnterScene();
 
-    public abstract void ExitScene();
+    public virtual void ExitScene()
+    {
+        UIManager.Instance.ClearCanvas();
+    }
 }

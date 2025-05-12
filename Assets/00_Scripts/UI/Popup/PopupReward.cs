@@ -12,9 +12,6 @@ public class PopupReward : PopupUI
 
     [SerializeField] private Button cancelBuyBtn;
 
-    public override bool IsDestroy { get; set; }
-    public override bool IsHideNotFocus { get; protected set; }
-
     private void Awake()
     {
         itemRewardPool = ResourceManager.Instance.LoadAll<ItemSO>("Data/SO/ItemSO");
