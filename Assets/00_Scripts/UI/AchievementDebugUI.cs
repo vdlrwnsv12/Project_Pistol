@@ -16,8 +16,7 @@ public class AchievementDebugUI : MonoBehaviour
 
     [Header("연동된 시스템")]
     [SerializeField] private PlayerStatTracker tracker;
-    [SerializeField] private UIAchievementMainUI uiMain;
-    [SerializeField] private UIAchievementView uiView;
+    [SerializeField] private AchievementMainUI uiMain;
 
     #endregion
 
@@ -95,17 +94,17 @@ public class AchievementDebugUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 달성한 도전과제 리스트 출력
+    /// 도전과제 리스트 UI 토글
     /// </summary>
     private void TriggerListDisplay()
     {
-        Debug.Log("[DebugUI] 도전과제 리스트 열기");
+        Debug.Log("[DebugUI] 도전과제 리스트 열기/닫기 토글");
 
         var unlocked = AchievementManager.Instance?.GetUnlockedList();
         if (unlocked != null)
         {
-            uiView.ShowList(unlocked);
-            uiView.ToggleListPanel(true); // 리스트 켜기
+            uiMain.ShowList(unlocked);
+            uiMain.ToggleListPanel();  // 리스트 패널 열고 닫기
         }
     }
 

@@ -3,14 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 도전과제 UI 메인 컨트롤러
-/// 리스트 출력 및 상세 정보 갱신 담당
+/// 도전과제 UI 메인 컨트롤러 (리스트 + 상세 정보 출력 + 패널 토글)
 /// </summary>
-public class UIAchievementMainUI : MonoBehaviour
+public class AchievementMainUI : MonoBehaviour
 {
+    #region Fields
+
     [Header("리스트 출력")]
-    [SerializeField] private Transform listParent;               // Content 오브젝트
-    [SerializeField] private GameObject achievementItemPrefab;   // 프리팹 (텍스트 + 버튼)
+    [SerializeField] private Transform listParent;               // 리스트 부모 (Content)
+    [SerializeField] private GameObject achievementItemPrefab;   // 도전과제 아이템 프리팹
+    [SerializeField] private GameObject listPanel;               // 리스트 전체 패널 (토글용)
 
     [Header("상세 정보 출력")]
     [SerializeField] private Text titleText;
@@ -20,8 +22,12 @@ public class UIAchievementMainUI : MonoBehaviour
 
     private List<AchievementSO> currentAchievements;
 
+    #endregion
+
+    #region Public Methods
+
     /// <summary>
-    /// 도전과제 리스트 생성
+    /// 도전과제 리스트 생성 및 출력
     /// </summary>
     /// <param name="achievements">도전과제 목록</param>
     public void ShowList(List<AchievementSO> achievements)
@@ -52,10 +58,10 @@ public class UIAchievementMainUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 상세 정보 패널 갱신
+    /// 도전과제 상세 정보 출력
     /// </summary>
     /// <param name="data">선택된 도전과제</param>
-    private void ShowDetail(AchievementSO data)
+    public void ShowDetail(AchievementSO data)
     {
         titleText.text = data.title;
         descriptionText.text = data.description;
@@ -64,4 +70,23 @@ public class UIAchievementMainUI : MonoBehaviour
         statusText.text = isUnlocked ? "달성됨" : "미달성";
         categoryText.text = $"유형: {data.conditionType}";
     }
+
+    /// <summary>
+    /// 도전과제 리스트 패널 열기/닫기 토글
+    /// </summary>
+    public void ToggleListPanel()
+    {
+        if (listPanel != null)
+        {
+            bool isActive = !listPanel.activeSelf;
+            listPanel.SetActive(isActive);
+            Debug.Log($"[AchievementMainUI] 리스트 패널 토글: {isActive}");
+        }
+        else
+        {
+            Debug.LogWarning("[AchievementMainUI] listPanel이 연결되어 있지 않습니다.");
+        }
+    }
+
+    #endregion
 }

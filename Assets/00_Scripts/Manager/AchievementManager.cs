@@ -15,7 +15,8 @@ public class AchievementManager : MonoBehaviour
     private readonly HashSet<string> unlockedAchievements = new HashSet<string>();
 
     /// <summary>UI 팝업 및 리스트를 출력할 UI 뷰</summary>
-    [SerializeField] private UIAchievementView uiView;
+    [SerializeField] private AchievementMainUI uiView;
+    [SerializeField] private UIAchievementPopup popupUI;
 
     /// <summary>글로벌 싱글톤 인스턴스</summary>
     public static AchievementManager Instance { get; private set; }
@@ -103,7 +104,7 @@ public class AchievementManager : MonoBehaviour
         unlockedAchievements.Add(data.id);
         Debug.Log($"[도전과제 달성] {data.title}");
 
-        uiView?.ShowUnlockedPopup(data);
+        popupUI?.ShowPopup(data); // 팝업 출력
     }
 
     /// <summary>
