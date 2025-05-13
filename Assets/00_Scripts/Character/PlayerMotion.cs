@@ -11,6 +11,8 @@ public class PlayerMotion : MonoBehaviour
 
     private float stepTimer = 0f;
     private float stepInterval = 0.4f; // 0.4초마다 흔든다 (스텝 간격)
+    private bool isHeadbobUp = true;
+    private float stepForce = 0f;
 
 
     private Quaternion initialLocalRotation;
@@ -41,6 +43,29 @@ public class PlayerMotion : MonoBehaviour
         HandPos.transform.localRotation = initialLocalRotation * shakeRotation;
     }
 
+
+    public void HeadbobUpdate()
+    {
+        stepTimer += Time.deltaTime;
+
+        if (stepTimer >= stepInterval)
+        {
+            stepTimer = 0f;
+            isHeadbobUp = !isHeadbobUp; // 업다운 반전
+
+            float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);
+            stepForce = Mathf.Lerp(1.0f, 0.1f, t) * 0.02f;
+
+            if (isHeadbobUp)
+            {
+                player.impulseSource.GenerateImpulse(Vector3.up * stepForce); // 위로
+            }
+            else
+            {
+                player.impulseSource.GenerateImpulse(Vector3.down * stepForce); // 아래로 (조금 덜)
+            }
+        }
+    }
     public void HeadbobUp()
     {
         stepTimer += Time.deltaTime;

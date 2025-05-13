@@ -55,12 +55,12 @@ public class Player : MonoBehaviour
 
         if (stateMachine.MovementInput.magnitude > 0)
         {
-            Motion.HeadbobUp();
+            Motion.HeadbobUpdate();
         }
-        else
-        {
-            Motion.HeadbobDown();
-        }
+        //else
+        //{
+        //    Motion.HeadbobDown();
+        //}
 
         Motion.WeaponShake();
     }
