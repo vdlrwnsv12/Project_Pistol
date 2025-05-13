@@ -14,6 +14,8 @@ public class PlayerMotion : MonoBehaviour
     private bool isHeadbobUp = true;
     private float stepForce = 0f;
 
+    public float finalRecoil;
+
 
     private Quaternion initialLocalRotation;
     private void Awake()

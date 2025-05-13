@@ -25,6 +25,32 @@ public class WeaponStatHandler
         Damage += dmg;
         Recoil += recoil;
         MaxAmmo += ammo;
-        weaponParts = 1 << partsValue;
+        weaponParts |= (1 << partsValue);
+    }
+
+    public bool IsPartActive(int partsValue)
+    {
+        return (weaponParts & (1 << partsValue)) != 0;
+    }
+
+    public void RemoveStat(float dmg, float recoil, int ammo, int partsValue)
+    {
+        Damage -= dmg;
+        Recoil -= recoil;
+        MaxAmmo -= ammo;
+        weaponParts &= ~(1 << partsValue);
+    }
+
+    public int GetActivePartsCount()
+    {
+        int count = 0;
+        for (int i = 0; i < 32; i++)
+        {
+            if ((weaponParts & (1 << i)) != 0)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 }
