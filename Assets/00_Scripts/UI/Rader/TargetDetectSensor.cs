@@ -4,14 +4,26 @@ using UnityEngine;
 
 public class TargetDetectSensor : MonoBehaviour
 {
-    public Transform raderCenter;
-    public RectTransform blipContainer;
-    public RectTransform raderPanel;
-    public GameObject blipPrefab;
+    private Transform raderCenter;
+    [SerializeField]private RectTransform blipContainer;
+    [SerializeField]private RectTransform raderPanel;
+    [SerializeField]private GameObject blipPrefab;
 
-    public float raderRange = 100f;
-    public LayerMask targetLayer;
-    
+    [SerializeField]private float raderRange = 100f;
+    [SerializeField]private LayerMask targetLayer;
+
+    void Awake()
+{
+    GameObject player = GameObject.FindGameObjectWithTag("Player");
+    if (player != null)
+    {
+        raderCenter = player.transform;
+    }
+    else
+    {
+        Debug.LogWarning("Player 태그를 가진 오브젝트를 찾을 수 없습니다.");
+    }
+}
 
     void Update()
     {

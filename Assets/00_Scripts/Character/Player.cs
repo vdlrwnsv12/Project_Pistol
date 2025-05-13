@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public PlayerStatHandler Stat { get; private set; }
 
     public Weapon Weapon { get; private set; }
-    
+
     public PlayerController Controller { get; private set; }
 
     public PlayerAnimationData AnimationData { get; private set; }
@@ -115,6 +115,7 @@ public class Player : MonoBehaviour
         }
 
         var resource = ResourceManager.Instance.Load<Weapon>($"Prefabs/Weapon/{weaponID}");
-        Weapon = Instantiate(resource, weaponPos.position, Quaternion.identity, weaponPos);
+        Weapon = Instantiate(resource, weaponPos); // 프리팹 원본 transform 유지
     }
+
 }
