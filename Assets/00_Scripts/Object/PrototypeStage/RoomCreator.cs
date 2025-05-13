@@ -40,11 +40,11 @@ public class RoomCreator : MonoBehaviour
             stageDataDict[GetStageIndex(roomData.ID)].Add(roomData);
         }
 
-        var standbyRoomPrefab = ResourceManager.Instance.Load<StandbyRoom>("Prefabs/Prototype/StandbyRoom");
+        var standbyRoomPrefab = ResourceManager.Instance.Load<StandbyRoom>("Prefabs/Stage/Room/StandbyRoom");
         standbyRoom = Instantiate(standbyRoomPrefab);
         standbyRoom.gameObject.SetActive(false);
 
-        var roomPrefabs = ResourceManager.Instance.LoadAll<ShootingRoom>("Prefabs/Prototype/Room");
+        var roomPrefabs = ResourceManager.Instance.LoadAll<ShootingRoom>("Prefabs/Stage/Room");
         shootingRoomDict = new Dictionary<int, ShootingRoom>();
         foreach (var room in roomPrefabs)
         {
@@ -52,7 +52,7 @@ public class RoomCreator : MonoBehaviour
             shootingRoom.gameObject.SetActive(false);
             shootingRoomDict.Add(GetRoomNumber(room.name), shootingRoom);
         }
-        
+
         CurStageIndex = 1;
         CurRoomIndex = 0;
         stageRoomList = GetRandomRoomArray(CurStageIndex);
@@ -63,10 +63,8 @@ public class RoomCreator : MonoBehaviour
 
     public Room PlaceStandbyRoom(Transform curRoomEndPoint)
     {
-        var offsetRot = Quaternion.Inverse(standbyRoom.transform.rotation) * standbyRoom.StartPoint.rotation;
-        standbyRoom.transform.rotation = curRoomEndPoint.rotation * Quaternion.Inverse(offsetRot);
-        var offsetPos = standbyRoom.StartPoint.position - standbyRoom.transform.position;
-        standbyRoom.transform.position = curRoomEndPoint.position - offsetPos;
+        standbyRoom.transform.rotation = curRoomEndPoint.rotation;
+        standbyRoom.transform.position = curRoomEndPoint.position;
         standbyRoom.gameObject.SetActive(true);
         return standbyRoom;
     }
@@ -74,13 +72,10 @@ public class RoomCreator : MonoBehaviour
     public Room PlaceShootingRoom(Transform curRoomEndPoint, int shootingRoomIndex)
     {
         var shootingRoom = shootingRoomDict[GetRoomNumber(stageRoomList[shootingRoomIndex].ID)];
-
-        var offsetRot = Quaternion.Inverse(shootingRoom.transform.rotation) *
-                        shootingRoom.StartPoint.rotation;
+        
         shootingRoom.transform.rotation =
-            curRoomEndPoint.transform.rotation * Quaternion.Inverse(offsetRot);
-        var offsetPos = shootingRoom.StartPoint.position - shootingRoom.transform.position;
-        shootingRoom.transform.position = curRoomEndPoint.transform.position - offsetPos;
+            curRoomEndPoint.transform.rotation;
+        shootingRoom.transform.position = curRoomEndPoint.transform.position;
         shootingRoom.Data = stageRoomList[shootingRoomIndex];
         shootingRoom.gameObject.SetActive(true);
         return shootingRoom;
