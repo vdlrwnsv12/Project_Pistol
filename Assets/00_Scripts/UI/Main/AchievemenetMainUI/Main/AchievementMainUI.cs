@@ -1,7 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
-
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 도전과제 UI 메인 컨트롤러 (리스트 + 상세 정보 출력 패널 + 패널 토글)
@@ -16,12 +16,24 @@ public class AchievementMainUI : MonoBehaviour
     [SerializeField] private GameObject listPanel;               // 전체 패널 (열기/닫기용)
     [SerializeField] private GameObject detailPanelPrefab;       // 상세정보 패널 프리팹
 
+    [Header("버튼 컴포넌트")]
+    [SerializeField] private Button closeButton; // 닫기 버튼
+
     private GameObject currentDetailPanel;
     private CanvasGroup detailCanvasGroup;
     private AchievementItemUI currentSelectedItem;
     private Dictionary<AchievementItemUI, int> originalSiblingIndices = new();
 
     private List<AchievementSO> currentAchievements;
+
+    #endregion
+
+    #region Start
+
+    private void Start()
+    {
+        closeButton.onClick.AddListener(CloseUI);
+    }
 
     #endregion
 
@@ -179,6 +191,15 @@ public class AchievementMainUI : MonoBehaviour
             Debug.LogWarning("[AchievementMainUI] listPanel이 연결되어 있지 않습니다.");
         }
     }
+
+    /// <summary>
+    /// 도전과제 메인 UI 전체를 닫는다
+    /// </summary>
+    private void CloseUI()
+    {
+        listPanel.SetActive(false);
+    }
+
 
     #endregion
 }
