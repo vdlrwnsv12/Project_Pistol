@@ -21,15 +21,24 @@ public abstract class BaseTarget : MonoBehaviour
 
     protected virtual void Start()
     {
-        anim = GetComponentInChildren<Animator>();
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>();
+
+            if (anim == null)
+            {
+                anim = GetComponentInChildren<Animator>();
+            }
+        }
+        InitData(data);//테스트
     }
 
-    private void Update()
-    {
-        var origin = transform.eulerAngles;
-        transform.LookAt(StageManager.Instance.Player.transform);
-        transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
-    }
+    // private void Update()
+    // {
+    //     var origin = transform.eulerAngles;
+    //     transform.LookAt(StageManager.Instance.Player.transform);
+    //     transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
+    // }
 
     public abstract void TakeDamage(float amount, Collider hitCollider);
 
@@ -54,7 +63,7 @@ public abstract class BaseTarget : MonoBehaviour
     public void InitData(TargetSO data)
     {
         this.data = data;
-        
+
         currentHp = data.Hp;
         lvText.text = $"{data.Level}";
 
