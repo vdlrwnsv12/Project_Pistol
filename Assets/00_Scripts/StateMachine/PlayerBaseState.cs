@@ -84,7 +84,22 @@ public class PlayerBaseState : IState
 
     protected virtual void OnInteract(InputAction.CallbackContext context)
     {
+        //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        //if (Physics.Raycast(ray, out RaycastHit hit, 3f))
+        //{
+        //    int interactMask = LayerMask.GetMask("Interact");
 
+        //    // 충돌한 오브젝트의 레이어 확인
+        //    if (((1 << hit.collider.gameObject.layer) & interactMask) != 0)
+        //    {
+        //        // Door 인터페이스가 붙어 있다면 실행
+        //        Door interactable = hit.collider.GetComponent<Door>();
+        //        if (interactable != null)
+        //        {
+        //            interactable.Interact();
+        //        }
+        //    }
+        //}
     }
     protected void StartAnimation(int animatorHash)
     {
