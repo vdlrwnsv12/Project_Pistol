@@ -18,6 +18,12 @@ public class SoundEffectData
 
 public class SoundManager : SingletonBehaviour<SoundManager>
 {
+    [Header("SFX AudioSource Pool")]
+    [SerializeField] private GameObject sfxAudioSourcePrefab;
+    [SerializeField] private Transform sfxPoolRoot;
+
+    private Queue<AudioSource> sfxAudioSourcePool = new Queue<AudioSource>();
+    private int poolSize = 10;
     private AudioSource musicSource;
     private AudioSource sfxSource;
 
@@ -83,6 +89,22 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             Debug.LogWarning("배경음악이 할당되지 않았습니다.");
         }
     }
+    private void Start()
+    {
+        InitializeAudioSourcePool();
+    }
+
+    private void InitializeAudioSourcePool()
+    {
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject go = Instantiate(sfxAudioSourcePrefab, sfxPoolRoot);
+            AudioSource source = go.GetComponent<AudioSource>();
+            source.playOnAwake = false;
+            go.SetActive(false);
+            sfxAudioSourcePool.Enqueue(source);
+        }
+    }
 
 
     private void OnEnable()
@@ -115,18 +137,6 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     #endregion
 
     #region 효과음 관련
-    private void PlayClip(AudioClip clip)
-    {
-        if (clip == null)
-        {
-            Debug.LogWarning("재생할 클립이 null");
-            return;
-        }
-
-        sfxSource.pitch = 1f;
-        sfxSource.PlayOneShot(clip, sfxVol);
-    }
-
     public void AddSoundEffect(string soundName, AudioClip clip)
     {
         if (!soundEffects.ContainsKey(soundName))
@@ -136,11 +146,11 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     }
 
 
-    public void PlaySFXForName(string soundName)
+    public void PlaySFXForName(string soundName, Vector3 position)
     {
         if (soundEffects.TryGetValue(soundName, out AudioClip clip))
         {
-            PlayClip(clip);
+            PlaySFX(clip, position);
         }
         else
         {
@@ -150,7 +160,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             if (clip != null)
             {
                 soundEffects[soundName] = clip;  // 캐싱
-                PlayClip(clip);
+                PlaySFX(clip, position);
             }
             else
             {
@@ -158,10 +168,61 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             }
         }
     }
-    public void PlaySFXForClip(AudioClip clip)
+    public void PlaySFXForClip(AudioClip clip, Vector3 position)
     {
-        PlayClip(clip);
+        PlaySFX(clip, position);
     }
+
+    public void PlaySFX(AudioClip clip, Vector3 position)
+    {
+        if (clip == null)
+        {
+            Debug.LogWarning("SFX클립 null");
+            return;
+        }
+
+        AudioSource source = GetPooledAudioSource();
+        if (source == null)
+        {
+            Debug.LogWarning("AudioSource없음");
+            return;
+        }
+
+        source.transform.position = position;
+        float volume = sfxVol * masterVol;
+        StartCoroutine(PlayAndReturn(source, clip, volume));
+    }
+
+    private System.Collections.IEnumerator PlayAndReturn(AudioSource source, AudioClip clip, float volume)
+    {
+        source.clip = clip;
+        source.volume = volume;
+        source.gameObject.SetActive(true);
+        source.Play();
+
+        yield return new WaitForSeconds(clip.length);
+
+        source.Stop();
+        source.clip = null;
+        source.gameObject.SetActive(false);
+        sfxAudioSourcePool.Enqueue(source);
+    }
+    private AudioSource GetPooledAudioSource()
+{
+    if (sfxAudioSourcePool.Count > 0)
+    {
+        return sfxAudioSourcePool.Dequeue();
+    }
+    else //audiosource가 부족하면 새로 생성
+    {
+        GameObject go = Instantiate(sfxAudioSourcePrefab, sfxPoolRoot);
+        AudioSource source = go.GetComponent<AudioSource>();
+        source.playOnAwake = false;
+        go.SetActive(false);
+        return source;
+    }
+}
+
     #endregion
 
     #region 볼륨
