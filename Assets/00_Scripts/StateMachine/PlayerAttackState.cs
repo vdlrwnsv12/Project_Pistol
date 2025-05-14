@@ -33,7 +33,7 @@ public class PlayerAttackState : PlayerBaseState
             hasShot = true;
             Shoot();
         }
-        
+
         // 애니메이션 종료 시 Idle 상태로 전환
         if (animInfo.IsName("Attack") && animInfo.normalizedTime >= 1)
         {

@@ -101,7 +101,10 @@ public class WeaponController : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
             {
                 BaseTarget target = hit.collider.GetComponentInParent<BaseTarget>();
-                target?.TakeDamage(stat.Damage, hit.collider);
+                
+                Vector3 hitDir = (hit.point - barrelLocation.position).normalized; //힘을 줘야 할 방향
+                Debug.Log($"{hitDir}");
+                target?.TakeDamage(stat.Damage, hit.collider, hitDir);
             }
         }
     }

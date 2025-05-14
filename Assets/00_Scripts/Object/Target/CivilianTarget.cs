@@ -2,23 +2,16 @@ using UnityEngine;
 
 public class CivilianTarget : BaseTarget
 {
-    [Header("시민일 경우 메테리얼")]
-    [SerializeField] private Material civilianMaterial;
-
+    [SerializeField]private LandTarget landTarget;
+    
+    //ToDo: 시민 타겟이 죽으면 하위 랜드 타겟도 죽게
+    //하위 랜드 타겟만 죽으면 그냥 두기
     protected override void Start()
     {
         base.Start();
-
-        if (data.Name == "Civilian")
-        {
-            Renderer rend = GetComponentInChildren<Renderer>();
-            if (rend != null)
-            {
-                rend.material = civilianMaterial;
-            }
-        }
     }
-    public override void TakeDamage(float amount, Collider hitCollider)
+
+    public override void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection)
     {
         if (currentHp <= 0) return;
 
@@ -36,6 +29,7 @@ public class CivilianTarget : BaseTarget
         if (currentHp <= 0)
         {
             Die();
+            landTarget.CivilianTargetDie();
         }
     }
 }
