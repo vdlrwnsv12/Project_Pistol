@@ -7,7 +7,6 @@ public abstract class BaseTarget : MonoBehaviour
     [SerializeField] protected TargetSO data;
     protected float currentHp;
     [SerializeField] protected Animator anim;
-    [SerializeField] protected Text lvText;
 
     [Header("사운드")]
     [SerializeField] protected AudioClip upSound;
@@ -17,19 +16,16 @@ public abstract class BaseTarget : MonoBehaviour
     [SerializeField] protected Image hpBar;
     [SerializeField] protected GameObject targetUI;
     [SerializeField] protected GameObject blip;
+    [SerializeField] protected Text lvText;
 
 
     protected virtual void Start()
     {
         if (anim == null)
         {
-            anim = GetComponent<Animator>();
-
-            if (anim == null)
-            {
-                anim = GetComponentInChildren<Animator>();
-            }
+            anim = GetComponent<Animator>() ?? GetComponentInChildren<Animator>();
         }
+
         InitData(data);//테스트
     }
 
@@ -40,23 +36,31 @@ public abstract class BaseTarget : MonoBehaviour
     //     transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
     // }
 
-    public abstract void TakeDamage(float amount, Collider hitCollider);
+    public abstract void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection);
 
     public void OnPlayerEnteredRange()
     {
         if (currentHp <= 0) return;
-
-        if (!anim.GetBool("Up")) // 안 올라가있을 때만
+        if (anim != null)
         {
-            anim.SetBool("Up", true);
-            SoundManager.Instance.PlaySFXForClip(upSound);
+            if (!anim.GetBool("Up")) // 안 올라가있을 때만
+            {
+                anim.SetBool("Up", true);
+                SoundManager.Instance.PlaySFXForClip(upSound);
+            }
         }
     }
 
     protected virtual void Die()
     {
-        anim.SetBool("Die", true);
+        if (anim != null)
+        {
+            anim.SetBool("Die", true);
+        }
+        
         Destroy(blip);
+        Destroy(targetUI);
+        // Destroy(gameObject, 2f); 삭제를 상속한 클래스에서
         SoundManager.Instance.PlaySFXForClip(downSound);
     }
 

@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 8916943604485802887}
   m_Layer: 0
   m_Name: Joint
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -982,9 +982,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6031398875875144068}
   - component: {fileID: 7442346290786593452}
-  m_Layer: 0
-  m_Name: TgtTargetFigureA01_COLA
-  m_TagString: Untagged
+  m_Layer: 7
+  m_Name: Body
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1023,7 +1023,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -8013414605056036540, guid: 2e6ff485111d9b14eace5f69c43753e9, type: 3}
 --- !u!1 &8362646410585536895
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abcab0f92b33541cda4a75d96c02b025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: 31eaeee280c564f97b0f51641a14e407, type: 2}
   anim: {fileID: 6416227047832156017}
   lvText: {fileID: 3713450022311274948}
   upSound: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}

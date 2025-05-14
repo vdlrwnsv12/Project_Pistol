@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LandTarget : BaseTarget
 {
-    public override void TakeDamage(float amount, Collider hitCollider)
+    public override void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection)
     {
         if (currentHp <= 0) return;
 
@@ -62,5 +62,9 @@ public class LandTarget : BaseTarget
     private float QuickShotScore(bool isQuickShot)
     {
         return isQuickShot ? 500f : 0f;
+    }
+    public void CivilianTargetDie()
+    {
+        Die();
     }
 }
