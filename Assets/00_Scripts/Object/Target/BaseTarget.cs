@@ -7,7 +7,6 @@ public abstract class BaseTarget : MonoBehaviour
     [SerializeField] protected TargetSO data;
     protected float currentHp;
     [SerializeField] protected Animator anim;
-    [SerializeField] protected Text lvText;
 
     [Header("사운드")]
     [SerializeField] protected AudioClip upSound;
@@ -16,42 +15,59 @@ public abstract class BaseTarget : MonoBehaviour
     [Header("UI")]
     [SerializeField] protected Image hpBar;
     [SerializeField] protected GameObject targetUI;
+    [SerializeField] protected GameObject blip;
+    [SerializeField] protected Text lvText;
+
 
     protected virtual void Start()
     {
-        anim = GetComponentInChildren<Animator>();
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>() ?? GetComponentInChildren<Animator>();
+        }
+
+        InitData(data);//테스트
     }
 
-    private void Update()
-    {
-        var origin = transform.eulerAngles;
-        transform.LookAt(StageManager.Instance.Player.transform);
-        transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
-    }
+    // private void Update()
+    // {
+    //     var origin = transform.eulerAngles;
+    //     transform.LookAt(StageManager.Instance.Player.transform);
+    //     transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
+    // }
 
-    public abstract void TakeDamage(float amount, Collider hitCollider);
+    public abstract void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection);
 
     public void OnPlayerEnteredRange()
     {
         if (currentHp <= 0) return;
-
-        if (!anim.GetBool("Up")) // 안 올라가있을 때만
+        if (anim != null)
         {
-            anim.SetBool("Up", true);
-            SoundManager.Instance.PlaySFX(upSound);
+            if (!anim.GetBool("Up")) // 안 올라가있을 때만
+            {
+                anim.SetBool("Up", true);
+                SoundManager.Instance.PlaySFXForClip(upSound, this.transform.position);
+            }
         }
     }
 
     protected virtual void Die()
     {
-        anim.SetBool("Die", true);
-        SoundManager.Instance.PlaySFX(downSound);
+        if (anim != null)
+        {
+            anim.SetBool("Die", true);
+        }
+        
+        Destroy(blip);
+        Destroy(targetUI);
+        // Destroy(gameObject, 2f); 삭제를 상속한 클래스에서
+        SoundManager.Instance.PlaySFXForClip(downSound, this.transform.position);
     }
 
     public void InitData(TargetSO data)
     {
         this.data = data;
-        
+
         currentHp = data.Hp;
         lvText.text = $"{data.Level}";
 

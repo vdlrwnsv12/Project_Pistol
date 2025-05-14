@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataDeclaration;
 using Unity.Services.Authentication;
+using Unity.Services.CloudSave;
 using Unity.Services.Core;
 using UnityEngine;
 
@@ -43,12 +45,32 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
     /// <param name="userName">사용자 이름</param>
     public async Task SignUpWithUsernamePasswordAsync(string userID, string password, string userName)
     {
+        // 회원가입
         try
         {
             await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(userID, password);
+            // 회원가입 성공 시 유저 정보에 데이터 저장
+            userData.AccessToken = AuthenticationService.Instance.AccessToken;
+            userData.UserID = AuthenticationService.Instance.PlayerId;
+
+            // 유저 이름 설정
             try
             {
                 await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
+
+                // Unity Cloud Save를 통해 유저 이름 데이터 저장
+                try
+                {
+                    await SaveData(Constants.USER_NAME, userName);
+                }
+                catch (CloudSaveException e)
+                {
+                    Debug.LogException(e);
+                    await AuthenticationService.Instance.DeleteAccountAsync();
+                    throw;
+                }
+
+                userData.UserName = AuthenticationService.Instance.PlayerName;
             }
             catch (Exception e)
             {
@@ -99,6 +121,31 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
             Debug.Log("요청 실패: " + ex.Message);
             throw;
         }
+    }
+
+    /// <summary>
+    /// Unity Cloud Save를 통해 유저 데이터 저장
+    /// </summary>
+    /// <param name="key">저장할 데이터의 key 값</param>
+    /// <param name="data">저장할 데이터</param>
+    public async Task SaveData(string key, object data)
+    {
+        var saveData = new Dictionary<string, object> { { key, data } };
+        await CloudSaveService.Instance.Data.Player.SaveAsync(saveData);
+    }
+
+    /// <summary>
+    /// Unity Cloud Save를 통해 유저 데이터 로드
+    /// </summary>
+    /// <param name="key">로드할 데이터의 key 값</param>
+    /// <typeparam name="T">반환받을 데이터의 타입</typeparam>
+    /// <returns>로드된 데이터</returns>
+    public async Task<T> LoadData<T>(string key)
+    {
+        var dataKey = new HashSet<string> { key };
+        var loadDataDict = await CloudSaveService.Instance.Data.Player.LoadAsync(dataKey);
+        var data = loadDataDict[key].Value.GetAs<T>();
+        return data;
     }
 
     public void SignOut()

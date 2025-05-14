@@ -27,6 +27,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.started += OnLookStarted;
         input.playerActions.Attack.started += OnAttack;
         input.playerActions.Reload.started += OnReload;
+        input.playerActions.Interact.started += OnInteract;
         input.playerActions.Ads.performed += OnAds;
     }
     protected virtual void RemoveInputActionCallbacks()
@@ -36,6 +37,7 @@ public class PlayerBaseState : IState
         input.playerActions.Look.canceled -= OnLookStarted;
         input.playerActions.Attack.started -= OnAttack;
         input.playerActions.Reload.started -= OnReload;
+        input.playerActions.Interact.started -= OnInteract;
         input.playerActions.Ads.performed -= OnAds;
     }
 
@@ -78,6 +80,26 @@ public class PlayerBaseState : IState
         stateMachine.IsAds = !stateMachine.IsAds;
         stateMachine.Player.AdsCamera.gameObject.SetActive(stateMachine.IsAds);
         stateMachine.Player.NonAdsCamera.gameObject.SetActive(!stateMachine.IsAds);
+    }
+
+    protected virtual void OnInteract(InputAction.CallbackContext context)
+    {
+        //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        //if (Physics.Raycast(ray, out RaycastHit hit, 3f))
+        //{
+        //    int interactMask = LayerMask.GetMask("Interact");
+
+        //    // 충돌한 오브젝트의 레이어 확인
+        //    if (((1 << hit.collider.gameObject.layer) & interactMask) != 0)
+        //    {
+        //        // Door 인터페이스가 붙어 있다면 실행
+        //        Door interactable = hit.collider.GetComponent<Door>();
+        //        if (interactable != null)
+        //        {
+        //            interactable.Interact();
+        //        }
+        //    }
+        //}
     }
     protected void StartAnimation(int animatorHash)
     {
@@ -128,17 +150,23 @@ public class PlayerBaseState : IState
         }
         return finalSpeed;
     }
-
     private void RotateView()
     {
         float sensitivity = 1f;
 
         stateMachine.RotationX -= stateMachine.MouseInput.y * sensitivity;
-        stateMachine.RotationX = Mathf.Clamp(stateMachine.RotationX, -70f, 70f);
+
+        // 전체 회전 계산 (마우스 + 반동)
+        float totalX = stateMachine.RotationX + stateMachine.RecoilOffsetX;
+
+        totalX = Mathf.Clamp(totalX, -70f, 70f);
+
+        // RotationX에서 RecoilOffsetX를 다시 계산해서 RotationX만 조정 (순수 마우스 기준)
+        stateMachine.RotationX = totalX - stateMachine.RecoilOffsetX;
+
         Quaternion offsetRotation = Quaternion.Euler(-90f, 0f, 0f);
-        
-        stateMachine.Player.Motion.ArmTransform.localRotation = Quaternion.Euler(stateMachine.RotationX, 0, 0) * offsetRotation;
-        
+        stateMachine.Player.Motion.ArmTransform.localRotation = Quaternion.Euler(totalX, 0, 0) * offsetRotation;
+
         stateMachine.Player.transform.Rotate(Vector3.up * stateMachine.MouseInput.x);
     }
 }

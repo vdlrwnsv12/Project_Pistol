@@ -28,7 +28,7 @@ namespace CameraDoorScript
 
             if (Physics.Raycast(transform.position, transform.forward, out hit, detectDistance))
             {
-                DoorScript.Door door = hit.transform.GetComponent<DoorScript.Door>();
+                Door door = hit.transform.GetComponent<Door>();
 
                 if (door != null)
                 {
@@ -37,7 +37,7 @@ namespace CameraDoorScript
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        door.ToggleDoor(); // OpenDoor → ToggleDoor로 리팩토링된 메서드 사용
+                        //door.ToggleDoor(); // OpenDoor → ToggleDoor로 리팩토링된 메서드 사용
                     }
                 }
             }

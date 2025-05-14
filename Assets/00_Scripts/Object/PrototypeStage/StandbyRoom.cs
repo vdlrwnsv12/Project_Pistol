@@ -1,3 +1,4 @@
+using DataDeclaration;
 using UnityEngine;
 
 public class StandbyRoom : Room
@@ -8,6 +9,7 @@ public class StandbyRoom : Room
     {
         base.Awake();
         RespawnPoint = transform.FindDeepChildByName("RespawnPoint");
+        exitDoor.OpenDoorAction += DoorTrigger;
     }
 
     private void OpenRewardUI()
@@ -18,23 +20,37 @@ public class StandbyRoom : Room
         StageManager.Instance.Player.Controller.enabled = false;
     }
 
-    private void OnTriggerExit(Collider other)
+    private void DoorTrigger()
     {
-        if (other.CompareTag("Player"))
+        // if (StageManager.Instance.roomCreator.CurStageIndex == Constants.LAST_STAGE_INDEX &&
+        //     StageManager.Instance.roomCreator.CurRoomIndex == Constants.MAX_ROOM_INDEX)
+        // {
+        //     StageManager.Instance.GameOver();
+        //     return;
+        // }
+        // OpenRewardUI();
+        //     
+        // StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
+        // StageManager.Instance.roomCreator.CurRoom = this;
+        //     
+        // StageManager.Instance.roomCreator.RoomChangedAction();
+        // StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
+        
+        
+        StageManager.Instance.IsGamePause = false;
+        StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
+            
+        StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
+        StageManager.Instance.roomCreator.CurRoom = this;
+            
+        StageManager.Instance.roomCreator.RoomChangedAction();
+            
+        if (StageManager.Instance.roomCreator.CurRoomIndex == Constants.MAX_ROOM_INDEX)
         {
-            if (StageManager.Instance.roomCreator.CurStageIndex == 8 &&
-                StageManager.Instance.roomCreator.CurRoomIndex == 3)
-            {
-                StageManager.Instance.GameOver();
-                return;
-            }
-            OpenRewardUI();
-            
-            StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
-            StageManager.Instance.roomCreator.DisablePrevRoom();
-            StageManager.Instance.roomCreator.CurRoom = this;
-            
-            StageManager.Instance.roomCreator.UpdateStageIndex();
+            StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceStandbyRoom(endPoint);
+        }
+        else
+        {
             StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
         }
     }

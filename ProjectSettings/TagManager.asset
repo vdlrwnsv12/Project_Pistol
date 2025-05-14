@@ -19,9 +19,9 @@ TagManager:
   - Gun
   - Ground
   - Wall
-  - 
-  - 
-  - 
+  - CaptureOnly
+  - Blip
+  - Interact
   - 
   - 
   - 

@@ -5,5 +5,4 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseUI : MonoBehaviour
 {
-    public abstract bool IsDestroy { get; set; }
 }

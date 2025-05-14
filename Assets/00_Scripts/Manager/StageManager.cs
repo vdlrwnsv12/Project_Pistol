@@ -33,28 +33,13 @@ public class StageManager : SingletonBehaviour<StageManager>
     private float shotAccuracy;
     private float headShotAccuracy;
 
-    public HUDUI HUDUI {get; private set;}
-
     protected override void Awake()
     {
-        isDestroyOnLoad = true;
+        isDontDestroyOnLoad = false;
         base.Awake();
         IsGamePause = true;
-        RemainTime = 20f;
+        RemainTime = Constants.INIT_STAGE_TIME;
         IsQuickShot = false;
-    }
-
-    private void Start()
-    {
-        UIManager.ToggleMouseCursor(false);
-
-        var stagePoint = transform;
-        roomCreator.CurRoom = roomCreator.PlaceStandbyRoom(stagePoint);
-        roomCreator.NextRoom = roomCreator.PlaceShootingRoom(roomCreator.CurRoom.EndPoint, 0);
-        
-        SpawnPlayer(roomCreator.StandbyRoom.RespawnPoint.position);
-        
-        InitHUDUI();
     }
 
     private void Update()
@@ -75,28 +60,32 @@ public class StageManager : SingletonBehaviour<StageManager>
             }
         }
 
-        if (HUDUI != null)
-        {
-            HUDUI.UpdateRealTimeChanges(GameScore, RemainTime, Player.Weapon.CurAmmo,
-                Player.Weapon.MaxAmmo);
-        }
-
         if (remainTime <= 0)
         {
             GameOver();
         }
+    }
+    
+    public void InitStage()
+    {
+        var stagePoint = transform;
+        roomCreator.CurRoom = roomCreator.PlaceStandbyRoom(stagePoint);
+        roomCreator.NextRoom = roomCreator.PlaceShootingRoom(roomCreator.CurRoom.EndPoint, 0);
+        
+        SpawnPlayer(roomCreator.StandbyRoom.RespawnPoint.position);
     }
 
     public void GameOver()
     {
         UIManager.ToggleMouseCursor(true);
 
-        UIManager.Instance.InitUI<ResultUI>();
-        UIManager.Instance.ChangeMainUI(MainUIType.Result);
+        UIManager.Instance.InitMainUI<ResultUI>();
         var resultUI = UIManager.Instance.CurMainUI as ResultUI;
         if (resultUI != null)
         {
-            CalculateAccuracy();
+            shotAccuracy = ShotCount == 0 ? 0 : (float)HitCount / ShotCount * 100f;
+            headShotAccuracy = HitCount == 0 ? 0 : (float)HeadHitCount / HitCount * 100f;
+            
             resultUI.SetResultValue(GameScore, RemainTime,
                 shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
         }
@@ -111,40 +100,5 @@ public class StageManager : SingletonBehaviour<StageManager>
     {
         var resource = ResourceManager.Instance.Load<Player>("Prefabs/Character/Player");
         Player = Instantiate(resource, spawnPoint, Quaternion.identity);
-    }
-
-    private void InitHUDUI()
-    {
-        UIManager.Instance.InitUI<HUDUI>();
-        UIManager.Instance.ChangeMainUI(MainUIType.HUD);
-        HUDUI = UIManager.Instance.CurMainUI as HUDUI;
-        if (HUDUI != null)
-        {
-            //TODO: 총기 사진 리소스 연결
-            //hudUI.SetEquipImage();
-            HUDUI.UpdateStageInfo(roomCreator.CurStageIndex, roomCreator.CurRoomIndex);
-            HUDUI.UpdateStatValue(Player.Stat.RCL, Player.Stat.HDL, Player.Stat.STP, Player.Stat.SPD);
-        }
-    }
-
-    private void CalculateAccuracy()
-    {
-        if (ShotCount == 0)
-        {
-            shotAccuracy = 0;
-        }
-        else
-        {
-            shotAccuracy = (float)HitCount / (float)ShotCount * 100f;
-        }
-
-        if (HitCount == 0)
-        {
-            headShotAccuracy = 0;
-        }
-        else
-        {
-            headShotAccuracy = (float)HeadHitCount / (float)HitCount * 100f;
-        }
     }
 }

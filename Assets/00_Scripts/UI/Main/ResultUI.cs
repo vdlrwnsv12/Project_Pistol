@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Scene = DataDeclaration.Scene;
 
 public class ResultUI : MainUI
 {
@@ -20,12 +21,10 @@ public class ResultUI : MainUI
     #endregion
 
     public override MainUIType UIType { get; protected set; }
-    public override bool IsDestroy { get; set; }
 
     private void Awake()
     {
         UIType = MainUIType.Result;
-        IsDestroy = true;
 
         quitBtn.onClick.AddListener(OnClickQuitButton);
     }
@@ -88,6 +87,6 @@ public class ResultUI : MainUI
     private IEnumerator GameOver()
     {
         yield return UIManager.Instance.FadeEffect(0, 1, 2, true);
-        SceneManager.LoadScene(1);
+        yield return SceneLoadManager.Instance.LoadScene(Scene.Lobby);
     }
 }

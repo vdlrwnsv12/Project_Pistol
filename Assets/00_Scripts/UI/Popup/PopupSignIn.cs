@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +9,9 @@ public class PopupSignIn : PopupUI
 
     [SerializeField] private Button signInBtn;
     [SerializeField] private Button signUpBtn;
-    
-    public override bool IsDestroy { get; set; }
-    public override bool IsHideNotFocus { get; protected set; }
 
     private void Awake()
     {
-        IsDestroy = true;
-        IsHideNotFocus = true;
-        
         InitIDInputField();
         InitPasswordInputField();
         
@@ -40,6 +33,7 @@ public class PopupSignIn : PopupUI
 
     private void OnClickSignUpButton()
     {
+        CloseUI();
         UIManager.Instance.OpenPopupUI<PopupSignUp>();
     }
     
@@ -47,10 +41,9 @@ public class PopupSignIn : PopupUI
     {
         try
         {
-            AuthenticationService.Instance.SignedIn += UIManager.Instance.ClosePopUpUI;
             await UserManager.Instance.SignInWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
             Debug.Log("로그인 성공");
-            AuthenticationService.Instance.SignedIn -= UIManager.Instance.ClosePopUpUI;
+            CloseUI();
         }
         catch
         {

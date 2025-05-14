@@ -76,3 +76,5 @@ crashlytics-build.properties
 # 개인 작업 폴더
 Assets/99_Workspace/*
 
+# macOS 운영체제에서 자동으로 생성되는 시스템 파일
+.DS_Store

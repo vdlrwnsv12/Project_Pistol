@@ -39,9 +39,6 @@ public class PopupOption : PopupUI
     //private FpsCamera camera;
     public GameObject resumeBtn;
 
-    public override bool IsDestroy { get; set; }
-    public override bool IsHideNotFocus { get; protected set; }
-
     private void Awake()
     {
         //TODO: 게임씬이 아니면 Resume버튼 비활성화
@@ -84,9 +81,9 @@ public class PopupOption : PopupUI
         LoadSensitivity();
 
         // 사운드 슬라이더 값 갱신
-        masterSlider.value = SoundManager.Instance.masterVol * 100f;
-        seSlider.value = SoundManager.Instance.sfxVol * 100f;
-        bgmSlider.value = SoundManager.Instance.backgroundMusicVol * 100f;
+        masterSlider.value = SoundManager.Instance.MasterVol * 100f;
+        seSlider.value = SoundManager.Instance.SFXVol * 100f;
+        bgmSlider.value = SoundManager.Instance.BGMVol * 100f;
 
         UpdateSoundTexts();
 

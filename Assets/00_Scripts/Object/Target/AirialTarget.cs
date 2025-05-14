@@ -4,22 +4,30 @@ using UnityEngine;
 
 public class AirialTarget : BaseTarget
 {
+    private Vector3 hitDirection;
+    private Rigidbody rb;
+    [SerializeField]private GameObject targetObj;
     protected override void Start()
     {
         base.Start();
 
-        Renderer rend = GetComponentInChildren<Renderer>();
-        if (rend != null)
+        rb = targetObj.GetComponent<Rigidbody>();
+        if(rb == null)
         {
-            rend.material.color = Color.cyan;
+            rb = targetObj.gameObject.AddComponent<Rigidbody>();
         }
+        rb.useGravity = false;
+        rb.isKinematic = true;
     }
 
-    public override void TakeDamage(float amount, Collider hitCollider)
+    public override void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection)
     {
         if (currentHp <= 0) return;
 
-        anim.SetTrigger("Hit");
+        if(anim != null)
+        {
+            anim.SetTrigger("Hit");
+        }
 
         if (hitCollider != null && hitCollider.name == "Head")
         {
@@ -40,7 +48,22 @@ public class AirialTarget : BaseTarget
 
         if (currentHp <= 0)
         {
+            this.hitDirection = hitDirection;
             Die();
+            AddForceTarget();
+        }
+    }
+
+    private void AddForceTarget() //타겟이 총알의 방향대로 날아감
+    {
+        if (rb != null)
+        {
+            
+            rb.useGravity = true;
+            rb.isKinematic = false;
+
+            rb.AddForce(hitDirection * 5f + Vector3.up, ForceMode.Impulse);
+            rb.AddTorque(Random.onUnitSphere * 5f, ForceMode.Impulse);
         }
     }
 }

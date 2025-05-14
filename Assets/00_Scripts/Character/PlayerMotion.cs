@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 public class PlayerMotion : MonoBehaviour
@@ -8,25 +9,13 @@ public class PlayerMotion : MonoBehaviour
     [field: SerializeField] public Transform ArmTransform { get; private set; }
     [field: SerializeField] public GameObject HandPos { get; private set; }
 
-    public Transform rootCam;
-
-    [Range(0.0001f, 1f), SerializeField]
-    private float amount = 0.005f;
-    [Range(1f, 30f), SerializeField]
-    private float frequency = 10.0f;
-    [Range(10f, 100f), SerializeField]
-    private float smooth = 10.0f;
-
     private float stepTimer = 0f;
     private float stepInterval = 0.4f; // 0.4초마다 흔든다 (스텝 간격)
+    private bool isHeadbobUp = true;
+    private float stepForce = 0f;
 
-    #region
-    private float eulerAngleX;
-    private float eulerAngleY;
+    public float finalRecoil;
 
-    private float limitMinX = -80;
-    private float limitMaxX = 50;
-    #endregion
 
     private Quaternion initialLocalRotation;
     private void Awake()
@@ -39,19 +28,6 @@ public class PlayerMotion : MonoBehaviour
         initialLocalRotation = HandPos.transform.localRotation;
     }
 
-    /// <summary>
-    /// 조준 시 캐릭터 STP 수치에 따른 흔들림 기능
-    /// </summary>
-    public void StartHeadBob()
-    {
-        float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);  // STP가 1일 때 0, 99일 때 1
-        float inverseEffect = 1f - t;  // 반비례 효과
-
-        Vector3 pos = Vector3.zero;
-        pos.z += Mathf.Lerp(pos.z, Mathf.Sin(Time.time * frequency) * amount * inverseEffect, smooth * Time.deltaTime);
-
-        rootCam.localPosition = pos;
-    }
 
     /// <summary>
     /// 조준 시 캐릭터 HDL 수치에 따른 조준 흔들림 기능
@@ -69,34 +45,29 @@ public class PlayerMotion : MonoBehaviour
         HandPos.transform.localRotation = initialLocalRotation * shakeRotation;
     }
 
-    public void ApplyRecoil(float recoilAmount)
+
+    public void HeadbobUpdate()
     {
-        StopAllCoroutines();
-        StartCoroutine(RecoilCoroutine(recoilAmount));
-    }
+        stepTimer += Time.deltaTime;
 
-    private IEnumerator RecoilCoroutine(float recoilAmount)
-    {
-        float duration = 0.075f; // 반동 걸리는 시간
-        float elapsed = 0f;
-
-        float startX = eulerAngleX;
-        float targetX = eulerAngleX - recoilAmount;
-        targetX = ClampAngle(targetX, limitMinX, limitMaxX);
-
-        while (elapsed < duration)
+        if (stepTimer >= stepInterval)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            eulerAngleX = Mathf.Lerp(startX, targetX, t);
-            ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
-            yield return null;
+            stepTimer = 0f;
+            isHeadbobUp = !isHeadbobUp; // 업다운 반전
+
+            float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);
+            stepForce = Mathf.Lerp(1.0f, 0.1f, t) * 0.02f;
+
+            if (isHeadbobUp)
+            {
+                player.impulseSource.GenerateImpulse(Vector3.up * stepForce); // 위로
+            }
+            else
+            {
+                player.impulseSource.GenerateImpulse(Vector3.down * stepForce); // 아래로 (조금 덜)
+            }
         }
-
-        eulerAngleX = targetX;
-        ArmTransform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
     }
-
     public void HeadbobUp()
     {
         stepTimer += Time.deltaTime;
@@ -112,6 +83,37 @@ public class PlayerMotion : MonoBehaviour
         }
     }
 
+    public void ApplyRecoil()
+    {
+        float rcl = player.Stat.RCL; // 1~99 플레이어
+        float t = Mathf.InverseLerp(1f, 99f, rcl);
+        float controlFactor = Mathf.Lerp(1.0f, 0.2f, t); // RCL 높을수록 감소
+
+        float weaponRecoil = player.Weapon.Stat.Recoil;
+        float recoil = weaponRecoil * controlFactor;
+
+        StopCoroutine("SmoothRecoil"); // 이전 코루틴 중복 방지
+        StartCoroutine(SmoothRecoil(recoil));
+    }
+
+    private IEnumerator SmoothRecoil(float amount)
+    {
+        float duration = 0.1f; // 반동이 적용되는 시간
+        float timer = 0f;
+
+        float startOffset = player.stateMachine.RecoilOffsetX;
+        float targetOffset = startOffset - amount;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            player.stateMachine.RecoilOffsetX = Mathf.Lerp(startOffset, targetOffset, t);
+            yield return null;
+        }
+
+        player.stateMachine.RecoilOffsetX = targetOffset; // 정확한 마무리
+    }
     public void HeadbobDown()
     {
         stepTimer = Mathf.MoveTowards(stepTimer, stepInterval, Time.deltaTime * 2f);
