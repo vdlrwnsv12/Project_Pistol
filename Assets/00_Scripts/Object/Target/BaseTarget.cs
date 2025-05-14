@@ -27,6 +27,7 @@ public abstract class BaseTarget : MonoBehaviour
         }
     }
     
+    #if UNITY_EDITOR
     void Update()//테스트
     {
         if(Input.GetKeyDown(KeyCode.R))
@@ -34,6 +35,7 @@ public abstract class BaseTarget : MonoBehaviour
             InitData(data);
         }
     }
+    #endif
 
     // private void Update()
     // {
