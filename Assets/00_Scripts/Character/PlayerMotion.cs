@@ -85,9 +85,11 @@ public class PlayerMotion : MonoBehaviour
 
     public void ApplyRecoil()
     {
-        float rcl = player.Stat.RCL; 
-        float controlFactor = 0.2f + (0.8f * (1f - rcl/99));
-        float weaponRecoil = player.Weapon.Stat.Recoil; 
+        float rcl = player.Stat.RCL; // 1~99 플레이어
+        float t = Mathf.InverseLerp(1f, 99f, rcl);
+        float controlFactor = Mathf.Lerp(1.0f, 0.2f, t); // RCL 높을수록 감소
+
+        float weaponRecoil = player.Weapon.Stat.Recoil;
         float recoil = weaponRecoil * controlFactor;
 
         StopCoroutine("SmoothRecoil"); // 이전 코루틴 중복 방지
