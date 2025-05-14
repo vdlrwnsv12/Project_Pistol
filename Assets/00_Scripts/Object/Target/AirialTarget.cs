@@ -54,7 +54,7 @@ public class AirialTarget : BaseTarget
         }
     }
 
-    private void AddForceTarget()
+    private void AddForceTarget() //타겟이 총알의 방향대로 날아감
     {
         if (rb != null)
         {
