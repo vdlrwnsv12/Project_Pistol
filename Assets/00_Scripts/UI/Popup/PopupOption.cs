@@ -81,9 +81,9 @@ public class PopupOption : PopupUI
         LoadSensitivity();
 
         // 사운드 슬라이더 값 갱신
-        masterSlider.value = SoundManager.Instance.masterVol * 100f;
-        seSlider.value = SoundManager.Instance.sfxVol * 100f;
-        bgmSlider.value = SoundManager.Instance.backgroundMusicVol * 100f;
+        masterSlider.value = SoundManager.Instance.MasterVol * 100f;
+        seSlider.value = SoundManager.Instance.SFXVol * 100f;
+        bgmSlider.value = SoundManager.Instance.BGMVol * 100f;
 
         UpdateSoundTexts();
 

@@ -15,7 +15,7 @@ public class BulletImpactSound : MonoBehaviour
         if (bulletImpactSFX == null || bulletImpactSFX.Length == 0) return;
 
         int randomIndex = Random.Range(0, bulletImpactSFX.Length);
-        SoundManager.Instance.PlaySFX(bulletImpactSFX[randomIndex], gameObject.transform.position);
+        SoundManager.Instance.PlaySFXForClip(bulletImpactSFX[randomIndex], gameObject.transform.position);
 
     }
 }
