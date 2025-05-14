@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 도전과제 조건 평가, 해금 처리, UI 연동을 담당하는 매니저
 /// </summary>
-public class AchievementManager : MonoBehaviour
+public class AchievementManager : SingletonBehaviour<AchievementManager>
 {
     #region Fields
 
@@ -26,33 +26,9 @@ public class AchievementManager : MonoBehaviour
     /// <summary>팝업 UI</summary>
     [SerializeField] private UIAchievementPopup popupUI;
 
-    /// <summary>글로벌 싱글톤 인스턴스</summary>
-    public static AchievementManager Instance { get; private set; }
-
     #endregion
 
     #region Unity Methods
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-
-        if (allAchievements == null || allAchievements.Count == 0)
-        {
-            Debug.LogWarning("[AchievementManager] 도전과제가 등록되지 않았습니다.");
-        }
-
-        if (uiView == null)
-        {
-            Debug.LogWarning("[AchievementManager] UI View가 연결되지 않았습니다.");
-        }
-    }
 
     #endregion
 
