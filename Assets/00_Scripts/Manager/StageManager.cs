@@ -28,7 +28,6 @@ public class StageManager : SingletonBehaviour<StageManager>
     public int ShotCount { get; set; }
     public int HitCount { get; set; }
     public int HeadHitCount { get; set; }
-    public RoomCreator roomCreator;
 
     private float shotAccuracy;
     private float headShotAccuracy;
@@ -65,15 +64,6 @@ public class StageManager : SingletonBehaviour<StageManager>
             GameOver();
         }
     }
-    
-    public void InitStage()
-    {
-        var stagePoint = transform;
-        roomCreator.CurRoom = roomCreator.PlaceStandbyRoom(stagePoint);
-        roomCreator.NextRoom = roomCreator.PlaceShootingRoom(roomCreator.CurRoom.EndPoint, 0);
-        
-        SpawnPlayer(roomCreator.StandbyRoom.RespawnPoint.position);
-    }
 
     public void GameOver()
     {
@@ -96,9 +86,9 @@ public class StageManager : SingletonBehaviour<StageManager>
     /// <summary>
     /// 캐릭터 생성
     /// </summary>
-    private void SpawnPlayer(Vector3 spawnPoint)
+    public void SpawnPlayer()
     {
         var resource = ResourceManager.Instance.Load<Player>("Prefabs/Character/Player");
-        Player = Instantiate(resource, spawnPoint, Quaternion.identity);
+        Player = Instantiate(resource, new Vector3(0, 1, 3), Quaternion.identity);
     }
 }
