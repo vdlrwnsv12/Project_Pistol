@@ -84,7 +84,16 @@ public class PlayerBaseState : IState
 
     protected virtual void OnInteract(InputAction.CallbackContext context)
     {
-
+        var ray = new Ray(stateMachine.Player.Controller.transform.position, stateMachine.Player.Controller.transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            var interact = hit.collider.GetComponent<IInteract>();
+            if (interact != null)
+            {
+                interact.Interact();
+            }
+        }
     }
     protected void StartAnimation(int animatorHash)
     {

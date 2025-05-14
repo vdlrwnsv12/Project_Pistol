@@ -15,67 +15,45 @@ public class ShootingRoom : Room
     protected override void Awake()
     {
         base.Awake();
-        targetList = new List<BaseTarget>();
-        RespawnTarget();
-        exitDoor.OpenDoorAction += DoorTrigger;
+        //targetList = new List<BaseTarget>();
+        //RespawnTarget();
     }
 
     private void OnEnable()
     {
-        if (Data != null)
-        {
-            InitTarget();
-        }
+        // if (Data != null)
+        // {
+        //     InitTarget();
+        // }
     }
 
     private void OnDisable()
     {
-        foreach (var target in targetList)
-        {
-            target.gameObject.SetActive(false);
-        }
+        // foreach (var target in targetList)
+        // {
+        //     target.gameObject.SetActive(false);
+        // }
     }
 
-    private void DoorTrigger()
+    protected override void OpenDoor()
     {
-        // StageManager.Instance.IsGamePause = false;
-        // StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
-        //     
-        // StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
-        // StageManager.Instance.roomCreator.CurRoom = this;
-        //     
-        // StageManager.Instance.roomCreator.RoomChangedAction();
-        //     
-        // if (StageManager.Instance.roomCreator.CurRoomIndex == Constants.MAX_ROOM_INDEX)
-        // {
-        //     StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceStandbyRoom(endPoint);
-        // }
-        // else
-        // {
-        //     StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
-        // }
-        
-        if (StageManager.Instance.roomCreator.CurStageIndex == Constants.LAST_STAGE_INDEX &&
-            StageManager.Instance.roomCreator.CurRoomIndex == Constants.MAX_ROOM_INDEX)
+        if (RoomManager.Instance.CurStageIndex == Constants.LAST_STAGE_INDEX &&
+            RoomManager.Instance.CurRoomIndex == Constants.MAX_ROOM_INDEX)
         {
             StageManager.Instance.GameOver();
             return;
         }
-        OpenRewardUI();
-            
-        StageManager.Instance.roomCreator.PrevRoom = StageManager.Instance.roomCreator.CurRoom;
-        StageManager.Instance.roomCreator.CurRoom = this;
-            
-        StageManager.Instance.roomCreator.RoomChangedAction();
-        StageManager.Instance.roomCreator.NextRoom = StageManager.Instance.roomCreator.PlaceShootingRoom(endPoint, StageManager.Instance.roomCreator.CurRoomIndex);
+        
+        RoomManager.Instance.PlaceNextRoom();
     }
-    
-    private void OpenRewardUI()
+
+    protected override void EnterRoom()
     {
-        UIManager.Instance.OpenPopupUI<PopupReward>();
-        UIManager.ToggleMouseCursor(true);
-        StageManager.Instance.IsGamePause = true;
-        StageManager.Instance.Player.Controller.enabled = false;
+    }
+
+    protected override void ExitRoom()
+    {
+        RoomManager.Instance.RoomChangedAction();
     }
 
     private void InitTarget()

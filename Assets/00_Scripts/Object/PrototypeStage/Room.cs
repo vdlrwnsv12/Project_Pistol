@@ -16,5 +16,10 @@ public abstract class Room : MonoBehaviour
         }
 
         exitDoor = GetComponentInChildren<Door>();
+        exitDoor.OpenDoor += OpenDoor;
     }
+
+    protected abstract void OpenDoor();
+    protected abstract void EnterRoom();
+    protected abstract void ExitRoom();
 }
