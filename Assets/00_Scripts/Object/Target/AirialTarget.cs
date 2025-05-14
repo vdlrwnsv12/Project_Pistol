@@ -7,6 +7,7 @@ public class AirialTarget : BaseTarget
     private Vector3 hitDirection;
     private Rigidbody rb;
     [SerializeField]private GameObject targetObj;
+    [SerializeField]private Transform targetPoint;
     protected override void Start()
     {
         base.Start();
@@ -65,5 +66,16 @@ public class AirialTarget : BaseTarget
             rb.AddForce(hitDirection * 5f + Vector3.up, ForceMode.Impulse);
             rb.AddTorque(Random.onUnitSphere * 5f, ForceMode.Impulse);
         }
+    }
+
+    public override void InitData(TargetSO data)
+    {
+        base.InitData(data);
+
+        rb.useGravity = false;
+        rb.isKinematic = true;
+
+        targetObj.transform.position = targetPoint.position;
+        targetObj.transform.rotation = targetPoint.rotation;
     }
 }

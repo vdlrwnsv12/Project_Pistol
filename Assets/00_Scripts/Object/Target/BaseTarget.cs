@@ -25,8 +25,14 @@ public abstract class BaseTarget : MonoBehaviour
         {
             anim = GetComponent<Animator>() ?? GetComponentInChildren<Animator>();
         }
-
-        InitData(data);//테스트
+    }
+    
+    void Update()//테스트
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            InitData(data);
+        }
     }
 
     // private void Update()
@@ -46,7 +52,7 @@ public abstract class BaseTarget : MonoBehaviour
             if (!anim.GetBool("Up")) // 안 올라가있을 때만
             {
                 anim.SetBool("Up", true);
-                SoundManager.Instance.PlaySFXForClip(upSound, this.transform.position);
+                SoundManager.Instance.PlaySFXForClip(upSound, gameObject.transform.position);
             }
         }
     }
@@ -58,13 +64,13 @@ public abstract class BaseTarget : MonoBehaviour
             anim.SetBool("Die", true);
         }
         
-        Destroy(blip);
-        Destroy(targetUI);
+        blip.SetActive(false);
+        targetUI.SetActive(false);
         // Destroy(gameObject, 2f); 삭제를 상속한 클래스에서
-        SoundManager.Instance.PlaySFXForClip(downSound, this.transform.position);
+        SoundManager.Instance.PlaySFXForClip(downSound, gameObject.transform.position);
     }
 
-    public void InitData(TargetSO data)
+    public virtual void InitData(TargetSO data)
     {
         this.data = data;
 
@@ -75,5 +81,11 @@ public abstract class BaseTarget : MonoBehaviour
         {
             hpBar.fillAmount = 1f;
         }
+        if(anim != null)
+        {
+            anim.SetBool("Die", false);
+            blip.SetActive(true);
+        }
+        targetUI.SetActive(true);
     }
 }
