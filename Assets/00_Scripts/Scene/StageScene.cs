@@ -3,8 +3,7 @@ public class StageScene : BaseScene
     public override void EnterScene()
     {
         UIManager.ToggleMouseCursor(false);
-        RoomManager.Instance.InitRoom();
-        StageManager.Instance.SpawnPlayer();
+        StageManager.Instance.InitStage();
         UIManager.Instance.InitMainUI<HUDUI>();
     }
 
