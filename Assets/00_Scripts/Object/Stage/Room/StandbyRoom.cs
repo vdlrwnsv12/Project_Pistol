@@ -10,6 +10,7 @@ public class StandbyRoom : Room
         }
         
         exitGate.Door.OpenDoor += OpenDoor;
+        exitGate.Door.DoorClosed += ResetRoom;
         exitGate.OnPassingGate += ExitRoom;
         enterGate.OnPassingGate += EnterRoom;
     }
@@ -25,7 +26,6 @@ public class StandbyRoom : Room
     protected override void EnterRoom()
     {
         RoomManager.Instance.CurRoom = this;
-        RoomManager.Instance.PrevRoom.ResetRoom();
         exitGate.Door.gameObject.SetActive(true);
         RoomManager.Instance.RoomChangedAction();
         UIManager.Instance.OpenPopupUI<PopupReward>();
@@ -35,6 +35,7 @@ public class StandbyRoom : Room
     protected override void ExitRoom()
     {
         RoomManager.Instance.PrevRoom = this;
+        exitGate.Door.Close();
     }
 
     public override void ResetRoom()

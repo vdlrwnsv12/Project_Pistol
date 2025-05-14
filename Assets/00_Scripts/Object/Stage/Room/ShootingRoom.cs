@@ -20,6 +20,7 @@ public class ShootingRoom : Room
         }
         
         exitGate.Door.OpenDoor += OpenDoor;
+        exitGate.Door.DoorClosed += ResetRoom;
         exitGate.OnPassingGate += ExitRoom;
         enterGate.OnPassingGate += EnterRoom;
         
@@ -29,7 +30,6 @@ public class ShootingRoom : Room
 
     private void OnEnable()
     {
-        exitGate.Door.gameObject.SetActive(false);
         // if (Data != null)
         // {
         //     InitTarget();
@@ -59,8 +59,7 @@ public class ShootingRoom : Room
     protected override void EnterRoom()
     {
         RoomManager.Instance.CurRoom = this;
-        RoomManager.Instance.PrevRoom.ResetRoom();
-        exitGate.Door.gameObject.SetActive(true);
+        enterGate.Door.gameObject.SetActive(true);
         RoomManager.Instance.RoomChangedAction();
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
     }
@@ -68,11 +67,11 @@ public class ShootingRoom : Room
     protected override void ExitRoom()
     {
         RoomManager.Instance.PrevRoom = this;
+        exitGate.Door.Close();
     }
 
     public override void ResetRoom()
     {
-        exitGate.Door.Close();
         enterGate.Door.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }

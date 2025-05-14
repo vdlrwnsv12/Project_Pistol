@@ -11,8 +11,6 @@ public class RoomManager : SingletonBehaviour<RoomManager>
     private StandbyRoom standbyRoom;
     private Dictionary<int, ShootingRoom> shootingRoomDict;
 
-    private RoomSO[] curStageRoomList;
-
     public int CurStageIndex { get; private set; }
     public int CurRoomIndex { get; private set; }
 
