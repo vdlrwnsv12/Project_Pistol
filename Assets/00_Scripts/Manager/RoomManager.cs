@@ -16,26 +16,25 @@ public class RoomManager : SingletonBehaviour<RoomManager>
     public int CurStageIndex { get; private set; }
     public int CurRoomIndex { get; private set; }
 
-    private Room prevRoom;
-    private Room curRoom;
+    public Room PrevRoom { get; set; }
+    public Room CurRoom { get; set; }
     public Room NextRoom { get; set; }
 
     public Action RoomChangedAction;
 
     protected override void Awake()
     {
+        isDontDestroyOnLoad = false;
         InitStageInfo();
         InitRoomPrefabs();
 
         RoomChangedAction += UpdateStageIndex;
-        RoomChangedAction += DisablePrevRoom;
     }
 
     public void InitRoom()
     {
-        var startRoom = ResourceManager.Instance.Load<StandbyRoom>("Prefabs/Stage/Room/StartRoom");
-        curRoom = Instantiate(startRoom);
-        PlaceNextRoom();
+        var startRoom = ResourceManager.Instance.Load<StartRoom>("Prefabs/Stage/Room/StartRoom");
+        CurRoom = Instantiate(startRoom);
     }
 
     public void PlaceNextRoom()
@@ -50,18 +49,9 @@ public class RoomManager : SingletonBehaviour<RoomManager>
             NextRoom = shootingRoomDict[shootingRoomNumber];
         }
 
-        NextRoom.transform.rotation = curRoom.transform.rotation;
-        NextRoom.transform.position = curRoom.EndPoint.position;
+        NextRoom.transform.rotation = CurRoom.EndPoint.rotation;
+        NextRoom.transform.position = CurRoom.EndPoint.position;
         NextRoom.gameObject.SetActive(true);
-
-        prevRoom = curRoom;
-        curRoom = NextRoom;
-        NextRoom = null;
-    }
-
-    public void DisablePrevRoom()
-    {
-        //prevRoom.gameObject.SetActive(false);
     }
 
     private void UpdateStageIndex()

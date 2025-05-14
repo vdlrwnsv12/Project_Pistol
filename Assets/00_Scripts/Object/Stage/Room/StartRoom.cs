@@ -1,6 +1,4 @@
-using DataDeclaration;
-
-public class StandbyRoom : Room
+public class StartRoom : Room
 {
     private void Awake()
     {
@@ -11,25 +9,19 @@ public class StandbyRoom : Room
         
         exitGate.Door.OpenDoor += OpenDoor;
         exitGate.OnPassingGate += ExitRoom;
-        enterGate.OnPassingGate += EnterRoom;
+        
+        EnterRoom();
     }
     
     protected override void OpenDoor()
     {
         StageManager.Instance.IsGamePause = false;
-        StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
-        
         RoomManager.Instance.PlaceNextRoom();
     }
 
     protected override void EnterRoom()
     {
         RoomManager.Instance.CurRoom = this;
-        RoomManager.Instance.PrevRoom.ResetRoom();
-        exitGate.Door.gameObject.SetActive(true);
-        RoomManager.Instance.RoomChangedAction();
-        UIManager.Instance.OpenPopupUI<PopupReward>();
-        StageManager.Instance.IsGamePause = true;
     }
 
     protected override void ExitRoom()
@@ -39,8 +31,6 @@ public class StandbyRoom : Room
 
     public override void ResetRoom()
     {
-        exitGate.Door.Close();
-        enterGate.Door.gameObject.SetActive(false);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

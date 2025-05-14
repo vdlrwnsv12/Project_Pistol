@@ -86,7 +86,8 @@ public class PlayerBaseState : IState
     {
         var ray = new Ray(stateMachine.Player.Controller.transform.position, stateMachine.Player.Controller.transform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        var layerMask = 1 << LayerMask.NameToLayer("Interactable");
+        if (Physics.Raycast(ray, out hit, 5f, layerMask))
         {
             var interact = hit.collider.GetComponent<IInteract>();
             if (interact != null)

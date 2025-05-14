@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 268204767219148563}
   - component: {fileID: 4202394663700272238}
   - component: {fileID: 7090138019709804340}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,8 +54,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5595738, y: 2.4981484, z: 0.36078823}
-  m_Center: {x: -0.7797869, y: 1.0757968, z: 0.045551002}
+  m_Size: {x: 1.5595738, y: 2.4981484, z: 0.06860316}
+  m_Center: {x: -0.7797869, y: 1.0757968, z: 0.05883214}
 --- !u!114 &4202394663700272238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 87
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5000019315368765109
 Transform:
@@ -139,7 +139,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 87
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &9076142017435091167
 Transform:
@@ -243,7 +243,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 87
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2528072199685938844
 Transform:

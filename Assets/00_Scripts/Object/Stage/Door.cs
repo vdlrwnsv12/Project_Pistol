@@ -10,13 +10,13 @@ public class Door : MonoBehaviour, IInteract
     public event Action CloseDoor;
     public event Action DoorClosed;
 
-    private bool isOpened;
+    public bool IsOpened { get; private set; }
     
     private Animator animator;
 
     private void Awake()
     {
-        isOpened = false;
+        IsOpened = false;
         animator = GetComponent<Animator>();
     }
 
@@ -31,7 +31,7 @@ public class Door : MonoBehaviour, IInteract
         OpenDoor?.Invoke();
     }
 
-    private void Close()
+    public void Close()
     {
         animator.SetTrigger(CloseDoorTrigger);
         CloseDoor?.Invoke();
@@ -39,13 +39,13 @@ public class Door : MonoBehaviour, IInteract
 
     private void Opened()
     {
-        isOpened = true;
+        IsOpened = true;
         DoorOpened?.Invoke();
     }
 
     private void Closed()
     {
-        isOpened = false;
+        IsOpened = false;
         DoorClosed?.Invoke();
     }
 }
