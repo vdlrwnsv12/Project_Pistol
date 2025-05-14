@@ -9515,7 +9515,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fb3d4a28eb86645718418877d96f90bb, type: 3}
   - {fileID: 8300000, guid: 8bc8c5a38b3f34ee098f1a034925b5db, type: 3}
   - {fileID: 8300000, guid: 1de0abd5b6a424520a22db637aadcac9, type: 3}
-  pooledAudioPrefab: {fileID: 0}
+  pooledAudioPrefab: {fileID: 8831661428241966283, guid: febc3ac6246c7495b83e6f127fc30a08,
+    type: 3}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0

@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e8a158a4baf41c692e0a26c29bd39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMusicVol: 0.5
-  sfxVol: 0.61
+  sfxAudioSourcePrefab: {fileID: 8831661428241966283, guid: febc3ac6246c7495b83e6f127fc30a08,
+    type: 3}
+  sfxPoolRoot: {fileID: 4908672483169040221}
   backgroundMusic: {fileID: 0}
+  sfxList: []
 --- !u!82 &7596026303226822466
 AudioSource:
   m_ObjectHideFlags: 0

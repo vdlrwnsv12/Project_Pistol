@@ -38,7 +38,16 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     protected override void Awake()
     {
         base.Awake();
+        
         DontDestroyOnLoad(gameObject);
+
+        if(sfxAudioSourcePrefab == null)
+        {
+            sfxAudioSourcePrefab = Resources.Load<GameObject>("Prefabs/PoolableAudioSource");
+        }
+
+        sfxPoolRoot = gameObject.transform;
+
 
         musicSource = gameObject.AddComponent<AudioSource>();
         sfxSource = gameObject.AddComponent<AudioSource>();
