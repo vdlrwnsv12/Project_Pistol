@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BulletImpactSound : MonoBehaviour
 {
+    //TODO: 재질 별로 소리 다르게
     [SerializeField]private AudioClip[] bulletImpactSFX;
     [SerializeField]private GameObject pooledAudioPrefab;
 

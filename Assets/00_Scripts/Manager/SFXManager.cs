@@ -38,7 +38,7 @@ public class SFXManager
         }
     }
 
-    public void PlaySFXForName(string soundName, Vector3 position)
+    public void PlaySFXForName(string soundName, Vector3 position, GameObject parentObject)
     {
         if (!sfxDict.TryGetValue(soundName, out var clip))
         {
@@ -52,10 +52,15 @@ public class SFXManager
             }
         }
 
-        PlaySFX(clip, position);
+        PlaySFX(clip, position, parentObject?.transform);
+    }
+    public void PlaySFXForName(string soundName, Vector3 position)
+    {
+        PlaySFXForName(soundName, position, null); // 새 오버로드 호출
     }
 
-    public void PlaySFX(AudioClip clip, Vector3 position)
+
+    public void PlaySFX(AudioClip clip, Vector3 position, Transform parent = null)
     {
         if (clip == null)
         {
@@ -65,9 +70,15 @@ public class SFXManager
 
         var source = GetAudioSource();
         source.transform.position = position;
+
+        if (parent != null)
+            source.transform.SetParent(parent);
+
         float vol = volumeSettings.SFXVolume * volumeSettings.MasterVolume;
         CoroutineRunner.Instance.StartCoroutine(PlayAndReturn(source, clip, vol));
     }
+
+
 
     private AudioSource GetAudioSource()
     {

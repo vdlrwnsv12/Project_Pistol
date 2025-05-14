@@ -4,9 +4,9 @@ using UnityEngine;
 
 /// <summary>
 /// 예시
-/// 배경음악: SoundManager.Instance.PlayBackgroundMusic("사운드 이름");
-/// 효과음: SoundManager.Instance.PlaySFXForName("사운드 이름");
-/// 효과음: SoundManager.Instance.PlaySFXForName("등록한 사운드 클립");
+/// 소리가 난 위치에서 따라다녀야 할 경우: SoundManager.Instance.PlaySFXForName("사운드 이름" or 클립, "소리 나야 할 위치", "소리의 부모로 설정할 객체");
+/// 효과음 이름으로 재생: SoundManager.Instance.PlaySFXForName("등록한 사운드 이름", "소리가 나야 할 위치");
+/// 효과음 클립으로 재성: SoundManager.Instance.PlaySFXForClip(사운드 클립, 소리가 나야 할 위치);
 /// </summary>
 
 [System.Serializable]
@@ -86,7 +86,9 @@ public class SoundManager : SingletonBehaviour<SoundManager>
 
     #region SFX
     public void PlaySFXForName(string soundName, Vector3 position) =>
-        sfxManager.PlaySFXForName(soundName, position);
+    sfxManager.PlaySFXForName(soundName, position);
+    public void PlaySFXForName(string soundName, Vector3 position, GameObject parent) =>
+        sfxManager.PlaySFXForName(soundName, position, parent);
 
     public void PlaySFXForClip(AudioClip clip, Vector3 position) =>
         sfxManager.PlaySFX(clip, position);
