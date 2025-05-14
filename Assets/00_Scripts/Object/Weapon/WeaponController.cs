@@ -65,14 +65,14 @@ public class WeaponController : MonoBehaviour
             MuzzleFlash();
 
             StageManager.Instance.ShotCount++;
-            SoundManager.Instance.PlaySFXForName(weapon.Data.name, barrelLocation.position);
+            SoundManager.Instance.PlaySFXForName(weapon.Data.name);
 
             curAmmo--;
         }
         else
         {
             // 탄창 없을 경우
-            SoundManager.Instance.PlaySFXForName("EmptyTrigger", barrelLocation.position);
+            SoundManager.Instance.PlaySFXForName("EmptyTrigger");
         }
 
         lastFireTime = 0f;
@@ -154,7 +154,7 @@ public class WeaponController : MonoBehaviour
         curAmmo = 0;
         weapon.Anim.SetTrigger("Reload");
 
-        SoundManager.Instance.PlaySFXForName("Reload", barrelLocation.position);
+        SoundManager.Instance.PlaySFXForName("Reload");
 
         StartCoroutine(ReloadCoroutine());
     }

@@ -24,7 +24,7 @@ public class ShellCasing : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Gun"))
         {
-            SoundManager.Instance.PlaySFXForName("Shell", this.transform.position);
+            SoundManager.Instance.PlaySFXForName("Shell");
         }
     }
 }

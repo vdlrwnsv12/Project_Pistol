@@ -46,7 +46,7 @@ public abstract class BaseTarget : MonoBehaviour
             if (!anim.GetBool("Up")) // 안 올라가있을 때만
             {
                 anim.SetBool("Up", true);
-                SoundManager.Instance.PlaySFXForClip(upSound, this.transform.position);
+                SoundManager.Instance.PlaySFXForClip(upSound);
             }
         }
     }
@@ -61,7 +61,7 @@ public abstract class BaseTarget : MonoBehaviour
         Destroy(blip);
         Destroy(targetUI);
         // Destroy(gameObject, 2f); 삭제를 상속한 클래스에서
-        SoundManager.Instance.PlaySFXForClip(downSound, this.transform.position);
+        SoundManager.Instance.PlaySFXForClip(downSound);
     }
 
     public void InitData(TargetSO data)
