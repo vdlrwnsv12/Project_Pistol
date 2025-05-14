@@ -39,7 +39,7 @@ public class HUDUI : MainUI
 
     private void Start()
     {
-        StageManager.Instance.roomCreator.RoomChangedAction += UpdateStageInfo;
+        RoomManager.Instance.RoomChangedAction += UpdateStageInfo;
         UpdateStageInfo();
         UpdateStatValue();
 
@@ -73,18 +73,18 @@ public class HUDUI : MainUI
     /// </summary>
     private void UpdateStageInfo()
     {
-        curStageText.text = $"현재 스테이지\tStage {StageManager.Instance.roomCreator.CurStageIndex}";
+        curStageText.text = $"현재 스테이지\tStage {RoomManager.Instance.CurStageIndex}";
 
         for (var i = 1; i <= stageIndex.Length; i++)
         {
-            if (StageManager.Instance.roomCreator.CurRoomIndex == 0)
+            if (RoomManager.Instance.CurRoomIndex == 0)
             {
                 stageIndex[i - 1].color = originalColor;
             }
             else
             {
                 stageIndex[i - 1].color = currentColor;
-                stageIndex[i - 1].color = (i == StageManager.Instance.roomCreator.CurRoomIndex) ? currentColor : originalColor;
+                stageIndex[i - 1].color = (i == RoomManager.Instance.CurRoomIndex) ? currentColor : originalColor;
             }
         }
     }
