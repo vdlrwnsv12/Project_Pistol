@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Headshot Ratio
   m_EditorClassIdentifier: Assembly-CSharp::AchievementSO
   id: 4
-  title: asdf
-  description: asdf
-  conditionType: 5
-  requiredValue: 10
+  title: "\uC5D0\uC784\uD575"
+  description: "\uD5E4\uB4DC\uC0F7 \uBA85\uC911\uB960\uC744 80\uD37C\uC13C\uD2B8\uB97C
+    \uCD08\uACFC\uD558\uC138\uC694"
+  conditions:
+  - conditionType: 1
+    comparison: 1
+    targetValue: 80

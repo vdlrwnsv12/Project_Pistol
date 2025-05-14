@@ -8,14 +8,22 @@ public class AchievementManager : MonoBehaviour
 {
     #region Fields
 
+    [Header("도전과제 설정")]
+
     /// <summary>전체 도전과제 리스트 (ScriptableObject)</summary>
     [SerializeField] private List<AchievementSO> allAchievements;
 
-    /// <summary>달성된 도전과제 ID 목록</summary>
-    private readonly HashSet<string> unlockedAchievements = new HashSet<string>();
+    [SerializeField] private PlayerStatTracker tracker;
 
-    /// <summary>UI 팝업 및 리스트를 출력할 UI 뷰</summary>
+    /// <summary>달성된 도전과제 ID 목록</summary>
+    private readonly HashSet<string> unlockedAchievements = new();
+
+    [Header("UI 연결")]
+
+    /// <summary>도전과제 리스트 및 상세 정보 UI</summary>
     [SerializeField] private AchievementMainUI uiView;
+
+    /// <summary>팝업 UI</summary>
     [SerializeField] private UIAchievementPopup popupUI;
 
     /// <summary>글로벌 싱글톤 인스턴스</summary>
@@ -48,71 +56,104 @@ public class AchievementManager : MonoBehaviour
 
     #endregion
 
-    #region Public Methods
+    #region Achievement Check
 
     /// <summary>
-    /// 특정 조건 타입과 값에 따라 도전과제 달성 여부를 평가합니다.
+    /// 도전과제 클리어 여부 전수 검사
     /// </summary>
-    /// <param name="type">조건 타입</param>
-    /// <param name="value">현재 값</param>
-    public void CheckCondition(AchievementConditionType type, float value)
+    public void CheckAllAchievements()
     {
-
         foreach (var achievement in allAchievements)
         {
-            if (achievement == null) continue;
+            if (IsUnlocked(achievement.id)) continue;
 
-            if (achievement.conditionType == type &&
-                value >= achievement.requiredValue &&
-                !unlockedAchievements.Contains(achievement.id))
+            if (IsConditionMet(achievement))
             {
-                Unlock(achievement);
+                UnlockAchievement(achievement);
             }
         }
     }
 
     /// <summary>
-    /// 달성한 도전과제를 반환합니다.
+    /// 도전과제 하나의 모든 조건이 충족되었는지 검사
     /// </summary>
-    /// <returns>달성된 도전과제 리스트</returns>
-    public List<AchievementSO> GetUnlockedList()
+    /// <param name="data">도전과제 SO</param>
+    /// <returns>모든 조건 충족 여부</returns>
+    private bool IsConditionMet(AchievementSO data)
     {
-        List<AchievementSO> list = new List<AchievementSO>();
-
-        foreach (var achievement in allAchievements)
+        foreach (var condition in data.conditions)
         {
-            if (achievement == null) continue;
-            if (unlockedAchievements.Contains(achievement.id))
+            float value = GetStatValue(condition.conditionType);
+
+            switch (condition.comparison)
             {
-                list.Add(achievement);
+                case ConditionOperator.Equal:
+                    if (value != condition.targetValue) return false;
+                    break;
+
+                case ConditionOperator.Greater:
+                    if (value <= condition.targetValue) return false;
+                    break;
+
+                case ConditionOperator.GreaterOrEqual:
+                    if (value < condition.targetValue) return false;
+                    break;
+
+                case ConditionOperator.Less:
+                    if (value >= condition.targetValue) return false;
+                    break;
+
+                case ConditionOperator.LessOrEqual:
+                    if (value > condition.targetValue) return false;
+                    break;
             }
         }
 
-        return list;
+        return true; // 모든 조건 통과 시 클리어
     }
 
-    #endregion
-
-    #region Private Methods
-
     /// <summary>
-    /// 도전과제를 해금하고 UI 팝업을 출력합니다.
+    /// 도전과제를 달성 처리 (UI 연동 포함 예정)
     /// </summary>
-    /// <param name="data">달성된 도전과제 데이터</param>
-    private void Unlock(AchievementSO data)
+    /// <param name="data">달성된 도전과제</param>
+    private void UnlockAchievement(AchievementSO data)
     {
         unlockedAchievements.Add(data.id);
-        Debug.Log($"[도전과제 달성] {data.title}");
-
-        popupUI?.ShowPopup(data); // 팝업 출력
+        Debug.Log($"[도전과제] '{data.title}' 달성됨!");
+        popupUI?.ShowPopup(data);
+        uiView?.ShowList(allAchievements); // 필요 시 UI 갱신
     }
 
     /// <summary>
-    /// 해당 도전과제가 달성되었는지 확인합니다.
+    /// 특정 도전과제 ID가 달성되었는지 확인
     /// </summary>
     public bool IsUnlocked(string id)
     {
         return unlockedAchievements.Contains(id);
+    }
+
+    #endregion
+
+    #region Helper
+
+    /// <summary>
+    /// 조건 유형에 따라 현재 수치를 반환 (PlayerStatTracker 참조)
+    /// </summary>
+    private float GetStatValue(AchievementConditionType type)
+    {
+        return type switch
+        {
+            AchievementConditionType.KillCount => tracker.killCount,
+            AchievementConditionType.HeadshotRatio => tracker.HeadshotRatio,
+            AchievementConditionType.DistanceShot => tracker.longestShotDistance,
+            AchievementConditionType.ConsecutiveHits => tracker.consecutiveHitCount,
+            AchievementConditionType.NoMissRun => tracker.noMissCount,
+            AchievementConditionType.ClearTime => tracker.clearTimeSeconds,
+            AchievementConditionType.ComboCount => tracker.comboCount,
+            AchievementConditionType.StageClear => tracker.stageClearCount,
+            AchievementConditionType.WeaponSpecificKill => tracker.weaponSpecificKillCount,
+            _ => 0f
+        };
     }
 
     #endregion

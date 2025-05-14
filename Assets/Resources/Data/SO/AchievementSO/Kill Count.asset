@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Kill Count
   m_EditorClassIdentifier: Assembly-CSharp::AchievementSO
   id: 1
-  title: asdf
-  description: dfasdfasd
-  type: 0
-  conditionType: 2
-  requiredValue: 15
+  title: "\uC5F0\uC2B5\uB9CC\uC774 \uC0B4\uAE38"
+  description: "\uB204\uC801 10\uBC88 \uD45C\uC801\uC744 \uBA85\uC911\uC2DC\uD0A4\uC138\uC694"
+  conditions:
+  - conditionType: 0
+    comparison: 2
+    targetValue: 10

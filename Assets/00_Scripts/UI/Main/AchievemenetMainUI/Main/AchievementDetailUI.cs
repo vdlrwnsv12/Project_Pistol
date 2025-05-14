@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +26,11 @@ public class AchievementDetailUI : MonoBehaviour
     {
         titleText.text = data.title;
         descriptionText.text = data.description;
-        categoryText.text = $"유형: {data.conditionType.ToKorean()}";
+        if (data.conditions != null && data.conditions.Count > 0)
+        {
+            var types = data.conditions.Select(c => c.conditionType.ToKorean());
+            categoryText.text = "유형: " + string.Join(", ", types);
+        }
 
         bool isUnlocked = AchievementManager.Instance.IsUnlocked(data.id);
         statusText.text = isUnlocked ? "달성됨" : "미달성";

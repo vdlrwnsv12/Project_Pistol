@@ -69,29 +69,39 @@ public class PlayerStatTracker : MonoBehaviour
             lastUsedWeaponName = weaponName;
             weaponSpecificKillCount++;
         }
+
+        AchievementManager.Instance.CheckAllAchievements();
     }
 
     public void RegisterCombo(int combo)
     {
         comboCount = Mathf.Max(comboCount, combo);
+
+        AchievementManager.Instance.CheckAllAchievements();
     }
 
     public void RegisterClear(float time)
     {
         stageClearCount++;
         clearTimeSeconds = time;
+
+        AchievementManager.Instance.CheckAllAchievements();
     }
 
     public void RegisterMiss()
     {
         noMissCount = 0;
         consecutiveHitCount = 0;
+
+        AchievementManager.Instance.CheckAllAchievements();
     }
 
     public void RegisterHit()
     {
         consecutiveHitCount++;
         noMissCount++;
+
+        AchievementManager.Instance.CheckAllAchievements();
     }
 
     #endregion

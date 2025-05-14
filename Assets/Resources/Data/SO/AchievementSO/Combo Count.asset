@@ -15,5 +15,7 @@ MonoBehaviour:
   id: 2
   title: "\uB9AC\uB4EC\uC2A4\uD0C0!"
   description: "\uCF64\uBCF4\uB97C 10\uCF64\uBCF4 \uC774\uC0C1\uC73C\uB85C \uC62C\uB9AC\uC138\uC694"
-  conditionType: 1
-  requiredValue: 10
+  conditions:
+  - conditionType: 6
+    comparison: 2
+    targetValue: 10

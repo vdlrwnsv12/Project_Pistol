@@ -6,13 +6,20 @@ using UnityEngine.SocialPlatforms.Impl;
 public class AchievementSO : ScriptableObject
 {
     [Header("기본 정보")]
-    public string id;
-    public string title;
-    [TextArea] public string description;
 
-    [Header("조건")]
-    public AchievementConditionType conditionType;  // 어떤 조건에 해당하는지
-    public float requiredValue;                     // 달성 조건 수치
+    /// <summary> 도전과제 ID (고유값) </summary>
+    public string id;
+
+    /// <summary> 도전과제 이름 </summary>
+    public string title;
+
+    /// <summary> 도전과제 설명 </summary>
+    public string description;
+
+    [Header("조건 목록")]
+
+    /// <summary> 클리어 조건 목록 (모두 충족 시 달성) </summary>
+    public List<AchievementCondition> conditions = new();
 }
 
 public enum AchievementType

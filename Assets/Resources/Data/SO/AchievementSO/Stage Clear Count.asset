@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Stage Clear Count
   m_EditorClassIdentifier: Assembly-CSharp::AchievementSO
   id: 3
-  title: asdf
-  description: asdf
-  conditionType: 0
-  requiredValue: 1
+  title: "\uC544\uC2AC\uC544\uC2AC\uD55C \uD0C0\uC774\uBC0D"
+  description: "60\uCD08\uB0B4\uB85C \uC2A4\uD14C\uC774\uC9C0\uB97C \uD074\uB9AC\uC5B4\uD558\uC138\uC694"
+  conditions:
+  - conditionType: 5
+    comparison: 2
+    targetValue: 60

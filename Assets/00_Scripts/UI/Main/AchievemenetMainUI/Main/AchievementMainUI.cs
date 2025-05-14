@@ -148,7 +148,7 @@ public class AchievementMainUI : MonoBehaviour
         rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, -50f);
 
         detailCanvasGroup.DOFade(1f, 0.3f);
-        rect.DOAnchorPosY(-650f, 0.3f).SetEase(Ease.OutCubic);
+        rect.DOAnchorPosY(-550f, 0.3f).SetEase(Ease.OutCubic);
     }
 
     /// <summary>

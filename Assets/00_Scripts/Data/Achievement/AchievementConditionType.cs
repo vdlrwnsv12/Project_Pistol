@@ -4,32 +4,66 @@ using UnityEngine;
 
 public enum AchievementConditionType
 {
-    /// <summary> 누적 킬 수 </summary>
+    [InspectorName("누적 킬 수")]
     KillCount,
 
-    /// <summary> 헤드샷 명중률 (퍼센트) </summary>
+    [InspectorName("헤드샷 명중률 (%)")]
     HeadshotRatio,
 
-    /// <summary> 특정 거리 이상에서 명중 </summary>
+    [InspectorName("특정거리 이상에서 명중")]
     DistanceShot,
 
-    /// <summary> 연속 명중 횟수 </summary>
+    [InspectorName("연속 명중 횟수")]
     ConsecutiveHits,
 
-    /// <summary> 한 번도 빗나가지 않고 클리어 </summary>
+    [InspectorName("한번도 명중하지않고 클리어")]
     NoMissRun,
 
-    /// <summary> 제한 시간 내 클리어 </summary>
+    [InspectorName("제한 시간내에 클리어")]
     ClearTime,
 
-    /// <summary> 연속 콤보 수 </summary>
+    [InspectorName("연속 콤보 수")]
     ComboCount,
 
-    /// <summary> 특정 스테이지 클리어 </summary>
+    [InspectorName("특정 스테이지 클리어")]
     StageClear,
 
-    /// <summary> 특정 무기로 킬 </summary>
+    [InspectorName("특정 무기로 킬")]
     WeaponSpecificKill
+}
+
+/// <summary>
+/// 수치형 조건 비교 방식
+/// </summary>
+public enum ConditionOperator
+{
+    [InspectorName("같다 (==)")]
+    Equal,
+
+    [InspectorName("초과 (>)")]
+    Greater,
+
+    [InspectorName("이상 (>=)")]
+    GreaterOrEqual,
+
+    [InspectorName("미만 (<)")]
+    Less,
+
+    [InspectorName("이하 (<=)")]
+    LessOrEqual
+}
+
+[System.Serializable]
+public class AchievementCondition
+{
+    /// <summary> 체크할 조건의 타입 (예: 킬 수, 명중률 등) </summary>
+    public AchievementConditionType conditionType;
+
+    /// <summary> 비교 연산자 (초과/미만/이상/이하 등) </summary>
+    public ConditionOperator comparison;
+
+    /// <summary> 목표 수치 값 </summary>
+    public float targetValue;
 }
 
 public static class AchievementConditionTypeExtensions
