@@ -25,7 +25,7 @@ public class AchievementDetailUI : MonoBehaviour
     {
         titleText.text = data.title;
         descriptionText.text = data.description;
-        categoryText.text = $"유형: {data.conditionType}";
+        categoryText.text = $"유형: {data.conditionType.ToKorean()}";
 
         bool isUnlocked = AchievementManager.Instance.IsUnlocked(data.id);
         statusText.text = isUnlocked ? "달성됨" : "미달성";

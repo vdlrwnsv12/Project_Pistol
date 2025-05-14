@@ -1,129 +1,97 @@
 using UnityEngine;
 
 /// <summary>
-/// 플레이어의 행동을 추적하여 도전과제 조건을 전달하는 클래스
+/// 플레이어의 통계를 실시간으로 추적하는 클래스
+/// 도전과제 조건에 대응되는 값을 기록한다
 /// </summary>
 public class PlayerStatTracker : MonoBehaviour
 {
-    #region Fields
+    #region Stat Fields
 
-    private int comboCount;
-    private int killCount;
-    private int itemCollected;
-    private int headshotCount;
-    private int totalShots;
-    private float survivalTime;
-    private bool isNoMissRun = true;
+    public int killCount;                 // 누적 킬 수
+    public int headshotCount;            // 누적 헤드샷 수
+    public int totalShotCount;           // 전체 발사 수
+
+    public int longRangeHitCount;        // 특정 거리 이상 명중 수
+    public float longestShotDistance;    // 가장 긴 거리 명중 기록
+
+    public int consecutiveHitCount;      // 연속 명중 수
+    public int noMissCount;              // 미스 없이 연속 히트 수
+    public float clearTimeSeconds;       // 현재 스테이지 클리어 시간
+
+    public int comboCount;               // 연속 콤보 수
+    public int stageClearCount;          // 스테이지 클리어 횟수
+
+    public int weaponSpecificKillCount;  // 특정 무기로 킬한 횟수
+    public string lastUsedWeaponName;    // 마지막 사용 무기 이름
 
     #endregion
 
-    #region Unity Methods
+    #region Derived Stats
 
-    private void Update()
+    /// <summary>
+    /// 헤드샷 명중률 (%) 계산
+    /// </summary>
+    public float HeadshotRatio
     {
-        survivalTime += Time.deltaTime;
+        get
+        {
+            if (killCount == 0) return 0f;
+            return (float)headshotCount / killCount * 100f;
+        }
     }
 
     #endregion
 
-    #region Public Methods
+    #region Tracking Methods
 
-    /// <summary>
-    /// 콤보 수가 변경되었을 때 호출합니다.
-    /// </summary>
-    /// <param name="combo">현재 콤보 수</param>
-    public void OnComboChanged(int combo)
-    {
-        comboCount = combo;
-        AchievementManager.Instance?.CheckCondition(AchievementConditionType.ComboCount, combo);
-    }
-
-    /// <summary>
-    /// 적을 처치했을 때 호출합니다.
-    /// </summary>
-    public void OnEnemyKilled()
+    public void RegisterKill(bool isHeadshot, float distance, string weaponName)
     {
         killCount++;
-        AchievementManager.Instance?.CheckCondition(AchievementConditionType.KillCount, killCount);
-    }
 
-    /// <summary>
-    /// 아이템을 획득했을 때 호출합니다.
-    /// </summary>
-    public void OnItemCollected()
-    {
-        itemCollected++;
-        AchievementManager.Instance?.CheckCondition(AchievementConditionType.ItemCollected, itemCollected);
-    }
-
-    /// <summary>
-    /// 헤드샷을 성공했을 때 호출합니다.
-    /// </summary>
-    public void OnHeadshot()
-    {
-        headshotCount++;
-        totalShots++;
-        float ratio = (float)headshotCount / totalShots;
-        AchievementManager.Instance?.CheckCondition(AchievementConditionType.HeadshotRatio, ratio);
-    }
-
-    /// <summary>
-    /// 총을 발사했을 때 호출합니다.
-    /// </summary>
-    public void OnShotFired()
-    {
-        totalShots++;
-    }
-
-    /// <summary>
-    /// 피격되었을 때 호출합니다.
-    /// </summary>
-    public void OnMiss()
-    {
-        isNoMissRun = false;
-    }
-
-    /// <summary>
-    /// 스테이지가 클리어되었을 때 호출합니다.
-    /// </summary>
-    public void OnStageClear()
-    {
-        AchievementManager.Instance?.CheckCondition(AchievementConditionType.StageClear, 1);
-    }
-
-    /// <summary>
-    /// 레벨이 종료될 때 조건을 최종 평가합니다.
-    /// </summary>
-    public void OnLevelEnd()
-    {
-        AchievementManager.Instance?.CheckCondition(AchievementConditionType.StageClear, 1);
-
-        if (isNoMissRun)
+        if (isHeadshot)
         {
-            AchievementManager.Instance?.CheckCondition(AchievementConditionType.NoMissRun, 1);
+            headshotCount++;
         }
 
-        AchievementManager.Instance?.CheckCondition(AchievementConditionType.TimeSurvived, survivalTime);
+        if (distance >= 500f)
+        {
+            longRangeHitCount++;
+        }
 
-        ResetStats();
+        if (distance > longestShotDistance)
+        {
+            longestShotDistance = distance;
+        }
+
+        if (!string.IsNullOrEmpty(weaponName))
+        {
+            lastUsedWeaponName = weaponName;
+            weaponSpecificKillCount++;
+        }
     }
 
-    #endregion
-
-    #region Private Methods
-
-    /// <summary>
-    /// 다음 레벨을 위해 내부 통계값을 초기화합니다.
-    /// </summary>
-    private void ResetStats()
+    public void RegisterCombo(int combo)
     {
-        comboCount = 0;
-        killCount = 0;
-        itemCollected = 0;
-        headshotCount = 0;
-        totalShots = 0;
-        survivalTime = 0f;
-        isNoMissRun = true;
+        comboCount = Mathf.Max(comboCount, combo);
+    }
+
+    public void RegisterClear(float time)
+    {
+        stageClearCount++;
+        clearTimeSeconds = time;
+    }
+
+    public void RegisterMiss()
+    {
+        noMissCount = 0;
+        consecutiveHitCount = 0;
+    }
+
+    public void RegisterHit()
+    {
+        consecutiveHitCount++;
+        noMissCount++;
     }
 
     #endregion

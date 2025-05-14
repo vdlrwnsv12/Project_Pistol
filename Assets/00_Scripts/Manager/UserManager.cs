@@ -111,9 +111,9 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
 
     #region Achievement Enums
 
-    /// <summary>
-    /// 도전과제 조건 종류 (조건 비교를 위한 타입)
-    /// </summary>
+    // <summary>
+    // 도전과제 조건 종류(조건 비교를 위한 타입)
+    // </summary>
     //public enum AchievementConditionType
     //{
     //    /// <summary> 누적 킬 수 </summary>
