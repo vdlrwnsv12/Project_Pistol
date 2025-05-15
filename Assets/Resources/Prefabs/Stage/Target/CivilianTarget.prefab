@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 23310923052238886}
   - component: {fileID: 4028743089435949798}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: Blip
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -1193,6 +1193,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7137489097905080627, guid: 5d012c2f2841b42c29c87cab65d5edeb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8362646410585536895, guid: 5d012c2f2841b42c29c87cab65d5edeb,
         type: 3}

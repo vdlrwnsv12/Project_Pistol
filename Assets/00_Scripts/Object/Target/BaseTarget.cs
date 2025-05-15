@@ -26,16 +26,16 @@ public abstract class BaseTarget : MonoBehaviour
             anim = GetComponent<Animator>() ?? GetComponentInChildren<Animator>();
         }
     }
-    
-    #if UNITY_EDITOR
-    void Update()//테스트
+
+#if UNITY_EDITOR
+    void Update()//테스트 삭제해야함
     {
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             InitData(data);
         }
     }
-    #endif
+#endif
 
     // private void Update()
     // {
@@ -65,17 +65,19 @@ public abstract class BaseTarget : MonoBehaviour
         {
             anim.SetBool("Die", true);
         }
-        
+
         blip.SetActive(false);
         targetUI.SetActive(false);
-        // Destroy(gameObject, 2f); 삭제를 상속한 클래스에서
         SoundManager.Instance.PlaySFXForClip(downSound, gameObject.transform.position);
+        Invoke(nameof(DeactivateTarget), 2f);
+
     }
 
     public virtual void InitData(TargetSO data)
     {
-        this.data = data;
+        AtivateAll();
 
+        this.data = data;
         currentHp = data.Hp;
         lvText.text = $"{data.Level}";
 
@@ -83,11 +85,23 @@ public abstract class BaseTarget : MonoBehaviour
         {
             hpBar.fillAmount = 1f;
         }
-        if(anim != null)
+    }
+
+    private void DeactivateTarget()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void AtivateAll()
+    {
+        gameObject.SetActive(true);
+
+        if (anim != null)
         {
             anim.SetBool("Die", false);
-            blip.SetActive(true);
         }
+
+        blip.SetActive(true);
         targetUI.SetActive(true);
     }
 }
