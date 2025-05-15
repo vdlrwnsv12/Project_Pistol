@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 6884826887478500199}
   m_Layer: 0
   m_Name: AirialTarget
-  m_TagString: Player
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -263,6 +263,7 @@ MonoBehaviour:
   blip: {fileID: 8004180020634410642}
   lvText: {fileID: 2898976271880624158}
   targetObj: {fileID: 1837896898941954892}
+  targetPoint: {fileID: 0}
 --- !u!1 &1069767701024362148
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +275,7 @@ GameObject:
   - component: {fileID: 4734957731753896757}
   m_Layer: 0
   m_Name: Group13
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,7 +307,7 @@ GameObject:
   - component: {fileID: 1803189302034625565}
   m_Layer: 0
   m_Name: Group2
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -422,7 +423,7 @@ GameObject:
   - component: {fileID: 8947021620871892005}
   m_Layer: 0
   m_Name: Group25
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -620,7 +621,7 @@ GameObject:
   - component: {fileID: 7103812092822649271}
   m_Layer: 0
   m_Name: Group23
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -735,7 +736,7 @@ GameObject:
   - component: {fileID: 2612460215917148494}
   m_Layer: 0
   m_Name: Group15
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -767,7 +768,7 @@ GameObject:
   - component: {fileID: 8315486275163695238}
   m_Layer: 0
   m_Name: Group18
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -801,7 +802,7 @@ GameObject:
   - component: {fileID: 1835780619340609701}
   m_Layer: 7
   m_Name: Image
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -874,7 +875,7 @@ GameObject:
   - component: {fileID: 688962994453386866}
   m_Layer: 0
   m_Name: Group22
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -906,7 +907,7 @@ GameObject:
   - component: {fileID: 6511578254028093771}
   m_Layer: 0
   m_Name: Group14
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1022,7 +1023,7 @@ GameObject:
   - component: {fileID: 6585570968122459421}
   m_Layer: 0
   m_Name: Group3
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1091,7 +1092,7 @@ GameObject:
   - component: {fileID: 8562856353638625314}
   m_Layer: 0
   m_Name: helixO1
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1457,7 +1458,7 @@ GameObject:
   - component: {fileID: 2898976271880624158}
   m_Layer: 7
   m_Name: Text (Legacy)
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1534,7 +1535,7 @@ GameObject:
   - component: {fileID: 3965059393348265598}
   m_Layer: 0
   m_Name: Group12
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1651,7 +1652,7 @@ GameObject:
   - component: {fileID: 2472956917333494226}
   m_Layer: 7
   m_Name: RawImage
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1722,7 +1723,7 @@ GameObject:
   - component: {fileID: 6087843431075508160}
   m_Layer: 0
   m_Name: waypointTarget
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2237,7 +2238,7 @@ GameObject:
   - component: {fileID: 3044923180058234762}
   m_Layer: 0
   m_Name: helixO2
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2402,7 +2403,7 @@ GameObject:
   - component: {fileID: 5221384010373963218}
   m_Layer: 0
   m_Name: Group1
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2466,7 +2467,7 @@ GameObject:
   - component: {fileID: 9222971547551810961}
   m_Layer: 0
   m_Name: Group16
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2581,7 +2582,7 @@ GameObject:
   - component: {fileID: 4143074726721363112}
   m_Layer: 0
   m_Name: Group26
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2648,7 +2649,7 @@ GameObject:
   - component: {fileID: 7367412400443371708}
   m_Layer: 7
   m_Name: TargetUI
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2785,7 +2786,7 @@ GameObject:
   - component: {fileID: 6468069020450782817}
   m_Layer: 0
   m_Name: helixV1
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3062,7 +3063,7 @@ GameObject:
   - component: {fileID: 7668009943480269161}
   m_Layer: 0
   m_Name: Group21
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3095,7 +3096,7 @@ GameObject:
   - component: {fileID: 8422127513354792345}
   m_Layer: 12
   m_Name: Blip
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3147,7 +3148,7 @@ GameObject:
   - component: {fileID: 8926057642531870683}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3281,7 +3282,7 @@ GameObject:
   - component: {fileID: 4360461170580717342}
   m_Layer: 0
   m_Name: Group20
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3316,7 +3317,7 @@ GameObject:
   - component: {fileID: 6958890807672084473}
   m_Layer: 0
   m_Name: helixV2
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3510,7 +3511,7 @@ GameObject:
   - component: {fileID: 3681498434917538005}
   m_Layer: 0
   m_Name: TargetPoint
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3541,38 +3542,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1041669052685310878, guid: b2aaf21060ac4492d98e6293f392ec88,
         type: 3}
-      propertyPath: m_Layer
-      value: 7
+      propertyPath: m_TagString
+      value: Target
       objectReference: {fileID: 0}
     - target: {fileID: 5008148582269494728, guid: b2aaf21060ac4492d98e6293f392ec88,
         type: 3}
       propertyPath: m_Name
       value: AirialTarget
-      objectReference: {fileID: 0}
-    - target: {fileID: 5008148582269494728, guid: b2aaf21060ac4492d98e6293f392ec88,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5008148582269494728, guid: b2aaf21060ac4492d98e6293f392ec88,
-        type: 3}
-      propertyPath: m_TagString
-      value: Target
-      objectReference: {fileID: 0}
-    - target: {fileID: 5677724343824351090, guid: b2aaf21060ac4492d98e6293f392ec88,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5677724343824351090, guid: b2aaf21060ac4492d98e6293f392ec88,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5677724343824351090, guid: b2aaf21060ac4492d98e6293f392ec88,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5677724343824351090, guid: b2aaf21060ac4492d98e6293f392ec88,
         type: 3}
@@ -3626,21 +3602,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6805558165485837709, guid: b2aaf21060ac4492d98e6293f392ec88,
         type: 3}
-      propertyPath: m_Layer
-      value: 7
+      propertyPath: m_TagString
+      value: Target
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5008148582269494728, guid: b2aaf21060ac4492d98e6293f392ec88,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1555223657469600358}
-    - targetCorrespondingSourceObject: {fileID: 5008148582269494728, guid: b2aaf21060ac4492d98e6293f392ec88,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5152689042632917632}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2aaf21060ac4492d98e6293f392ec88, type: 3}
 --- !u!4 &1353988995885462006 stripped
 Transform:
@@ -3654,51 +3622,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6629582205762309764}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1555223657469600358
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837896898941954892}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.3752734, y: 0.3752736, z: 0.0050001144}
-  m_Center: {x: 0.000000029802322, y: 0.1876368, z: 0}
---- !u!54 &5152689042632917632
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837896898941954892}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 998975709813359019}
   - component: {fileID: 522721077092478449}
   - component: {fileID: 3572561224588255233}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TgtTargetStandB1ArmA2_COL
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,9 +109,9 @@ GameObject:
   - component: {fileID: 7961428979969884624}
   - component: {fileID: 5482118484348419959}
   - component: {fileID: 5128690599208081497}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TgtTargetStandB1
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 4700849337472269710}
   m_Layer: 7
   m_Name: RawImage
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 3713450022311274948}
   m_Layer: 7
   m_Name: Text (Legacy)
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -367,9 +367,9 @@ GameObject:
   - component: {fileID: 5356355506032684874}
   - component: {fileID: 2441759654651953714}
   - component: {fileID: 7790569519889283077}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TgtTargetStandB1ArmA2
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 6291603684348015252}
   - component: {fileID: 1129826914326528254}
   - component: {fileID: 8916943604485802887}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Joint
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 5677285733662849962}
   m_Layer: 7
   m_Name: TargetUI
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -643,7 +643,7 @@ GameObject:
   - component: {fileID: 206253372897068664}
   m_Layer: 7
   m_Name: Image
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -716,9 +716,9 @@ GameObject:
   - component: {fileID: 946050400877694393}
   - component: {fileID: 8932634209502766476}
   - component: {fileID: 4742681953754959}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TgtTargetStandB1ArmA1_COL
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -790,9 +790,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8596967606950201010}
   - component: {fileID: 1745191738499208728}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TgtTargetFigureA01_COLB
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -844,9 +844,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7453448419795239603}
   - component: {fileID: 988117707792608709}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Blip
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -898,9 +898,9 @@ GameObject:
   - component: {fileID: 461426982013588288}
   - component: {fileID: 9020932473046922166}
   - component: {fileID: 3634377950799108899}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TgtTargetFigureA01Metal
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1037,7 +1037,7 @@ GameObject:
   - component: {fileID: 5801733894997343284}
   - component: {fileID: 2655634883758537282}
   - component: {fileID: 6416227047832156017}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LandTarget
   m_TagString: Target
   m_Icon: {fileID: 0}

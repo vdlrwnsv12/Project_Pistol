@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 6247470399102397010}
   m_Layer: 0
   m_Name: ExitGate
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -428,6 +428,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1113529974424820254, guid: 38a6ccd5ae7c44e649294e295875922c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Metal
       objectReference: {fileID: 0}
     - target: {fileID: 4773161797921225264, guid: 38a6ccd5ae7c44e649294e295875922c,
         type: 3}

@@ -7,6 +7,10 @@ TagManager:
   - Target
   - Gun
   - Props
+  - Sand
+  - Wood
+  - Wall
+  - Metal
   layers:
   - Default
   - TransparentFX

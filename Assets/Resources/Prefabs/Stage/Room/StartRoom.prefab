@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6918015961480723183}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 4340376762102097538}
   m_Layer: 0
   m_Name: TgtTargetA01_COLA
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 5236108646890242972}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 1680358324923819530}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 5096156130556311075}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 4340150449796523650}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: 7064482431578984388}
   m_Layer: 0
   m_Name: TgtTargetFigureB03Metal
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -725,7 +725,7 @@ GameObject:
   - component: {fileID: 6946119365567751323}
   m_Layer: 0
   m_Name: TgtTargetA01_COLB
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 3810729447565055763}
   m_Layer: 0
   m_Name: TgtTargetFigureB03Metal
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -990,7 +990,7 @@ GameObject:
   - component: {fileID: 5657783583719287371}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -1072,7 +1072,7 @@ GameObject:
   - component: {fileID: 7297754808391247678}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1128,7 +1128,7 @@ GameObject:
   - component: {fileID: 3032708395658259174}
   m_Layer: 0
   m_Name: PrpHescoA1 (1)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -1232,7 +1232,7 @@ GameObject:
   - component: {fileID: 8197866476132484014}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -1348,7 +1348,7 @@ GameObject:
   - component: {fileID: 3866839543946783303}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -1431,7 +1431,7 @@ GameObject:
   - component: {fileID: 1521305807782381249}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -1514,7 +1514,7 @@ GameObject:
   - component: {fileID: 476918621590639546}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -1598,7 +1598,7 @@ GameObject:
   - component: {fileID: 1457506432703586258}
   m_Layer: 0
   m_Name: TgtTargetFigureB03Metal
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -1735,7 +1735,7 @@ GameObject:
   - component: {fileID: 7429211721437542881}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -1935,7 +1935,7 @@ GameObject:
   - component: {fileID: 7463438185145624548}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -2019,7 +2019,7 @@ GameObject:
   - component: {fileID: 8590709327556583190}
   m_Layer: 0
   m_Name: PrpHescoA1 (3)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -2123,7 +2123,7 @@ GameObject:
   - component: {fileID: 8160167644481733521}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -2206,7 +2206,7 @@ GameObject:
   - component: {fileID: 2461424942566062505}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -2287,9 +2287,10 @@ GameObject:
   - component: {fileID: 4574283612893634508}
   - component: {fileID: 6987046785867960850}
   - component: {fileID: 277224844742253839}
+  - component: {fileID: 8545124181998720551}
   m_Layer: 0
   m_Name: PrpFireExtFastA01
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 84
@@ -2359,6 +2360,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8545124181998720551
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220780528013438963}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -659613886565211991, guid: fce066e8700cfda46bee9efdf1e9d07a, type: 3}
 --- !u!1 &3271159699494577349
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,7 +2394,7 @@ GameObject:
   - component: {fileID: 6045332695460283451}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2426,7 +2449,7 @@ GameObject:
   - component: {fileID: 4943090198673220409}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -2508,7 +2531,7 @@ GameObject:
   - component: {fileID: 5565259050885906640}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (2)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -2605,7 +2628,7 @@ GameObject:
   - component: {fileID: 5343840534534143741}
   m_Layer: 0
   m_Name: TgtTargetA01_COLB
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -2659,7 +2682,7 @@ GameObject:
   - component: {fileID: 7587900339656610712}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (1)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -2725,7 +2748,7 @@ GameObject:
   - component: {fileID: 2836598701574108083}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (3)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -2791,7 +2814,7 @@ GameObject:
   - component: {fileID: 7516577115639556967}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -2940,7 +2963,7 @@ GameObject:
   - component: {fileID: 5892525055564499994}
   m_Layer: 0
   m_Name: TgtTargetA01_COLB
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -3106,7 +3129,7 @@ GameObject:
   - component: {fileID: 1717273348473366370}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -3189,7 +3212,7 @@ GameObject:
   - component: {fileID: 1283098548493095114}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -3272,7 +3295,7 @@ GameObject:
   - component: {fileID: 5961268277113136097}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -3355,7 +3378,7 @@ GameObject:
   - component: {fileID: 7559349181049171671}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -3438,7 +3461,7 @@ GameObject:
   - component: {fileID: 2037046326281096629}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -3522,7 +3545,7 @@ GameObject:
   - component: {fileID: 7160438470528724063}
   m_Layer: 0
   m_Name: PrpHescoA1 (5)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -3626,7 +3649,7 @@ GameObject:
   - component: {fileID: 4559087174913662583}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -3708,7 +3731,7 @@ GameObject:
   - component: {fileID: 1588339930794944449}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3796,7 +3819,7 @@ GameObject:
   - component: {fileID: 434910497057308870}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -3879,7 +3902,7 @@ GameObject:
   - component: {fileID: 1441150064170450180}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -3961,7 +3984,7 @@ GameObject:
   - component: {fileID: 1352535658921123029}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4015,7 +4038,7 @@ GameObject:
   - component: {fileID: 6610999411922709417}
   m_Layer: 0
   m_Name: TgtTargetA01_COLA
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -4069,7 +4092,7 @@ GameObject:
   - component: {fileID: 7243381078515930999}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4123,7 +4146,7 @@ GameObject:
   - component: {fileID: 4036697152082004687}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4177,7 +4200,7 @@ GameObject:
   - component: {fileID: 2298405533059981417}
   m_Layer: 0
   m_Name: TgtTargetA01_COLA
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -4350,7 +4373,7 @@ GameObject:
   - component: {fileID: 6077385788131135663}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -4433,7 +4456,7 @@ GameObject:
   - component: {fileID: 3360253145854019603}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -4515,7 +4538,7 @@ GameObject:
   - component: {fileID: 5371826830920219438}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (1)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -4687,7 +4710,7 @@ GameObject:
   - component: {fileID: 1250488926594391486}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -4769,7 +4792,7 @@ GameObject:
   - component: {fileID: 6068423114133726554}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (5)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -4918,7 +4941,7 @@ GameObject:
   - component: {fileID: 533336658625371568}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -4985,7 +5008,7 @@ GameObject:
   - component: {fileID: 4213531846661649082}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD2
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -5067,7 +5090,7 @@ GameObject:
   - component: {fileID: 5466177716432722141}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (3)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -5133,7 +5156,7 @@ GameObject:
   - component: {fileID: 3759049898114284507}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (4)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -5200,7 +5223,7 @@ GameObject:
   - component: {fileID: 12583423221700302}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -5283,7 +5306,7 @@ GameObject:
   - component: {fileID: 738716337293776866}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -5367,7 +5390,7 @@ GameObject:
   - component: {fileID: 2628530756263150278}
   m_Layer: 0
   m_Name: PrpHescoA1 (6)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -5555,7 +5578,7 @@ GameObject:
   - component: {fileID: 6061979899559593206}
   m_Layer: 0
   m_Name: CrCrateA1A1
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 92
@@ -5807,7 +5830,7 @@ GameObject:
   - component: {fileID: 1911278690331474150}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6218,7 +6241,7 @@ GameObject:
   - component: {fileID: 3762291133822274414}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -6302,7 +6325,7 @@ GameObject:
   - component: {fileID: 4914458323318760119}
   m_Layer: 0
   m_Name: PrpHescoA1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -6445,7 +6468,7 @@ GameObject:
   - component: {fileID: 510114340784657896}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -6528,7 +6551,7 @@ GameObject:
   - component: {fileID: 1632239573530284160}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -6610,7 +6633,7 @@ GameObject:
   - component: {fileID: 9167448495008951343}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6663,9 +6686,10 @@ GameObject:
   - component: {fileID: 4364534347842436658}
   - component: {fileID: 3344832227759973771}
   - component: {fileID: 3696745367584866342}
+  - component: {fileID: 8594294617063222100}
   m_Layer: 0
   m_Name: PrpFireExtA01
-  m_TagString: Untagged
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 84
@@ -6735,6 +6759,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8594294617063222100
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7842711706769846161}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5411798265298279430, guid: b8320a0d3d91bd8409366415e39af21a, type: 3}
 --- !u!1 &7920534061382947217
 GameObject:
   m_ObjectHideFlags: 0
@@ -6748,7 +6794,7 @@ GameObject:
   - component: {fileID: 7222514643184864514}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD1
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -6863,7 +6909,7 @@ GameObject:
   - component: {fileID: 7792770241684131679}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6918,7 +6964,7 @@ GameObject:
   - component: {fileID: 8096236761657683211}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_LOD0
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 95
@@ -7108,7 +7154,7 @@ GameObject:
   - component: {fileID: 36677830272017697}
   m_Layer: 0
   m_Name: PrpHescoA1 (4)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -7211,7 +7257,7 @@ GameObject:
   - component: {fileID: 6140637352823818158}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1_COL
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7349,7 +7395,7 @@ GameObject:
   - component: {fileID: 3044045233509984939}
   m_Layer: 0
   m_Name: TgtTargetA01_COLB
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -7405,7 +7451,7 @@ GameObject:
   - component: {fileID: 7575650310010590022}
   m_Layer: 0
   m_Name: TgtTargetFigureB03Metal
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -7508,7 +7554,7 @@ GameObject:
   - component: {fileID: 2432261158931485438}
   m_Layer: 0
   m_Name: TgtTargetA01_COLA
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 85
@@ -7649,7 +7695,7 @@ GameObject:
   - component: {fileID: 3359888493621978909}
   m_Layer: 0
   m_Name: PrpHescoA1 (2)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -7785,7 +7831,7 @@ GameObject:
   - component: {fileID: 8339547655545395035}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (4)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93
@@ -7851,7 +7897,7 @@ GameObject:
   - component: {fileID: 2632038223990734173}
   m_Layer: 0
   m_Name: PrpSandBagsWallA1 (2)
-  m_TagString: Untagged
+  m_TagString: Sand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 93

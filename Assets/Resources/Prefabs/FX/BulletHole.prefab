@@ -9507,14 +9507,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletImpactSFX:
-  - {fileID: 8300000, guid: 3d83311267d1743dc921beb9cfb96dc3, type: 3}
-  - {fileID: 8300000, guid: a67ef471c90014eef939716332d1c370, type: 3}
-  - {fileID: 8300000, guid: 5ff5e9aab6f0f450fb3fc1afabbc395b, type: 3}
-  - {fileID: 8300000, guid: 1eb457e0f70794fe6afe1e1bcf3518d7, type: 3}
   - {fileID: 8300000, guid: b31becc938ddf49c3bb4966108518937, type: 3}
   - {fileID: 8300000, guid: fb3d4a28eb86645718418877d96f90bb, type: 3}
+  - {fileID: 8300000, guid: 1eb457e0f70794fe6afe1e1bcf3518d7, type: 3}
+  bulletImpactToMetalSFX:
   - {fileID: 8300000, guid: 8bc8c5a38b3f34ee098f1a034925b5db, type: 3}
-  - {fileID: 8300000, guid: 1de0abd5b6a424520a22db637aadcac9, type: 3}
+  - {fileID: 8300000, guid: 8bc8c5a38b3f34ee098f1a034925b5db, type: 3}
+  bulletImpactToSandSFX:
+  - {fileID: 8300000, guid: 3d83311267d1743dc921beb9cfb96dc3, type: 3}
   pooledAudioPrefab: {fileID: 8831661428241966283, guid: febc3ac6246c7495b83e6f127fc30a08,
     type: 3}
 --- !u!1 &100004
