@@ -8,7 +8,7 @@ public class BulletImpactSound : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayRandomImpactSound();
+        Invoke(nameof(PlayRandomImpactSound), 0.1f);
     }
 
     private void PlayRandomImpactSound()
