@@ -23,25 +23,6 @@ public class ShootingRoom : Room
         exitGate.Door.DoorClosed += ResetRoom;
         exitGate.OnPassingGate += ExitRoom;
         enterGate.OnPassingGate += EnterRoom;
-        
-        //targetList = new List<BaseTarget>();
-        //RespawnTarget();
-    }
-
-    private void OnEnable()
-    {
-        // if (Data != null)
-        // {
-        //     InitTarget();
-        // }
-    }
-
-    private void OnDisable()
-    {
-        // foreach (var target in targetList)
-        // {
-        //     target.gameObject.SetActive(false);
-        // }
     }
 
     protected override void OpenDoor()
