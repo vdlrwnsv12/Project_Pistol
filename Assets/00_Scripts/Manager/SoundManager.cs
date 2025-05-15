@@ -43,7 +43,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
 
         if(sfxAudioSourcePrefab == null)
         {
-            sfxAudioSourcePrefab = Resources.Load<GameObject>("Prefabs/PoolableAudioSource");
+            sfxAudioSourcePrefab = Resources.Load<GameObject>("Prefabs/PoolableAudioSource");//무조건 있어야함
         }
 
         sfxPoolRoot = gameObject.transform;
@@ -68,12 +68,6 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             Debug.LogWarning("배경음악이 할당되지 않았습니다.");
         }
     }
-
-    private void Start()
-    {
-        sfxManager.InitializePool();
-    }
-
     private void OnEnable()
     {
         volumeSettings.ApplyVolumes();

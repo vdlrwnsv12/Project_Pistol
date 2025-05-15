@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3531672284425124448}
   - component: {fileID: 5819328305552574828}
+  - component: {fileID: -5199662752322718140}
   m_Layer: 0
   m_Name: PoolableAudioSource
   m_TagString: Untagged
@@ -53,7 +54,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0.64
-  MaxDistance: 7
+  MaxDistance: 12
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -72,8 +73,8 @@ AudioSource:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.18285714
-      value: 0.5
+      time: 0.1887127
+      value: 0.5260544
       inSlope: -3.804585
       outSlope: -3.804585
       tangentMode: 0
@@ -81,13 +82,13 @@ AudioSource:
       inWeight: 1
       outWeight: 0
     - serializedVersion: 3
-      time: 0.34179613
-      value: 0.15127563
-      inSlope: -0.6838671
-      outSlope: -0.6838671
+      time: 0.39450762
+      value: 0.19470215
+      inSlope: -0.7539934
+      outSlope: -0.7539934
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 1
       outWeight: 0
     - serializedVersion: 3
       time: 0.7218613
@@ -100,12 +101,12 @@ AudioSource:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.020917706
-      inSlope: -0.091465004
-      outSlope: -0.091465004
+      value: 0.015638165
+      inSlope: -0.16117617
+      outSlope: -0.16117617
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 1
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -155,3 +156,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-5199662752322718140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831661428241966283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1bfd32ee78c4eb69a859bb09fda9d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

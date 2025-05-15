@@ -7,11 +7,7 @@ public class SFXManager
     private readonly GameObject sfxPrefab;
     private readonly Transform poolRoot;
     private readonly VolumeSettings volumeSettings;
-
-    private readonly Queue<AudioSource> audioPool = new();
     private readonly Dictionary<string, AudioClip> sfxDict = new();
-
-    private const int poolSize = 10;
 
     public SFXManager(GameObject prefab, Transform root, List<SoundEffectData> sfxList, VolumeSettings volume)
     {
@@ -25,19 +21,6 @@ public class SFXManager
                 sfxDict[sfx.name] = sfx.clip;
         }
     }
-
-    public void InitializePool()
-    {
-        for (int i = 0; i < poolSize; i++)
-        {
-            var go = Object.Instantiate(sfxPrefab, poolRoot);
-            var source = go.GetComponent<AudioSource>();
-            source.playOnAwake = false;
-            go.SetActive(false);
-            audioPool.Enqueue(source);
-        }
-    }
-
     public void PlaySFXForName(string soundName, Vector3 position, GameObject parentObject)
     {
         if (!sfxDict.TryGetValue(soundName, out var clip))
@@ -68,42 +51,13 @@ public class SFXManager
             return;
         }
 
-        var source = GetAudioSource();
-        source.transform.position = position;
+        var pooled = ObjectPoolManager.Instance.GetObject(sfxPrefab.GetComponent<PooledAudio>(), position, Quaternion.identity, clip.length);
+        var PooledAudio = pooled.GetComponent<PooledAudio>();
 
         if (parent != null)
-            source.transform.SetParent(parent);
+            PooledAudio.transform.SetParent(parent);
 
         float vol = volumeSettings.SFXVolume * volumeSettings.MasterVolume;
-        CoroutineRunner.Instance.StartCoroutine(PlayAndReturn(source, clip, vol));
-    }
-
-
-
-    private AudioSource GetAudioSource()
-    {
-        if (audioPool.Count > 0)
-            return audioPool.Dequeue();
-
-        var go = Object.Instantiate(sfxPrefab, poolRoot);
-        var source = go.GetComponent<AudioSource>();
-        source.playOnAwake = false;
-        go.SetActive(false);
-        return source;
-    }
-
-    private IEnumerator PlayAndReturn(AudioSource source, AudioClip clip, float volume)
-    {
-        source.clip = clip;
-        source.volume = volume;
-        source.gameObject.SetActive(true);
-        source.Play();
-
-        yield return new WaitForSeconds(clip.length);
-
-        source.Stop();
-        source.clip = null;
-        source.gameObject.SetActive(false);
-        audioPool.Enqueue(source);
+        PooledAudio.Play(clip, vol);
     }
 }
