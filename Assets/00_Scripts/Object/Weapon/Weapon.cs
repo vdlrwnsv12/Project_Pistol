@@ -19,32 +19,32 @@ public class Weapon : MonoBehaviour
 
     public Animator Anim { get; private set; }
 
-    [SerializeField] private GameObject i2003;
-    [SerializeField] private GameObject i2004;
-    [SerializeField] private GameObject i2005;
-    [SerializeField] private GameObject i2006;
+    [SerializeField] public GameObject I2003;
+    [SerializeField] public GameObject I2004;
+    [SerializeField] public GameObject I2005;
+    [SerializeField] public GameObject I2006;
 
     private void Update()//테스트
     {
         // 1번 키를 누르면 첫 번째 아이템을 토글
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ToggleAttachment(i2003);  // Item1은 실제 아이템 객체로 바꿔주세요
+            ToggleAttachment("I2003");  // Item1은 실제 아이템 객체로 바꿔주세요
         }
         // 2번 키를 누르면 두 번째 아이템을 토글
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ToggleAttachment(i2004);  // Item2는 실제 아이템 객체로 바꿔주세요
+            ToggleAttachment("I2004");  // Item2는 실제 아이템 객체로 바꿔주세요
         }
         // 3번 키를 누르면 세 번째 아이템을 토글
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ToggleAttachment(i2005);  // Item3은 실제 아이템 객체로 바꿔주세요
+            ToggleAttachment(I2005);  // Item3은 실제 아이템 객체로 바꿔주세요
         }
         // 4번 키를 누르면 네 번째 아이템을 토글
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            ToggleAttachment(i2006);  // Item4는 실제 아이템 객체로 바꿔주세요
+            ToggleAttachment(I2006);  // Item4는 실제 아이템 객체로 바꿔주세요
         }
     }
 
@@ -83,6 +83,28 @@ public class Weapon : MonoBehaviour
             DisableSameGroupParts(attachment, group);
             EnableParts(attachment, item, group);
         }
+    }
+
+    public void ToggleAttachment(string attachmentName)
+    {
+        if (string.IsNullOrWhiteSpace(attachmentName)) return;
+
+        GameObject attachment = FindAttachmentByName(attachmentName);
+
+        ToggleAttachment(attachment);
+    }
+
+    private GameObject FindAttachmentByName(string name)
+    {
+        foreach (Transform child in transform.GetComponentInChildren<Transform>(true))
+        {
+            string cleanName = child.name.Replace("(Clone)", "").Trim();
+            if (string.Equals(cleanName, name, System.StringComparison.OrdinalIgnoreCase))
+            {
+                return child.gameObject;
+            }
+        }
+        return null;
     }
 
     private void DisableSameGroupParts(GameObject current, int group)

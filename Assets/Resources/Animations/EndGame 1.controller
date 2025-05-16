@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 5f29b8b3082bb4b1e852052fe18c7d3d,
+  m_Motion: {fileID: -203655887218126122, guid: 7521ee64479094d54a7aa747d56b8752,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -55,7 +55,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EndGame
+  m_Name: EndGame 1
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
