@@ -63,8 +63,4 @@ public class LandTarget : BaseTarget
     {
         return isQuickShot ? 500f : 0f;
     }
-    public void CivilianTargetDie()
-    {
-        Die();
-    }
 }

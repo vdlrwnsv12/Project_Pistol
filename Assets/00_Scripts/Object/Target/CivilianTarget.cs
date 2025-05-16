@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class CivilianTarget : BaseTarget
 {
-    [SerializeField]private LandTarget landTarget;
-    
-    //ToDo: 시민 타겟이 죽으면 하위 랜드 타겟도 죽게
-    //하위 랜드 타겟만 죽으면 그냥 두기
     protected override void Start()
     {
         base.Start();
@@ -29,7 +25,6 @@ public class CivilianTarget : BaseTarget
         if (currentHp <= 0)
         {
             Die();
-            landTarget.CivilianTargetDie();
         }
     }
 }

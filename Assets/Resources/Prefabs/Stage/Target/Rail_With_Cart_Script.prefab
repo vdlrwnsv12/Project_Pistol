@@ -71,7 +71,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2300356352772283081}
-  - component: {fileID: 5794590450314225005}
   m_Layer: 0
   m_Name: RailPoint
   m_TagString: Untagged
@@ -96,23 +95,6 @@ Transform:
   - {fileID: 7862592879656426944}
   m_Father: {fileID: 5209782651518583004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5794590450314225005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6707631929533093928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae881b56d122d4d2b87b51cb4e9477f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objs:
-  - {fileID: 4197811620150694590}
-  - {fileID: 5413602714626052612}
-  spacing: 1
-  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &8402787017505736602
 GameObject:
   m_ObjectHideFlags: 0

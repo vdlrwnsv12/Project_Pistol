@@ -38,10 +38,10 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     protected override void Awake()
     {
         base.Awake();
-        
+
         DontDestroyOnLoad(gameObject);
 
-        if(sfxAudioSourcePrefab == null)
+        if (sfxAudioSourcePrefab == null)
         {
             sfxAudioSourcePrefab = Resources.Load<GameObject>("Prefabs/PoolableAudioSource");//무조건 있어야함
         }
