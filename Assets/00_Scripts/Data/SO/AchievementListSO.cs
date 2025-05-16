@@ -25,10 +25,19 @@ public class AchievementSO : ScriptableObject
 [CreateAssetMenu(menuName = "SO/AchievementUIPrefabSet")]
 public class AchievementUIPrefabSet : ScriptableObject
 {
+    [Header("도전과제 리스트")]
+    public List<AchievementSO> achievements;
+
+    [Header("UI 프리팹")]
     public Canvas mainCanvasPrefab;
     public Canvas popupCanvasPrefab;
     public AchievementMainUI achievementMainUIPrefab;
     public UIAchievementPopup popupPrefab;
+}
+
+public class AchievementListSO : ScriptableObject
+{
+    public List<AchievementSO> achievements;
 }
 
 public enum AchievementType
@@ -39,9 +48,4 @@ public enum AchievementType
     NoMissRun,         // 무피격 또는 미스 없는 클리어
     HiddenAction,      // 숨겨진 행동 감지
     FastTargetKill     // 일정 시간 내 표적 처치
-}
-
-public class AchievementListSO : ScriptableObject
-{
-    public List<AchievementSO> achievements;
 }
