@@ -1,0 +1,1066 @@
+{"Data":[
+  {
+    "ID": "ST1001",
+    "StageIndex": 1,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0001",
+      "T0001",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      3,
+      6
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST1002",
+    "StageIndex": 1,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0001",
+      "T0001",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST1003",
+    "StageIndex": 1,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0001",
+      "T0001",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      5
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST1004",
+    "StageIndex": 1,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0001",
+      "T0001",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST1005",
+    "StageIndex": 1,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0001",
+      "T0001",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST2001",
+    "StageIndex": 2,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      3,
+      6
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST2002",
+    "StageIndex": 2,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST2003",
+    "StageIndex": 2,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      5
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST2004",
+    "StageIndex": 2,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST2005",
+    "StageIndex": 2,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0002",
+      "T0002"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST3001",
+    "StageIndex": 3,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST3002",
+    "StageIndex": 3,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      1,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST3003",
+    "StageIndex": 3,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5
+    ],
+    "WallPoints": [
+      true,
+      true,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST3004",
+    "StageIndex": 3,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST3005",
+    "StageIndex": 3,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0002",
+      "T0002",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST4001",
+    "StageIndex": 4,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST4002",
+    "StageIndex": 4,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      1,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST4003",
+    "StageIndex": 4,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5
+    ],
+    "WallPoints": [
+      true,
+      true,
+      false,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST4004",
+    "StageIndex": 4,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST4005",
+    "StageIndex": 4,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003",
+      "T0003"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      false
+    ],
+    "CivilianRespawn": 0
+  },
+  {
+    "ID": "ST5001",
+    "StageIndex": 5,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST5002",
+    "StageIndex": 5,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST5003",
+    "StageIndex": 5,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST5004",
+    "StageIndex": 5,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST5005",
+    "StageIndex": 5,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0003",
+      "T0003",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0006"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST6001",
+    "StageIndex": 6,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0007",
+      "T0007"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST6002",
+    "StageIndex": 6,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0007",
+      "T0007"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST6003",
+    "StageIndex": 6,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0007",
+      "T0007"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST6004",
+    "StageIndex": 6,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0007",
+      "T0007"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST6005",
+    "StageIndex": 6,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0007",
+      "T0007"
+    ],
+    "RespawnPoints": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      false,
+      true,
+      true
+    ],
+    "CivilianRespawn": 1
+  },
+  {
+    "ID": "ST7001",
+    "StageIndex": 7,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST7002",
+    "StageIndex": 7,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST7003",
+    "StageIndex": 7,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST7004",
+    "StageIndex": 7,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST7005",
+    "StageIndex": 7,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0004",
+      "T0004",
+      "T0004",
+      "T0005",
+      "T0005",
+      "T0007",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST8001",
+    "StageIndex": 8,
+    "BaseRoom": "R0001",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0008",
+      "T0008",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST8002",
+    "StageIndex": 8,
+    "BaseRoom": "R0002",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0008",
+      "T0008",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST8003",
+    "StageIndex": 8,
+    "BaseRoom": "R0003",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0008",
+      "T0008",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST8004",
+    "StageIndex": 8,
+    "BaseRoom": "R0004",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0008",
+      "T0008",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  },
+  {
+    "ID": "ST8005",
+    "StageIndex": 8,
+    "BaseRoom": "R0005",
+    "Targets": [
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0005",
+      "T0008",
+      "T0008",
+      "T0008"
+    ],
+    "RespawnPoints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "WallPoints": [
+      true,
+      true,
+      true
+    ],
+    "CivilianRespawn": 2
+  }
+]}

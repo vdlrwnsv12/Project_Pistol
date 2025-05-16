@@ -6,10 +6,10 @@ using Random = UnityEngine.Random;
 
 public class RoomManager : SingletonBehaviour<RoomManager>
 {
-    private Dictionary<int, List<RoomSO>> allStageDataDict;
+    private Dictionary<int, List<StageSO>> allStageDataDict;
 
     private StandbyRoom standbyRoom;
-    private Dictionary<int, ShootingRoom> shootingRoomDict;
+    private Dictionary<string, ShootingRoom> shootingRoomDict;
 
     public int CurStageIndex { get; private set; }
     public int CurRoomIndex { get; private set; }
@@ -43,8 +43,9 @@ public class RoomManager : SingletonBehaviour<RoomManager>
         }
         else
         {
-            var shootingRoomNumber = GetRoomNumber(allStageDataDict[CurStageIndex][CurRoomIndex].ID);
-            NextRoom = shootingRoomDict[shootingRoomNumber];
+            var key = allStageDataDict[CurStageIndex][CurRoomIndex].BaseRoom;
+            NextRoom = shootingRoomDict[key];
+            ((ShootingRoom)NextRoom).Data = allStageDataDict[CurStageIndex][CurRoomIndex];
         }
 
         NextRoom.transform.rotation = CurRoom.EndPoint.rotation;
@@ -67,18 +68,18 @@ public class RoomManager : SingletonBehaviour<RoomManager>
 
     private void InitStageInfo()
     {
-        var roomDataList = ResourceManager.Instance.LoadAll<RoomSO>("Data/SO/RoomSO");
-        allStageDataDict = new Dictionary<int, List<RoomSO>>();
+        var stageDataList = ResourceManager.Instance.LoadAll<StageSO>("Data/SO/StageSO");
+        allStageDataDict = new Dictionary<int, List<StageSO>>();
         
-        foreach (var roomData in roomDataList)
+        foreach (var stageData in stageDataList)
         {
-            if (!allStageDataDict.ContainsKey(GetStageIndex(roomData.ID)))
+            if (!allStageDataDict.ContainsKey(stageData.StageIndex))
             {
-                var roomList = new List<RoomSO>();
-                allStageDataDict.Add(GetStageIndex(roomData.ID), roomList);
+                var stageList = new List<StageSO>();
+                allStageDataDict.Add(stageData.StageIndex, stageList);
             }
 
-            allStageDataDict[GetStageIndex(roomData.ID)].Add(roomData);
+            allStageDataDict[stageData.StageIndex].Add(stageData);
         }
 
         foreach (var key in allStageDataDict.Keys.ToList())
@@ -99,32 +100,12 @@ public class RoomManager : SingletonBehaviour<RoomManager>
         standbyRoom.gameObject.SetActive(false);
 
         var roomPrefabs = ResourceManager.Instance.LoadAll<ShootingRoom>("Prefabs/Stage/Room");
-        shootingRoomDict = new Dictionary<int, ShootingRoom>();
+        shootingRoomDict = new Dictionary<string, ShootingRoom>();
         foreach (var room in roomPrefabs)
         {
             var shootingRoom = Instantiate(room);
             shootingRoom.gameObject.SetActive(false);
-            shootingRoomDict.Add(GetRoomNumber(room.name), shootingRoom);
+            shootingRoomDict.Add(room.name, shootingRoom);
         }
     }
-
-    #region Utility
-
-    private int GetStageIndex(string roomID)
-    {
-        var numericId = int.Parse(roomID.Substring(1));
-        var stageIndex = numericId / 1000;
-
-        return stageIndex;
-    }
-
-    private int GetRoomNumber(string roomID)
-    {
-        var numericId = int.Parse(roomID.Substring(1));
-        var roomNumber = numericId % 1000;
-
-        return roomNumber;
-    }
-
-    #endregion
 }

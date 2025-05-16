@@ -11,7 +11,7 @@ public class ShootingRoom : Room
     
     private List<BaseTarget> targetList;
     
-    public RoomSO Data { get; set; }
+    public StageSO Data { get; set; }
 
     private void Awake()
     {
@@ -24,6 +24,14 @@ public class ShootingRoom : Room
         exitGate.Door.DoorClosed += ResetRoom;
         exitGate.OnPassingGate += ExitRoom;
         enterGate.OnPassingGate += EnterRoom;
+    }
+
+    private void OnEnable()
+    {
+        if (Data != null)
+        {
+            InitWall();
+        }
     }
 
     protected override void OpenDoor()
@@ -54,36 +62,19 @@ public class ShootingRoom : Room
 
     public override void ResetRoom()
     {
+        for (var i = 0; i < activeWalls.Length; i++)
+        {
+            activeWalls[i].SetActive(false);
+        }
         enterGate.Door.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 
-    private void InitTarget()
+    private void InitWall()
     {
-        var targetIDList = Data.Targets;
-        var activeTarget = GetRandomActiveTargetPoint();
-        
-        for (var i = 0; i < targetIDList.Length; i++)
+        for (var i = 0; i < activeWalls.Length; i++)
         {
-            var data = ResourceManager.Instance.Load<TargetSO>($"Data/SO/TargetSO/{targetIDList[i]}");
-            targetList[i].InitData(data);
-            targetList[i].gameObject.SetActive(true);
-        }
-    }
-
-    private BaseTarget[] GetRandomActiveTargetPoint()
-    {
-        return targetList.OrderBy(o => Random.value).Take(Data.Targets.Length).ToArray();
-    }
-
-    private void RespawnTarget()
-    {
-        for (var i = 0; i < targetPoints.Length; i++)
-        {
-            var targetResource = ResourceManager.Instance.Load<BaseTarget>("Prefabs/Target/LandTarget");
-            var target = Instantiate(targetResource, targetPoints[i]);
-            target.gameObject.SetActive(false);
-            targetList.Add(target);
+            activeWalls[i].SetActive(Data.WallPoints[i]);
         }
     }
 }

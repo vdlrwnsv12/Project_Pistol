@@ -403,7 +403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2101600261325032048
 Transform:
   m_ObjectHideFlags: 0
@@ -544,7 +544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2160790075150602925
 Transform:
   m_ObjectHideFlags: 0
@@ -2134,6 +2134,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HolePartitionWall (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3172569251129022207, guid: ba479ce7ed45e4181a3d3a9a58094066,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2287,6 +2292,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HolePartitionWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172569251129022207, guid: ba479ce7ed45e4181a3d3a9a58094066,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2477,6 +2487,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PartitionWall (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 159475335611938005, guid: c066b32689b9f44d59e79c8e25f87dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2242755806352208314, guid: c066b32689b9f44d59e79c8e25f87dbf,
         type: 3}
