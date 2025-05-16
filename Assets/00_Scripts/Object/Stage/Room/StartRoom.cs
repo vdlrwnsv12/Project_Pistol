@@ -29,7 +29,7 @@ public class StartRoom : Room
 
     public override void ResetRoom()
     {
-        StartCoroutine(DestroyRoom(2f));
+        StartCoroutine(DestroyRoom(1f));
     }
 
     private IEnumerator DestroyRoom(float time)

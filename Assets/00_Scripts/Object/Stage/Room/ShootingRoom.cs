@@ -35,7 +35,7 @@ public class ShootingRoom : Room
         if (Data != null)
         {
             InitWall();
-            InitTarget();
+            //InitTarget();
             InitCivilianTarget();
         }
     }
@@ -69,7 +69,7 @@ public class ShootingRoom : Room
             activeWalls[i].SetActive(false);
         }
         ReturnTargetToPool();
-        StartCoroutine(DisableRoom(2f));
+        StartCoroutine(DisableRoom(1f));
     }
 
     private IEnumerator DisableRoom(float time)

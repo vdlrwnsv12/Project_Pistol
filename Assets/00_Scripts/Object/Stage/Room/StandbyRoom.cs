@@ -33,12 +33,12 @@ public class StandbyRoom : Room
         exitGate.Door.gameObject.SetActive(true);
         RoomManager.Instance.RoomChangedAction();
         StageManager.Instance.IsGamePause = true;
-        StartCoroutine(OpenRewardUI(2));
+        StartCoroutine(OpenRewardUI(1f));
     }
 
     public override void ResetRoom()
     {
-        StartCoroutine(DisableRoom(2f));
+        StartCoroutine(DisableRoom(1f));
     }
 
     private IEnumerator DisableRoom(float time)
