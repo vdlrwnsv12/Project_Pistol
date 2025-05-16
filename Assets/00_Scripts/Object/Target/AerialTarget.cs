@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AirialTarget : BaseTarget
+public class AerialTarget : BaseTarget
 {
     private Vector3 hitDirection;
     private Rigidbody rb;

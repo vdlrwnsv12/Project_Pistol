@@ -30,12 +30,11 @@ public abstract class BaseTarget : MonoBehaviour
 
     private void Update()
     {
-        // var origin = transform.eulerAngles;
-        // transform.LookAt(StageManager.Instance.Player.transform);
-        // transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
-        if (Input.GetKeyDown(KeyCode.R))
+        if (StageManager.Instance.Player && currentHp > 0)
         {
-            InitData(data);
+            var origin = transform.eulerAngles;
+            transform.LookAt(StageManager.Instance.Player.transform);
+            transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y, origin.z));
         }
     }
 
@@ -70,7 +69,7 @@ public abstract class BaseTarget : MonoBehaviour
 
     public virtual void InitData(TargetSO data)
     {
-        AtivateAll();
+        ActivateAll();
 
         this.data = data;
         currentHp = data.Hp;
@@ -87,7 +86,7 @@ public abstract class BaseTarget : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void AtivateAll()
+    private void ActivateAll()
     {
         gameObject.SetActive(true);
 

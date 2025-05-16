@@ -8,8 +8,8 @@ public class ShootingRoom : Room
     [SerializeField] private Transform[] targetPoints;
     [SerializeField] private Transform[] civilianTargetPoints;
     [SerializeField] private GameObject[] activeWalls;
-    
-    private List<BaseTarget> targetList;
+
+    private List<BaseTarget> curActiveTargets = new();
     
     public StageSO Data { get; set; }
 
@@ -31,6 +31,8 @@ public class ShootingRoom : Room
         if (Data != null)
         {
             InitWall();
+            InitTarget();
+            InitCivilianTarget();
         }
     }
 
@@ -67,6 +69,7 @@ public class ShootingRoom : Room
             activeWalls[i].SetActive(false);
         }
         enterGate.Door.gameObject.SetActive(false);
+        ReturnTargetToPool();
         gameObject.SetActive(false);
     }
 
@@ -76,5 +79,55 @@ public class ShootingRoom : Room
         {
             activeWalls[i].SetActive(Data.WallPoints[i]);
         }
+    }
+
+    private void InitTarget()
+    {
+        var targetIDList = Data.Targets;
+        var targetList = new List<TargetSO>();
+        for (var i = 0; i < targetIDList.Length; i++)
+        {
+            var id = targetIDList[i];
+            var targetSO = ResourceManager.Instance.Load<TargetSO>($"Data/SO/TargetSO/{id}");
+            targetList.Add(targetSO);
+        }
+        targetList.OrderBy(x => Random.value).ToList();
+
+        for (var i = 0; i < Data.RespawnPoints.Length; i++)
+        {
+            var respawnIndex = Data.RespawnPoints[i];
+            BaseTarget prefab = null;
+            switch (targetList[i].Type)
+            {
+                case (int)TargetType.LandTarget:
+                    prefab = Resources.Load<BaseTarget>("Prefabs/Stage/Target/LandTarget");
+                    break;
+                case (int)TargetType.AerialTarget:
+                    prefab = Resources.Load<BaseTarget>("Prefabs/Stage/Target/AerialTarget");
+                    break;
+            }
+
+            var target = ObjectPoolManager.Instance.GetObject<BaseTarget>(prefab, targetPoints[respawnIndex].position, targetPoints[respawnIndex].rotation);
+            target.InitData(targetList[i]);
+            curActiveTargets.Add(target);
+        }
+    }
+
+    private void InitCivilianTarget()
+    {
+        var civilianRespawnPoints = civilianTargetPoints.OrderBy(x => Random.value).Take(Data.CivilianRespawn).ToArray();
+        for (var i = 0; i < civilianRespawnPoints.Length; i++)
+        {
+            civilianRespawnPoints[i].gameObject.SetActive(true);
+        }
+    }
+
+    private void ReturnTargetToPool()
+    {
+        for (var i = 0; i < curActiveTargets.Count; i++)
+        {
+            ObjectPoolManager.Instance.ReturnToPool(curActiveTargets[i].gameObject);
+        }
+        curActiveTargets.Clear();
     }
 }

@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 2121264242590581832}
   - component: {fileID: 6884826887478500199}
   m_Layer: 0
-  m_Name: AirialTarget
+  m_Name: AerialTarget
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DataDeclaration;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class RoomManager : SingletonBehaviour<RoomManager>
@@ -70,7 +71,7 @@ public class RoomManager : SingletonBehaviour<RoomManager>
     {
         var stageDataList = ResourceManager.Instance.LoadAll<StageSO>("Data/SO/StageSO");
         allStageDataDict = new Dictionary<int, List<StageSO>>();
-        
+
         foreach (var stageData in stageDataList)
         {
             if (!allStageDataDict.ContainsKey(stageData.StageIndex))
@@ -87,6 +88,14 @@ public class RoomManager : SingletonBehaviour<RoomManager>
             var fullList = allStageDataDict[key];
             var random3Rooms = fullList.OrderBy(x => Random.value).Take(3).ToList();
             allStageDataDict[key] = random3Rooms;
+        }
+
+        foreach (var stageList in allStageDataDict)
+        {
+            foreach (var stageInfo in stageList.Value)
+            {
+                Debug.Log(stageInfo.ID);
+            }
         }
 
         CurStageIndex = 1;
