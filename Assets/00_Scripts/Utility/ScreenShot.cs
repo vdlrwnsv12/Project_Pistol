@@ -49,10 +49,10 @@ public class ObjectScreenshot : MonoBehaviour
                 ActivateTarget(i - 1);
             }
         }
-        // if(Input.GetKeyDown(KeyCode.Alpha1)) ActivateTarget(0);
-        // if(Input.GetKeyDown(KeyCode.Alpha2)) ActivateTarget(1);
-        // if(Input.GetKeyDown(KeyCode.Alpha3)) ActivateTarget(2);
-        // if(Input.GetKeyDown(KeyCode.Alpha4)) ActivateTarget(3); 
+        if(Input.GetKeyDown(KeyCode.Alpha1)) ActivateTarget(0);
+        if(Input.GetKeyDown(KeyCode.Alpha2)) ActivateTarget(1);
+        if(Input.GetKeyDown(KeyCode.Alpha3)) ActivateTarget(2);
+        if(Input.GetKeyDown(KeyCode.Alpha4)) ActivateTarget(3); 
         if (Input.GetKeyDown(KeyCode.K))
         {
             TakeObjectScreenshot(currentTarget);

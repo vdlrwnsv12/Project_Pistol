@@ -8,6 +8,8 @@ public class PopupReward : PopupUI
     private ItemSO[] itemRewardPool;   // 모든 아이템 SO
     
     private ItemSO[] itemRewards;
+    [SerializeField] private Image playerImage;
+    private Sprite[] playerSprite;
     [SerializeField] private RewardCard[] rewardCards;
 
     [SerializeField] private Button cancelBuyBtn;
@@ -15,6 +17,7 @@ public class PopupReward : PopupUI
     private void Awake()
     {
         itemRewardPool = ResourceManager.Instance.LoadAll<ItemSO>("Data/SO/ItemSO");
+        playerSprite = ResourceManager.Instance.LoadAll<Sprite>($"Sprites/{GameManager.Instance.selectedCharacter.ID}");
         itemRewards = new ItemSO[rewardCards.Length];
 
         cancelBuyBtn.onClick.AddListener(OnClickCancelBuyButton);
@@ -37,6 +40,7 @@ public class PopupReward : PopupUI
     private void InitReward()
     {
         itemRewards = GetRandomItemReward();
+        playerImage.sprite = playerSprite[0];
         for (var i = 0; i < rewardCards.Length; i++)
         {
             //TODO: 아이템 아이콘 이미지 넣기 추가
@@ -45,7 +49,7 @@ public class PopupReward : PopupUI
             rewardCards[i].timeCost.text = $"-{itemRewards[i].cost:N2}s";
             rewardCards[i].rewardButton.onClick.RemoveAllListeners();
             var item = itemRewards[i];
-            
+
             if (itemRewards[i].ApplicationTarget == (int)ItemApplyType.Player)
             {
                 rewardCards[i].rewardButton.onClick.AddListener(() => StageManager.Instance.Player.Stat.IncreaseStat(item.RCL, item.HDL, item.STP, item.SPD));
