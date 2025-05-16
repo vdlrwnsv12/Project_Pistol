@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: AchievementUIPrefabSet
   m_EditorClassIdentifier: Assembly-CSharp::AchievementUIPrefabSet
+  mainCanvasPrefab: {fileID: 5609891485339019461, guid: 7ff9b5a15aaf67d408aa3b8d23a1c7c2,
+    type: 3}
+  popupCanvasPrefab: {fileID: 8106612314787329749, guid: f34b0f07dbd5848e9a3a9b52834c0aed,
+    type: 3}
   achievementMainUIPrefab: {fileID: 262973548543706978, guid: 987b98004392cae4aa43de280f980a65,
     type: 3}
   popupPrefab: {fileID: 7927887665448042623, guid: 3cf72450598119f4fbdd6f4c7d218d16,

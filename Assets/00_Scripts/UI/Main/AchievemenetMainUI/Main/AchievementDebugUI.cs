@@ -9,8 +9,7 @@ public class AchievementDebugUI : MonoBehaviour
 {
     #region Fields
 
-    [Tooltip("도전과제 UI 프리팹을 Initialize합니다")]
-    [SerializeField] private AchievementUIPrefabSet achievementUIPrefabSet;
+    [SerializeField] private AchievementUIPrefabSet prefabSet;
 
     [Header("디버그 버튼")]
 
@@ -108,6 +107,11 @@ public class AchievementDebugUI : MonoBehaviour
             Debug.Log("[디버그] 도전과제 리스트 패널 호출됨.");
             AchievementSystemLauncher.ShowAchievementUI();
         });
+    }
+
+    private void Awake()
+    {
+        AchievementSystemLauncher.Instance.Initialize(prefabSet);
     }
 
     #endregion

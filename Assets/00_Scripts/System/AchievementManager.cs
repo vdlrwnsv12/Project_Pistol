@@ -39,6 +39,18 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
     /// </summary>
     public void CheckAllAchievements()
     {
+        if (allAchievements == null || allAchievements.Count == 0)
+        {
+            Debug.LogWarning("[AchievementManager] 도전과제 리스트가 비어 있음.");
+            return;
+        }
+
+        if (tracker == null)
+        {
+            Debug.LogError("[AchievementManager] PlayerStatTracker가 연결되지 않았습니다.");
+            return;
+        }
+
         foreach (var achievement in allAchievements)
         {
             if (IsUnlocked(achievement.id)) continue;
@@ -117,6 +129,12 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
     /// </summary>
     private float GetStatValue(AchievementConditionType type)
     {
+        if (tracker == null)
+        {
+            Debug.LogWarning("[AchievementManager] tracker가 null입니다.");
+            return 0f;
+        }
+
         return type switch
         {
             AchievementConditionType.KillCount => tracker.killCount,
@@ -131,6 +149,7 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
             _ => 0f
         };
     }
+
 
     #endregion
 }
