@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,9 @@ using UnityEngine.UI;
 public class AchievementDebugUI : MonoBehaviour
 {
     #region Fields
+
+    [Tooltip("도전과제 UI 프리팹을 Initialize합니다")]
+    [SerializeField] private AchievementUIPrefabSet achievementUIPrefabSet;
 
     [Header("디버그 버튼")]
 
@@ -48,6 +52,7 @@ public class AchievementDebugUI : MonoBehaviour
 
     private void Start()
     {
+
         if (tracker == null || uiMain == null)
         {
             Debug.LogError("[AchievementDebugUI] 트래커 또는 UIMain이 연결되지 않았습니다.");
@@ -100,8 +105,8 @@ public class AchievementDebugUI : MonoBehaviour
 
         showListButton.onClick.AddListener(() =>
         {
-            uiMain.ToggleListPanel();
-            Debug.Log("[디버그] 도전과제 리스트 패널 토글됨.");
+            Debug.Log("[디버그] 도전과제 리스트 패널 호출됨.");
+            AchievementSystemLauncher.ShowAchievementUI();
         });
     }
 

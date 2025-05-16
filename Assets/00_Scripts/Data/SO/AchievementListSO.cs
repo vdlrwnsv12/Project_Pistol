@@ -22,6 +22,15 @@ public class AchievementSO : ScriptableObject
     public List<AchievementCondition> conditions = new();
 }
 
+[CreateAssetMenu(menuName = "SO/AchievementUIPrefabSet")]
+public class AchievementUIPrefabSet : ScriptableObject
+{
+    public Canvas mainCanvasPrefab;
+    public Canvas popupCanvasPrefab;
+    public AchievementMainUI achievementMainUIPrefab;
+    public UIAchievementPopup popupPrefab;
+}
+
 public enum AchievementType
 {
     StageClearCount,   // 스테이지 클리어 횟수
