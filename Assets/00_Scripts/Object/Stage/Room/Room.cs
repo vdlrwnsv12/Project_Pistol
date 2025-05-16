@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Room : MonoBehaviour
@@ -8,6 +9,8 @@ public abstract class Room : MonoBehaviour
     protected Transform endPoint;
     
     public Transform EndPoint => endPoint;
+    
+    public ExitGate ExitGate => exitGate;
 
     protected virtual void Awake()
     {

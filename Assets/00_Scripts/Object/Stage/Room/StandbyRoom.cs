@@ -1,4 +1,6 @@
+using System.Collections;
 using DataDeclaration;
+using UnityEngine;
 
 public class StandbyRoom : Room
 {
@@ -30,20 +32,27 @@ public class StandbyRoom : Room
         
         exitGate.Door.gameObject.SetActive(true);
         RoomManager.Instance.RoomChangedAction();
-        UIManager.Instance.OpenPopupUI<PopupReward>();
         StageManager.Instance.IsGamePause = true;
-    }
-
-    protected override void ExitRoom()
-    {
-        base.ExitRoom();
-        exitGate.Door.Close();
+        StartCoroutine(OpenRewardUI(2));
     }
 
     public override void ResetRoom()
     {
-        exitGate.Door.Close();
+        StartCoroutine(DisableRoom(2f));
+    }
+
+    private IEnumerator DisableRoom(float time)
+    {
+        yield return new WaitForSeconds(time);
         enterGate.Door.gameObject.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    private IEnumerator OpenRewardUI(float time)
+    {
+        yield return new WaitForSeconds(time);
+        UIManager.Instance.OpenPopupUI<PopupReward>();
+        StageManager.Instance.Player.Controller.enabled = false;
+        UIManager.ToggleMouseCursor(true);
     }
 }

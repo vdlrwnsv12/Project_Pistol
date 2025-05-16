@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DataDeclaration;
@@ -61,21 +62,20 @@ public class ShootingRoom : Room
         RoomManager.Instance.PrevRoom.ResetRoom();
     }
 
-    protected override void ExitRoom()
-    {
-        base.ExitRoom();
-        
-        exitGate.Door.Close();
-    }
-
     public override void ResetRoom()
     {
         for (var i = 0; i < activeWalls.Length; i++)
         {
             activeWalls[i].SetActive(false);
         }
-        enterGate.Door.gameObject.SetActive(false);
         ReturnTargetToPool();
+        StartCoroutine(DisableRoom(2f));
+    }
+
+    private IEnumerator DisableRoom(float time)
+    {
+        yield return new WaitForSeconds(time);
+        enterGate.Door.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 

@@ -1,3 +1,6 @@
+using System.Collections;
+using UnityEngine;
+
 public class StartRoom : Room
 {
     protected override void Awake()
@@ -20,11 +23,18 @@ public class StartRoom : Room
     protected override void OpenDoor()
     {
         base.OpenDoor();
+        
         StageManager.Instance.IsGamePause = false;
     }
 
     public override void ResetRoom()
     {
+        StartCoroutine(DestroyRoom(2f));
+    }
+
+    private IEnumerator DestroyRoom(float time)
+    {
+        yield return new WaitForSeconds(time);
         Destroy(gameObject);
     }
 }
