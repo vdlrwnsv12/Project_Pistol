@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 public class DrawGizmos : MonoBehaviour
@@ -8,3 +9,4 @@ public class DrawGizmos : MonoBehaviour
         Gizmos.DrawSphere(transform.position, 0.05f);
     }
 }
+#endif
