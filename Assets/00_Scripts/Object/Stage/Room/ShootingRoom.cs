@@ -6,8 +6,9 @@ using UnityEngine;
 public class ShootingRoom : Room
 {
     [SerializeField] private Transform[] targetPoints;
-    private Transform[] activeWallPoints;
-
+    [SerializeField] private Transform[] civilianTargetPoints;
+    [SerializeField] private GameObject[] activeWalls;
+    
     private List<BaseTarget> targetList;
     
     public RoomSO Data { get; set; }
