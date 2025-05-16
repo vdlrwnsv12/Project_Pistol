@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DataDeclaration;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ShootingRoom : Room
 {
@@ -13,8 +15,9 @@ public class ShootingRoom : Room
     
     public StageSO Data { get; set; }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (endPoint == null)
         {
             endPoint = transform.FindDeepChildByName("EndPoint");
@@ -45,20 +48,23 @@ public class ShootingRoom : Room
             return;
         }
         
-        RoomManager.Instance.PlaceNextRoom();
+        base.OpenDoor();
     }
 
     protected override void EnterRoom()
     {
-        RoomManager.Instance.CurRoom = this;
+        base.EnterRoom();
+        
         enterGate.Door.gameObject.SetActive(true);
         RoomManager.Instance.RoomChangedAction();
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
+        RoomManager.Instance.PrevRoom.ResetRoom();
     }
 
     protected override void ExitRoom()
     {
-        RoomManager.Instance.PrevRoom = this;
+        base.ExitRoom();
+        
         exitGate.Door.Close();
     }
 

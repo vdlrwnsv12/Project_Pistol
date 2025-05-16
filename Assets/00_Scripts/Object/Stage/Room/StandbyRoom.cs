@@ -2,8 +2,9 @@ using DataDeclaration;
 
 public class StandbyRoom : Room
 {
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (endPoint == null)
         {
             endPoint = transform.FindDeepChildByName("EndPoint");
@@ -17,15 +18,16 @@ public class StandbyRoom : Room
     
     protected override void OpenDoor()
     {
+        base.OpenDoor();
+        
         StageManager.Instance.IsGamePause = false;
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
-        
-        RoomManager.Instance.PlaceNextRoom();
     }
 
     protected override void EnterRoom()
     {
-        RoomManager.Instance.CurRoom = this;
+        base.EnterRoom();
+        
         exitGate.Door.gameObject.SetActive(true);
         RoomManager.Instance.RoomChangedAction();
         UIManager.Instance.OpenPopupUI<PopupReward>();
@@ -34,7 +36,7 @@ public class StandbyRoom : Room
 
     protected override void ExitRoom()
     {
-        RoomManager.Instance.PrevRoom = this;
+        base.ExitRoom();
         exitGate.Door.Close();
     }
 
