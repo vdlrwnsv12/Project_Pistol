@@ -155,4 +155,41 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
         userData.UserID = AuthenticationService.Instance.PlayerId;
         userData.UserName = AuthenticationService.Instance.PlayerName;
     }
+
+    #region Achievement Enums
+
+    // <summary>
+    // 도전과제 조건 종류(조건 비교를 위한 타입)
+    // </summary>
+    //public enum AchievementConditionType
+    //{
+    //    /// <summary> 누적 킬 수 </summary>
+    //    KillCount,
+
+    //    /// <summary> 헤드샷 명중률 (퍼센트) </summary>
+    //    HeadshotRatio,
+
+    //    /// <summary> 특정 거리 이상에서 명중 </summary>
+    //    DistanceShot,
+
+    //    /// <summary> 연속 명중 횟수 </summary>
+    //    ConsecutiveHits,
+
+    //    /// <summary> 한 번도 빗나가지 않고 클리어 </summary>
+    //    NoMissRun,
+
+    //    /// <summary> 제한 시간 내 클리어 </summary>
+    //    ClearTime,
+
+    //    /// <summary> 연속 콤보 수 </summary>
+    //    ComboCount,
+
+    //    /// <summary> 특정 스테이지 클리어 </summary>
+    //    StageClear,
+
+    //    /// <summary> 특정 무기로 킬 </summary>
+    //    WeaponSpecificKill
+    //}
+
+    #endregion
 }
