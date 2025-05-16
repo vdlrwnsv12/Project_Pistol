@@ -24,10 +24,10 @@ public class JsonToSO : MonoBehaviour
     {
         ScriptableObjectCreator.CreateScriptableObjectAssetsFromJson<TargetData>("Target.json", typeof(TargetSO));
     }
-    [MenuItem("Tools/JsonToSO/CreateRoomSO")]
-    static void RoomDataInit()
+    [MenuItem("Tools/JsonToSO/CreateStageSO")]
+    static void StageDataInit()
     {
-        ScriptableObjectCreator.CreateScriptableObjectAssetsFromJson<RoomData>("Room.json", typeof(RoomSO));
+        ScriptableObjectCreator.CreateScriptableObjectAssetsFromJson<StageData>("Stage.json", typeof(StageSO));
     }
 }
 #endif

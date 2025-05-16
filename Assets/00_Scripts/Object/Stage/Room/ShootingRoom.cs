@@ -1,19 +1,24 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DataDeclaration;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ShootingRoom : Room
 {
     [SerializeField] private Transform[] targetPoints;
-    private Transform[] activeWallPoints;
+    [SerializeField] private Transform[] civilianTargetPoints;
+    [SerializeField] private GameObject[] activeWalls;
 
-    private List<BaseTarget> targetList;
+    private List<BaseTarget> curActiveTargets = new();
     
-    public RoomSO Data { get; set; }
+    public StageSO Data { get; set; }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (endPoint == null)
         {
             endPoint = transform.FindDeepChildByName("EndPoint");
@@ -23,25 +28,16 @@ public class ShootingRoom : Room
         exitGate.Door.DoorClosed += ResetRoom;
         exitGate.OnPassingGate += ExitRoom;
         enterGate.OnPassingGate += EnterRoom;
-        
-        //targetList = new List<BaseTarget>();
-        //RespawnTarget();
     }
 
     private void OnEnable()
     {
-        // if (Data != null)
-        // {
-        //     InitTarget();
-        // }
-    }
-
-    private void OnDisable()
-    {
-        // foreach (var target in targetList)
-        // {
-        //     target.gameObject.SetActive(false);
-        // }
+        if (Data != null)
+        {
+            InitWall();
+            InitTarget();
+            InitCivilianTarget();
+        }
     }
 
     protected override void OpenDoor()
@@ -53,55 +49,88 @@ public class ShootingRoom : Room
             return;
         }
         
-        RoomManager.Instance.PlaceNextRoom();
+        base.OpenDoor();
     }
 
     protected override void EnterRoom()
     {
-        RoomManager.Instance.CurRoom = this;
-        enterGate.Door.gameObject.SetActive(true);
-        RoomManager.Instance.RoomChangedAction();
+        base.EnterRoom();
+        
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
-    }
-
-    protected override void ExitRoom()
-    {
-        RoomManager.Instance.PrevRoom = this;
-        exitGate.Door.Close();
     }
 
     public override void ResetRoom()
     {
+        for (var i = 0; i < activeWalls.Length; i++)
+        {
+            activeWalls[i].SetActive(false);
+        }
+        ReturnTargetToPool();
+        StartCoroutine(DisableRoom(1f));
+    }
+
+    private IEnumerator DisableRoom(float time)
+    {
+        yield return new WaitForSeconds(time);
         enterGate.Door.gameObject.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    private void InitWall()
+    {
+        for (var i = 0; i < activeWalls.Length; i++)
+        {
+            activeWalls[i].SetActive(Data.WallPoints[i]);
+        }
     }
 
     private void InitTarget()
     {
         var targetIDList = Data.Targets;
-        var activeTarget = GetRandomActiveTargetPoint();
-        
+        var targetList = new List<TargetSO>();
         for (var i = 0; i < targetIDList.Length; i++)
         {
-            var data = ResourceManager.Instance.Load<TargetSO>($"Data/SO/TargetSO/{targetIDList[i]}");
-            targetList[i].InitData(data);
-            targetList[i].gameObject.SetActive(true);
+            var id = targetIDList[i];
+            var targetSO = ResourceManager.Instance.Load<TargetSO>($"Data/SO/TargetSO/{id}");
+            targetList.Add(targetSO);
         }
-    }
+        targetList.OrderBy(x => Random.value).ToList();
 
-    private BaseTarget[] GetRandomActiveTargetPoint()
-    {
-        return targetList.OrderBy(o => Random.value).Take(Data.Targets.Length).ToArray();
-    }
-
-    private void RespawnTarget()
-    {
-        for (var i = 0; i < targetPoints.Length; i++)
+        for (var i = 0; i < Data.RespawnPoints.Length; i++)
         {
-            var targetResource = ResourceManager.Instance.Load<BaseTarget>("Prefabs/Target/LandTarget");
-            var target = Instantiate(targetResource, targetPoints[i]);
-            target.gameObject.SetActive(false);
-            targetList.Add(target);
+            var respawnIndex = Data.RespawnPoints[i];
+            BaseTarget prefab = null;
+            switch (targetList[i].Type)
+            {
+                case (int)TargetType.LandTarget:
+                    prefab = Resources.Load<BaseTarget>("Prefabs/Stage/Target/LandTarget");
+                    break;
+                case (int)TargetType.AerialTarget:
+                    prefab = Resources.Load<BaseTarget>("Prefabs/Stage/Target/AerialTarget");
+                    break;
+            }
+
+            var target = ObjectPoolManager.Instance.GetObject<BaseTarget>(prefab, targetPoints[respawnIndex].position, targetPoints[respawnIndex].rotation);
+            target.InitData(targetList[i]);
+            curActiveTargets.Add(target);
         }
+    }
+
+    private void InitCivilianTarget()
+    {
+        var civilianRespawnPoints = civilianTargetPoints.OrderBy(x => Random.value).Take(Data.CivilianRespawn).ToArray();
+        for (var i = 0; i < civilianRespawnPoints.Length; i++)
+        {
+            civilianRespawnPoints[i].gameObject.SetActive(true);
+        }
+    }
+
+    private void ReturnTargetToPool()
+    {
+        for (var i = 0; i < curActiveTargets.Count; i++)
+        {
+            ObjectPoolManager.Instance.ReturnToPool(curActiveTargets[i].gameObject);
+        }
+        curActiveTargets.Clear();
     }
 }

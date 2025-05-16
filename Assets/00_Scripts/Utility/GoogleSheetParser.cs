@@ -307,6 +307,8 @@ public class GoogleSheetParser : EditorWindow
                 return JArray.FromObject(value.Split(',')
                     .Select(v => float.TryParse(v.Trim(), out float tempFloat) ? tempFloat : 0.0f));
             case "string[]": return JArray.FromObject(value.Split(',').Select(v => v.Trim()));
+            case "bool[]": return JArray.FromObject(value.Split(',')
+                .Select(v => bool.TryParse(v.Trim(), out bool tempBool) ? tempBool : false));
             case "DateTime":
                 return DateTime.TryParse(value, out DateTime dateTimeValue) ? dateTimeValue : DateTime.MinValue;
             case "TimeSpan":
@@ -329,6 +331,7 @@ public class GoogleSheetParser : EditorWindow
             case "int[]": return "int[]";
             case "float[]": return "float[]";
             case "string[]": return "string[]";
+            case "bool[]": return "bool[]";
             case "DateTime": return "System.DateTime"; 
             case "TimeSpan": return "System.TimeSpan";
             case "Guid": return "System.Guid";

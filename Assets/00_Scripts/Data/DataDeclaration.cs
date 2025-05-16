@@ -23,6 +23,13 @@ namespace DataDeclaration
         Lobby
     }
 
+    public enum TargetType
+    {
+        LandTarget,
+        AerialTarget,
+        CivilianTarget,
+    }
+
     public enum RankType
     {
         S,

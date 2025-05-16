@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class CivilianTarget : BaseTarget
 {
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     public override void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection)
     {
         if (currentHp <= 0) return;
