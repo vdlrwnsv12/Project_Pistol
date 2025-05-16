@@ -27,6 +27,11 @@ public class StartRoom : Room
         StageManager.Instance.IsGamePause = false;
     }
 
+    protected override void EnterRoom()
+    {
+        RoomManager.Instance.CurRoom = this;
+    }
+
     public override void ResetRoom()
     {
         StartCoroutine(DestroyRoom(1f));

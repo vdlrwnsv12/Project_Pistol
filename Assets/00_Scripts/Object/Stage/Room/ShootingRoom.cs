@@ -35,7 +35,7 @@ public class ShootingRoom : Room
         if (Data != null)
         {
             InitWall();
-            //InitTarget();
+            InitTarget();
             InitCivilianTarget();
         }
     }
@@ -56,10 +56,7 @@ public class ShootingRoom : Room
     {
         base.EnterRoom();
         
-        enterGate.Door.gameObject.SetActive(true);
-        RoomManager.Instance.RoomChangedAction();
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
-        RoomManager.Instance.PrevRoom.ResetRoom();
     }
 
     public override void ResetRoom()

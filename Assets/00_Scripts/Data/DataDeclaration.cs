@@ -26,8 +26,8 @@ namespace DataDeclaration
     public enum TargetType
     {
         LandTarget,
-        CivilianTarget,
         AerialTarget,
+        CivilianTarget,
     }
 
     public enum RankType

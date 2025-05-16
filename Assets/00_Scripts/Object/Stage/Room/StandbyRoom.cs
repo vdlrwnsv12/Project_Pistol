@@ -30,8 +30,6 @@ public class StandbyRoom : Room
     {
         base.EnterRoom();
         
-        exitGate.Door.gameObject.SetActive(true);
-        RoomManager.Instance.RoomChangedAction();
         StageManager.Instance.IsGamePause = true;
         StartCoroutine(OpenRewardUI(1f));
     }

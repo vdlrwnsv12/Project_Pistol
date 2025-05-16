@@ -9,8 +9,6 @@ public abstract class Room : MonoBehaviour
     protected Transform endPoint;
     
     public Transform EndPoint => endPoint;
-    
-    public ExitGate ExitGate => exitGate;
 
     protected virtual void Awake()
     {
@@ -24,12 +22,16 @@ public abstract class Room : MonoBehaviour
 
     protected virtual void EnterRoom()
     {
+        RoomManager.Instance.PrevRoom = RoomManager.Instance.CurRoom;
         RoomManager.Instance.CurRoom = this;
+        
+        RoomManager.Instance.PrevRoom.ExitRoom();
+
+        RoomManager.Instance.RoomChangedAction();
     }
 
     protected virtual void ExitRoom()
     {
-        RoomManager.Instance.PrevRoom = this;
         exitGate.Door.Close();
     }
     
