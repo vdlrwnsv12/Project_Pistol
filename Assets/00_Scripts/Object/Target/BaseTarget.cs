@@ -27,22 +27,16 @@ public abstract class BaseTarget : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
-    void Update()//테스트 삭제해야함
+
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (StageManager.Instance.Player && currentHp > 0)
         {
-            InitData(data);
+            var origin = transform.eulerAngles;
+            transform.LookAt(StageManager.Instance.Player.transform);
+            transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y, origin.z));
         }
     }
-#endif
-
-    // private void Update()
-    // {
-    //     var origin = transform.eulerAngles;
-    //     transform.LookAt(StageManager.Instance.Player.transform);
-    //     transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y - 90f, origin.z));
-    // }
 
     public abstract void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection);
 
@@ -75,7 +69,7 @@ public abstract class BaseTarget : MonoBehaviour
 
     public virtual void InitData(TargetSO data)
     {
-        AtivateAll();
+        ActivateAll();
 
         this.data = data;
         currentHp = data.Hp;
@@ -92,7 +86,7 @@ public abstract class BaseTarget : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void AtivateAll()
+    private void ActivateAll()
     {
         gameObject.SetActive(true);
 

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9733e7d4c3c4b28b79dff3e33ec722, type: 3}
+  m_Name: ST8005
+  m_EditorClassIdentifier: 
+  ID: ST8005
+  StageIndex: 8
+  BaseRoom: R0005
+  Targets:
+  - T0005
+  - T0005
+  - T0005
+  - T0005
+  - T0008
+  - T0008
+  - T0008
+  RespawnPoints: 00000000010000000200000003000000040000000500000006000000
+  WallPoints: 010101
+  CivilianRespawn: 2
+  Rail: 
