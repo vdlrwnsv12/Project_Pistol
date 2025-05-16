@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+
 public class GradientButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerDownHandler, IPointerUpHandler
 {
     public Image targetImage;
@@ -11,6 +10,7 @@ public class GradientButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointe
     public Material gradientMaterial; // 그라데이션 색깔
     public TextMeshProUGUI text;
     private bool isPressed = false;
+    
     public void OnPointerEnter(PointerEventData eventData) // 버튼위에 포인터
     {
         targetImage.material = gradientMaterial;
@@ -44,5 +44,4 @@ public class GradientButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointe
         targetImage.material = normalMaterial;
         text.color = Color.white;
     }
- 
 }
