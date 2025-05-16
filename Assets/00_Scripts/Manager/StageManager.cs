@@ -1,6 +1,7 @@
 using System;
 using DataDeclaration;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class StageManager : SingletonBehaviour<StageManager>
 {
@@ -10,7 +11,7 @@ public class StageManager : SingletonBehaviour<StageManager>
     private float quickShotTimer;
 
     public Player Player { get; private set; }
-    
+    public AnalyticsManager AnalyticsManager { get; private set; }
     public int GameScore { get; set; }
     public float RemainTime
     {
@@ -32,10 +33,12 @@ public class StageManager : SingletonBehaviour<StageManager>
     private float shotAccuracy;
     private float headShotAccuracy;
 
+    bool isGameOver = false;
     protected override void Awake()
     {
         isDontDestroyOnLoad = false;
         base.Awake();
+        AnalyticsManager = GetComponent<AnalyticsManager>();    
         IsGamePause = true;
         RemainTime = Constants.INIT_STAGE_TIME;
         IsQuickShot = false;
@@ -59,10 +62,12 @@ public class StageManager : SingletonBehaviour<StageManager>
             }
         }
 
-        if (remainTime <= 0)
+        if (remainTime <= 0 && !isGameOver)
         {
             GameOver();
+            isGameOver = true;
         }
+       
     }
 
     public void GameOver()
@@ -79,7 +84,7 @@ public class StageManager : SingletonBehaviour<StageManager>
             resultUI.SetResultValue(GameScore, RemainTime,
                 shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
         }
-
+        AnalyticsManager.EndGame();
         Player.Controller.enabled = false;
     }
 
