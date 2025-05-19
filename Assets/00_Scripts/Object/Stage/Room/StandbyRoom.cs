@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class StandbyRoom : Room
 {
+    private bool isItemRewardComplete;
+    
     protected override void Awake()
     {
         base.Awake();
+        isItemRewardComplete = false;
         if (endPoint == null)
         {
             endPoint = transform.FindDeepChildByName("EndPoint");
@@ -34,9 +37,15 @@ public class StandbyRoom : Room
         StartCoroutine(OpenRewardUI(1f));
     }
 
-    public override void ResetRoom()
+    protected override void ResetRoom()
     {
+        isItemRewardComplete = false;
         StartCoroutine(DisableRoom(1f));
+    }
+
+    public override bool CanOpenDoor()
+    {
+        return isItemRewardComplete;
     }
 
     private IEnumerator DisableRoom(float time)
@@ -49,7 +58,8 @@ public class StandbyRoom : Room
     private IEnumerator OpenRewardUI(float time)
     {
         yield return new WaitForSeconds(time);
-        UIManager.Instance.OpenPopupUI<PopupReward>();
+        var popupReward = UIManager.Instance.OpenPopupUI<PopupReward>();
+        popupReward.BuyComplete += () => { isItemRewardComplete = true; };
         StageManager.Instance.Player.Controller.enabled = false;
         UIManager.ToggleMouseCursor(true);
     }

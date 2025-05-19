@@ -54,7 +54,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// Resources/Prefabs/UI/PopUp/ 경로에 있는 Popup UI 리소스 생성
     /// </summary>
     /// <typeparam name="T">PopupUI 클래스</typeparam>
-    public void OpenPopupUI<T>() where T : PopupUI
+    public T OpenPopupUI<T>() where T : PopupUI
     {
         var openUI = FindPopupUIInPool<T>();
         if (openUI == null)
@@ -67,6 +67,8 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         // 하이라키 창에서 제일 마지막 오브젝트로 배치(렌더링 순서)
         openUI.transform.SetAsLastSibling();
         curPopupUIStack.Push(openUI);
+        
+        return openUI;
     }
 
     /// <summary>

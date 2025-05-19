@@ -10,7 +10,6 @@ public class StartRoom : Room
         {
             endPoint = transform.FindDeepChildByName("EndPoint");
         }
-        
         exitGate.Door.OpenDoor += OpenDoor;
         exitGate.OnPassingGate += ExitRoom;
     }
@@ -32,9 +31,14 @@ public class StartRoom : Room
         RoomManager.Instance.CurRoom = this;
     }
 
-    public override void ResetRoom()
+    protected override void ResetRoom()
     {
         StartCoroutine(DestroyRoom(1f));
+    }
+
+    public override bool CanOpenDoor()
+    {
+        return true;
     }
 
     private IEnumerator DestroyRoom(float time)

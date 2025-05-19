@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,10 +55,14 @@ public class ShootingRoom : Room
     {
         base.EnterRoom();
         
+        if (RoomManager.Instance.CurStageIndex == 1 && RoomManager.Instance.CurRoomIndex == 1)
+        {
+            return;
+        }
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
     }
 
-    public override void ResetRoom()
+    protected override void ResetRoom()
     {
         for (var i = 0; i < activeWalls.Length; i++)
         {
@@ -67,6 +70,18 @@ public class ShootingRoom : Room
         }
         ReturnTargetToPool();
         StartCoroutine(DisableRoom(1f));
+    }
+
+    public override bool CanOpenDoor()
+    {
+        for (var i = 0; i < curActiveTargets.Count; i++)
+        {
+            if (curActiveTargets[i].gameObject.activeSelf)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private IEnumerator DisableRoom(float time)

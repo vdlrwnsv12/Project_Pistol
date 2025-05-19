@@ -2587,6 +2587,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CivilianTarget
       objectReference: {fileID: 0}
+    - target: {fileID: 5304497343958449132, guid: a2022c7893a78458e8d56952adadda2c,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

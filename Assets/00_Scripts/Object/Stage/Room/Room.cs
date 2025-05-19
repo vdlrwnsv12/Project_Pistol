@@ -34,6 +34,8 @@ public abstract class Room : MonoBehaviour
     {
         exitGate.Door.Close();
     }
-    
-    public abstract void ResetRoom();
+
+    protected abstract void ResetRoom();
+
+    public abstract bool CanOpenDoor();
 }
