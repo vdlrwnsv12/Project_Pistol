@@ -7,7 +7,7 @@ public class PlayerMotion : MonoBehaviour
 {
     private Player player;
     [field: SerializeField] public Transform ArmTransform { get; private set; }
-    [field: SerializeField] public GameObject HandPos { get; private set; }
+    [field: SerializeField] private Transform handPos;
 
     private float stepTimer = 0f;
     private float stepInterval = 0.4f; // 0.4초마다 흔든다 (스텝 간격)
@@ -15,24 +15,30 @@ public class PlayerMotion : MonoBehaviour
     private float stepForce = 0f;
 
     public float finalRecoil;
-
-
     private Quaternion initialLocalRotation;
     private void Awake()
     {
         player = GetComponent<Player>();
+        if (handPos == null)
+        {
+            transform.FindDeepChildByName("Hand");
+        }
 
     }
     private void Start()
     {
-        initialLocalRotation = HandPos.transform.localRotation;
+        Debug.Log("motion Start호출");
+        initialLocalRotation = handPos.transform.localRotation;
     }
 
-
+    private void Update()
+    {
+        WeaponShake();
+    }
     /// <summary>
     /// 조준 시 캐릭터 HDL 수치에 따른 조준 흔들림 기능
     /// </summary>
-    public void WeaponShake()
+    private void WeaponShake()
     {
         var accuracy = Mathf.Clamp01((99f - player.Stat.HDL) / 98f);
         var shakeAmount = accuracy * 7.5f;
@@ -42,7 +48,8 @@ public class PlayerMotion : MonoBehaviour
         var rotZ = (Mathf.PerlinNoise(Time.time * 0.7f, Time.time * 0.7f) - 0.5f) * shakeAmount;
 
         var shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
-        HandPos.transform.localRotation = initialLocalRotation * shakeRotation;
+        handPos.transform.localRotation = initialLocalRotation * shakeRotation;
+        Debug.Log("위치 " + handPos.transform.localRotation);
     }
 
 
@@ -66,20 +73,6 @@ public class PlayerMotion : MonoBehaviour
             {
                 player.impulseSource.GenerateImpulse(Vector3.down * stepForce); // 아래로 (조금 덜)
             }
-        }
-    }
-    public void HeadbobUp()
-    {
-        stepTimer += Time.deltaTime;
-
-        if (stepTimer >= stepInterval)
-        {
-            stepTimer = 0f; // 타이머 초기화
-
-            float t = Mathf.InverseLerp(1f, 99f, player.Stat.STP);
-            float force = Mathf.Lerp(1.0f, 0.1f, t);
-
-            player.impulseSource.GenerateImpulse(force * 0.02f); // 한번 흔들어줌
         }
     }
 
@@ -114,14 +107,5 @@ public class PlayerMotion : MonoBehaviour
 
         player.stateMachine.RecoilOffsetX = targetOffset; // 정확한 마무리
     }
-    public void HeadbobDown()
-    {
-        stepTimer = Mathf.MoveTowards(stepTimer, stepInterval, Time.deltaTime * 2f);
-    }
-    private float ClampAngle(float angle, float min, float max)
-    {
-        if (angle < -360) angle += 360;
-        if (angle > 360) angle -= 360;
-        return Mathf.Clamp(angle, min, max);
-    }
+  
 }

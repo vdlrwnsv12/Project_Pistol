@@ -1498,7 +1498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ArmTransform>k__BackingField: {fileID: 3897598372907226556}
-  <HandPos>k__BackingField: {fileID: 5298456330518740627}
+  handPos: {fileID: 354516420026562418}
   finalRecoil: 0
 --- !u!1 &3812044873675645748
 GameObject:

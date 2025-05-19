@@ -12,6 +12,14 @@ public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
         AnalyticsService.Instance.StartDataCollection();
     }
 
+    public void SelectData()
+    {
+
+    }
+    public void FlushData()
+    {
+
+    }
     public void EndGame()
     {
         Debug.Log("호출");
