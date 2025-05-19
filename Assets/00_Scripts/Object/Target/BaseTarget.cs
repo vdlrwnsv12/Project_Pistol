@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class BaseTarget : MonoBehaviour
+public abstract class BaseTarget : MonoBehaviour, IPoolable
 {
     [Header("타겟 데이터")]
     [SerializeField] protected TargetSO data;
@@ -9,7 +9,6 @@ public abstract class BaseTarget : MonoBehaviour
     [SerializeField] protected Animator anim;
 
     [Header("사운드")]
-    [SerializeField] protected AudioClip upSound;
     [SerializeField] protected AudioClip downSound;
 
     [Header("UI")]
@@ -18,6 +17,9 @@ public abstract class BaseTarget : MonoBehaviour
     [SerializeField] protected GameObject blip;
     [SerializeField] protected Text lvText;
 
+    [SerializeField] private Transform visual;
+
+
 
     protected virtual void Start()
     {
@@ -25,36 +27,35 @@ public abstract class BaseTarget : MonoBehaviour
         {
             anim = GetComponent<Animator>() ?? GetComponentInChildren<Animator>();
         }
+        InitData(data);
     }
 
 
-    private void Update()
+    private void LateUpdate()
     {
         if (StageManager.Instance.Player && currentHp > 0)
         {
-            var origin = transform.eulerAngles;
-            transform.LookAt(StageManager.Instance.Player.transform);
-            transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y, origin.z));
+            Vector3 direction = StageManager.Instance.Player.transform.position - transform.position;
+            direction.y = 0f; // 수평 회전만
+
+            if (direction.sqrMagnitude > 0.01f)
+            {
+                transform.rotation = Quaternion.LookRotation(direction);
+            }
         }
     }
 
     public abstract void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection);
 
-    public void OnPlayerEnteredRange()
-    {
-        if (currentHp <= 0) return;
-        if (anim != null)
-        {
-            if (!anim.GetBool("Up")) // 안 올라가있을 때만
-            {
-                anim.SetBool("Up", true);
-                SoundManager.Instance.PlaySFXForClip(upSound, gameObject.transform.position);
-            }
-        }
-    }
+    // public void OnPlayerEnteredRange()
+    // {
+    //     if (currentHp <= 0) return;
+
+    // }
 
     protected virtual void Die()
     {
+
         if (anim != null)
         {
             anim.SetBool("Die", true);
@@ -89,13 +90,22 @@ public abstract class BaseTarget : MonoBehaviour
     private void ActivateAll()
     {
         gameObject.SetActive(true);
+        blip.SetActive(true);
+        targetUI.SetActive(true);
+    }
 
+    public void OnGetFromPool()
+    {
+    }
+
+    public void OnReturnToPool()
+    {
+        // 풀로 반환될 때
         if (anim != null)
         {
             anim.SetBool("Die", false);
+            Debug.Log("Die");
         }
-
-        blip.SetActive(true);
-        targetUI.SetActive(true);
+        InitData(data); // 초기 상태로 복원
     }
 }
