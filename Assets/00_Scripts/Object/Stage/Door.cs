@@ -22,13 +22,20 @@ public class Door : MonoBehaviour, IInteract
 
     public void Interact()
     {
-        Open();
+        if (RoomManager.Instance.CurRoom.CanOpenDoor())
+        {
+            Open();
+        }
     }
 
     private void Open()
     {
-        animator.SetTrigger(OpenDoorTrigger);
-        OpenDoor?.Invoke();
+        if (!IsOpened)
+        {
+            IsOpened = true;
+            animator.SetTrigger(OpenDoorTrigger);
+            OpenDoor?.Invoke();
+        }
     }
 
     public void Close()
@@ -39,7 +46,6 @@ public class Door : MonoBehaviour, IInteract
 
     private void Opened()
     {
-        IsOpened = true;
         DoorOpened?.Invoke();
     }
 

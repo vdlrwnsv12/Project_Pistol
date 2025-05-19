@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using DataDeclaration;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PopupReward : PopupUI
 {
@@ -13,6 +15,8 @@ public class PopupReward : PopupUI
     [SerializeField] private RewardCard[] rewardCards;
 
     [SerializeField] private Button cancelBuyBtn;
+    
+    public event Action BuyComplete;
 
     private void Awake()
     {
@@ -118,8 +122,7 @@ public class PopupReward : PopupUI
         Debug.LogWarning($"무기 파츠 {itemID}를 찾을 수 없습니다.");
         return null;
     }
-
-
+    
     protected override void CloseUI()
     {
         base.CloseUI();
@@ -128,6 +131,8 @@ public class PopupReward : PopupUI
             UIManager.ToggleMouseCursor(false);
             StageManager.Instance.Player.Controller.enabled = true;
         }
+        BuyComplete?.Invoke();
+        BuyComplete = null;
     }
 
     //TODO: 조건 더 추가해야 함
