@@ -104,7 +104,6 @@ public class WeaponController : MonoBehaviour
                 BaseTarget target = hit.collider.GetComponentInParent<BaseTarget>();
                 
                 Vector3 hitDir = (hit.point - barrelLocation.position).normalized; //힘을 줘야 할 방향
-                Debug.Log($"{hitDir}");
                 target?.TakeDamage(stat.Damage, hit.collider, hitDir);
             }
         }

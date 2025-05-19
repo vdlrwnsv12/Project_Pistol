@@ -6,8 +6,6 @@ public class LandTarget : BaseTarget
     {
         if (currentHp <= 0) return;
 
-        anim.SetTrigger("Hit");
-        
         StageManager.Instance.HitCount++;
         bool isHeadShot;
 
@@ -28,7 +26,11 @@ public class LandTarget : BaseTarget
 
         hpBar.fillAmount = currentHp / data.Hp;
 
-        if (currentHp <= 0)
+        if (currentHp > 0)
+        {
+            anim.SetTrigger("Hit");
+        }
+        else
         {
             StageManager.Instance.DestroyTargetCombo++;
             if (StageManager.Instance.MaxDestroyTargetCombo <= StageManager.Instance.DestroyTargetCombo)
@@ -37,12 +39,12 @@ public class LandTarget : BaseTarget
             }
             Die();
         }
-        
+
         StageManager.Instance.GameScore += (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
         StageManager.Instance.IsQuickShot = true;
         StageManager.Instance.QuickShotTimer = 0f;
     }
-    
+
     private float BaseScore(bool isHeadShot, float dmg)
     {
         return isHeadShot ? dmg * 1.5f : dmg;
