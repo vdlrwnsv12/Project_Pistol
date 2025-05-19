@@ -65,10 +65,10 @@ public class HUDUI : MainUI
     /// </summary>
     private void UpdateRealTimeChanges()
     {
-        scoreText.text = $"<size=36>Score</size>\n<size=50>{StageManager.Instance.GameScore:D6}</size>";
-        remainTimeText.text = $"TIME\n{StageManager.Instance.RemainTime:N2}";
+        scoreText.text = $"<size=36>Score</size>\n<size=80>{StageManager.Instance.GameScore:D6}</size>";
+        remainTimeText.text = $"<size=120>{StageManager.Instance.RemainTime:N2}</size>";
         ammoText.text = $"{StageManager.Instance.Player.Weapon.CurAmmo} / {StageManager.Instance.Player.Weapon.MaxAmmo}";
-        comboText.text = $"<size=40>Combo</size>\n<size=50>{StageManager.Instance.DestroyTargetCombo}</size>";
+        comboText.text = $"<size=36>Combo</size>\n<size=80>{StageManager.Instance.DestroyTargetCombo}</size>";
     }
 
     /// <summary>
