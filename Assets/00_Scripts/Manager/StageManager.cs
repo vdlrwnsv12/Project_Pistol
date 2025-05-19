@@ -7,18 +7,14 @@ public class StageManager : SingletonBehaviour<StageManager>
 {
     public bool IsGamePause { get; set; }
     private float remainTime;
-    
     private float quickShotTimer;
-
     public Player Player { get; private set; }
-    public AnalyticsManager AnalyticsManager { get; private set; }
     public int GameScore { get; set; }
     public float RemainTime
     {
         get => Math.Max(0f, remainTime);
         set => remainTime = value;
     }
-    
     public int DestroyTargetCombo { get; set; }
     public int MaxDestroyTargetCombo { get; set; }
     public bool IsQuickShot { get; set; }
@@ -38,7 +34,6 @@ public class StageManager : SingletonBehaviour<StageManager>
     {
         isDontDestroyOnLoad = false;
         base.Awake();
-        AnalyticsManager = GetComponent<AnalyticsManager>();    
         IsGamePause = true;
         RemainTime = Constants.INIT_STAGE_TIME;
         IsQuickShot = false;
@@ -84,7 +79,7 @@ public class StageManager : SingletonBehaviour<StageManager>
             resultUI.SetResultValue(GameScore, RemainTime,
                 shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
         }
-        AnalyticsManager.EndGame();
+        AnalyticsManager.Instance.EndGame();
         Player.Controller.enabled = false;
     }
 

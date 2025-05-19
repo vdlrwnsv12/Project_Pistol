@@ -3,10 +3,11 @@ using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Analytics;
 
-public class AnalyticsManager : MonoBehaviour
+public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
 {
     private async void Awake()
     {
+        base.Awake();
         await UnityServices.InitializeAsync();
         AnalyticsService.Instance.StartDataCollection();
     }
@@ -25,12 +26,12 @@ public class AnalyticsManager : MonoBehaviour
         // 커스텀 이벤트 전송
         AnalyticsService.Instance.CustomData("OverZone1", new Dictionary<string, object>
         {
-            {nameof(remainTime), remainTime },
-            {nameof(stageIndex), stageIndex }, // 스테이지 번호
-            {nameof(roomIndex), roomIndex },   // 방 번호 
-            {nameof(character), character }, // 캐릭터
+            {nameof(remainTime), remainTime},
+            {nameof(stageIndex), stageIndex}, // 스테이지 번호
+            {nameof(roomIndex), roomIndex},   // 방 번호 
+            {nameof(character), character}, // 캐릭터
             {nameof(weapon), weapon},    // 무기
-            {nameof(score),score }
+            {nameof(score),score}
         });
 
         AnalyticsService.Instance.Flush(); // 데이터 전송 강제 트리거 (선택)
