@@ -21,6 +21,7 @@ public class AnalyticsManager : MonoBehaviour
         int roomIndex = RoomManager.Instance.CurRoomIndex;
         string character = GameManager.Instance.selectedCharacter.ToString();
         string weapon = GameManager.Instance.selectedWeapon.ToString();
+        int score = StageManager.Instance.GameScore;
         // 커스텀 이벤트 전송
         AnalyticsService.Instance.CustomData("OverZone1", new Dictionary<string, object>
         {
@@ -29,6 +30,7 @@ public class AnalyticsManager : MonoBehaviour
             {nameof(roomIndex), roomIndex },   // 방 번호 
             {nameof(character), character }, // 캐릭터
             {nameof(weapon), weapon},    // 무기
+            {nameof(score),score }
         });
 
         AnalyticsService.Instance.Flush(); // 데이터 전송 강제 트리거 (선택)
