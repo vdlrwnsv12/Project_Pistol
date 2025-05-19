@@ -1,17 +1,18 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AerialTarget : BaseTarget
 {
     private Vector3 hitDirection;
     private Rigidbody rb;
-    [SerializeField]private GameObject targetObj;
-    [SerializeField]private Transform targetPoint;
+    [SerializeField] private GameObject targetObj;
+    [SerializeField] private Transform targetPoint;
     protected override void Start()
     {
         base.Start();
 
         rb = targetObj.GetComponent<Rigidbody>();
-        if(rb == null)
+        if (rb == null)
         {
             rb = targetObj.gameObject.AddComponent<Rigidbody>();
         }
@@ -23,7 +24,7 @@ public class AerialTarget : BaseTarget
     {
         if (currentHp <= 0) return;
 
-        if(anim != null)
+        if (anim != null)
         {
             anim.SetTrigger("Hit");
         }
@@ -53,11 +54,12 @@ public class AerialTarget : BaseTarget
         }
     }
 
+
     private void AddForceTarget() //타겟이 총알의 방향대로 날아감
     {
         if (rb != null)
         {
-            
+
             rb.useGravity = true;
             rb.isKinematic = false;
 
@@ -69,6 +71,15 @@ public class AerialTarget : BaseTarget
     public override void InitData(TargetSO data)
     {
         base.InitData(data);
+
+        if (rb == null && targetObj != null)
+        {
+            rb = targetObj.GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+                rb = targetObj.gameObject.AddComponent<Rigidbody>();
+            }
+        }
 
         rb.useGravity = false;
         rb.isKinematic = true;
