@@ -60,6 +60,10 @@ public abstract class BaseTarget : MonoBehaviour, IPoolable
         }
 
         blip.SetActive(false);
+        if (targetUI != null)
+        {
+
+        }
         targetUI.SetActive(false);
         SoundManager.Instance.PlaySFXForClip(downSound, gameObject.transform.position);
         Invoke(nameof(DeactivateTarget), 2f);
@@ -72,11 +76,14 @@ public abstract class BaseTarget : MonoBehaviour, IPoolable
 
         this.data = data;
         currentHp = data.Hp;
-        lvText.text = $"Lv.{data.Level}";
 
-        if (hpBar != null)
+        if (targetUI != null)
         {
-            hpBar.fillAmount = 1f;
+            lvText.text = $"Lv.{data.Level}";
+            if (hpBar != null)
+            {
+                hpBar.fillAmount = 1f;
+            }
         }
     }
 
@@ -87,9 +94,13 @@ public abstract class BaseTarget : MonoBehaviour, IPoolable
 
     private void ActivateAll()
     {
-        gameObject.SetActive(true);
+        if (targetUI != null)
+        {
+            gameObject.SetActive(true);
+            targetUI.SetActive(true);
+        }
+        
         blip.SetActive(true);
-        targetUI.SetActive(true);
     }
 
     public void OnGetFromPool()
