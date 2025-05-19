@@ -3,10 +3,11 @@ using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Analytics;
 
-public class AnalyticsManager : MonoBehaviour
+public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
 {
     private async void Awake()
     {
+        base.Awake();
         await UnityServices.InitializeAsync();
         AnalyticsService.Instance.StartDataCollection();
     }
