@@ -104,10 +104,14 @@ public class PopupReward : PopupUI
             return null;
         }
 
-        foreach (Transform child in weapon.transform)
+        var children = weapon.GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform child in children)
         {
+             Debug.LogWarning($"찾는중 {child.gameObject.name}");
             if (child.gameObject.name.Equals(itemID, System.StringComparison.OrdinalIgnoreCase))
             {
+                Debug.LogWarning($"찾음 {itemID}");
                 return child.gameObject;
             }
         }

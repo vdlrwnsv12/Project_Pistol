@@ -24,29 +24,29 @@ public class Weapon : MonoBehaviour
     [SerializeField] public GameObject I2005;
     [SerializeField] public GameObject I2006;
 
-    private void Update()//테스트
-    {
-        // 1번 키를 누르면 첫 번째 아이템을 토글
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ToggleAttachment("I2003");  // Item1은 실제 아이템 객체로 바꿔주세요
-        }
-        // 2번 키를 누르면 두 번째 아이템을 토글
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ToggleAttachment("I2004");  // Item2는 실제 아이템 객체로 바꿔주세요
-        }
-        // 3번 키를 누르면 세 번째 아이템을 토글
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ToggleAttachment(I2005);  // Item3은 실제 아이템 객체로 바꿔주세요
-        }
-        // 4번 키를 누르면 네 번째 아이템을 토글
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            ToggleAttachment(I2006);  // Item4는 실제 아이템 객체로 바꿔주세요
-        }
-    }
+    // private void Update()//테스트
+    // {
+    //     // 1번 키를 누르면 첫 번째 아이템을 토글
+    //     if (Input.GetKeyDown(KeyCode.Alpha1))
+    //     {
+    //         ToggleAttachment("I2003");  // Item1은 실제 아이템 객체로 바꿔주세요
+    //     }
+    //     // 2번 키를 누르면 두 번째 아이템을 토글
+    //     if (Input.GetKeyDown(KeyCode.Alpha2))
+    //     {
+    //         ToggleAttachment("I2004");  // Item2는 실제 아이템 객체로 바꿔주세요
+    //     }
+    //     // 3번 키를 누르면 세 번째 아이템을 토글
+    //     if (Input.GetKeyDown(KeyCode.Alpha3))
+    //     {
+    //         ToggleAttachment(I2005);  // Item3은 실제 아이템 객체로 바꿔주세요
+    //     }
+    //     // 4번 키를 누르면 네 번째 아이템을 토글
+    //     if (Input.GetKeyDown(KeyCode.Alpha4))
+    //     {
+    //         ToggleAttachment(I2006);  // Item4는 실제 아이템 객체로 바꿔주세요
+    //     }
+    // }
 
     private void Awake()
     {
@@ -96,7 +96,7 @@ public class Weapon : MonoBehaviour
 
     private GameObject FindAttachmentByName(string name)
     {
-        foreach (Transform child in transform.GetComponentInChildren<Transform>(true))
+        foreach (Transform child in transform.GetComponentsInChildren<Transform>(true))
         {
             string cleanName = child.name.Replace("(Clone)", "").Trim();
             if (string.Equals(cleanName, name, System.StringComparison.OrdinalIgnoreCase))
