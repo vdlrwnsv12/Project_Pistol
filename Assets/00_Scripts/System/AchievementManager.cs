@@ -25,10 +25,30 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
 
     /// <summary>팝업 UI</summary>
     [SerializeField] private UIAchievementPopup popupUI;
+    [SerializeField] private AchievementListSO listSO;
 
     #endregion
 
     #region Unity Methods
+
+    protected override void Awake()
+    {
+        if (listSO != null)
+        {
+            allAchievements = listSO.achievements;
+            Debug.Log($"[AchievementManager] 도전과제 {allAchievements.Count}개 로드됨.");
+        }
+        else
+        {
+            Debug.LogWarning("[AchievementManager] AchievementListSO가 연결되지 않았습니다.");
+        }
+
+        if (tracker == null)
+        {
+            tracker = FindAnyObjectByType<PlayerStatTracker>();
+            Debug.Log($"[AchievementManager] tracker 자동 할당됨: {tracker != null}");
+        }
+    }
 
     #endregion
 
@@ -39,6 +59,18 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
     /// </summary>
     public void CheckAllAchievements()
     {
+        if (allAchievements == null || allAchievements.Count == 0)
+        {
+            Debug.LogWarning("[AchievementManager] 도전과제 리스트가 비어 있음.");
+            return;
+        }
+
+        if (tracker == null)
+        {
+            Debug.LogError("[AchievementManager] PlayerStatTracker가 연결되지 않았습니다.");
+            return;
+        }
+
         foreach (var achievement in allAchievements)
         {
             if (IsUnlocked(achievement.id)) continue;
@@ -117,6 +149,12 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
     /// </summary>
     private float GetStatValue(AchievementConditionType type)
     {
+        if (tracker == null)
+        {
+            Debug.LogWarning("[AchievementManager] tracker가 null입니다.");
+            return 0f;
+        }
+
         return type switch
         {
             AchievementConditionType.KillCount => tracker.killCount,
@@ -131,6 +169,7 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
             _ => 0f
         };
     }
+
 
     #endregion
 }
