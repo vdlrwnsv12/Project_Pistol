@@ -18,36 +18,6 @@ public class Weapon : MonoBehaviour
     public WeaponController Controller { get; private set; }
 
     public Animator Anim { get; private set; }
-
-    [SerializeField] public GameObject I2003;
-    [SerializeField] public GameObject I2004;
-    [SerializeField] public GameObject I2005;
-    [SerializeField] public GameObject I2006;
-
-    // private void Update()//테스트
-    // {
-    //     // 1번 키를 누르면 첫 번째 아이템을 토글
-    //     if (Input.GetKeyDown(KeyCode.Alpha1))
-    //     {
-    //         ToggleAttachment("I2003");  // Item1은 실제 아이템 객체로 바꿔주세요
-    //     }
-    //     // 2번 키를 누르면 두 번째 아이템을 토글
-    //     if (Input.GetKeyDown(KeyCode.Alpha2))
-    //     {
-    //         ToggleAttachment("I2004");  // Item2는 실제 아이템 객체로 바꿔주세요
-    //     }
-    //     // 3번 키를 누르면 세 번째 아이템을 토글
-    //     if (Input.GetKeyDown(KeyCode.Alpha3))
-    //     {
-    //         ToggleAttachment(I2005);  // Item3은 실제 아이템 객체로 바꿔주세요
-    //     }
-    //     // 4번 키를 누르면 네 번째 아이템을 토글
-    //     if (Input.GetKeyDown(KeyCode.Alpha4))
-    //     {
-    //         ToggleAttachment(I2006);  // Item4는 실제 아이템 객체로 바꿔주세요
-    //     }
-    // }
-
     private void Awake()
     {
         if (data == null)
