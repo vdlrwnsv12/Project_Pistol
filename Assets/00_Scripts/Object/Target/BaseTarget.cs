@@ -72,7 +72,7 @@ public abstract class BaseTarget : MonoBehaviour, IPoolable
 
         this.data = data;
         currentHp = data.Hp;
-        lvText.text = $"{data.Level}";
+        lvText.text = $"Lv.{data.Level}";
 
         if (hpBar != null)
         {
