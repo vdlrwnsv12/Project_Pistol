@@ -31,16 +31,14 @@ public abstract class BaseTarget : MonoBehaviour, IPoolable
     }
 
 
-    private void LateUpdate()
+    private void Update()
     {
-        if (StageManager.Instance.Player && currentHp > 0)
         {
-            Vector3 direction = StageManager.Instance.Player.transform.position - transform.position;
-            direction.y = 0f; // 수평 회전만
-
-            if (direction.sqrMagnitude > 0.01f)
+            if (StageManager.Instance.Player && currentHp > 0)
             {
-                transform.rotation = Quaternion.LookRotation(direction);
+                var origin = transform.eulerAngles;
+                transform.LookAt(StageManager.Instance.Player.transform);
+                transform.rotation = Quaternion.Euler(new Vector3(origin.x, transform.rotation.eulerAngles.y, origin.z));
             }
         }
     }
