@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
         InitPlayer();
 
         InitWeapon(GameManager.Instance.selectedWeapon.ID);
+        
 
         InitCamera();
     }
@@ -57,12 +58,6 @@ public class Player : MonoBehaviour
         {
             Motion.HeadbobUpdate();
         }
-        //else
-        //{
-        //    Motion.HeadbobDown();
-        //}
-
-        Motion.WeaponShake();
     }
 
     private void FixedUpdate()
