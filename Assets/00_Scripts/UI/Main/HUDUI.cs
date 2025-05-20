@@ -130,7 +130,9 @@ public class HUDUI : MainUI
         void CreateScoreText(string label, int score)
         {
             var go = ObjectPoolManager.Instance.GetObject(scorePrefab, Vector3.zero, Quaternion.identity, 2f);
-            go.transform.SetParent(scorePosition, true);
+            go.transform.SetParent(scorePosition, false);
+            
+            go.transform.localRotation = Quaternion.identity;
 
             var text = go.GetComponentInChildren<TextMeshProUGUI>();
             if (text != null)
