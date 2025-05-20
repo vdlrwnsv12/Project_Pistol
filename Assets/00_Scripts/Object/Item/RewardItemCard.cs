@@ -22,8 +22,8 @@ public class RewardItemCard : MonoBehaviour
     public void SetItemData(ItemSO item)
     {
         data = item;
-        //var itemImage = ResourceManager.Instance.Load<Sprite>($"{item.ID}");
-        //rewardImage.sprite = itemImage;
+        var itemImage = ResourceManager.Instance.Load<Sprite>($"Sprites/Item/{item.ID}");
+        rewardImage.sprite = itemImage;
         rewardName.text = item.Name;
         timeCost.text = $"비용 -{item.cost:N2}s";
     }
