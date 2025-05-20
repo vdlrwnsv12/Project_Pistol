@@ -1,5 +1,6 @@
 using DataDeclaration;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +9,17 @@ public class HUDUI : MainUI
     #region UI Object
 
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private GameObject scorePrefab;
+    [SerializeField] private Transform scorePosition;
     [SerializeField] private TextMeshProUGUI remainTimeText;
     [SerializeField] private TextMeshProUGUI curStageText;
-    [SerializeField] private TextMeshProUGUI comboText
+    [SerializeField]
+    private TextMeshProUGUI comboText
     ;
     [SerializeField] private Image[] stageIndex;
-    [Space] [SerializeField] private Image equipImage;
+    [Space][SerializeField] private Image equipImage;
     [SerializeField] private TextMeshProUGUI ammoText;
-    [Space] [SerializeField] private Image spdGauge;
+    [Space][SerializeField] private Image spdGauge;
     [SerializeField] private TextMeshProUGUI spdText;
     [SerializeField] private Image hdlGauge;
     [SerializeField] private TextMeshProUGUI hdlText;
@@ -25,7 +29,7 @@ public class HUDUI : MainUI
     [SerializeField] private TextMeshProUGUI stpText;
 
     #endregion
-    
+
     private Color32 originalColor;
     private Color32 currentColor;
 
@@ -92,13 +96,46 @@ public class HUDUI : MainUI
         }
     }
 
+    public void ShowScoreEffect(bool isHeadShot, int headShotScore, int comboScore, int quickShotScore, int rangeScore)
+    {
+        if (scorePrefab == null || scorePosition == null) return;
+
+        void CreateScoreText(string label, int score)
+        {
+            var go = ObjectPoolManager.Instance.GetObject(scorePrefab, Vector3.zero, Quaternion.identity, 2f);
+            go.transform.SetParent(scorePosition, true);
+
+            var text = go.GetComponentInChildren<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.text = $"{label} +{score:0000}";
+            }
+        }
+
+        string hitLabel = isHeadShot ? "Head Shot" : "Body Shot";
+        CreateScoreText(hitLabel, headShotScore);
+
+        if (comboScore > 0)
+            CreateScoreText("Combo Bonus", comboScore);
+
+        if (quickShotScore > 0)
+            CreateScoreText("Quick Shot Bonus", quickShotScore);
+
+        if (rangeScore > 0)
+            CreateScoreText("Range Bonus", rangeScore);
+    }
+
+
+
+
+
     /// <summary>
     /// 캐릭터 스탯 UI 갱신 메서드
     /// </summary>
     public void UpdateStatValue()
     {
         var stat = StageManager.Instance.Player.Stat;
-        
+
         rclGauge.fillAmount = stat.RCL / Constants.MAX_STAT;
         rclText.text = stat.RCL.ToString("N0");
 
