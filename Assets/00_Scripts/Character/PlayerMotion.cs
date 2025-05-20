@@ -27,7 +27,6 @@ public class PlayerMotion : MonoBehaviour
     }
     private void Start()
     {
-        Debug.Log("motion Start호출");
         initialLocalRotation = handPos.transform.localRotation;
     }
 

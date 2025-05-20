@@ -64,7 +64,6 @@ public class StageManager : SingletonBehaviour<StageManager>
             {
                 quickShotTimer = 0f;
                 IsQuickShot = false;
-                Debug.Log("큇샷 시간 초과");
             }
         }
 

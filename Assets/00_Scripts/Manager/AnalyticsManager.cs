@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.Core;
@@ -5,11 +6,19 @@ using Unity.Services.Analytics;
 
 public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
 {
-    private async void Awake()
+    protected override async void Awake()
     {
-        base.Awake();
-        await UnityServices.InitializeAsync();
-        AnalyticsService.Instance.StartDataCollection();
+        try
+        {
+            base.Awake();
+            await UnityServices.InitializeAsync();
+            AnalyticsService.Instance.StartDataCollection();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+            //throw; // TODO 예외 처리
+        }
     }
 
     public void SelectData()
@@ -20,6 +29,7 @@ public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
     {
 
     }
+    
     public void EndGame()
     {
         Debug.Log("호출");

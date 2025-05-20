@@ -118,6 +118,5 @@ public class HUDUI : MainUI
     public void SetEquipImage(Sprite weaponImage)
     {
         equipImage.sprite = weaponImage;
-        Debug.LogWarning($"{weaponImage.name}");
     }
 }
