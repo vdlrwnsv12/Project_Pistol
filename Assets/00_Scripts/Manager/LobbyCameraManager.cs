@@ -1,7 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 
-public class LobbyCameraHandler : SingletonBehaviour<LobbyCameraHandler>
+public class LobbyCameraManager : SingletonBehaviour<LobbyCameraManager>
 {
     [SerializeField] private GameObject cameraPositionTarget;
     [SerializeField] private GameObject cameraLookTarget;

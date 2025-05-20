@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.650571, g: 0.69115627, b: 0.6912924, a: 1}
+  m_IndirectSpecularColor: {r: 0.650571, g: 0.6911564, b: 0.6912924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10442,7 +10442,7 @@ GameObject:
   - component: {fileID: 2106005814}
   - component: {fileID: 2106005815}
   m_Layer: 0
-  m_Name: CamContainer
+  m_Name: LobbyCameraManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -9,7 +9,7 @@ public class StartBtn : MonoBehaviour
     {
 
         SetLobbyUI(false);
-        LobbyCameraHandler.Instance.MoveCameraPosition(+1);
+        LobbyCameraManager.Instance.MoveCameraPosition(+1);
     }
 
     public void OnLobbyUI()
@@ -21,7 +21,7 @@ public class StartBtn : MonoBehaviour
         GameManager.Instance.selectedCharacter = null;
         GameManager.Instance.selectedWeapon = null;
 
-        LobbyCameraHandler.Instance.ResetCamPosition();
+        LobbyCameraManager.Instance.ResetCamPosition();
     }
     private void SetLobbyUI(bool isOn)
     {
