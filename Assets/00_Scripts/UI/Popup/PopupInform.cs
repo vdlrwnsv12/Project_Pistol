@@ -96,7 +96,7 @@ public class PopupInform : PopupUI
         //캐릭터와 무기 정보가 모두 선택됐으면 게임 씬으로 (테스트용 코드라 지워야함) 
         if (GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon != null)
         {
-            SceneLoadManager.Instance.LoadScene(DataDeclaration.Scene.Stage);//테스트용 코드
+            StartCoroutine(SceneLoadManager.Instance.LoadScene(DataDeclaration.Scene.Stage));//테스트용 코드
             return;
         }
         else
