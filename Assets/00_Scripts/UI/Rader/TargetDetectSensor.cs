@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TargetDetectSensor : MonoBehaviour
 {
@@ -61,6 +62,12 @@ public class TargetDetectSensor : MonoBehaviour
 
             GameObject blip = Instantiate(blipPrefab, blipContainer);
             blip.GetComponent<RectTransform>().anchoredPosition = blipPos;
+
+            if (target.transform.parent == null || target.transform.parent.name == "CivilianTarget")
+            {
+                RawImage blipImage = blip.GetComponent<RawImage>();
+                blipImage.color = Color.green;
+            }
         }
     }
 
