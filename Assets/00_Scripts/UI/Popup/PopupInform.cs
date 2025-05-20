@@ -98,6 +98,7 @@ public class PopupInform : PopupUI
         if(GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon !=null)
         {
             SceneManager.LoadScene("02_GameScene");//테스트용 코드
+            AnalyticsManager.Instance.SelectData();
             return;
         }
         // 아직 무기선택 전이면 총기 테이블로
@@ -122,6 +123,7 @@ public class PopupInform : PopupUI
         {
             GameManager.Instance.selectedWeapon = weaponSO;
         }
+
     }
 
     /// <summary>

@@ -45,6 +45,7 @@ public class ShootingRoom : Room
             RoomManager.Instance.CurRoomIndex == Constants.MAX_ROOM_INDEX)
         {
             StageManager.Instance.GameOver();
+            AnalyticsManager.Instance.ClearGame();
             return;
         }
         
