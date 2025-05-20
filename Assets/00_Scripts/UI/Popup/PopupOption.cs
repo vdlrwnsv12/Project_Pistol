@@ -144,7 +144,7 @@ public class PopupOption : PopupUI
 
     public void OnClickExitBtn()
     {
-        GameManager.GameQuit();
+        //GameManager.GameQuit();
     }
 
     public void OnClickResumeBtn()
