@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class PopupReward : PopupUI
 {
-    private ItemSO[] itemRewardPool;   // 모든 아이템 SO
+    private List<ItemSO> itemRewardPool;   // 모든 아이템 SO
     
     [SerializeField] private Image playerImage;
     private Sprite[] playerSprite;
@@ -17,7 +18,7 @@ public class PopupReward : PopupUI
 
     private void Awake()
     {
-        itemRewardPool = ResourceManager.Instance.LoadAll<ItemSO>("Data/SO/ItemSO");
+        itemRewardPool = ResourceManager.Instance.LoadAll<ItemSO>("Data/SO/ItemSO").ToList();
         playerSprite = ResourceManager.Instance.LoadAll<Sprite>($"Sprites/{GameManager.Instance.selectedCharacter.ID}");
 
         for (var i = 0; i < rewardCards.Length; i++)
@@ -46,6 +47,12 @@ public class PopupReward : PopupUI
         for (var i = 0; i < rewardCards.Length; i++)
         {
             rewardCards[i].SetItemData(showItemData[i]);
+            
+            // 총기 파츠면 리스트에서 제거
+            if (showItemData[i].WeaponParts > 0)
+            {
+                itemRewardPool.Remove(showItemData[i]);
+            }
         }
     }
     
