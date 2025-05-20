@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using DataDeclaration;
 using TMPro;
 using Unity.Mathematics;
@@ -100,6 +102,31 @@ public class HUDUI : MainUI
     {
         if (scorePrefab == null || scorePosition == null) return;
 
+        StartCoroutine(SpawnScoreTexts());
+
+        IEnumerator SpawnScoreTexts()
+        {
+            List<(string label, int score)> scoreItems = new();
+
+            string hitLabel = isHeadShot ? "Head Shot" : "Body Shot";
+            scoreItems.Add((hitLabel, headShotScore));
+
+            if (comboScore > 0)
+                scoreItems.Add(("Combo Bonus", comboScore));
+
+            if (quickShotScore > 0)
+                scoreItems.Add(("Quick Shot Bonus", quickShotScore));
+
+            if (rangeScore > 0)
+                scoreItems.Add(("Range Bonus", rangeScore));
+
+            foreach (var item in scoreItems)
+            {
+                CreateScoreText(item.label, item.score);
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+
         void CreateScoreText(string label, int score)
         {
             var go = ObjectPoolManager.Instance.GetObject(scorePrefab, Vector3.zero, Quaternion.identity, 2f);
@@ -111,19 +138,9 @@ public class HUDUI : MainUI
                 text.text = $"{label} +{score:0000}";
             }
         }
-
-        string hitLabel = isHeadShot ? "Head Shot" : "Body Shot";
-        CreateScoreText(hitLabel, headShotScore);
-
-        if (comboScore > 0)
-            CreateScoreText("Combo Bonus", comboScore);
-
-        if (quickShotScore > 0)
-            CreateScoreText("Quick Shot Bonus", quickShotScore);
-
-        if (rangeScore > 0)
-            CreateScoreText("Range Bonus", rangeScore);
     }
+
+
 
 
 
