@@ -92,6 +92,6 @@ public class ResultUI : MainUI
     private IEnumerator GameOver()
     {
         yield return UIManager.Instance.FadeEffect(0, 1, 2, true);
-        yield return SceneLoadManager.Instance.LoadScene(Scene.Lobby);
+        SceneLoadManager.Instance.LoadScene(Scene.Lobby);
     }
 }

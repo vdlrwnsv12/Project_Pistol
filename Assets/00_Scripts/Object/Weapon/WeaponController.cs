@@ -106,6 +106,14 @@ public class WeaponController : MonoBehaviour
                 Vector3 hitDir = (hit.point - barrelLocation.position).normalized; //힘을 줘야 할 방향
                 target?.TakeDamage(stat.Damage, hit.collider, hitDir);
             }
+            else
+            {
+                StageManager.Instance.DestroyTargetCombo = 0;
+            }
+        }
+        else
+        {
+            StageManager.Instance.DestroyTargetCombo = 0;
         }
     }
 

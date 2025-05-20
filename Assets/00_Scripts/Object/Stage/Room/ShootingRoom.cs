@@ -12,7 +12,7 @@ public class ShootingRoom : Room
     [SerializeField] private GameObject[] activeWalls;
 
     private List<BaseTarget> curActiveTargets = new();
-    
+
     public StageSO Data { get; set; }
 
     protected override void Awake()
@@ -22,7 +22,7 @@ public class ShootingRoom : Room
         {
             endPoint = transform.FindDeepChildByName("EndPoint");
         }
-        
+
         exitGate.Door.OpenDoor += OpenDoor;
         exitGate.Door.DoorClosed += ResetRoom;
         exitGate.OnPassingGate += ExitRoom;
@@ -47,18 +47,8 @@ public class ShootingRoom : Room
             StageManager.Instance.GameOver();
             return;
         }
-        
-        base.OpenDoor();
-    }
 
-    protected override void EnterRoom()
-    {
-        base.EnterRoom();
-        
-        if (RoomManager.Instance.CurStageIndex == 1 && RoomManager.Instance.CurRoomIndex == 1)
-        {
-            return;
-        }
+        base.OpenDoor();
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
     }
 
@@ -68,6 +58,7 @@ public class ShootingRoom : Room
         {
             activeWalls[i].SetActive(false);
         }
+
         ReturnTargetToPool();
         StartCoroutine(DisableRoom(1f));
     }
@@ -81,6 +72,7 @@ public class ShootingRoom : Room
                 return false;
             }
         }
+
         return true;
     }
 
@@ -109,6 +101,7 @@ public class ShootingRoom : Room
             var targetSO = ResourceManager.Instance.Load<TargetSO>($"Data/SO/TargetSO/{id}");
             targetList.Add(targetSO);
         }
+
         targetList.OrderBy(x => Random.value).ToList();
 
         for (var i = 0; i < Data.RespawnPoints.Length; i++)
@@ -125,7 +118,8 @@ public class ShootingRoom : Room
                     break;
             }
 
-            var target = ObjectPoolManager.Instance.GetObject<BaseTarget>(prefab, targetPoints[respawnIndex].position, targetPoints[respawnIndex].rotation);
+            var target = ObjectPoolManager.Instance.GetObject<BaseTarget>(prefab, targetPoints[respawnIndex].position,
+                targetPoints[respawnIndex].rotation);
             target.InitData(targetList[i]);
             curActiveTargets.Add(target);
         }
@@ -133,7 +127,8 @@ public class ShootingRoom : Room
 
     private void InitCivilianTarget()
     {
-        var civilianRespawnPoints = civilianTargetPoints.OrderBy(x => Random.value).Take(Data.CivilianRespawn).ToArray();
+        var civilianRespawnPoints =
+            civilianTargetPoints.OrderBy(x => Random.value).Take(Data.CivilianRespawn).ToArray();
         for (var i = 0; i < civilianRespawnPoints.Length; i++)
         {
             civilianRespawnPoints[i].gameObject.SetActive(true);
@@ -146,6 +141,7 @@ public class ShootingRoom : Room
         {
             ObjectPoolManager.Instance.ReturnToPool(curActiveTargets[i].gameObject);
         }
+
         curActiveTargets.Clear();
     }
 }

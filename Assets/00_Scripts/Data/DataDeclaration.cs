@@ -87,7 +87,7 @@ namespace DataDeclaration
         public const int LAST_STAGE_INDEX = 8;
         public const int MAX_ROOM_INDEX = 3;
 
-        public const float INIT_STAGE_TIME = 20f;
+        public const float INIT_STAGE_TIME = 60f;
         public const float ADDITIONAL_STAGE_TIME = 20f;
         public const float QUICK_SHOT_TIME = 2f;
 

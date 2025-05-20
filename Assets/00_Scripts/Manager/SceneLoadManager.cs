@@ -5,7 +5,7 @@ using Scene = DataDeclaration.Scene;
 
 public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 {
-    public static Scene CurScene { get; private set; } = Scene.Start;
+    public static Scene CurScene { get; private set; } = Scene.Lobby;
     public static Scene PrevScene { get; private set; }
 
     private Dictionary<Scene, BaseScene> scenes;
@@ -21,7 +21,12 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
         scenes[CurScene].EnterScene();
     }
 
-    public IEnumerator LoadScene(Scene nextScene)
+    public void LoadScene(Scene scene)
+    {
+        StartCoroutine(CoroutineLoadScene(scene));
+    }
+
+    private IEnumerator CoroutineLoadScene(Scene nextScene)
     {
         yield return null;
 
