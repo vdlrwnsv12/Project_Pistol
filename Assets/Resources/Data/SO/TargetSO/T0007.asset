@@ -16,6 +16,6 @@ MonoBehaviour:
   Name: Airial
   Type: 1
   Hp: 1200
-  Level: 2
+  Level: 4
   Speed: 15
   DamageRate: 100

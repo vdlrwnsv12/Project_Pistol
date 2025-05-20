@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: W0004
   Name: DesertEagle
   Description: "\uCD1D\uAE30 \uC124\uBA854"
-  ShootRecoil: 100
+  ShootRecoil: 50
   DMG: 10
   ReloadTime: 2
   MaxAmmo: 6
