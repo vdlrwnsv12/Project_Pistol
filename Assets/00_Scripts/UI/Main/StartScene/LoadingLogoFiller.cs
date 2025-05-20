@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using DataDeclaration; // Scene enum 정의 위치
 
 /// <summary>
-/// 흐린 배경 위에 좌측부터 점점 뚜렷해지는 로딩 로고 연출
+/// 흐린 배경 위에 좌측부터 점점 뚜렷해지는 로딩 로고 연출 → 완료 시 다음 씬 전환
 /// </summary>
 public class LoadingLogoFiller : MonoBehaviour
 {
@@ -21,8 +22,11 @@ public class LoadingLogoFiller : MonoBehaviour
     [SerializeField] private float middleStopDuration = 1f;
 
     [Header("색상 알파 설정")]
-    [SerializeField] private float startAlpha = 0.2f;  // 흐림 시작
-    [SerializeField] private float endAlpha = 1f;      // 뚜렷한 상태
+    [SerializeField] private float startAlpha = 0.2f;
+    [SerializeField] private float endAlpha = 1f;
+
+    [Header("다음 씬")]
+    [SerializeField] private Scene nextScene = Scene.Lobby;
 
     private void Start()
     {
@@ -42,58 +46,49 @@ public class LoadingLogoFiller : MonoBehaviour
         logoImage.fillOrigin = (int)Image.OriginHorizontal.Left;
         logoImage.fillAmount = 0f;
 
-        StartCoroutine(AnimateLogo());
+        StartCoroutine(AnimateAndLoadScene());
     }
 
-    private IEnumerator AnimateLogo()
+    private IEnumerator AnimateAndLoadScene()
     {
-        while (true)
+        float elapsed = 0f;
+
+        // 0 → 0.5
+        while (elapsed < fillDuration / 2f)
         {
-            float elapsed = 0f;
-
-            // 0 → 0.5
-            while (elapsed < fillDuration / 2f)
-            {
-                elapsed += Time.deltaTime;
-                float t = elapsed / (fillDuration / 2f);
-                float fill = Mathf.Lerp(0f, 0.5f, t);
-                float alpha = Mathf.Lerp(startAlpha, (startAlpha + endAlpha) / 2f, t);
-
-                logoImage.fillAmount = fill;
-                SetAlpha(alpha);
-                yield return null;
-            }
-
-            logoImage.fillAmount = 0.5f;
-            SetAlpha((startAlpha + endAlpha) / 2f);
-
-            if (stopAtMiddle)
-            {
-                yield return new WaitForSeconds(middleStopDuration);
-            }
-
-            // 0.5 → 1.0
-            elapsed = 0f;
-            while (elapsed < fillDuration / 2f)
-            {
-                elapsed += Time.deltaTime;
-                float t = elapsed / (fillDuration / 2f);
-                float fill = Mathf.Lerp(0.5f, 1f, t);
-                float alpha = Mathf.Lerp((startAlpha + endAlpha) / 2f, endAlpha, t);
-
-                logoImage.fillAmount = fill;
-                SetAlpha(alpha);
-                yield return null;
-            }
-
-            logoImage.fillAmount = 1f;
-            SetAlpha(endAlpha);
-
-            // 반복을 위한 초기화
-            yield return new WaitForSeconds(0.5f);
-            logoImage.fillAmount = 0f;
-            SetAlpha(startAlpha);
+            elapsed += Time.deltaTime;
+            float t = elapsed / (fillDuration / 2f);
+            logoImage.fillAmount = Mathf.Lerp(0f, 0.5f, t);
+            SetAlpha(Mathf.Lerp(startAlpha, (startAlpha + endAlpha) / 2f, t));
+            yield return null;
         }
+
+        logoImage.fillAmount = 0.5f;
+        SetAlpha((startAlpha + endAlpha) / 2f);
+
+        if (stopAtMiddle)
+        {
+            yield return new WaitForSeconds(middleStopDuration);
+        }
+
+        // 0.5 → 1.0
+        elapsed = 0f;
+        while (elapsed < fillDuration / 2f)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / (fillDuration / 2f);
+            logoImage.fillAmount = Mathf.Lerp(0.5f, 1f, t);
+            SetAlpha(Mathf.Lerp((startAlpha + endAlpha) / 2f, endAlpha, t));
+            yield return null;
+        }
+
+        logoImage.fillAmount = 1f;
+        SetAlpha(endAlpha);
+
+        Debug.Log("로딩 애니메이션 완료 → 다음 씬으로 전환");
+        yield return new WaitForSeconds(0.5f); // 약간의 여유
+
+        StartCoroutine(SceneLoadManager.Instance.LoadScene(nextScene));
     }
 
     /// <summary>
