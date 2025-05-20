@@ -1,18 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomSit : MonoBehaviour
 {
     Animator animator;
 
-    // 애니메이션 상태 이름 목록
-    private string[] sitAnimations = { "Sit", "Sit2", "Sit3"};
+    [SerializeField] private bool sit1 = true;
+    [SerializeField] private bool sit2 = true;
+    [SerializeField] private bool sit3 = true;
+
 
     void Start()
     {
         animator = GetComponent<Animator>();
 
-        // 랜덤으로 애니메이션 선택
-        string selectedSit = sitAnimations[Random.Range(0, sitAnimations.Length)];
+        List<string> anims = new List<string>();
+        if (sit1) anims.Add("Sit");
+        if (sit2) anims.Add("Sit2");
+        if (sit3) anims.Add("Sit3");
+
+        string selectedSit = anims[Random.Range(0, anims.Count)];
         animator.Play(selectedSit);
     }
 }
