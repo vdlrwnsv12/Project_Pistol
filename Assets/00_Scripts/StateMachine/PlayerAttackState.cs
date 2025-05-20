@@ -55,12 +55,11 @@ public class PlayerAttackState : PlayerBaseState
         Ray ray = new Ray(cam.position, cam.forward);
         if (stateMachine.Player.Weapon.Controller != null)
         {
-            stateMachine.Player.Weapon.Controller.Fire(stateMachine.IsAds);
-
             if (stateMachine.Player.Weapon.Controller.CurAmmo > 0)
             {
                 stateMachine.Player.Motion.ApplyRecoil();
             }
+            stateMachine.Player.Weapon.Controller.Fire(stateMachine.IsAds);
         }
        
     }
