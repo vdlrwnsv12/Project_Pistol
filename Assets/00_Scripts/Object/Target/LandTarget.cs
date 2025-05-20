@@ -40,7 +40,17 @@ public class LandTarget : BaseTarget
             Die();
         }
 
-        StageManager.Instance.GameScore += (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
+        int totalScore = (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
+        StageManager.Instance.GameScore += totalScore;
+
+        var hudUI = UIManager.Instance.GetMainUI<HUDUI>();
+
+        int headShotScore = (int)BaseScore(isHeadShot, realDamage);
+        int comboScore = (int)ComboScore(StageManager.Instance.DestroyTargetCombo);
+        int quickShotScore = (int)QuickShotScore(StageManager.Instance.IsQuickShot);
+        
+        hudUI?.ShowScoreEffect(isHeadShot, headShotScore, comboScore, quickShotScore, (int)RangeScore());
+
         StageManager.Instance.IsQuickShot = true;
         StageManager.Instance.QuickShotTimer = 0f;
     }

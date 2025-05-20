@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.Core;
@@ -7,15 +8,29 @@ using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.TextCore.Text;
 
 public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
-{
-
-    public float stageCleartimer = 0f; // 스테이지별 클리어시간
+{public float stageCleartimer = 0f; // 스테이지별 클리어시간
     public float elapsedTime = 0f; // 소요된 시간
     // 스테이지별
     //
     private async void Start()
     {
         await InitAnalyticsAsync();
+
+
+    }
+    protected override async void Awake()
+    {
+        try
+        {
+            base.Awake();
+            await UnityServices.InitializeAsync();
+            AnalyticsService.Instance.StartDataCollection();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+            //throw; // TODO 예외 처리
+        }
     }
 
     private async Task InitAnalyticsAsync()

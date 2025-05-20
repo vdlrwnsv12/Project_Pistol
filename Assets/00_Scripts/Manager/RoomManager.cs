@@ -90,14 +90,6 @@ public class RoomManager : SingletonBehaviour<RoomManager>
             allStageDataDict[key] = random3Rooms;
         }
 
-        foreach (var stageList in allStageDataDict)
-        {
-            foreach (var stageInfo in stageList.Value)
-            {
-                Debug.Log(stageInfo.ID);
-            }
-        }
-
         CurStageIndex = 1;
         CurRoomIndex = 0;
     }

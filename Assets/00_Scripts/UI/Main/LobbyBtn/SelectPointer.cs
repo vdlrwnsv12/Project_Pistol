@@ -17,8 +17,8 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
 {
     public PlayerInputs inputActions;
     public Transform gunTable; // 총 올라가 있는 테이블 위치
-    private Vector3 originCamPos; // 초기 상태 카메라 위치
-    private Quaternion originCamRot; //초기 상태 카메라 회전
+    private Vector3 camPosBeforeCharacterSelect = new Vector3(0,0,0);
+    private Quaternion camRotBeforeCharacterSelect; //초기 상태 카메라 회전
     private CinemachineVirtualCamera vcam; //시네머신 카메라
     private SelectSO clickComp; //클릭시 가져올 데이터 
 
@@ -27,16 +27,13 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
         inputActions = new PlayerInputs();
         inputActions.Enable();
         inputActions.Camera.ClickCharacter.started += OnCamera;
+
     }
 
     private void Start() // 카메라 초기 위치 회전 저장
     {
         vcam = GetComponent<CinemachineVirtualCamera>();
-        if (vcam != null)
-        {
-            originCamPos = vcam.transform.position;
-            originCamRot = vcam.transform.rotation;
-        }
+        
     }
 
     private void OnCamera(InputAction.CallbackContext context)
@@ -62,6 +59,12 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
 
     private void HandleCharacterSelection(RaycastHit hit)
     {
+        if (camPosBeforeCharacterSelect == new Vector3(0, 0, 0))
+        {
+            camPosBeforeCharacterSelect = vcam.transform.position;
+            camRotBeforeCharacterSelect = vcam.transform.rotation;
+        }
+
         GameManager.Instance.selectedCharacter = null; //게임매니저 캐릭터 데이터 삭제
         UIManager.Instance.ClosePopUpUI();
         UIManager.Instance.OpenPopupUI<PopupInform>();
@@ -121,10 +124,10 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
         CamMove(position, rotation); //위에서 받아온 타겟 위치 정보를 바탕으로 카메라 이동
     }
 
-    public void CamReturn() //카메라 초기 위치로 복귀
+    public void CamReturn() //카메라 캐릭터 선택 전 위치로 복귀
     {
         Debug.Log("[SelectPointer] CamReturn 호출됨");
-        MoveCamera(originCamPos, originCamRot);
+        MoveCamera(camPosBeforeCharacterSelect, camRotBeforeCharacterSelect);
     }
 
     public void CamMove(Vector3 targetPos, Quaternion targetRot) //위에서 받아온 타겟 위치 정보를 바탕으로 카메라 이동
