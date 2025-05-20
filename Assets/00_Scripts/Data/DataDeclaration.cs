@@ -45,6 +45,13 @@ namespace DataDeclaration
         Weapon
     }
 
+    public enum WeaponPartsType
+    {
+        Sight = 1,
+        Rail = 2,
+        Muzzle = 4,
+    }
+
     #endregion
 
     #region Struct
@@ -60,15 +67,6 @@ namespace DataDeclaration
         
         public string SelectedCharacterID;
         public string SelectedWeaponID;
-    }
-    
-    [Serializable]
-    public struct RewardCard
-    {
-        public Image rewardImage;
-        public TextMeshProUGUI rewardName;
-        public TextMeshProUGUI timeCost;
-        public Button rewardButton;
     }
 
     #endregion
