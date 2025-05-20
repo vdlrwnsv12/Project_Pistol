@@ -49,7 +49,6 @@ public class PlayerMotion : MonoBehaviour
 
         var shakeRotation = Quaternion.Euler(rotX, rotY, rotZ);
         handPos.transform.localRotation = initialLocalRotation * shakeRotation;
-        Debug.Log("위치 " + handPos.transform.localRotation);
     }
 
 

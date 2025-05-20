@@ -2,7 +2,6 @@ using System.Collections;
 using DataDeclaration;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Scene = DataDeclaration.Scene;
 
@@ -27,6 +26,12 @@ public class ResultUI : MainUI
         UIType = MainUIType.Result;
 
         quitBtn.onClick.AddListener(OnClickQuitButton);
+    }
+
+    private void Start()
+    {
+        var bgm = Resources.Load<AudioClip>("Audio/BGM/The Chase Streets");
+        SoundManager.Instance.PlayBackgroundMusic(bgm);
     }
 
     public override void SetActiveUI(MainUIType activeUIType)

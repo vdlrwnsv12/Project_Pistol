@@ -15,8 +15,12 @@ public class CivilianTarget : BaseTarget
         currentHp -= realDamage;
         Debug.Log($"{data.Name} 받은 데미지: {realDamage}");
 
-        hpBar.fillAmount = currentHp / data.Hp;
+        //hpBar.fillAmount = currentHp / data.Hp;
 
+        StageManager.Instance.DestroyTargetCombo = 0;
+        StageManager.Instance.GameScore -= (int)data.Hp;
+        
+        Debug.Log(currentHp);
         if (currentHp <= 0)
         {
             Die();
