@@ -7,8 +7,6 @@ public class LobbyCameraManager : SingletonBehaviour<LobbyCameraManager>
     [SerializeField] private GameObject cameraLookTarget;
     [SerializeField] private CinemachineVirtualCamera vcam;
 
-    private StartBtn startBtn;
-
     private Vector3 moveOffset = new Vector3(3f, 0f, 0f);
 
     private Vector3 initPos;
