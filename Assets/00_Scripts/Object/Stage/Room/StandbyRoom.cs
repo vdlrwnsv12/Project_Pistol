@@ -59,7 +59,7 @@ public class StandbyRoom : Room
     {
         yield return new WaitForSeconds(time);
         var popupReward = UIManager.Instance.OpenPopupUI<PopupReward>();
-        popupReward.BuyComplete += () => { isItemRewardComplete = true; };
+        popupReward.OnClose += () => { isItemRewardComplete = true; };
         StageManager.Instance.Player.Controller.enabled = false;
         UIManager.ToggleMouseCursor(true);
     }
