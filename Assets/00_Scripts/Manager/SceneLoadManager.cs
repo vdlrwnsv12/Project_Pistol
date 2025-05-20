@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Scene = DataDeclaration.Scene;
 
-
 public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 {
-    public static Scene CurScene { get; private set; } = Scene.Stage;
+    public static Scene CurScene { get; private set; } = Scene.Lobby;
     public static Scene PrevScene { get; private set; }
 
     private Dictionary<Scene, BaseScene> scenes;
