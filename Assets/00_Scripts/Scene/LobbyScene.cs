@@ -6,6 +6,7 @@ public class LobbyScene : BaseScene
     {
         var bgm = ResourceManager.Instance.Load<AudioClip>("Audio/BGM/No Way Back_demo");
         SoundManager.Instance.PlayBackgroundMusic(bgm);
+        UIManager.Instance.InitMainUI<LobbyUI>();
     }
 
     public override void ExitScene()
