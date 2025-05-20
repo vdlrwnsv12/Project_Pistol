@@ -3,13 +3,13 @@ using UnityEngine;
 public class StartBtn : MonoBehaviour
 {
     [SerializeField] private GameObject canvas;
-    public LobbyCameraManager lobbyCameraManager;
+    
 
     public void OffLobbyUI()
     {
 
         SetLobbyUI(false);
-        lobbyCameraManager.MoveCameraPosition(+1);
+        LobbyCameraManager.Instance.MoveCameraPosition(+1);
     }
 
     public void OnLobbyUI()
@@ -21,7 +21,7 @@ public class StartBtn : MonoBehaviour
         GameManager.Instance.selectedCharacter = null;
         GameManager.Instance.selectedWeapon = null;
 
-        lobbyCameraManager.ResetCamPosition();
+        LobbyCameraManager.Instance.ResetCamPosition();
     }
     private void SetLobbyUI(bool isOn)
     {

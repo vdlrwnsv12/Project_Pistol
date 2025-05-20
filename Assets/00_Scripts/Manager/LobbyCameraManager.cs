@@ -1,7 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 
-public class LobbyCameraManager : MonoBehaviour
+public class LobbyCameraManager : SingletonBehaviour<LobbyCameraManager>
 {
     [SerializeField] private GameObject cameraPositionTarget;
     [SerializeField] private GameObject cameraLookTarget;
@@ -13,6 +13,11 @@ public class LobbyCameraManager : MonoBehaviour
 
     private Vector3 initPos;
     private Quaternion initRot;
+    protected override void Awake()
+    {
+        isDontDestroyOnLoad = false;
+        base.Awake();
+    }
 
     void Start()
     {
@@ -21,17 +26,6 @@ public class LobbyCameraManager : MonoBehaviour
             initPos = cameraPositionTarget.transform.position;
             initRot = cameraPositionTarget.transform.rotation;
         }
-        startBtn = FindObjectOfType<StartBtn>();
-        if (startBtn == null)
-        {
-            Debug.LogError("LobbyCameraManager가 씬에 없습니다!");
-        }
-        InitStartBtn();
-    }
-
-    private void InitStartBtn()
-    {
-        startBtn.lobbyCameraManager = this;
     }
 
     public void MoveCameraPosition(int direction)
