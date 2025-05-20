@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.650571, g: 0.6911564, b: 0.6912924, a: 1}
+  m_IndirectSpecularColor: {r: 0.650571, g: 0.69115627, b: 0.6912924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7105,7 +7105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetImage: {fileID: 1262063426}
-  normalMaterial: {fileID: 2100000, guid: 38c011c3115e9a943b022f946b92cade, type: 2}
+  normalMaterial: {fileID: 0}
   gradientMaterial: {fileID: 2100000, guid: d3ad2bde1a12fbc429d07df2432682ff, type: 2}
   text: {fileID: 1680176189}
 --- !u!114 &1262063425

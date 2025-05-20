@@ -58,15 +58,8 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         volumeSettings.LoadVolumes();
 
         sfxManager = new SFXManager(sfxAudioSourcePrefab, sfxPoolRoot, sfxList, volumeSettings);
-
-        if (backgroundMusic != null)
-        {
-            PlayBackgroundMusic(backgroundMusic);
-        }
-        else
-        {
-            Debug.LogWarning("배경음악이 할당되지 않았습니다.");
-        }
+        
+        PlayBackgroundMusic(backgroundMusic);
     }
     private void OnEnable()
     {

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AerialTarget : BaseTarget
@@ -7,6 +6,7 @@ public class AerialTarget : BaseTarget
     private Rigidbody rb;
     [SerializeField] private GameObject targetObj;
     [SerializeField] private Transform targetPoint;
+
     protected override void Start()
     {
         base.Start();
@@ -16,6 +16,7 @@ public class AerialTarget : BaseTarget
         {
             rb = targetObj.gameObject.AddComponent<Rigidbody>();
         }
+
         rb.useGravity = false;
         rb.isKinematic = true;
     }
@@ -23,28 +24,45 @@ public class AerialTarget : BaseTarget
     public override void TakeDamage(float amount, Collider hitCollider, Vector3 hitDirection)
     {
         if (currentHp <= 0) return;
+        StageManager.Instance.HitCount++;
+        StageManager.Instance.HeadHitCount++;
 
-        if (anim != null)
-        {
-            anim.SetTrigger("Hit");
-        }
-
-        if (hitCollider != null && hitCollider.name == "Head")
-        {
-            amount = Mathf.RoundToInt(amount * data.DamageRate * 1.2f);
-            Debug.Log($"헤드샷 데미지: {amount}");
-        }
-        else
-        {
-            amount *= data.DamageRate;
-            Debug.Log($"바디샷 데미지: {amount}");
-        }
+        amount *= data.DamageRate;
 
         float realDamage = Mathf.Min(amount, currentHp);
         currentHp -= realDamage;
-        Debug.Log($"{data.Name} 받은 데미지: {realDamage}");
 
         hpBar.fillAmount = currentHp / data.Hp;
+        
+        if (currentHp > 0)
+        {
+            //anim.SetTrigger("Hit");
+        }
+        else
+        {
+            StageManager.Instance.DestroyTargetCombo++;
+            if (StageManager.Instance.MaxDestroyTargetCombo <= StageManager.Instance.DestroyTargetCombo)
+            {
+                StageManager.Instance.MaxDestroyTargetCombo = StageManager.Instance.DestroyTargetCombo;
+            }
+            this.hitDirection = hitDirection;
+            Die();
+            AddForceTarget();
+        }
+
+        int totalScore = (int)(BaseScore(false, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
+        StageManager.Instance.GameScore += totalScore;
+
+        var hudUI = UIManager.Instance.GetMainUI<HUDUI>();
+
+        int headShotScore = (int)BaseScore(false, realDamage);
+        int comboScore = (int)ComboScore(StageManager.Instance.DestroyTargetCombo);
+        int quickShotScore = (int)QuickShotScore(StageManager.Instance.IsQuickShot);
+        
+        hudUI?.ShowScoreEffect(false, headShotScore, comboScore, quickShotScore, (int)RangeScore());
+        
+        StageManager.Instance.IsQuickShot = true;
+        StageManager.Instance.QuickShotTimer = 0f;
 
         if (currentHp <= 0)
         {
@@ -59,7 +77,6 @@ public class AerialTarget : BaseTarget
     {
         if (rb != null)
         {
-
             rb.useGravity = true;
             rb.isKinematic = false;
 
@@ -86,5 +103,26 @@ public class AerialTarget : BaseTarget
 
         targetObj.transform.position = targetPoint.position;
         targetObj.transform.rotation = targetPoint.rotation;
+    }
+    
+    private float BaseScore(bool isHeadShot, float dmg)
+    {
+        return isHeadShot ? dmg * 1.5f : dmg;
+    }
+
+    private float RangeScore()
+    {
+        var dis = Vector3.Distance(StageManager.Instance.Player.transform.position, transform.position);
+        return dis >= 2f ? 200 + Mathf.Floor((dis - 2f) / 0.1f) * 10f : 0;
+    }
+
+    private float ComboScore(int combo)
+    {
+        return combo >= 2 ? Mathf.Min(combo * 100f, 900f) : 0f;
+    }
+
+    private float QuickShotScore(bool isQuickShot)
+    {
+        return isQuickShot ? 500f : 0f;
     }
 }

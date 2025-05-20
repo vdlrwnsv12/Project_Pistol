@@ -1,7 +1,6 @@
 using System;
 using DataDeclaration;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class StageManager : SingletonBehaviour<StageManager>
 {
@@ -9,7 +8,19 @@ public class StageManager : SingletonBehaviour<StageManager>
     private float remainTime;
     private float quickShotTimer;
     public Player Player { get; private set; }
-    public int GameScore { get; set; }
+    private int gameScore;
+    public int GameScore
+    {
+        get => gameScore;
+        set
+        {
+            gameScore = value;
+            if (gameScore < 0)
+            {
+                gameScore = 0;
+            }
+        }
+    }
     public float RemainTime
     {
         get => Math.Max(0f, remainTime);
@@ -53,7 +64,6 @@ public class StageManager : SingletonBehaviour<StageManager>
             {
                 quickShotTimer = 0f;
                 IsQuickShot = false;
-                Debug.Log("큇샷 시간 초과");
             }
         }
 
