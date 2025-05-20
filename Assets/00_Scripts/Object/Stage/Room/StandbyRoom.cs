@@ -26,7 +26,6 @@ public class StandbyRoom : Room
         base.OpenDoor();
         
         StageManager.Instance.IsGamePause = false;
-        StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
     }
 
     protected override void EnterRoom()
