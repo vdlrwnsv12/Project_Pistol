@@ -44,7 +44,7 @@ public class StartUI : MainUI
     private void StartGame()
     {
         Debug.Log("로비 씬 전환");
-        //StartCoroutine(SceneLoadManager.Instance.LoadScene(Scene.Lobby));
+        StartCoroutine(SceneLoadManager.Instance.LoadScene(Scene.Lobby));
     }
 
     private void SignOut()

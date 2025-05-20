@@ -97,8 +97,8 @@ public class PopupInform : PopupUI
         //캐릭터와 무기 정보가 모두 선택됐으면 게임 씬으로 (테스트용 코드라 지워야함) 
         if(GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon !=null)
         {
-            SceneManager.LoadScene("02_GameScene");//테스트용 코드
-            AnalyticsManager.Instance.SelectData();
+            SceneLoadManager.Instance.LoadScene(DataDeclaration.Scene.Stage);//테스트용 코드
+             AnalyticsManager.Instance.SelectData();
             return;
         }
         // 아직 무기선택 전이면 총기 테이블로

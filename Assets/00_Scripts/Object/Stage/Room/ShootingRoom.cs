@@ -56,6 +56,10 @@ public class ShootingRoom : Room
     {
         base.EnterRoom();
         
+        if (RoomManager.Instance.CurStageIndex == 1 && RoomManager.Instance.CurRoomIndex == 1)
+        {
+            return;
+        }
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
     }
 

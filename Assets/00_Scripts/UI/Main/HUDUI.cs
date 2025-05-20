@@ -10,6 +10,8 @@ public class HUDUI : MainUI
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI remainTimeText;
     [SerializeField] private TextMeshProUGUI curStageText;
+    [SerializeField] private TextMeshProUGUI comboText
+    ;
     [SerializeField] private Image[] stageIndex;
     [Space] [SerializeField] private Image equipImage;
     [SerializeField] private TextMeshProUGUI ammoText;
@@ -63,9 +65,10 @@ public class HUDUI : MainUI
     /// </summary>
     private void UpdateRealTimeChanges()
     {
-        scoreText.text = $"<size=36>Score</size>\n<size=50>{StageManager.Instance.GameScore:D6}</size>";
-        remainTimeText.text = $"TIME\n{StageManager.Instance.RemainTime:N2}";
+        scoreText.text = $"<size=36>Score</size>\n<size=80>{StageManager.Instance.GameScore:D6}</size>";
+        remainTimeText.text = $"<size=120>{StageManager.Instance.RemainTime:N2}</size>";
         ammoText.text = $"{StageManager.Instance.Player.Weapon.CurAmmo} / {StageManager.Instance.Player.Weapon.MaxAmmo}";
+        comboText.text = $"<size=36>Combo</size>\n<size=80>{StageManager.Instance.DestroyTargetCombo}</size>";
     }
 
     /// <summary>
@@ -73,7 +76,7 @@ public class HUDUI : MainUI
     /// </summary>
     private void UpdateStageInfo()
     {
-        curStageText.text = $"현재 스테이지\tStage {RoomManager.Instance.CurStageIndex}";
+        curStageText.text = $"Stage {RoomManager.Instance.CurStageIndex}";
 
         for (var i = 1; i <= stageIndex.Length; i++)
         {
