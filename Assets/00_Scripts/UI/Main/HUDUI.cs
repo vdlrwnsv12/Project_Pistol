@@ -98,6 +98,9 @@ public class HUDUI : MainUI
         }
     }
 
+    /// <summary>
+    /// 점수 올라갈때 Score 띄우는 메서드
+    /// </summary>
     public void ShowScoreEffect(bool isHeadShot, int headShotScore, int comboScore, int quickShotScore, int rangeScore)
     {
         if (scorePrefab == null || scorePosition == null) return;
@@ -131,7 +134,7 @@ public class HUDUI : MainUI
         {
             var go = ObjectPoolManager.Instance.GetObject(scorePrefab, Vector3.zero, Quaternion.identity, 2f);
             go.transform.SetParent(scorePosition, false);
-            
+
             go.transform.localRotation = Quaternion.identity;
 
             var text = go.GetComponentInChildren<TextMeshProUGUI>();

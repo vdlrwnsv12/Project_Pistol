@@ -5,7 +5,7 @@ public class RandomSit : MonoBehaviour
     Animator animator;
 
     // 애니메이션 상태 이름 목록
-    private string[] sitAnimations = { "Sit", "Sit2", "Sit3", "Sit4" };
+    private string[] sitAnimations = { "Sit", "Sit2", "Sit3"};
 
     void Start()
     {
