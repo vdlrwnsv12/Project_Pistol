@@ -88,7 +88,7 @@ public class LoadingLogoFiller : MonoBehaviour
         Debug.Log("로딩 애니메이션 완료 → 다음 씬으로 전환");
         yield return new WaitForSeconds(0.5f); // 약간의 여유
 
-        StartCoroutine(SceneLoadManager.Instance.LoadScene(nextScene));
+        SceneLoadManager.Instance.LoadScene(nextScene);
     }
 
     /// <summary>
