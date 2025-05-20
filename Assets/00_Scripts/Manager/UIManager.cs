@@ -46,6 +46,15 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         ChangeMainUI(mainUI.UIType);
     }
 
+    /// <summary>
+    /// UI찾기
+    /// </summary>
+    /// <typeparam name="T">ScreenUI 클래스</typeparam>
+    public T GetMainUI<T>() where T : MainUI
+    {
+        return mainUIList.Find(ui => ui is T) as T;
+    }
+
     #endregion
 
     #region Popup UI
@@ -67,7 +76,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         // 하이라키 창에서 제일 마지막 오브젝트로 배치(렌더링 순서)
         openUI.transform.SetAsLastSibling();
         curPopupUIStack.Push(openUI);
-        
+
         return openUI;
     }
 
@@ -98,7 +107,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
         ClearMainCanvas();
         ClearPopupCanvas();
     }
-    
+
     /// <summary>
     /// 마우스 커서 On/Off
     /// </summary>
@@ -175,7 +184,7 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     private void InitMainCanvas()
     {
         mainCanvas = GameObject.Find("MainCanvas"); // Main Canvas 찾기
-        
+
         if (mainCanvas == null) // Main Canvas가 없을 경우 새로 생성
         {
             //TODO: Resources.Load 나중에 Addressable로 바꾸기
