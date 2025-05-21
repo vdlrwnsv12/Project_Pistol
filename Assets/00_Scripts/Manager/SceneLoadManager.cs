@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Scene = DataDeclaration.Scene;
 
@@ -57,6 +58,7 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
                 PrevScene = CurScene;
                 CurScene = nextScene;
 
+                yield return new WaitForSeconds(1.5f);
                 yield return UIManager.Instance.FadeEffect(0, 1, 0.5f);
                 scenes[PrevScene].ExitScene();
                 scenes[CurScene].EnterScene();

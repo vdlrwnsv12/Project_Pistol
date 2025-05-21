@@ -12,7 +12,6 @@ namespace DataDeclaration
         Start,
         Lobby,
         Stage,
-        Loading
     }
 
     public enum MainUIType
