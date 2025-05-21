@@ -102,14 +102,9 @@ public class PopupOption : PopupUI
     public void ChangeHipSensitivity(float delta)
     {
         cachedHipSensitivity = Mathf.Clamp(cachedHipSensitivity + delta, 0.1f, 9.9f);
-        
+
         PlayerPrefs.SetFloat(HipSensitivityKey, cachedHipSensitivity);
         UpdateSensitivityTexts();
-
-        // if (GetComponent<Camera>() != null)
-        // {
-        //     GetComponent<Camera>().SetSensitivity(cachedHipSensitivity); // SetSensitivity 메서드를 사용하여 바로 적용
-        // }
     }
 
     public void ChangeADSSensitivity(float delta)//정조준 민감도 아직 구현x

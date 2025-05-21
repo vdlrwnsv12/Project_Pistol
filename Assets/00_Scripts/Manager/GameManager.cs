@@ -23,7 +23,7 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
             isOption = false;
             UIManager.Instance.ClosePopUpUI();
             Time.timeScale = 1f;
-            
+
             if (controller != null)
             {
                 controller.EnablePlayerInput(true);//플레이어 마우스 회전 ㅇ
