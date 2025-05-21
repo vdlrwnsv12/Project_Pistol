@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Scene = DataDeclaration.Scene;
 
@@ -11,9 +12,12 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 
     private Dictionary<Scene, BaseScene> scenes;
 
+    private bool isInitialized = false;
+
     protected override void Awake()
     {
         base.Awake();
+        isDontDestroyOnLoad = true;
         Init();
     }
 
@@ -24,45 +28,81 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 
     public void LoadScene(Scene scene)
     {
+        UIManager.Instance.ClosePopUpUI();//팝업 창 있으면 닫기(여기에 쓰는게 맞는진 모르겠음)
+        PrevScene = CurScene;
         NextScene = scene;
-        SceneManager.LoadScene((int)Scene.Loading);
-        StartCoroutine(CoroutineLoadScene(scene));
+        CurScene = Scene.Loading;
+        Debug.Log($"[SceneLoadManager] LoadScene 호출됨 → Prev: {PrevScene}, Next: {NextScene}");
+
+        SceneManager.LoadScene((int)Scene.Loading, LoadSceneMode.Single);
+
+        //StartCoroutine(CoroutineLoadScene(scene));
     }
 
-    private IEnumerator CoroutineLoadScene(Scene nextScene)
+    // private IEnumerator CoroutineLoadScene(Scene nextScene)
+    // {
+    //     yield return null;
+
+    //     var op = SceneManager.LoadSceneAsync((int)nextScene);
+    //     op.allowSceneActivation = false;
+
+    //     while (!op.isDone)
+    //     {
+    //         yield return null;
+
+    //         if (op.progress < 0.9f)
+    //         {
+
+    //         }
+    //         else
+    //         {
+    //             op.allowSceneActivation = true;
+
+    //             PrevScene = CurScene;
+    //             CurScene = nextScene;
+
+    //             scenes[PrevScene].ExitScene();
+    //             scenes[CurScene].EnterScene();
+    //             break;
+    //         }
+    //     }
+    // }
+    public void OnSceneEnterComplete()
     {
-        yield return null;
+        CurScene = NextScene;
 
-        var op = SceneManager.LoadSceneAsync((int)nextScene);
-        op.allowSceneActivation = false;
-        
-        while (!op.isDone)
+        if (scenes.TryGetValue(PrevScene, out var prevSceneInstance))
         {
-            yield return null;
-
-            if (op.progress < 0.9f)
-            {
-
-            }
-            else
-            {
-                op.allowSceneActivation = true;
-
-                PrevScene = CurScene;
-                CurScene = nextScene;
-
-                scenes[PrevScene].ExitScene();
-                scenes[CurScene].EnterScene();
-                break;
-            }
+            Debug.Log($"[SceneLoadManager] ExitScene 호출: {PrevScene}");
+            prevSceneInstance.ExitScene();
         }
+
+        if (scenes.TryGetValue(CurScene, out var curSceneInstance))
+        {
+            Debug.Log($"[SceneLoadManager] EnterScene 호출: {CurScene}");
+            curSceneInstance.EnterScene();
+        }
+        else
+        {
+            Debug.LogWarning($"[SceneLoadManager] CurScene {CurScene} not found in scenes dictionary");
+        }
+
+         Debug.Log($"[SceneLoadManager] OnSceneEnterComplete 호출됨, 인스턴스 유효: {Instance != null}");
+
     }
+
 
     private void Init()
     {
+        if (isInitialized) return;
+        isInitialized = true;
+
+
         scenes = new Dictionary<Scene, BaseScene>();
         scenes.Add(Scene.Start, new StartScene());
         scenes.Add(Scene.Lobby, new LobbyScene());
         scenes.Add(Scene.Stage, new StageScene());
+        scenes.Add(Scene.Loading, new LoadingScene());
+        Debug.Log("[SceneLoadManager] Scene dictionary 초기화 완료");
     }
 }

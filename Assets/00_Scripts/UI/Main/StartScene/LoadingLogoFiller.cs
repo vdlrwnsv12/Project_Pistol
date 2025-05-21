@@ -13,15 +13,15 @@ public class LoadingLogoFiller : MonoBehaviour
     [Header("로고 이미지")]
     [SerializeField] private Image logoImage; // 반드시 'Filled', 'Horizontal'
 
-    [Header("애니메이션 설정")]
-    [Tooltip("로딩 한 사이클 시간")]
-    [SerializeField] private float fillDuration = 2f;
+    // [Header("애니메이션 설정")]
+    // [Tooltip("로딩 한 사이클 시간")]
+    // [SerializeField] private float fillDuration = 2f;
 
-    [Tooltip("중간 정지 여부 (Fill 0.5에서 잠깐 멈춤)")]
-    [SerializeField] private bool stopAtMiddle = false;
+    // [Tooltip("중간 정지 여부 (Fill 0.5에서 잠깐 멈춤)")]
+    // [SerializeField] private bool stopAtMiddle = false;
 
-    [Tooltip("중간 정지 시간")]
-    [SerializeField] private float middleStopDuration = 1f;
+    // [Tooltip("중간 정지 시간")]
+    // [SerializeField] private float middleStopDuration = 1f;
 
     [Header("색상 알파 설정")]
     [SerializeField] private float startAlpha = 0.2f;
@@ -33,10 +33,8 @@ public class LoadingLogoFiller : MonoBehaviour
 
     private void Awake()
     {
-        if (!Enum.IsDefined(typeof(DataDeclaration.Scene), (int)nextScene))
-        {
-            nextScene = SceneLoadManager.NextScene;
-        }
+        nextScene = SceneLoadManager.NextScene;
+        Debug.Log($"[LoadingLogoFiller] Awake → nextScene = {nextScene}");
     }
     private void Start()
     {
@@ -62,43 +60,46 @@ public class LoadingLogoFiller : MonoBehaviour
 
     private IEnumerator FillByLoadingLogo()
     {
-        float elapsed = 0f;
-
+        float currentFill = 0f;
+        float targetFill = 0f;
         yield return null;
 
-        AsyncOperation op = SceneManager.LoadSceneAsync((int)nextScene);
+        AsyncOperation op = SceneManager.LoadSceneAsync((int)nextScene, LoadSceneMode.Single);
         op.allowSceneActivation = false;
+
+        Debug.Log($"[LoadingLogoFiller] 씬 비동기 로딩 시작: {nextScene}");
 
         while (op.progress < 0.9f)
         {
-            float progress = Mathf.Clamp01(op.progress / 0.9f);
+            // 타겟 fill을 로딩 프로그레스 기준으로 설정 (0~0.9 → 0~1)
+            targetFill = Mathf.Clamp01(op.progress / 0.9f);
 
-            if (progress >= 0.5f && progress - Time.deltaTime / fillDuration < 0.5f)//로고 반정도 채워지면 0.5초 대기
-            {
-                logoImage.fillAmount = 05f;
-                SetAlpha(Mathf.Lerp(startAlpha, endAlpha, 0.5f));
-                yield return new WaitForSeconds(0.5f);
-            }
-            
-            logoImage.fillAmount = progress;
-            SetAlpha(Mathf.Lerp(startAlpha, endAlpha, progress));
+            // 현재 fillAmount를 타겟 값으로 부드럽게 보간
+            currentFill = Mathf.Lerp(currentFill, targetFill, Time.deltaTime * 5f);
+            logoImage.fillAmount = currentFill;
 
-            elapsed += Time.deltaTime;
+            SetAlpha(Mathf.Lerp(startAlpha, endAlpha, currentFill));
+
             yield return null;
         }
-
-        while (elapsed < middleStopDuration)
+        while (currentFill < 0.995f)
         {
-            elapsed += Time.deltaTime;
+            currentFill = Mathf.Lerp(currentFill, 1f, Time.deltaTime * 5f);
+            logoImage.fillAmount = currentFill;
+            SetAlpha(Mathf.Lerp(startAlpha, endAlpha, currentFill));
             yield return null;
         }
 
         logoImage.fillAmount = 1f;
         SetAlpha(endAlpha);
 
-        yield return new WaitForSeconds(2f);
+        Debug.Log("[LoadingLogoFiller] 씬 로딩 거의 완료 (progress >= 0.9)");
 
+        yield return new WaitForSeconds(2f);
         op.allowSceneActivation = true;
+
+        Debug.Log("[LoadingLogoFiller] 씬 전환 시작");
+        SceneLoadManager.Instance.OnSceneEnterComplete();
     }
 
     // private IEnumerator AnimateAndLoadScene()
