@@ -76,6 +76,7 @@ public class PopupOption : PopupUI
     }
     private void OnEnable()
     {
+
         //camera = FindObjectOfType<FpsCamera>();
         // PlayerPrefs 값 다시 불러오기
         LoadSensitivity();
@@ -149,7 +150,7 @@ public class PopupOption : PopupUI
 
     public void OnClickResumeBtn()
     {
-        GameManager.Instance.TogglePopup();
+        GameManager.Instance.TogglePopup(false);
     }
 
 }

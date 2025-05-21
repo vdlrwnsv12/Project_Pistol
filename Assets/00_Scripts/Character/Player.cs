@@ -51,6 +51,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameManager.Instance.TogglePopup(true);
+        }
+
         stateMachine.HandleInput();
         stateMachine.Update();
 
