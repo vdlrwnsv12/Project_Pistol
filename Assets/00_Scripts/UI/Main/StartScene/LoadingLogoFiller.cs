@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using DataDeclaration; // Scene enum 정의 위치
+using DataDeclaration;// Scene enum 정의 위치
 using System;
 using UnityEngine.SceneManagement;
-
 
 /// <summary>
 /// 흐린 배경 위에 좌측부터 점점 뚜렷해지는 로딩 로고 연출 → 완료 시 다음 씬 전환
@@ -80,7 +79,7 @@ public class LoadingLogoFiller : MonoBehaviour
                 SetAlpha(Mathf.Lerp(startAlpha, endAlpha, 0.5f));
                 yield return new WaitForSeconds(0.5f);
             }
-
+            
             logoImage.fillAmount = progress;
             SetAlpha(Mathf.Lerp(startAlpha, endAlpha, progress));
 
