@@ -18,7 +18,23 @@ public sealed class ObjectPoolManager : SingletonBehaviour<ObjectPoolManager>
         if (!pool.ContainsKey(key))
             pool[key] = new Queue<GameObject>();
 
-        GameObject obj = pool[key].Count > 0 ? pool[key].Dequeue() : Instantiate(key);
+        GameObject obj = null;
+
+        while (pool[key].Count > 0)
+        {
+            var candidate = pool[key].Dequeue();
+            if (candidate != null && !candidate.Equals(null))
+            {
+                obj = candidate;
+                break;
+            }
+        }
+
+        if (obj == null)
+        {
+            obj = Instantiate(key);
+        }
+
         obj.transform.SetPositionAndRotation(position, rotation);
         obj.SetActive(true);
 
@@ -46,20 +62,40 @@ public sealed class ObjectPoolManager : SingletonBehaviour<ObjectPoolManager>
     /// </summary>
     public void ReturnToPool(GameObject obj)
     {
+        if (obj == null || obj.Equals(null))
+        {
+            if (spawnedToPrefab.TryGetValue(obj, out var originalPrefab))
+            {
+                GameObject newobj = Instantiate(originalPrefab);
+                newobj.SetActive(false);
+
+                if (!pool.ContainsKey(originalPrefab))
+                {
+                    pool[originalPrefab] = new Queue<GameObject>();
+                }
+
+                pool[originalPrefab].Enqueue(newobj);
+            }
+            spawnedToPrefab.Remove(obj);
+            return;
+        }
         if (!spawnedToPrefab.TryGetValue(obj, out var prefab))
         {
-            Debug.LogWarning("Trying to return unknown pooled object. Destroyed.");
+            Debug.LogWarning("모르는 오브젝트 반환. Destroy처리");
             Destroy(obj);
             return;
         }
 
         if (obj.TryGetComponent<IPoolable>(out var poolable))
+        {
             poolable.OnReturnToPool();
+        }
 
         obj.SetActive(false);
         pool[prefab].Enqueue(obj);
         spawnedToPrefab.Remove(obj);
     }
+
 
     /// <summary>
     /// 일정 시간 후 자동 반환

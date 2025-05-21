@@ -26,7 +26,6 @@ public class StandbyRoom : Room
         base.OpenDoor();
         
         StageManager.Instance.IsGamePause = false;
-        StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
     }
 
     protected override void EnterRoom()
@@ -59,7 +58,7 @@ public class StandbyRoom : Room
     {
         yield return new WaitForSeconds(time);
         var popupReward = UIManager.Instance.OpenPopupUI<PopupReward>();
-        popupReward.BuyComplete += () => { isItemRewardComplete = true; };
+        popupReward.OnClose += () => { isItemRewardComplete = true; };
         StageManager.Instance.Player.Controller.enabled = false;
         UIManager.ToggleMouseCursor(true);
     }

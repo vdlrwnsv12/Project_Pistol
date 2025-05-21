@@ -92,14 +92,17 @@ public class PopupInform : PopupUI
     /// </summary>
     private void OnSelectButtonClicked()
     {
-        UIManager.Instance.ClosePopUpUI();
-        
         //캐릭터와 무기 정보가 모두 선택됐으면 게임 씬으로 (테스트용 코드라 지워야함) 
-        if(GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon !=null)
+        if (GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon != null)
         {
             SceneLoadManager.Instance.LoadScene(DataDeclaration.Scene.Stage);//테스트용 코드
-             AnalyticsManager.Instance.SelectData();
+            AnalyticsManager.Instance.SelectData(); 
+            CloseUI();
             return;
+        }
+        else
+        {
+            UIManager.Instance.ClosePopUpUI();
         }
         // 아직 무기선택 전이면 총기 테이블로
         if (camMoveTarget is SelectPointer pointer)

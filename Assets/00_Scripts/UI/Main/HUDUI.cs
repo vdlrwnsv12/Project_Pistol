@@ -58,7 +58,10 @@ public class HUDUI : MainUI
 
     private void Update()
     {
-        UpdateRealTimeChanges();
+        if (StageManager.Instance.Player)
+        {
+            UpdateRealTimeChanges();
+        }
     }
 
     public override void SetActiveUI(MainUIType activeUIType)

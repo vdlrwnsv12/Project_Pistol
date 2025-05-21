@@ -21,6 +21,6 @@ public class SimpleStartButton : MonoBehaviour
     private void OnClickStartGame()
     {
         Debug.Log("로비 씬 전환");
-        StartCoroutine(SceneLoadManager.Instance.LoadScene(Scene.Lobby));
+        SceneLoadManager.Instance.LoadScene(DataDeclaration.Scene.Lobby);
     }
 }

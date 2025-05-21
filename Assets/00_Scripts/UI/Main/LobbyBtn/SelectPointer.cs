@@ -17,7 +17,7 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
 {
     public PlayerInputs inputActions;
     public Transform gunTable; // 총 올라가 있는 테이블 위치
-    private Vector3 camPosBeforeCharacterSelect = new Vector3(0,0,0);
+    private Vector3 camPosBeforeCharacterSelect = new Vector3(0, 0, 0);
     private Quaternion camRotBeforeCharacterSelect; //초기 상태 카메라 회전
     private CinemachineVirtualCamera vcam; //시네머신 카메라
     private SelectSO clickComp; //클릭시 가져올 데이터 
@@ -33,7 +33,7 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
     private void Start() // 카메라 초기 위치 회전 저장
     {
         vcam = GetComponent<CinemachineVirtualCamera>();
-        
+
     }
 
     private void OnCamera(InputAction.CallbackContext context)
@@ -46,7 +46,7 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
             clickComp = hit.collider.GetComponent<SelectSO>();
             if (clickComp == null) return; //클릭한 오브젝트에 SelectSO가 없으면 리턴
 
-            if (hit.collider.CompareTag("Player") && clickComp.characterData != null) 
+            if (hit.collider.CompareTag("Player") && clickComp.characterData != null)
             {
                 HandleCharacterSelection(hit); //캐릭터를 클릭 했을때 호출 할 함수
             }
@@ -64,18 +64,21 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
             camPosBeforeCharacterSelect = vcam.transform.position;
             camRotBeforeCharacterSelect = vcam.transform.rotation;
         }
+        
+        if (GameManager.Instance.selectedWeapon == null)
+        {
+            GameManager.Instance.selectedCharacter = null; //게임매니저 캐릭터 데이터 삭제
+            UIManager.Instance.ClosePopUpUI();
+            UIManager.Instance.OpenPopupUI<PopupInform>();
 
-        GameManager.Instance.selectedCharacter = null; //게임매니저 캐릭터 데이터 삭제
-        UIManager.Instance.ClosePopUpUI();
-        UIManager.Instance.OpenPopupUI<PopupInform>();
 
+            Transform target = hit.collider.transform;
+            Vector3 cameraPosition = target.position + target.forward * 3f + Vector3.up * 3f; //카메라 위치 클릭한 대상 앞쪽으로 이동
+            Quaternion cameraRotation = Quaternion.LookRotation(target.position - cameraPosition); //카메라가 target을 바라보도록 회전
 
-        Transform target = hit.collider.transform; 
-        Vector3 cameraPosition = target.position + target.forward * 3f + Vector3.up * 3f; //카메라 위치 클릭한 대상 앞쪽으로 이동
-        Quaternion cameraRotation = Quaternion.LookRotation(target.position - cameraPosition); //카메라가 target을 바라보도록 회전
-
-        MoveCamera(cameraPosition, cameraRotation); //위 정보를 토대로 카메라 이동 및 회전
-        StartCoroutine(SetPopupCharacterInfoDelayed(clickComp.characterData));//UI가 아직 생성되지 않은 상태로 정보 접근 피하기 위해서 한프레임 대기
+            MoveCamera(cameraPosition, cameraRotation); //위 정보를 토대로 카메라 이동 및 회전
+            StartCoroutine(SetPopupCharacterInfoDelayed(clickComp.characterData));//UI가 아직 생성되지 않은 상태로 정보 접근 피하기 위해서 한프레임 대기
+        }
     }
 
     private IEnumerator SetPopupCharacterInfoDelayed(CharacterSO data)
@@ -86,7 +89,7 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
         popup.SetCamReturnTarget(this); //뒤로가기 버튼을 위한 위치지정
     }
 
-    private void HandleWeaponSelection(RaycastHit hit) 
+    private void HandleWeaponSelection(RaycastHit hit)
     {
         if (GameManager.Instance.selectedCharacter == null) //캐릭터가 선택되지 않았다면 총기 선택 x
         {
@@ -94,7 +97,7 @@ public class SelectPointer : MonoBehaviour, ICameraMovable
             return;
         }
         //캐릭터 선택 버튼을 누르기 전까지 총기 선택은 안되게 해야하지만 총기는 선택 버튼을 누르면 게임이 시작 돼야 해서 바로 게임매니저로 데이터 전송
-        GameManager.Instance.selectedWeapon = clickComp.weaponData; 
+        GameManager.Instance.selectedWeapon = clickComp.weaponData;
 
         UIManager.Instance.ClosePopUpUI();
         UIManager.Instance.OpenPopupUI<PopupInform>();

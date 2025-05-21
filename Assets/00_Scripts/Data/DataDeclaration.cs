@@ -11,7 +11,8 @@ namespace DataDeclaration
     {
         Start,
         Lobby,
-        Stage
+        Stage,
+        Loading
     }
 
     public enum MainUIType
@@ -32,6 +33,9 @@ namespace DataDeclaration
 
     public enum RankType
     {
+        SSSS,
+        SSS,
+        SS,
         S,
         A,
         B,
@@ -43,6 +47,13 @@ namespace DataDeclaration
     {
         Player = 1,
         Weapon
+    }
+
+    public enum WeaponPartsType
+    {
+        Sight = 1,
+        Rail = 2,
+        Muzzle = 4,
     }
 
     #endregion
@@ -60,15 +71,6 @@ namespace DataDeclaration
         
         public string SelectedCharacterID;
         public string SelectedWeaponID;
-    }
-    
-    [Serializable]
-    public struct RewardCard
-    {
-        public Image rewardImage;
-        public TextMeshProUGUI rewardName;
-        public TextMeshProUGUI timeCost;
-        public Button rewardButton;
     }
 
     #endregion
@@ -89,7 +91,7 @@ namespace DataDeclaration
         public const int LAST_STAGE_INDEX = 8;
         public const int MAX_ROOM_INDEX = 3;
 
-        public const float INIT_STAGE_TIME = 20f;
+        public const float INIT_STAGE_TIME = 60f;
         public const float ADDITIONAL_STAGE_TIME = 20f;
         public const float QUICK_SHOT_TIME = 2f;
 

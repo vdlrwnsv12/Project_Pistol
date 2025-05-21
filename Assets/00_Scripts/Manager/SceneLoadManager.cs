@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -5,10 +6,13 @@ using Scene = DataDeclaration.Scene;
 
 public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
 {
-    public static Scene CurScene { get; private set; } = Scene.Stage;
+    public static Scene CurScene { get; private set; } = Scene.Start;
     public static Scene PrevScene { get; private set; }
+    public static Scene NextScene { get; private set; }
 
     private Dictionary<Scene, BaseScene> scenes;
+    
+    public event Action<float> OnLoadProgress;
 
     protected override void Awake()
     {
@@ -21,9 +25,18 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
         scenes[CurScene].EnterScene();
     }
 
-    public IEnumerator LoadScene(Scene nextScene)
+    public void LoadScene(Scene scene)
     {
-        yield return null;
+        NextScene = scene;
+        //SceneManager.LoadScene((int)Scene.Loading);
+        StartCoroutine(CoroutineLoadScene(scene));
+    }
+
+    private IEnumerator CoroutineLoadScene(Scene nextScene)
+    {
+        yield return UIManager.Instance.FadeEffect(0, 1, 0.5f);
+        UIManager.Instance.InitMainUI<LoadingUI>();
+        yield return UIManager.Instance.FadeEffect(1, 0, 0.5f);
 
         var op = SceneManager.LoadSceneAsync((int)nextScene);
         op.allowSceneActivation = false;
@@ -31,6 +44,7 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
         while (!op.isDone)
         {
             yield return null;
+            OnLoadProgress?.Invoke(op.progress);
 
             if (op.progress < 0.9f)
             {
@@ -39,12 +53,15 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
             else
             {
                 op.allowSceneActivation = true;
-                
+
                 PrevScene = CurScene;
                 CurScene = nextScene;
-                
+
+                yield return UIManager.Instance.FadeEffect(0, 1, 0.5f);
                 scenes[PrevScene].ExitScene();
                 scenes[CurScene].EnterScene();
+                yield return UIManager.Instance.FadeEffect(1, 0, 0.5f);
+                break;
             }
         }
     }

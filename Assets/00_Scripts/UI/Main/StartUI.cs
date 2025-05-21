@@ -5,27 +5,18 @@ using DataDeclaration;
 public class StartUI : MainUI
 {
     public override MainUIType UIType { get; protected set; }
-
-    [SerializeField] private Image gameTitleImage;
+    
     [SerializeField] private Button startBtn;
 
-    public void Setup()
+    private void Awake()
     {
-        gameTitleImage.gameObject.SetActive(true);
-        startBtn.gameObject.SetActive(true);
-        RegisterEvents();
-    }
-
-    private void RegisterEvents()
-    {
-        startBtn.onClick.RemoveAllListeners();
         startBtn.onClick.AddListener(StartGame);
     }
 
     private void StartGame()
     {
         Debug.Log("▶ 로비 씬 전환");
-        StartCoroutine(SceneLoadManager.Instance.LoadScene(Scene.Lobby));
+        SceneLoadManager.Instance.LoadScene(Scene.Lobby);
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
