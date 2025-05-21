@@ -96,6 +96,7 @@ public class PopupInform : PopupUI
         if (GameManager.Instance.selectedCharacter != null && GameManager.Instance.selectedWeapon != null)
         {
             SceneLoadManager.Instance.LoadScene(DataDeclaration.Scene.Stage);//테스트용 코드
+            CloseUI();
             return;
         }
         else
