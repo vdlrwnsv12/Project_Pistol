@@ -55,7 +55,7 @@ public class ShootingRoom : Room
     protected override void EnterRoom()
     {
         base.EnterRoom();
-        
+        AnalyticsManager.Instance.RoomInitData();
         if (RoomManager.Instance.CurStageIndex == 1 && RoomManager.Instance.CurRoomIndex == 1)
         {
             return;

@@ -8,10 +8,21 @@ using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.TextCore.Text;
 
 public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
-{public float stageCleartimer = 0f; // 스테이지별 클리어시간
+{
+  
+    public float stageCleartimer = 0f; // 스테이지별 클리어시간
     public float elapsedTime = 0f; // 소요된 시간
-    // 스테이지별
-    //
+                                   // 스테이지별
+
+
+    #region Room
+    public int ShotCount; // 총 쏜 횟수
+    public float clearRoomTimer;  // 방 클리어 시간
+    public float headShotRoomAccuracy; // 방 헤드샷 명중률 
+    public float shotRoomAccuracy; // 방 명중률
+    public int roomCombo; // 방 누적 콤보
+    public int roomScore; // 방 누적 점수
+    #endregion
     private async void Start()
     {
         await InitAnalyticsAsync();
@@ -90,7 +101,7 @@ public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
             {nameof(accumulationHeadShotAccuracy),accumulationHeadShotAccuracy} // 누적 헤드샷 명중률
         });
 
-        AnalyticsService.Instance.Flush(); // 데이터 전송 강제 트리거 (선택)
+        AnalyticsService.Instance.Flush(); // 데이터 전송 강제 트리거
     }
 
     public void FailedGame() // 클리어 실패시 
@@ -102,7 +113,17 @@ public class AnalyticsManager : SingletonBehaviour<AnalyticsManager>
             {nameof(FailedStageIndex) ,FailedStageIndex},
             {nameof(FailedRoomIndex) ,FailedRoomIndex}, 
         });
-        AnalyticsService.Instance.Flush(); // 데이터 전송 강제 트리거 (선택)
+        AnalyticsService.Instance.Flush(); // 데이터 전송 강제 트리거
+    }
+
+    public void RoomInitData() // 방 진입시 데이터 0으로 초기화
+    {
+        clearRoomTimer = 0;
+        ShotCount = 0;
+        roomCombo = 0;
+        roomScore = 0;
+        headShotRoomAccuracy = 0;
+        shotRoomAccuracy = 0;
     }
 
 }
