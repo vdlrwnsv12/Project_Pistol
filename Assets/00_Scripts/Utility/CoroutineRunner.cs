@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoroutineRunner : SingletonBehaviour<CoroutineRunner>
@@ -8,8 +7,8 @@ public class CoroutineRunner : SingletonBehaviour<CoroutineRunner>
     {
         base.Awake();
         isDontDestroyOnLoad = false;
-
     }
+    
     public static Coroutine Run(IEnumerator coroutine)
     {
         return Instance.StartCoroutine(coroutine);
@@ -19,6 +18,7 @@ public class CoroutineRunner : SingletonBehaviour<CoroutineRunner>
     {
         Instance.StartCoroutine(coroutine);
     }
+    
     public static void StopAll()
     {
         Instance.StopAllCoroutines();

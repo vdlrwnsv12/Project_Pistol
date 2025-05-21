@@ -50,6 +50,7 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
                 
                 scenes[PrevScene].ExitScene();
                 scenes[CurScene].EnterScene();
+                break;
             }
         }
     }
