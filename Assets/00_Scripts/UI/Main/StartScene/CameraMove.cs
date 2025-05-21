@@ -18,27 +18,8 @@ public class CameraMove : MonoBehaviour
     [Header("연출 설정")]
     [SerializeField] private float moveDuration = 2f;
 
-    [Header("페이드 설정")]
-    [SerializeField] private Image fadeOverlay;
-    [SerializeField] private float fadeDuration = 1f;
-
-    [Tooltip("페이드 아웃이 시작되는 이동 지점 비율 (0.0 ~ 1.0)")]
-    [Range(0f, 1f)]
-    [SerializeField] private float fadeOutTriggerPercent = 0.9f;
-
-    [Tooltip("페이드 인이 시작되는 이동 지점 비율 (0.0 ~ 1.0)")]
-    [Range(0f, 1f)]
-    [SerializeField] private float fadeInTriggerPercent = 0.1f;
-
     private void Start()
     {
-        // if (targetCamera == null || fadeOverlay == null || moveStartPoints.Count != moveEndPoints.Count)
-        // {
-        //     Debug.LogError("CameraMove: 참조 누락 또는 리스트 수 불일치");
-        //     enabled = false;
-        //     return;
-        // }
-
         StartCoroutine(PlaySequenceLoop());
     }
 
@@ -68,15 +49,6 @@ public class CameraMove : MonoBehaviour
 
         Quaternion startRot = start.rotation;
         Quaternion endRot = end.rotation;
-
-        bool fadeInStarted = false;
-        bool fadeOutStarted = false;
-
-        float fadeOutTriggerTime = moveDuration * fadeOutTriggerPercent;
-        float fadeInTriggerTime = moveDuration * fadeInTriggerPercent;
-
-        Coroutine fadeInRoutine = null;
-        Coroutine fadeOutRoutine = null;
 
         while (elapsed < moveDuration)
         {

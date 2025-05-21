@@ -15,6 +15,11 @@ public class LoadingUI : MainUI
         SceneLoadManager.Instance.OnLoadProgress += FillByLoadingLogo;
     }
 
+    private void OnDestroy()
+    {
+        SceneLoadManager.Instance.OnLoadProgress -= FillByLoadingLogo;
+    }
+
     private void FillByLoadingLogo(float progress)
     {
         logoImage.fillAmount = progress;
