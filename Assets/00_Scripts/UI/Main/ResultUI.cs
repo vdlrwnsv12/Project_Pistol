@@ -44,8 +44,7 @@ public class ResultUI : MainUI
     /// </summary>
     private void OnClickQuitButton()
     {
-        //TODO: 미구현
-        StartCoroutine(GameOver());
+        SceneLoadManager.Instance.LoadScene(Scene.Lobby);
     }
 
     /// <summary>
@@ -63,23 +62,32 @@ public class ResultUI : MainUI
         RankType rank;
         switch (score)
         {
-            case < 500:
+            case < 70000:
                 rank = RankType.F;
                 break;
-            case < 1000:
+            case < 120000:
                 rank = RankType.C;
                 break;
-            case < 2000:
+            case < 210000:
                 rank = RankType.B;
                 break;
-            case < 3000:
+            case < 250000:
                 rank = RankType.A;
                 break;
-            default:
+            case < 275000:
                 rank = RankType.S;
                 break;
+            case < 290000:
+                rank = RankType.SS;
+                break;
+            case < 299999:
+                rank = RankType.SSS;
+                break;
+            default:
+                rank = RankType.SSSS;
+                break;
         }
-
+        
         rankText.text = rank.ToString();
         scoreText.text = $"<size=30>Score</size>\n<size=40>{score:D6}</size>";
 
@@ -87,11 +95,5 @@ public class ResultUI : MainUI
         accuracyText.text = $"명중률\n{accuracy:N2}%";
         headAccuracyText.text = $"헤드 명중률\n{headAccuracy:N2}%";
         maxComboText.text = $"최대 콤보\n{maxCombo:D2} Combo";
-    }
-
-    private IEnumerator GameOver()
-    {
-        yield return UIManager.Instance.FadeEffect(0, 1, 2, true);
-        SceneLoadManager.Instance.LoadScene(Scene.Lobby);
     }
 }

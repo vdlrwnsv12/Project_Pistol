@@ -33,6 +33,9 @@ namespace DataDeclaration
 
     public enum RankType
     {
+        SSSS,
+        SSS,
+        SS,
         S,
         A,
         B,
