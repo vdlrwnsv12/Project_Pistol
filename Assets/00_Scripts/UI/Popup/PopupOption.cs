@@ -149,7 +149,7 @@ public class PopupOption : PopupUI
 
     public void OnClickResumeBtn()
     {
-        UIManager.Instance.ClosePopUpUI();
+        GameManager.Instance.TogglePopup();
     }
 
 }
