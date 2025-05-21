@@ -7,6 +7,7 @@ public class LandTarget : BaseTarget
         if (currentHp <= 0) return;
 
         StageManager.Instance.HitCount++;
+        AnalyticsManager.Instance.headHitCount++;
         bool isHeadShot;
 
         if (hitCollider != null && hitCollider.name == "Head")
@@ -33,6 +34,7 @@ public class LandTarget : BaseTarget
         else
         {
             StageManager.Instance.DestroyTargetCombo++;
+            AnalyticsManager.Instance.roomCombo++;
             if (StageManager.Instance.MaxDestroyTargetCombo <= StageManager.Instance.DestroyTargetCombo)
             {
                 StageManager.Instance.MaxDestroyTargetCombo = StageManager.Instance.DestroyTargetCombo;
@@ -42,7 +44,7 @@ public class LandTarget : BaseTarget
 
         int totalScore = (int)(BaseScore(isHeadShot, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
         StageManager.Instance.GameScore += totalScore;
-
+        AnalyticsManager.Instance.roomScore += totalScore;
         var hudUI = UIManager.Instance.GetMainUI<HUDUI>();
 
         int headShotScore = (int)BaseScore(isHeadShot, realDamage);

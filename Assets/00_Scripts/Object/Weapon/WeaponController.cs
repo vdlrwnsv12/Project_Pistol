@@ -65,7 +65,7 @@ public class WeaponController : MonoBehaviour
             EjectCasing();
             MuzzleFlash();
             StageManager.Instance.ShotCount++;
-            AnalyticsManager.Instance.ShotCount++;
+            AnalyticsManager.Instance.roomShotCount++;
 
             curAmmo--;
         }

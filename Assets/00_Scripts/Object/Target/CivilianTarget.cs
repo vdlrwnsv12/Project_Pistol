@@ -17,7 +17,8 @@ public class CivilianTarget : BaseTarget
 
         StageManager.Instance.DestroyTargetCombo = 0;
         StageManager.Instance.GameScore -= (int)data.Hp;
-        
+        AnalyticsManager.Instance.roomCombo = 0;
+        AnalyticsManager.Instance.roomScore -= (int)data.Hp;
         if (currentHp <= 0)
         {
             Die();
