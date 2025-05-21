@@ -45,13 +45,19 @@ public class ShootingRoom : Room
             RoomManager.Instance.CurRoomIndex == Constants.MAX_ROOM_INDEX)
         {
             StageManager.Instance.GameOver();
+            AnalyticsManager.Instance.ClearGame();
             return;
         }
-
+        AnalyticsManager.Instance.RoomInitData();
         base.OpenDoor();
         StageManager.Instance.RemainTime += Constants.ADDITIONAL_STAGE_TIME;
     }
 
+    protected override void ExitRoom()
+    {
+        base.ExitRoom();
+        AnalyticsManager.Instance.RoomDataFlush();  
+    }
     protected override void ResetRoom()
     {
         for (var i = 0; i < activeWalls.Length; i++)

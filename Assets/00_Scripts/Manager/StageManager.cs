@@ -37,8 +37,8 @@ public class StageManager : SingletonBehaviour<StageManager>
     public int HitCount { get; set; }
     public int HeadHitCount { get; set; }
 
-    private float shotAccuracy;
-    private float headShotAccuracy;
+    public float shotAccuracy;
+    public float headShotAccuracy;
 
     bool isGameOver = false;
     protected override void Awake()
@@ -70,6 +70,7 @@ public class StageManager : SingletonBehaviour<StageManager>
         if (remainTime <= 0 && !isGameOver)
         {
             GameOver();
+            AnalyticsManager.Instance.FailedGame();
             isGameOver = true;
         }
        
@@ -89,7 +90,6 @@ public class StageManager : SingletonBehaviour<StageManager>
             resultUI.SetResultValue(GameScore, RemainTime,
                 shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
         }
-        AnalyticsManager.Instance.EndGame();
         Player.Controller.enabled = false;
     }
 

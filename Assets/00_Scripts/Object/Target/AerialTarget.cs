@@ -26,7 +26,8 @@ public class AerialTarget : BaseTarget
         if (currentHp <= 0) return;
         StageManager.Instance.HitCount++;
         StageManager.Instance.HeadHitCount++;
-
+        AnalyticsManager.Instance.roomHitCount++;
+        AnalyticsManager.Instance.headHitCount++;
         amount *= data.DamageRate;
 
         float realDamage = Mathf.Min(amount, currentHp);
@@ -41,6 +42,7 @@ public class AerialTarget : BaseTarget
         else
         {
             StageManager.Instance.DestroyTargetCombo++;
+            AnalyticsManager.Instance.roomCombo++;
             if (StageManager.Instance.MaxDestroyTargetCombo <= StageManager.Instance.DestroyTargetCombo)
             {
                 StageManager.Instance.MaxDestroyTargetCombo = StageManager.Instance.DestroyTargetCombo;
@@ -52,7 +54,7 @@ public class AerialTarget : BaseTarget
 
         int totalScore = (int)(BaseScore(false, realDamage) + RangeScore() + ComboScore(StageManager.Instance.DestroyTargetCombo) + QuickShotScore(StageManager.Instance.IsQuickShot));
         StageManager.Instance.GameScore += totalScore;
-
+        AnalyticsManager.Instance.roomScore += totalScore;
         var hudUI = UIManager.Instance.GetMainUI<HUDUI>();
 
         int headShotScore = (int)BaseScore(false, realDamage);

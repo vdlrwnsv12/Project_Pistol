@@ -330,6 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b12abb279d87d438102315cf3b38d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotAccuracy: 0
+  headShotAccuracy: 0
 --- !u!4 &1311678334
 Transform:
   m_ObjectHideFlags: 0
