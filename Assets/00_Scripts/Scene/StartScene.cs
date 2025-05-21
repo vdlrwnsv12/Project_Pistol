@@ -4,7 +4,6 @@ public class StartScene : BaseScene
     {
         UIManager.ToggleMouseCursor(true);
         UIManager.Instance.InitMainUI<StartUI>();
-        UIManager.Instance.OpenPopupUI<PopupSignIn>();
     }
 
     public override void ExitScene()
