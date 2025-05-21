@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using DataDeclaration;
+using DataDeclaration;// Scene enum 정의 위치
 using System;
 using UnityEngine.SceneManagement;
-using System.Threading; // Scene enum 정의 위치
 
 /// <summary>
 /// 흐린 배경 위에 좌측부터 점점 뚜렷해지는 로딩 로고 연출 → 완료 시 다음 씬 전환
