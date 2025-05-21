@@ -51,7 +51,8 @@ public class PopupInform : PopupUI
     {
         weaponSO = data;
         nameText.text = data.Name;
-        descriptionText.text = data.Description;
+        descriptionText.text = null;
+        //descriptionText.text = data.Description;
         statusText.text = FormatWeaponStatus(data);
         Debug.Log($"SetGunInfo 호출됨: {data.Name}");
     }
@@ -142,7 +143,7 @@ public class PopupInform : PopupUI
     private string FormatWeaponStatus(WeaponSO data)
     {
         return $"Status\n" +
-               $"Recoil: {data.ShootRecoil.ToString().PadRight(5)} weaponSO: {data.ReloadTime}\n" +
+               $"Recoil: {data.ShootRecoil.ToString().PadRight(5)} ReloadTime: {data.ReloadTime}\n" +
                $"Damage: {data.DMG.ToString().PadRight(5)} MaxAmmo: {data.MaxAmmo}";
     }
 }

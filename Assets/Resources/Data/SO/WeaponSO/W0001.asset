@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: W0001
   Name: Colt
-  Description: "\uCD1D\uAE30 \uC124\uBA851"
+  Description: "\uBC18\uB3D9\uACFC \uC704\uB825\uC774 \uB9E4\uC6B0 \uC57D\uD558\uACE0,
+    \uC7A5\uD0C4\uC218\uAC00 \uB9CE\uC740 \uCD1D"
   ShootRecoil: 20
   DMG: 4
-  ReloadTime: 2
+  ReloadTime: 1.5
   MaxAmmo: 15
   Cost: 1500

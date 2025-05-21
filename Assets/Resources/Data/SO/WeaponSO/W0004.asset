@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: W0004
   Name: DesertEagle
-  Description: "\uCD1D\uAE30 \uC124\uBA854"
+  Description: "\uBC18\uB3D9\uACFC \uC704\uB825\uC774 \uB9E4\uC6B0 \uAC15\uD558\uACE0
+    \uC7A5\uD0C4\uC218\uB3C4 \uB9E4\uC6B0 \uC801\uC740 \uADF9\uB2E8\uC801\uC778 \uCD1D"
   ShootRecoil: 50
   DMG: 10
-  ReloadTime: 2
+  ReloadTime: 3
   MaxAmmo: 6
   Cost: 1500

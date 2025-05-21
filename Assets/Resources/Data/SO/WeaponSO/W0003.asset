@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: W0003
   Name: H&K
-  Description: "\uCD1D\uAE30 \uC124\uBA853"
+  Description: "\uBC18\uB3D9\uACFC \uC704\uB825\uC774 \uAC15\uD558\uACE0, \uC7A5\uD0C4\uC218\uAC00
+    \uC801\uC740 \uCD1D"
   ShootRecoil: 35
   DMG: 8
-  ReloadTime: 2
+  ReloadTime: 2.5
   MaxAmmo: 7
   Cost: 1500

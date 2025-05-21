@@ -2,17 +2,17 @@
   {
     "ID": "W0001",
     "Name": "Colt",
-    "Description": "총기 설명1",
+    "Description": "반동과 위력이 매우 약하고, 장탄수가 많은 총",
     "ShootRecoil": 20.0,
     "DMG": 4.0,
-    "ReloadTime": 2.0,
+    "ReloadTime": 1.5,
     "MaxAmmo": 15,
     "Cost": 1500
   },
   {
     "ID": "W0002",
     "Name": "Glock",
-    "Description": "총기 설명2",
+    "Description": "반동과 위력, 장탄수 모두 평범한 총",
     "ShootRecoil": 25.0,
     "DMG": 6.0,
     "ReloadTime": 2.0,
@@ -22,20 +22,20 @@
   {
     "ID": "W0003",
     "Name": "H&K",
-    "Description": "총기 설명3",
+    "Description": "반동과 위력이 강하고, 장탄수가 적은 총",
     "ShootRecoil": 35.0,
     "DMG": 8.0,
-    "ReloadTime": 2.0,
+    "ReloadTime": 2.5,
     "MaxAmmo": 7,
     "Cost": 1500
   },
   {
     "ID": "W0004",
     "Name": "DesertEagle",
-    "Description": "총기 설명4",
+    "Description": "반동과 위력이 매우 강하고 장탄수도 매우 적은 극단적인 총",
     "ShootRecoil": 50.0,
     "DMG": 10.0,
-    "ReloadTime": 2.0,
+    "ReloadTime": 3.0,
     "MaxAmmo": 6,
     "Cost": 1500
   }
