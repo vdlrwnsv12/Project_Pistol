@@ -147,7 +147,7 @@ public class PlayerBaseState : IState
     }
     private void RotateView() //좌우 회전
     {
-        float sensitivity = stateMachine.CurrentSensitivity / 5;//조준상태 별 사용할 마우스 감도
+        float sensitivity =  Mathf.Log10(stateMachine.CurrentSensitivity + 1f);//조준상태 별 사용할 마우스 감도
 
         stateMachine.RotationX -= stateMachine.MouseInput.y * sensitivity;
 
