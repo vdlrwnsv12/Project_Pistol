@@ -1,3 +1,4 @@
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,7 +43,15 @@ public class PopupAuth : PopupUI
         passwordInputField.text = "Admin123!";
 #endif
     }
-    
+
+    private void Update()
+    {
+        if (AuthenticationService.Instance.IsSignedIn)
+        {
+            CloseUI();
+        }
+    }
+
     private void InitInputField()
     {
         // ID inputField 초기화
@@ -65,8 +74,6 @@ public class PopupAuth : PopupUI
             Debug.Log("로그인 성공");
             idInputField.text = "";
             passwordInputField.text = "";
-            
-            CloseUI();
         }
         catch
         {
@@ -79,9 +86,9 @@ public class PopupAuth : PopupUI
         try
         {
             await UserManager.Instance.SignUpWithUsernamePasswordAsync(idInputField.text, passwordInputField.text, nameInputField.text);
-            idInputField.text = "";
-            passwordInputField.text = "";
-            nameInputField.text = "";
+            idInputField.text = null;
+            passwordInputField.text = null;
+            nameInputField.text = null;
             Debug.Log("회원가입 성공");
         }
         catch
@@ -99,6 +106,9 @@ public class PopupAuth : PopupUI
             closeButton.gameObject.SetActive(true);
             
             titleText.text = "회원가입";
+            
+            idInputField.text = null;
+            passwordInputField.text = null;
             
             nameText.gameObject.SetActive(true);
             nameInputField.gameObject.SetActive(true);
