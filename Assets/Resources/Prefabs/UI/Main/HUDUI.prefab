@@ -2040,6 +2040,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1583262489280000742}
   - component: {fileID: 6973197948436450645}
+  - component: {fileID: 7052509890958674645}
   m_Layer: 5
   m_Name: HUDUI
   m_TagString: Untagged
@@ -2083,12 +2084,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 5972110005524640061}
-  scorePrefab: {fileID: 7017232760399528194, guid: 6aded009a982643d28b44aa4b3028b17,
-    type: 3}
-  scorePosition: {fileID: 234188015260922308}
+  comboText: {fileID: 9169485656427183473}
+  spawnScoreItem: {fileID: 7052509890958674645}
   remainTimeText: {fileID: 1597163150782541842}
   curStageText: {fileID: 8420534593202856211}
-  comboText: {fileID: 9169485656427183473}
   stageIndex:
   - {fileID: 127169552370779714}
   - {fileID: 8160742852886565189}
@@ -2106,6 +2105,21 @@ MonoBehaviour:
   achivmentPoint: {fileID: 7958246641901384235}
   achivemnetPrefab: {fileID: 1814848197723200406, guid: 562490e87c8564df4b136fe8f39232f5,
     type: 3}
+--- !u!114 &7052509890958674645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092067149281073673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234ddee17b0774e3299679f28f3cd1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scorePrefab: {fileID: 7017232760399528194, guid: 6aded009a982643d28b44aa4b3028b17,
+    type: 3}
+  scorePosition: {fileID: 234188015260922308}
 --- !u!1 &5128194880653494083
 GameObject:
   m_ObjectHideFlags: 0
