@@ -85,6 +85,7 @@ public class Player : MonoBehaviour
 
         Controller = GetComponent<PlayerController>();
         Motion = GetComponent<PlayerMotion>();
+        PopupOption.InitSensitivity();
     }
 
     private void InitCamera()

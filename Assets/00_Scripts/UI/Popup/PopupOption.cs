@@ -20,7 +20,7 @@ public class PopupOption : PopupUI
     // public float adsSensitivity = 1f;
 
     // 캐싱된 감도 값을 저장할 static 변수
-    [SerializeField]public static float cachedHipSensitivity = 1f;
+    [SerializeField] public static float cachedHipSensitivity = 1f;
     public static float cachedAdsSensitivity = 1f;
 
     private const string HipSensitivityKey = "HipSensitivity";
@@ -129,7 +129,7 @@ public class PopupOption : PopupUI
         bgmValueText.text = bgmSlider.value.ToString("0");
     }
 
-    private void LoadSensitivity()
+    public void LoadSensitivity()
     {
         // PlayerPrefs에서 감도 값 불러오기
         cachedHipSensitivity = PlayerPrefs.GetFloat(HipSensitivityKey, 1f);
@@ -146,6 +146,12 @@ public class PopupOption : PopupUI
     public void OnClickResumeBtn()
     {
         GameManager.Instance.TogglePopup(false);
+    }
+
+    public static void InitSensitivity() //플레이어 생성시 호출할 함수
+    {
+        cachedAdsSensitivity = PlayerPrefs.GetFloat(AdsSensitivityKey, 1f);
+        cachedHipSensitivity = PlayerPrefs.GetFloat(HipSensitivityKey, 1f);
     }
 
 }
