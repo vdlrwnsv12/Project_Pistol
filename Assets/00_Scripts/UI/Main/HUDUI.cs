@@ -10,9 +10,11 @@ public class HUDUI : MainUI
 {
     #region UI Object
 
+    [Header("스코어 관련")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject scorePrefab;
     [SerializeField] private Transform scorePosition;
+    
     [SerializeField] private TextMeshProUGUI remainTimeText;
     [SerializeField] private TextMeshProUGUI curStageText;
     [SerializeField]
@@ -29,6 +31,10 @@ public class HUDUI : MainUI
     [SerializeField] private TextMeshProUGUI rclText;
     [SerializeField] private Image stpGauge;
     [SerializeField] private TextMeshProUGUI stpText;
+    
+    [Header("도전과제")]
+    [SerializeField] private Transform achivmentPoint;
+    [SerializeField] private GameObject achivemnetPrefab;
 
     #endregion
 
