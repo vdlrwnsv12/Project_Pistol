@@ -33,6 +33,7 @@ public class HUDUI : MainUI
     [Header("도전과제")]
     [SerializeField] private Transform achivmentPoint;
     [SerializeField] private GameObject achivemnetPrefab;
+    [SerializeField] private SpawnAchivementItem spawnAchivementItem;
 
     #endregion
 
