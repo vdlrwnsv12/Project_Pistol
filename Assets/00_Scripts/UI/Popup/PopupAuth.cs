@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Unity.Services.Authentication;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum SignState
@@ -8,7 +10,7 @@ public enum SignState
     SignUp,
 }
 
-public class PopupAuth : PopupUI
+public class PopupAuth : PopupUI, IPointerEnterHandler
 {
     [SerializeField] private Button closeButton;
     
@@ -24,6 +26,8 @@ public class PopupAuth : PopupUI
     [SerializeField] private Button signInButton;
     [SerializeField] private Button signUpButton;
     
+    private List<InputField> inputFieldList;
+    private int curInputIdx;
 
     private SignState curSignState;
 
@@ -32,6 +36,7 @@ public class PopupAuth : PopupUI
         curSignState = SignState.SignIn;
         
         InitInputField();
+        curInputIdx = 0;
 
         closeButton.onClick.AddListener(ChangeSignState);
         
@@ -50,6 +55,13 @@ public class PopupAuth : PopupUI
         {
             CloseUI();
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            var maxIdx = inputFieldList.Count;
+            curInputIdx = (curInputIdx + 1) % maxIdx;
+            inputFieldList[curInputIdx].Select();
+        }
     }
 
     private void InitInputField()
@@ -64,6 +76,12 @@ public class PopupAuth : PopupUI
         
         nameText.gameObject.SetActive(false);
         nameInputField.gameObject.SetActive(false);
+
+        inputFieldList = new List<InputField>
+        {
+            idInputField,
+            passwordInputField
+        };
     }
     
     private async void SignIn()
@@ -118,6 +136,8 @@ public class PopupAuth : PopupUI
             signInButton.onClick.AddListener(SignUp);
             
             signUpButton.gameObject.SetActive(false);
+            
+            inputFieldList.Add(nameInputField);
         }
         else
         {
@@ -135,6 +155,13 @@ public class PopupAuth : PopupUI
             signInButton.onClick.AddListener(SignIn);
             
             signUpButton.gameObject.SetActive(true);
+
+            inputFieldList.Remove(nameInputField);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        
     }
 }
