@@ -29,11 +29,7 @@ public class HUDUI : MainUI
     [SerializeField] private TextMeshProUGUI rclText;
     [SerializeField] private Image stpGauge;
     [SerializeField] private TextMeshProUGUI stpText;
-    
-    [Header("도전과제")]
-    [SerializeField] private Transform achivmentPoint;
-    [SerializeField] private GameObject achivemnetPrefab;
-    [SerializeField] private SpawnAchivementItem spawnAchivementItem;
+
 
     #endregion
 

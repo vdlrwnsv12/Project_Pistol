@@ -4,73 +4,69 @@ using UnityEngine.UI;
 
 public class AchivementItemAnimation : MonoBehaviour
 {
-    private RectTransform rt;
-    public Image image;
-
-    void OnEnable()
+    [SerializeField] private AchivementDataContainer achivementDataContainer;
+    
+    public void OnEnable()
     {
-        rt = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
+        achivementDataContainer.image = GetComponent<Image>();
 
-        if (rt == null) Debug.LogWarning("RectTransform null");
-        if (image == null) Debug.LogWarning("Image null");
+        if (achivementDataContainer.rt == null || achivementDataContainer.image == null)
+        {
+            Debug.LogWarning("RectTransform or Image is null");
+            return;
+        }
 
-        if (rt != null && image != null)
-            StartCoroutine(Animate());
+        // 애니메이션 시작
+        StartCoroutine(Animate());
     }
 
     private IEnumerator Animate()
     {
-        Vector3 basePos = rt.localPosition;
-        Vector3 startPos = basePos + new Vector3(0f, -100f, 0f);
-        Vector3 midPos = basePos;
-        Vector3 endPos = basePos + new Vector3(400f, 0f, 0f);
+        Color color = achivementDataContainer.image.color;
+        achivementDataContainer.image.color = color;
+
+        // 위치 정의
+        Vector2 midPos = new Vector2(760f, -230f);     // 화면
+        Vector2 endPos = new Vector2(1200f, -230f);    // 오른쪽 밖
 
         float riseDuration = 0.5f;
-        float waitDuration = 1f;
-        float exitDuration = 0.3f;
+        float waitDuration = 1.2f;
+        float exitDuration = 0.4f;
 
-        rt.localPosition = startPos;
 
-        // 페이드인 시작
-        Color color = image.color;
-        color.a = 0f;
-        image.color = color;
-
+        // 아래 → 중간 (페이드 인)
         float elapsed = 0f;
         while (elapsed < riseDuration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / riseDuration;
-            rt.localPosition = Vector3.Lerp(startPos, midPos, t);
+            achivementDataContainer.rt.anchoredPosition = Vector2.Lerp(achivementDataContainer.startPos, midPos, t);
             color.a = t;
-            image.color = color;
+            achivementDataContainer.image.color = color;
             yield return null;
         }
 
-        rt.localPosition = midPos;
+        achivementDataContainer.rt.anchoredPosition = midPos;
         color.a = 1f;
-        image.color = color;
+        achivementDataContainer.image.color = color;
 
+        // 대기
         yield return new WaitForSeconds(waitDuration);
 
-        // 오른쪽으로 나가면서 페이드아웃
+        // 중간 → 오른쪽 (페이드 아웃)
         elapsed = 0f;
         while (elapsed < exitDuration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / exitDuration;
-            rt.localPosition = Vector3.Lerp(midPos, endPos, t);
+            achivementDataContainer.rt.anchoredPosition = Vector2.Lerp(midPos, endPos, t);
             color.a = 1f - t;
-            image.color = color;
+            achivementDataContainer.image.color = color;
             yield return null;
         }
 
-        rt.localPosition = endPos;
+        achivementDataContainer.rt.anchoredPosition = endPos;
         color.a = 0f;
-        image.color = color;
-
-        // 필요시 여기서 비활성화 or 풀 반환
-        // gameObject.SetActive(false);
+        achivementDataContainer.image.color = color;
     }
 }

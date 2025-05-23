@@ -42,15 +42,6 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            Debug.Log($"{UIManager.Instance.CurMainUI}");
-            SpawnAchivementItem.Instance.ShowAchivementEffect("A0001");
-        }
-
-    }
     public static void GameQuit()
     {
 #if UNITY_EDITOR
