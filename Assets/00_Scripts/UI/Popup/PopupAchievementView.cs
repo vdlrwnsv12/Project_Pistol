@@ -22,7 +22,7 @@ public class PopupAchievementView : PopupUI
 
             LobbyAchievementItem lobbyAchievement = achievementItems.GetComponent<LobbyAchievementItem>();
             lobbyAchievement.achievementSO = so;
-            lobbyAchievement.InitData();
+            lobbyAchievement.InitData();//테스트
         }
     }
 }

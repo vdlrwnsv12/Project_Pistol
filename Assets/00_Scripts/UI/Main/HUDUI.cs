@@ -105,7 +105,7 @@ public class HUDUI : MainUI
             }
         }
     }
-    
+
     /// <summary>
     /// 캐릭터 스탯 UI 갱신 메서드
     /// </summary>
@@ -115,7 +115,11 @@ public class HUDUI : MainUI
 
         rclGauge.fillAmount = stat.RCL / Constants.MAX_STAT;
         rclText.text = stat.RCL.ToString("N0");
-
+        if (stat.RCL >= 99)
+        {
+            Debug.Log("도전과제 달성: A0001 - RCL 99");
+            AchievementManager.Instance.SpawnAchivement("A0001");
+        }
         hdlGauge.fillAmount = stat.HDL / Constants.MAX_STAT;
         hdlText.text = stat.HDL.ToString("N0");
 

@@ -15,7 +15,7 @@ public class DroneMovement : MonoBehaviour
     private Quaternion initialRotation;
     private float seed;
 
-    void Start()
+    void OnEnable()
     {
         initialPosition = transform.position;
         initialRotation = transform.rotation;

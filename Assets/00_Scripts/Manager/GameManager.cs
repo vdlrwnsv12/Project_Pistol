@@ -27,6 +27,7 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
             if (controller != null)
             {
                 controller.EnablePlayerInput(true);//플레이어 마우스 회전 ㅇ
+                UIManager.ToggleMouseCursor(false);
             }
         }
         else
@@ -38,6 +39,7 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
             if (controller != null)
             {
                 controller.EnablePlayerInput(false);//플레이어 마우스 회전 x
+                UIManager.ToggleMouseCursor(true);
             }
         }
     }
