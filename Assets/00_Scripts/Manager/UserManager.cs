@@ -78,10 +78,8 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
                 throw;
             }
         }
-        catch (AuthenticationException ex)
+        catch (AuthenticationException)
         {
-            Debug.LogException(ex);
-            Debug.Log("인증에 실패했습니다: " + ex.Message);
             throw;
         }
         catch (RequestFailedException ex)
