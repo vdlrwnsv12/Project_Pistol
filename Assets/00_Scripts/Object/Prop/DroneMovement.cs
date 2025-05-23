@@ -14,7 +14,7 @@ public class DroneMovement : MonoBehaviour
     private Vector3 initialPosition;
     private float seed;
 
-    void Start()
+    void OnEnable()
     {
         initialPosition = transform.position;
         seed = Random.Range(0f, 100f);
