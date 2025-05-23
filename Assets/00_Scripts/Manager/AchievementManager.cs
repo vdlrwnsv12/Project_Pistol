@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AchivementManager : SingletonBehaviour<AchivementManager>
+public class AchievementManager : SingletonBehaviour<AchievementManager>
 {
     private AchivementDataContainer achivementDataContainer;
+    private HashSet<string> showAchievements = new HashSet<string>();
 
     /// <summary>
     /// 도전과제 출력 메서드
@@ -13,6 +14,11 @@ public class AchivementManager : SingletonBehaviour<AchivementManager>
     /// <param name="soId"></param>
     public void SpawnAchivement(string soId)
     {
+        if (showAchievements.Contains(soId))
+        {
+            return;
+        }
+
         AchievementSO so = ResourceManager.Instance.Load<AchievementSO>($"Data/SO/AchievementSO/{soId}");
 
         var achivePref = ResourceManager.Instance.Load<AchivementDataContainer>("Prefabs/UI/AchivementItem");
@@ -22,11 +28,13 @@ public class AchivementManager : SingletonBehaviour<AchivementManager>
         pooledAchive.transform.SetParent(UIManager.Instance.CurMainUI.transform, false);
 
 
-        if (achivePref != null)
+        if (pooledAchive != null)
         {
             achivementDataContainer = pooledAchive.GetComponent<AchivementDataContainer>();
+            achivementDataContainer.SetData(so);
+
+            showAchievements.Add(soId);
         }
 
-        achivementDataContainer.SetData(so);
     }
 }
