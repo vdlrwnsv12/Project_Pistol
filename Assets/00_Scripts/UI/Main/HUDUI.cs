@@ -79,6 +79,10 @@ public class HUDUI : MainUI
         remainTimeText.text = $"<size=120>{StageManager.Instance.RemainTime:N2}</size>";
         ammoText.text = $"{StageManager.Instance.Player.Weapon.CurAmmo} / {StageManager.Instance.Player.Weapon.MaxAmmo}";
         comboText.text = $"<size=36>Combo</size>\n<size=80>{StageManager.Instance.DestroyTargetCombo}</size>";
+        if (StageManager.Instance.DestroyTargetCombo >= 10)
+        {
+            AchievementManager.Instance.SpawnAchivement("A0012");
+        }
     }
 
     /// <summary>

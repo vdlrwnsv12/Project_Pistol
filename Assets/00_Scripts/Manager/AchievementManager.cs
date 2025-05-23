@@ -21,7 +21,7 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
 
         AchievementSO so = ResourceManager.Instance.Load<AchievementSO>($"Data/SO/AchievementSO/{soId}");
 
-        var achivePref = ResourceManager.Instance.Load<AchivementDataContainer>("Prefabs/UI/AchivementItem");
+        var achivePref = ResourceManager.Instance.Load<AchivementDataContainer>("Prefabs/UI/AchievementItem");
 
         var pooledAchive = ObjectPoolManager.Instance.GetObject(achivePref, Vector3.zero, Quaternion.identity, 3f);
 
