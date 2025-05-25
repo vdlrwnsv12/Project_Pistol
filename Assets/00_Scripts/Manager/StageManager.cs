@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
 
@@ -76,21 +77,38 @@ public class StageManager : SingletonBehaviour<StageManager>
        
     }
 
-    public void GameOver()
+    public async void GameOver()
     {
-        UIManager.ToggleMouseCursor(true);
-
-        UIManager.Instance.InitMainUI<ResultUI>();
-        var resultUI = UIManager.Instance.CurMainUI as ResultUI;
-        if (resultUI != null)
+        try
         {
-            shotAccuracy = ShotCount == 0 ? 0 : (float)HitCount / ShotCount * 100f;
-            headShotAccuracy = HitCount == 0 ? 0 : (float)HeadHitCount / HitCount * 100f;
+            UIManager.ToggleMouseCursor(true);
+
+            UIManager.Instance.InitMainUI<ResultUI>();
+            var resultUI = UIManager.Instance.CurMainUI as ResultUI;
+            if (resultUI != null)
+            {
+                shotAccuracy = ShotCount == 0 ? 0 : (float)HitCount / ShotCount * 100f;
+                headShotAccuracy = HitCount == 0 ? 0 : (float)HeadHitCount / HitCount * 100f;
             
-            resultUI.SetResultValue(GameScore, RemainTime,
-                shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
+                resultUI.SetResultValue(GameScore, RemainTime,
+                    shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
+            }
+            Player.Controller.enabled = false;
+            
+            var prevBestScore = await UserManager.Instance.LoadDataAsync<int>(Constants.USER_BEST_SCORE);
+            if (prevBestScore < gameScore)
+            {
+                await UserManager.Instance.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
+            }
         }
-        Player.Controller.enabled = false;
+        catch (KeyNotFoundException)
+        {
+            await UserManager.Instance.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"에러 발생: {e.Message}");
+        }
     }
 
     /// <summary>

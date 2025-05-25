@@ -84,6 +84,7 @@ namespace DataDeclaration
         // 공백, 한글, 특수문자 금지
         public const string USER_DATA = "User_Data";
         public const string USER_NAME = "User_Name";
+        public const string USER_BEST_SCORE = "User_Best_Score";
 
         #endregion
         

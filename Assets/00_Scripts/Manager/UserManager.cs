@@ -61,7 +61,7 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
                 // Unity Cloud Save를 통해 유저 이름 데이터 저장
                 try
                 {
-                    await SaveData(Constants.USER_NAME, userName);
+                    await SaveDataAsync(Constants.USER_NAME, userName);
                 }
                 catch (CloudSaveException e)
                 {
@@ -88,6 +88,26 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
             Debug.Log("요청 실패: " + ex.Message);
             throw;
         }
+    }
+
+    public async Task TestSignUpWithUsernamePasswordAsync(string userID, string password, string userName)
+    {
+        // 회원가입
+        await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(userID, password);
+        userData.AccessToken = AuthenticationService.Instance.AccessToken;
+        userData.UserID = AuthenticationService.Instance.PlayerId;
+
+        await UpdateUserNameAsync(userName);
+    }
+
+    private async Task UpdateUserNameAsync(string userName)
+    {
+        // 유저 이름 설정
+        await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
+        
+        // Unity Cloud Save를 통해 유저 이름 데이터 저장
+        await SaveDataAsync(Constants.USER_NAME, userName);
+        userData.UserName = AuthenticationService.Instance.PlayerName;
     }
 
     /// <summary>
@@ -126,7 +146,7 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
     /// </summary>
     /// <param name="key">저장할 데이터의 key 값</param>
     /// <param name="data">저장할 데이터</param>
-    public async Task SaveData(string key, object data)
+    public async Task SaveDataAsync(string key, object data)
     {
         var saveData = new Dictionary<string, object> { { key, data } };
         await CloudSaveService.Instance.Data.Player.SaveAsync(saveData);
@@ -138,7 +158,7 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
     /// <param name="key">로드할 데이터의 key 값</param>
     /// <typeparam name="T">반환받을 데이터의 타입</typeparam>
     /// <returns>로드된 데이터</returns>
-    public async Task<T> LoadData<T>(string key)
+    public async Task<T> LoadDataAsync<T>(string key)
     {
         var dataKey = new HashSet<string> { key };
         var loadDataDict = await CloudSaveService.Instance.Data.Player.LoadAsync(dataKey);
