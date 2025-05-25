@@ -9,21 +9,20 @@ using UnityEngine;
 
 public sealed class UserManager : SingletonBehaviour<UserManager>
 {
-    private UserData userData;
+    private UserInfo userInfo;
 
-    public UserData UserData => userData;
+    public UserInfo UserInfo => userInfo;
 
     protected override void Awake()
     {
         base.Awake();
-        userData = new UserData();
+        AuthenticationService.Instance.SignedIn += OnSignedIn;
     }
 
     private void Update()
     {
-        Debug.Log($"접속 토큰: {userData.AccessToken}");
-        Debug.Log($"플레이어 ID: {userData.UserID}");
-        Debug.Log($"플레이어 이름: {userData.UserName}");
+        Debug.Log($"플레이어 ID: {userInfo.UserID}");
+        Debug.Log($"플레이어 이름: {userInfo.UserName}");
 
         if (AuthenticationService.Instance.IsSignedIn)
         {
@@ -49,65 +48,35 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
         try
         {
             await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(userID, password);
-            // 회원가입 성공 시 유저 정보에 데이터 저장
-            userData.AccessToken = AuthenticationService.Instance.AccessToken;
-            userData.UserID = AuthenticationService.Instance.PlayerId;
 
-            // 유저 이름 설정
+            // 닉네임 설정
             try
             {
                 await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
-
-                // Unity Cloud Save를 통해 유저 이름 데이터 저장
-                try
+                userInfo = new UserInfo
                 {
-                    await SaveDataAsync(Constants.USER_NAME, userName);
-                }
-                catch (CloudSaveException e)
-                {
-                    Debug.LogException(e);
-                    await AuthenticationService.Instance.DeleteAccountAsync();
-                    throw;
-                }
-
-                userData.UserName = AuthenticationService.Instance.PlayerName;
+                    UserID = AuthenticationService.Instance.PlayerInfo.Username,
+                    UserName = AuthenticationService.Instance.PlayerName
+                };
+                await SaveDataAsync(Constants.USER_INFO, userInfo);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                await AuthenticationService.Instance.DeleteAccountAsync();
+                Debug.LogError("닉네임 설정 오류");
                 throw;
             }
         }
-        catch (AuthenticationException)
+        catch (AuthenticationException e)
         {
+            Debug.LogError("인증 실패: " + e.Message);
             throw;
         }
-        catch (RequestFailedException ex)
+        catch (RequestFailedException e)
         {
-            Debug.LogException(ex);
-            Debug.Log("요청 실패: " + ex.Message);
+            Debug.LogError("요청 실패: " + e.Message);
             throw;
         }
-    }
-
-    public async Task TestSignUpWithUsernamePasswordAsync(string userID, string password, string userName)
-    {
-        // 회원가입
-        await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(userID, password);
-        userData.AccessToken = AuthenticationService.Instance.AccessToken;
-        userData.UserID = AuthenticationService.Instance.PlayerId;
-
-        await UpdateUserNameAsync(userName);
-    }
-
-    private async Task UpdateUserNameAsync(string userName)
-    {
-        // 유저 이름 설정
-        await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
-        
-        // Unity Cloud Save를 통해 유저 이름 데이터 저장
-        await SaveDataAsync(Constants.USER_NAME, userName);
-        userData.UserName = AuthenticationService.Instance.PlayerName;
     }
 
     /// <summary>
@@ -122,21 +91,15 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
         try
         {
             await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(userId, password);
-            userData.AccessToken = AuthenticationService.Instance.AccessToken;
-            userData.UserID = AuthenticationService.Instance.PlayerId;
-            await AuthenticationService.Instance.GetPlayerNameAsync();
-            userData.UserName = AuthenticationService.Instance.PlayerName;
         }
-        catch (AuthenticationException ex)
+        catch (AuthenticationException e)
         {
-            Debug.LogException(ex);
-            Debug.Log("인증에 실패했습니다: " + ex.Message);
+            Debug.LogError("인증 실패: " + e.Message);
             throw;
         }
-        catch (RequestFailedException ex)
+        catch (RequestFailedException e)
         {
-            Debug.LogException(ex);
-            Debug.Log("요청 실패: " + ex.Message);
+            Debug.LogError("요청 실패: " + e.Message);
             throw;
         }
     }
@@ -146,7 +109,7 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
     /// </summary>
     /// <param name="key">저장할 데이터의 key 값</param>
     /// <param name="data">저장할 데이터</param>
-    public async Task SaveDataAsync(string key, object data)
+    public static async Task SaveDataAsync(string key, object data)
     {
         var saveData = new Dictionary<string, object> { { key, data } };
         await CloudSaveService.Instance.Data.Player.SaveAsync(saveData);
@@ -158,20 +121,44 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
     /// <param name="key">로드할 데이터의 key 값</param>
     /// <typeparam name="T">반환받을 데이터의 타입</typeparam>
     /// <returns>로드된 데이터</returns>
-    public async Task<T> LoadDataAsync<T>(string key)
+    public static async Task<T> LoadDataAsync<T>(string key)
     {
         var dataKey = new HashSet<string> { key };
-        var loadDataDict = await CloudSaveService.Instance.Data.Player.LoadAsync(dataKey);
-        var data = loadDataDict[key].Value.GetAs<T>();
-        return data;
+        try
+        {
+            var loadDataDict = await CloudSaveService.Instance.Data.Player.LoadAsync(dataKey);
+            var data = loadDataDict[key].Value.GetAs<T>();
+            return data;
+        }
+        catch (KeyNotFoundException)
+        {
+            var newData = default(T);
+            return newData;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"데이터 불러오기 실패: {e.Message}");
+            throw;
+        }
     }
 
     public void SignOut()
     {
         AuthenticationService.Instance.SignOut(true);
-        userData.AccessToken = AuthenticationService.Instance.AccessToken;
-        userData.UserID = AuthenticationService.Instance.PlayerId;
-        userData.UserName = AuthenticationService.Instance.PlayerName;
+        userInfo.UserID = AuthenticationService.Instance.PlayerId;
+        userInfo.UserName = AuthenticationService.Instance.PlayerName;
+    }
+
+    private async void OnSignedIn()
+    {
+        try
+        {
+            userInfo = await LoadDataAsync<UserInfo>(Constants.USER_INFO);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     #region Achievement Enums

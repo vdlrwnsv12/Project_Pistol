@@ -95,15 +95,15 @@ public class StageManager : SingletonBehaviour<StageManager>
             }
             Player.Controller.enabled = false;
             
-            var prevBestScore = await UserManager.Instance.LoadDataAsync<int>(Constants.USER_BEST_SCORE);
+            var prevBestScore = await UserManager.LoadDataAsync<int>(Constants.USER_BEST_SCORE);
             if (prevBestScore < gameScore)
             {
-                await UserManager.Instance.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
+                await UserManager.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
             }
         }
         catch (KeyNotFoundException)
         {
-            await UserManager.Instance.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
+            await UserManager.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
         }
         catch (Exception e)
         {

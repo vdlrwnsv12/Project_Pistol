@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum SignState
@@ -12,7 +11,7 @@ public enum SignState
     SignUp,
 }
 
-public class PopupAuth : PopupUI, IPointerEnterHandler
+public class PopupAuth : PopupUI
 {
     [SerializeField] private Button closeButton;
     
@@ -44,6 +43,8 @@ public class PopupAuth : PopupUI, IPointerEnterHandler
         
         signInButton.onClick.AddListener(SignIn);
         signUpButton.onClick.AddListener(ChangeSignState);
+
+        AuthenticationService.Instance.SignedOut += OnSignedOut;
         
 #if UNITY_EDITOR
         idInputField.text = "Admin";
@@ -53,17 +54,18 @@ public class PopupAuth : PopupUI, IPointerEnterHandler
 
     private void Update()
     {
-        if (AuthenticationService.Instance.IsSignedIn)
-        {
-            CloseUI();
-        }
-
+        //TODO: InputActions로 바꾸기
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             var maxIdx = inputFieldList.Count;
             curInputIdx = (curInputIdx + 1) % maxIdx;
             inputFieldList[curInputIdx].Select();
         }
+    }
+
+    private void OnDestroy()
+    {
+        AuthenticationService.Instance.SignedOut -= OnSignedOut;
     }
 
     private void InitInputField()
@@ -92,22 +94,24 @@ public class PopupAuth : PopupUI, IPointerEnterHandler
         {
             await UserManager.Instance.SignInWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
             idInputField.text = "";
-            passwordInputField.text = ""; 
+            passwordInputField.text = "";
+            CloseUI();
         }
         catch (AuthenticationException)
         {
             var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
-            ui.SetContentText("로그인 실패", "아이디 또는 비밀번호를 확인해주세요", "취소", "확인");
+            ui.SetContentText("로그인 실패", "아이디 또는 비밀번호를 확인해주세요", "닫기", "확인");
         }
-        catch (RequestFailedException ex)
+        catch (RequestFailedException)
         {
             var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
-            ui.SetContentText("로그인 실패", "네트워크 오류: 서버 접속 실패", "취소", "확인");
+            ui.SetContentText("로그인 실패", "로그인 요청 실패", "닫기", "재시도");
+            ui.OnClickRightButton += SignIn;
         }
         catch (Exception e)
         {
             var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
-            ui.SetContentText("로그인 실패", e.Message, "취소", "확인");
+            ui.SetContentText("로그인 실패", e.Message, "닫기", "확인");
         }
     }
 
@@ -119,13 +123,23 @@ public class PopupAuth : PopupUI, IPointerEnterHandler
             idInputField.text = null;
             passwordInputField.text = null;
             nameInputField.text = null;
-            Debug.Log("회원가입 성공");
+            CloseUI();
+        }
+        catch (AuthenticationException)
+        {
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("회원가입 실패", "아이디 또는 비밀번호를 확인해주세요", "닫기", "확인");
+        }
+        catch (RequestFailedException)
+        {
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("회원가입 실패", "회원가입 요청 실패", "닫기", "재시도");
+            ui.OnClickRightButton += SignUp;
         }
         catch(Exception e)
         {
             var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
-            ui.SetContentText("회원가입 실패", e.Message, "취소", "확인");
-            Debug.Log("회원가입 실패");
+            ui.SetContentText("회원가입 실패", e.Message, "닫기", "확인");
         }
     }
 
@@ -174,8 +188,8 @@ public class PopupAuth : PopupUI, IPointerEnterHandler
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    private void OnSignedOut()
     {
-        
+        UIManager.Instance.OpenPopupUI<PopupAuth>();
     }
 }

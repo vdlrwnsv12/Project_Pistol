@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Services.Authentication;
 using UnityEngine;
 
 public class StartScene : BaseScene
