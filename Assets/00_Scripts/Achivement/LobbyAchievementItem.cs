@@ -18,13 +18,8 @@ public class LobbyAchievementItem : MonoBehaviour
     /// </summary>
     public void InitData()
     {
-        float rate = AchievementManager.Instance.GetAchievementRate(achievementSO);
-        slider.value = rate;
-
-        if (rate >= 1f)
-        {
-            badge.SetActive(true);
-        }
+        bool isCompleted = AchievementManager.Instance.IsAchievementCompleted(achievementSO.ID);
+        badge.SetActive(isCompleted);
 
         titleText.text = achievementSO.Name;
         descriptionText.text = achievementSO.Description;

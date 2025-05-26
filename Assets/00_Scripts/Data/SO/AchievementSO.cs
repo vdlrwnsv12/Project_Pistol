@@ -17,15 +17,3 @@ public class AchievementData
     public string Description;
     public float AchievementRate;
 }
-[System.Serializable]
-public class AchievementProgressData
-{
-    public string ID;
-    public float CurrValue;
-
-    public AchievementProgressData(string id, float value)
-    {
-        ID = id;
-        CurrValue = value;
-    }
-}

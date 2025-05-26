@@ -44,6 +44,14 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            AchievementManager.Instance.SpawnAchivement("A0002");
+        }
+    }
+
     public static void GameQuit()
     {
 #if UNITY_EDITOR
