@@ -122,12 +122,28 @@ public class HUDUI : MainUI
         }
         hdlGauge.fillAmount = stat.HDL / Constants.MAX_STAT;
         hdlText.text = stat.HDL.ToString("N0");
+        if (stat.HDL >= 99)
+        {
+            Debug.Log("도전과제 달성: A0002 - HDL 99");
+            AchievementManager.Instance.SpawnAchivement("A0002");
+        }
 
         stpGauge.fillAmount = stat.STP / Constants.MAX_STAT;
         stpText.text = stat.STP.ToString("N0");
+        if (stat.STP >= 99)
+        {
+            Debug.Log("도전과제 달성: A0003 - STP 99");
+            AchievementManager.Instance.SpawnAchivement("A0003");
+        }
 
         spdGauge.fillAmount = stat.SPD / Constants.MAX_STAT;
         spdText.text = stat.SPD.ToString("N0");
+         if (stat.SPD >= 99)
+        {
+            Debug.Log("도전과제 달성: A0003 - SPD 99");
+            AchievementManager.Instance.SpawnAchivement("A0003");
+        }
+
     }
 
     /// <summary>

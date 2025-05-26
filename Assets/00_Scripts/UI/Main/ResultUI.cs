@@ -99,7 +99,6 @@ public class ResultUI : MainUI
         
         rankText.text = rank.ToString();
         scoreText.text = $"<size=30>Score</size>\n<size=40>{score:D6}</size>";
-
         remainTimeText.text = $"남은 시간\n{remainTime:N2}초";
         accuracyText.text = $"명중률\n{accuracy:N2}%";
         headAccuracyText.text = $"헤드 명중률\n{headAccuracy:N2}%";
