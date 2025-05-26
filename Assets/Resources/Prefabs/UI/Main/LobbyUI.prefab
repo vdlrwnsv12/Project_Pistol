@@ -203,7 +203,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'LeaderBoard
+  m_text: 'Ranking
 
 '
   m_isRightToLeft: 0
@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 2662725958297575267}
   - component: {fileID: 1239629479846942551}
   m_Layer: 5
-  m_Name: LeaderBoardBtn
+  m_Name: RankingBoardBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

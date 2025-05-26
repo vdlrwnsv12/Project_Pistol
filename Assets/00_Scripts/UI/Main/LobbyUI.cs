@@ -42,7 +42,7 @@ public class LobbyUI : MainUI
 
     private void OnClickToggleOptionUI() => TogglePopupUI<PopupOption>();
     private void OnClickToggleAchievementUI() => TogglePopupUI<PopupAchievementView>();
-    private void OnClickToggleLeaderBoardUI() => TogglePopupUI<PopupLeaderBoard>();
+    private void OnClickToggleLeaderBoardUI() => TogglePopupUI<PopupRankingBoard>();
 
     public override void SetActiveUI(MainUIType activeUIType)
     {
