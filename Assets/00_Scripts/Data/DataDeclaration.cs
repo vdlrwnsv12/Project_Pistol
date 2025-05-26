@@ -60,16 +60,10 @@ namespace DataDeclaration
     #region Struct
 
     [Serializable]
-    public struct UserData
+    public struct UserInfo
     {
-        public string AccessToken;  // 토큰 확인용
         public string UserID;
         public string UserName;
-
-        public int BestScore;
-        
-        public string SelectedCharacterID;
-        public string SelectedWeaponID;
     }
 
     #endregion
@@ -82,8 +76,8 @@ namespace DataDeclaration
 
         // Key 값으로 사용할 상수
         // 공백, 한글, 특수문자 금지
-        public const string USER_DATA = "User_Data";
-        public const string USER_NAME = "User_Name";
+        public const string USER_INFO = "User_Info";
+        public const string USER_BEST_SCORE = "User_Best_Score";
 
         #endregion
         

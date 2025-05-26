@@ -12,13 +12,11 @@ public class DroneMovement : MonoBehaviour
     [SerializeField] private float frequency = 1f;
 
     private Vector3 initialPosition;
-    private Quaternion initialRotation;
     private float seed;
 
     void OnEnable()
     {
         initialPosition = transform.position;
-        initialRotation = transform.rotation;
         seed = Random.Range(0f, 100f);
     }
 
@@ -30,11 +28,6 @@ public class DroneMovement : MonoBehaviour
         float offsetY = (Mathf.PerlinNoise(seed + 1, time) - 0.5f) * 2f * positionShake;
         float offsetZ = (Mathf.PerlinNoise(seed + 2, time) - 0.5f) * 2f * positionShake;
 
-        float rotX = Mathf.Sin(time * 1.3f) * rotationShake;
-        float rotZ = Mathf.Cos(time * 1.5f) * rotationShake;
-
         transform.position = initialPosition + new Vector3(offsetX, offsetY, offsetZ);
-        transform.rotation = initialRotation * Quaternion.Euler(rotX, 0, rotZ);
     }
-
 }

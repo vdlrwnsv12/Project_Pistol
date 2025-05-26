@@ -1,24 +1,73 @@
-using TMPro;
+using System;
+using System.Collections.Generic;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum SignState
+{
+    SignIn,
+    SignUp,
+}
+
 public class PopupAuth : PopupUI
 {
-    [SerializeField] private TMP_InputField idInputField;
-    [SerializeField] private TMP_InputField passwordInputField;
-    [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private Button closeButton;
     
-    [SerializeField] private Button signUpOrCloseBtn;
-    [SerializeField] private Button signInOrUpBtn;
+    [SerializeField] private Text titleText;
+    
+    [SerializeField] private InputField idInputField;
+    [SerializeField] private InputField passwordInputField;
+    
+    [SerializeField] private Text nameText;
+    [SerializeField] private InputField nameInputField;
+    
+    [SerializeField] private Text signInText;
+    [SerializeField] private Button signInButton;
+    [SerializeField] private Button signUpButton;
+    
+    private List<InputField> inputFieldList;
+    private int curInputIdx;
+
+    private SignState curSignState;
 
     private void Awake()
     {
-        InitInputField();
+        curSignState = SignState.SignIn;
         
-        signUpOrCloseBtn.onClick.AddListener(OnClickSignInButton);
-        signInOrUpBtn.onClick.AddListener(OnClickSignUpButton);
+        InitInputField();
+        curInputIdx = 0;
+
+        closeButton.onClick.AddListener(ChangeSignState);
+        
+        signInButton.onClick.AddListener(SignIn);
+        signUpButton.onClick.AddListener(ChangeSignState);
+
+        AuthenticationService.Instance.SignedOut += OnSignedOut;
+        
+#if UNITY_EDITOR
+        idInputField.text = "Admin";
+        passwordInputField.text = "Admin123!";
+#endif
     }
-    
+
+    private void Update()
+    {
+        //TODO: InputActions로 바꾸기
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            var maxIdx = inputFieldList.Count;
+            curInputIdx = (curInputIdx + 1) % maxIdx;
+            inputFieldList[curInputIdx].Select();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        AuthenticationService.Instance.SignedOut -= OnSignedOut;
+    }
+
     private void InitInputField()
     {
         // ID inputField 초기화
@@ -29,26 +78,118 @@ public class PopupAuth : PopupUI
         passwordInputField.characterLimit = 30;
         passwordInputField.onEndEdit.AddListener(ValidateString.ValidatePassword);
         
+        nameText.gameObject.SetActive(false);
         nameInputField.gameObject.SetActive(false);
+
+        inputFieldList = new List<InputField>
+        {
+            idInputField,
+            passwordInputField
+        };
     }
     
-    private void OnClickSignUpButton()
-    {
-        CloseUI();
-        UIManager.Instance.OpenPopupUI<PopupSignUp>();
-    }
-    
-    private async void OnClickSignInButton()
+    private async void SignIn()
     {
         try
         {
             await UserManager.Instance.SignInWithUsernamePasswordAsync(idInputField.text, passwordInputField.text);
-            Debug.Log("로그인 성공");
+            idInputField.text = "";
+            passwordInputField.text = "";
             CloseUI();
         }
-        catch
+        catch (AuthenticationException)
         {
-            Debug.Log("로그인 실패");
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("로그인 실패", "아이디 또는 비밀번호를 확인해주세요", "닫기", "확인");
         }
+        catch (RequestFailedException)
+        {
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("로그인 실패", "로그인 요청 실패", "닫기", "재시도");
+            ui.OnClickRightButton += SignIn;
+        }
+        catch (Exception e)
+        {
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("로그인 실패", e.Message, "닫기", "확인");
+        }
+    }
+
+    private async void SignUp()
+    {
+        try
+        {
+            await UserManager.Instance.SignUpWithUsernamePasswordAsync(idInputField.text, passwordInputField.text, nameInputField.text);
+            idInputField.text = null;
+            passwordInputField.text = null;
+            nameInputField.text = null;
+            CloseUI();
+        }
+        catch (AuthenticationException)
+        {
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("회원가입 실패", "아이디 또는 비밀번호를 확인해주세요", "닫기", "확인");
+        }
+        catch (RequestFailedException)
+        {
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("회원가입 실패", "회원가입 요청 실패", "닫기", "재시도");
+            ui.OnClickRightButton += SignUp;
+        }
+        catch(Exception e)
+        {
+            var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
+            ui.SetContentText("회원가입 실패", e.Message, "닫기", "확인");
+        }
+    }
+
+    private void ChangeSignState()
+    {
+        if (curSignState == SignState.SignIn)
+        {
+            curSignState = SignState.SignUp;
+
+            closeButton.gameObject.SetActive(true);
+            
+            titleText.text = "회원가입";
+            
+            idInputField.text = null;
+            passwordInputField.text = null;
+            
+            nameText.gameObject.SetActive(true);
+            nameInputField.gameObject.SetActive(true);
+            
+            signInText.text = "회원가입";
+            signInButton.onClick.RemoveAllListeners();
+            signInButton.onClick.AddListener(SignUp);
+            
+            signUpButton.gameObject.SetActive(false);
+            
+            inputFieldList.Add(nameInputField);
+        }
+        else
+        {
+            curSignState = SignState.SignIn;
+            
+            closeButton.gameObject.SetActive(false);
+            
+            titleText.text = "로그인";
+            
+            nameText.gameObject.SetActive(false);
+            nameInputField.gameObject.SetActive(false);
+            
+            signInText.text = "로그인";
+            signInButton.onClick.RemoveAllListeners();
+            signInButton.onClick.AddListener(SignIn);
+            
+            signUpButton.gameObject.SetActive(true);
+
+            inputFieldList.Remove(nameInputField);
+        }
+    }
+
+    private void OnSignedOut()
+    {
+        UIManager.Instance.OpenPopupUI<PopupAuth>();
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DataDeclaration;
+using Unity.Services.Authentication;
 
 public class StartUI : MainUI
 {
@@ -10,13 +11,16 @@ public class StartUI : MainUI
 
     private void Awake()
     {
+        UIType = MainUIType.Start;
         startBtn.onClick.AddListener(StartGame);
     }
 
     private void StartGame()
     {
-        Debug.Log("▶ 로비 씬 전환");
-        SceneLoadManager.Instance.LoadScene(Scene.Lobby);
+        if (AuthenticationService.Instance.IsSignedIn)
+        {
+            SceneLoadManager.Instance.LoadScene(Scene.Lobby);
+        }
     }
 
     public override void SetActiveUI(MainUIType activeUIType)

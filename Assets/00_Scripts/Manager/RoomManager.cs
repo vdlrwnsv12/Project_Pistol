@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DataDeclaration;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class RoomManager : SingletonBehaviour<RoomManager>
 {
-    private Dictionary<int, List<StageSO>> allStageDataDict;
+    private Dictionary<int, List<StageSO>> allStageDataDict; // 모든 스테이지 정보 저장(Key: 스테이지 index, Value: 3개의 방 정보)
 
     private StandbyRoom standbyRoom;
     private Dictionary<string, ShootingRoom> shootingRoomDict;
