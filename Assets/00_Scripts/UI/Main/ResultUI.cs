@@ -33,7 +33,7 @@ public class ResultUI : MainUI
         var bgm = Resources.Load<AudioClip>("Audio/BGM/The Chase Streets");
         SoundManager.Instance.PlayBackgroundMusic(bgm);
         
-        if (RoomManager.Instance.CurStageIndex >= 8)
+        if (RoomManager.Instance.CurStageIndex >= RoomManager.Instance.TotlaStageCount)
         {
             AchievementManager.Instance.SpawnAchivement("A0005");
         }

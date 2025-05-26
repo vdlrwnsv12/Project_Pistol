@@ -21,6 +21,8 @@ public class RoomManager : SingletonBehaviour<RoomManager>
 
     public Action RoomChangedAction;
 
+    public int TotlaStageCount => allStageDataDict.Keys.Max();
+
     protected override void Awake()
     {
         isDontDestroyOnLoad = false;
