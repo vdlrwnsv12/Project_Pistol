@@ -234,7 +234,7 @@
     "STP": 0.0,
     "SPD": 0.0,
     "DMG": 0.0,
-    "ShootRecoil": 10.0,
+    "ShootRecoil": -10.0,
     "MaxAmmo": 0,
     "WeaponParts": 4,
     "AppearanceRate": "1"
