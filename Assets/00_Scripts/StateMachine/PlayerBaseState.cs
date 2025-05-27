@@ -84,18 +84,23 @@ public class PlayerBaseState : IState
 
     protected virtual void OnInteract(InputAction.CallbackContext context)
     {
-        var ray = new Ray(stateMachine.Player.Controller.transform.position, stateMachine.Player.Controller.transform.forward);
-        RaycastHit hit;
-        var layerMask = 1 << LayerMask.NameToLayer("Interactable");
-        if (Physics.Raycast(ray, out hit, 5f, layerMask))
+        var ray = stateMachine.Player.Controller.transform.position;
+        float radius = 1.2f;
+        int layerMask = 1 << LayerMask.NameToLayer("Interactable");
+
+        Collider[] hits = Physics.OverlapSphere(ray, radius, layerMask);
+        foreach (var hit in hits)
         {
-            var interact = hit.collider.GetComponent<IInteract>();
+            var interact = hit.GetComponent<IInteract>();
             if (interact != null)
             {
                 interact.Interact();
+                return;
             }
         }
     }
+
+
     protected void StartAnimation(int animatorHash)
     {
         stateMachine.Player.Animator.SetBool(animatorHash, true);
@@ -118,10 +123,10 @@ public class PlayerBaseState : IState
         Vector3 movementDirection = GetMovementDirection();
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.CharacterController.Move(((movementDirection * movementSpeed) + stateMachine.Player.Controller.YMovement) * Time.deltaTime);
-        
+
         RotateView();
     }
-    
+
     private Vector3 GetMovementDirection()
     {
         Vector3 forward = stateMachine.Player.transform.forward;
