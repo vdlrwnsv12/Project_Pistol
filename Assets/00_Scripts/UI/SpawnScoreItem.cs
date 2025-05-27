@@ -43,20 +43,21 @@ public class SpawnScoreItem : MonoBehaviour
         }
     }
 
-   
-        void CreateScoreText(string label, int score)
+
+    void CreateScoreText(string label, int score)
+    {
+        var go = ObjectPoolManager.Instance.GetObject(scorePrefab, Vector3.zero, Quaternion.identity, 2f);
+        go.transform.SetParent(scorePosition, false);
+        go.transform.localRotation = Quaternion.identity;
+
+        go.transform.SetAsLastSibling();
+
+        var text = go.GetComponentInChildren<TextMeshProUGUI>();
+        if (text != null)
         {
-            var go = ObjectPoolManager.Instance.GetObject(scorePrefab, Vector3.zero, Quaternion.identity, 2f);
-            go.transform.SetParent(scorePosition, false);
-
-            go.transform.localRotation = Quaternion.identity;
-
-            var text = go.GetComponentInChildren<TextMeshProUGUI>();
-            if (text != null)
-            {
-                text.text = $"{label} +{score:0000}";
-            }
+            text.text = $"{label} +{score:0000}";
         }
+    }
 
 }
 
