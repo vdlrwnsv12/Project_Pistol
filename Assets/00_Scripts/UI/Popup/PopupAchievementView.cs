@@ -6,7 +6,7 @@ public class PopupAchievementView : PopupUI
 {
     [SerializeField] private GameObject achievementItem;
     [SerializeField] private Transform itemPos;
-    void Start()
+    void OnEnable()
     {
         InitAchievementItems();
     }
