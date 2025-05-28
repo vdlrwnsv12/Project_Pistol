@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DroneMovement : MonoBehaviour
 {
     [Header("흔들림 세기")]
     [SerializeField] private float positionShake = 0.1f;
-    [SerializeField] private float rotationShake = 0.1f;
 
     [Header("흔들림 속도")]
     [SerializeField] private float frequency = 1f;

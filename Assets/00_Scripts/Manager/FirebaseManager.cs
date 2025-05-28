@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
@@ -12,15 +14,29 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
     
     private FirebaseFirestore db;
 
+    public Action<bool> SignInState;
+    
+    public FirebaseAuth Auth => auth;
+    public FirebaseUser User => user;
+
     protected override void Awake()
     {
         base.Awake();
         InitializeFirebase();
     }
-
+    
     private void Update()
     {
-        Debug.Log($"로그인됨: {user.UserId}");
+        if (user != null)
+        {
+            Debug.Log(user.UserId);
+            Debug.Log(user.Email);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            LoadData<int>("w");
+        }
     }
 
     public void SignUp(string email, string password, string nickname)
@@ -56,6 +72,29 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
         });
     }
 
+    public async Task SignUpAsync(string email, string password, string nickname)
+    {
+        try
+        {
+            var result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
+            var newUser = result.User;
+            
+            var userData = new Dictionary<string, object>
+            {
+                { "nickname", nickname },
+                { "score", 0 },
+                { "gold", 0 }
+            };
+
+            await db.Collection("users").Document(newUser.UserId).SetAsync(userData);
+        }
+        catch (Exception)
+        {
+            Debug.LogAssertion("회원가입 실패");
+            throw;
+        }
+    }
+
     public void SignIn(string email, string password)
     {
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
@@ -79,10 +118,50 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
         });
     }
 
+    public async Task SignInAsync(string email, string password)
+    {
+        try
+        {
+            var result = await auth.SignInWithEmailAndPasswordAsync(email, password);
+            var newUser = result.User;
+        }
+        catch (Exception)
+        {
+            Debug.LogAssertion("로그인 실패");
+            throw;
+        }
+    }
+
     public void SignOut()
     {
         auth.SignOut();
         Debug.Log("로그아웃");
+    }
+
+    public void UpdateData(string field, object value)
+    {
+        db.Collection("users").Document(user.UserId).UpdateAsync(field, value);
+    }
+
+    public T LoadData<T>(string key)
+    {
+        db.Collection("users")
+            .OrderBy("score")
+            .Limit(20)
+            .GetSnapshotAsync().ContinueWith(task => {
+                if (task.IsCanceled || task.IsFaulted) return;
+
+                var snapshot = task.Result;
+                foreach (var document in snapshot.Documents)
+                {
+                    string nickname = document.GetValue<string>("nickname");
+                    int score = document.GetValue<int>("score");
+                    Debug.Log($"닉네임: {nickname}, 점수: {score}");
+                }
+            });
+        
+        
+        return default(T);
     }
     
     private void InitializeFirebase()
@@ -98,6 +177,7 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
                 auth.StateChanged += OnAuthStateChanged;
                 OnAuthStateChanged(this, null); // 처음 한 번 호출해서 현재 로그인 상태 체크
                 Debug.Log("Firebase 초기화 완료");
+                SignOut();
             }
             else
             {
@@ -114,12 +194,14 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
             if (!signedIn && user != null)
             {
                 Debug.Log("로그아웃됨");
+                SignInState?.Invoke(false);
             }
 
             user = auth.CurrentUser;
             if (signedIn)
             {
                 Debug.Log($"로그인됨: {user.UserId}");
+                SignInState?.Invoke(true);
             }
         }
     }
