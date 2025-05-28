@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using System.Threading.Tasks;
 
 public class AchievementManager : SingletonBehaviour<AchievementManager>
 {
@@ -15,7 +12,7 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
     /// 예AchivementManager.Instance.SpawnAchivement("A0002");
     /// </summary>
     /// <param name="soId"></param>
-    public void SpawnAchivement(string soId)
+    public async void SpawnAchivement(string soId)
     {
         if (showAchievements.Contains(soId))//이미 달성한적 있는 도전과제 출력 x
         {
@@ -36,6 +33,8 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
             achivementDataContainer.SetData(so);
 
             showAchievements.Add(soId);
+
+            await FirebaseManager.Instance.SaveAchievementAsync(soId);
         }
 
     }
@@ -45,4 +44,13 @@ public class AchievementManager : SingletonBehaviour<AchievementManager>
         return showAchievements.Contains(id);
     }
 
+    public async Task SyncAchievementsFromServer()
+    {
+        var serverData = await FirebaseManager.Instance.LoadCompletedAchievementsAsync();
+        showAchievements = new HashSet<string>(serverData);
+        Debug.Log("서버 도전과제 동기화 완료");
+    }
+
 }
+
+

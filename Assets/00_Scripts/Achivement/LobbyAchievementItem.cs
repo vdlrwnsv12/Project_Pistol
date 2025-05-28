@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LobbyAchievementItem : MonoBehaviour
 {
     public AchievementSO achievementSO;
+    
 
     [SerializeField] private Text titleText;
     [SerializeField] private Text descriptionText;

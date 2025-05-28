@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using DataDeclaration;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
