@@ -6,6 +6,8 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
 
+    private IInteract currentInteractTarget; //상호작용 대상
+
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -53,6 +55,8 @@ public class PlayerBaseState : IState
     public virtual void Update()
     {
         Move();
+
+        DetectInteractable();
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -99,6 +103,39 @@ public class PlayerBaseState : IState
             }
         }
     }
+
+    private void DetectInteractable()
+    {
+        Vector3 origin = stateMachine.Player.Controller.transform.position;
+        float radius = 1.2f;
+        int layerMask = 1 << LayerMask.NameToLayer("Interactable");
+
+        Collider[] hits = Physics.OverlapSphere(origin, radius, layerMask);
+
+        IInteract foundInteractable = null;
+
+        foreach (var hit in hits)
+        {
+            var interact = hit.GetComponent<IInteract>();
+            if (interact != null)
+            {
+                foundInteractable = interact;
+                break;
+            }
+        }
+
+        if (foundInteractable != null && foundInteractable != currentInteractTarget)
+        {
+            currentInteractTarget = foundInteractable;
+            InteractManager.Instance.SpawnInteractItem(); // UI 출력
+        }
+        else if (foundInteractable == null && currentInteractTarget != null)
+        {
+            currentInteractTarget = null;
+            InteractManager.Instance.CloseInteractItem(); // UI 제거
+        }
+    }
+
 
 
     protected void StartAnimation(int animatorHash)

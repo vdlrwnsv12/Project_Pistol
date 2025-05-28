@@ -73,6 +73,7 @@ public class WeaponController : MonoBehaviour
         {
             // 탄창 없을 경우
             SoundManager.Instance.PlaySFXForName("EmptyTrigger", barrelLocation.position, gameObject);
+            InteractManager.Instance.SpawnReloadItem();
         }
 
         lastFireTime = 0f;
@@ -163,6 +164,7 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
+        InteractManager.Instance.CloseReloadItem();
         curAmmo = 0;
         weapon.Anim.SetTrigger("Reload");
 
