@@ -28,7 +28,7 @@ public class InteractManager : SingletonBehaviour<InteractManager>
         if (rect != null)
         {
             // 약간 오른쪽 아래로 이동
-            rect.anchoredPosition += new Vector2(100f, -100f);
+            rect.anchoredPosition = new Vector2(713f, -280f);
         }
     }
 

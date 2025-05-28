@@ -86,14 +86,28 @@ public sealed class UIManager : SingletonBehaviour<UIManager>
     /// <typeparam name="T">PopupUI 클래스</typeparam>
     public T OpenPopUpUIMultiple<T>() where T : PopupUI
     {
-        var resource = ResourceManager.Instance.Load<T>($"Prefabs/UI/PopUp/{typeof(T).Name}");
-        var newPopup = Instantiate(resource, popupCanvas.transform, false);
+        string key = typeof(T).Name;
+        T popup = null;
 
-        newPopup.gameObject.SetActive(true);
-        newPopup.transform.SetAsLastSibling();
-        curPopupUIStack.Push(newPopup);
+        // 비활성화된 팝업이 있다면 재사용
+        if (popupUIPool.TryGetValue(key, out var pooledUI) && pooledUI != null)
+        {
+            popup = pooledUI as T;
+            popupUIPool.Remove(key);//재사용 했으면 풀에서 제거
+        }
 
-        return newPopup;
+        if (popup == null)
+        {
+            var resource = ResourceManager.Instance.Load<T>($"Prefabs/UI/PopUp/{key}");
+            popup = Instantiate(resource, popupCanvas.transform, false);
+
+        }
+
+        popup.gameObject.SetActive(true);
+        popup.transform.SetAsLastSibling();
+        curPopupUIStack.Push(popup);
+
+        return popup;
     }
 
 
