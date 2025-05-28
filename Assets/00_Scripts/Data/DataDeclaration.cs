@@ -65,18 +65,23 @@ namespace DataDeclaration
     {
         [FirestoreProperty] public string UserName { get; set; }
         [FirestoreProperty] public int Gold { get; set; }
-        
-        public UserInfo() {}
+
+        public UserInfo()
+        {
+        }
     }
 
     [FirestoreData]
     public class UserRankData
     {
+        [FirestoreProperty] public string UserName { get; set; }
         [FirestoreProperty] public int BestScore { get; set; }
         [FirestoreProperty] public string Character { get; set; }
         [FirestoreProperty] public string Weapon { get; set; }
-        
-        public UserRankData() {}
+
+        public UserRankData()
+        {
+        }
     }
 
     #endregion

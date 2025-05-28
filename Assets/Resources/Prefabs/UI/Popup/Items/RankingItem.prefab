@@ -346,6 +346,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userName: {fileID: 7074756879242590095}
   scoreText: {fileID: 5628768399706772996}
+  weaponImage: {fileID: 8039317069732819412}
+  rankText: {fileID: 4844798889913704508}
+  characterImage: {fileID: 1526921874002993698}
 --- !u!1 &8126402070110381643
 GameObject:
   m_ObjectHideFlags: 0
