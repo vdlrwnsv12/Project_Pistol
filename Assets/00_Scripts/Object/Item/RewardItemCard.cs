@@ -26,7 +26,7 @@ public class RewardItemCard : MonoBehaviour
         rewardDescription.text = item.Description;
         rewardImage.sprite = itemImage;
         rewardName.text = item.Name;
-        timeCost.text = $"비용 -{item.cost:N2}s";
+        timeCost.text = $"비용: 제한 시간 -{item.cost:N2}s";
     }
 
     private void OnClickRewardButton()
