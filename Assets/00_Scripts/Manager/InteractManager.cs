@@ -7,6 +7,7 @@ public class InteractManager : SingletonBehaviour<InteractManager>
 {
     private PopupInteract interactPopup;
     private PopupInteract reloadPopup;
+    private RectTransform rect;
 
     public void SpawnInteractItem()
     {
@@ -14,7 +15,14 @@ public class InteractManager : SingletonBehaviour<InteractManager>
         {
             interactPopup = UIManager.Instance.OpenPopUpUIMultiple<PopupInteract>();
         }
-        interactPopup.SetText("E", "Open Door");
+        interactPopup.SetText("E", "문 열기");
+
+        rect = interactPopup.GetComponent<RectTransform>();
+         if (rect != null)
+        {
+            rect.anchoredPosition = new Vector2(470f, -80f);
+        }
+
     }
 
     public void SpawnReloadItem()
@@ -23,7 +31,7 @@ public class InteractManager : SingletonBehaviour<InteractManager>
         {
             reloadPopup = UIManager.Instance.OpenPopUpUIMultiple<PopupInteract>();
         }
-        reloadPopup.SetText("R", "Reload");
+        reloadPopup.SetText("R", "재장전");
         RectTransform rect = reloadPopup.GetComponent<RectTransform>();
         if (rect != null)
         {
