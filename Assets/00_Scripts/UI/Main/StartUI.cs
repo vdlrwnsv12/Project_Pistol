@@ -6,7 +6,7 @@ using Unity.Services.Authentication;
 public class StartUI : MainUI
 {
     public override MainUIType UIType { get; protected set; }
-    
+
     [SerializeField] private Button startBtn;
 
     private void Awake()
@@ -17,7 +17,7 @@ public class StartUI : MainUI
 
     private void StartGame()
     {
-        if (AuthenticationService.Instance.IsSignedIn)
+        if (FirebaseManager.Instance.User != null)
         {
             SceneLoadManager.Instance.LoadScene(Scene.Lobby);
         }

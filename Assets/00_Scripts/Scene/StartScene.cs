@@ -15,7 +15,7 @@ public class StartScene : BaseScene
 
     private IEnumerator OpenPopupAuth()
     {
-        if (UGSManager.Instance == null)
+        if (FirebaseManager.Instance == null)
         {
             yield return new WaitForEndOfFrame();
         }

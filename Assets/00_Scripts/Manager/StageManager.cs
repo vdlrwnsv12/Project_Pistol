@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DataDeclaration;
+using Firebase.Firestore;
 using UnityEngine;
 
 public class StageManager : SingletonBehaviour<StageManager>
@@ -94,20 +96,49 @@ public class StageManager : SingletonBehaviour<StageManager>
                     shotAccuracy, headShotAccuracy, MaxDestroyTargetCombo);
             }
             Player.Controller.enabled = false;
-            
-            var prevBestScore = await UserManager.LoadDataAsync<int>(Constants.USER_BEST_SCORE);
-            if (prevBestScore < gameScore)
-            {
-                await UserManager.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
-            }
-        }
-        catch (KeyNotFoundException)
-        {
-            await UserManager.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
+
+            await CheckBestScore();
         }
         catch (Exception e)
         {
             Debug.LogError($"에러 발생: {e.Message}");
+        }
+    }
+
+    private async Task CheckBestScore()
+    {
+        var docRef = FirebaseManager.Instance.DB
+            .Collection("users")
+            .Document(FirebaseManager.Instance.User.UserId)
+            .Collection("rank")
+            .Document("data");
+        
+        var snapshot = await docRef.GetSnapshotAsync();
+        
+        if (snapshot.Exists && snapshot.ContainsField("BestScore"))
+        {
+            var bestScore = snapshot.GetValue<int>("BestScore");
+            
+            if (bestScore < gameScore)
+            {
+                await FirebaseManager.Instance.DB
+                    .Collection("users")
+                    .Document(FirebaseManager.Instance.User.UserId)
+                    .Collection("rank")
+                    .Document("data").UpdateAsync("BestScore", gameScore);
+
+                var userRankData = new UserRankData()
+                {
+                    BestScore = gameScore,
+                    Character = GameManager.Instance.selectedCharacter.ID,
+                    Weapon = GameManager.Instance.selectedWeapon.ID
+                };
+                await FirebaseManager.Instance.DB.Collection("users").Document(FirebaseManager.Instance.User.UserId).Collection("rank").Document("data").SetAsync(userRankData);
+            }
+        }
+        else
+        {
+            Debug.Log("BestScore 필드가 존재하지 않음");
         }
     }
 

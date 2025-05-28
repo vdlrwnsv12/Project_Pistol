@@ -21,7 +21,6 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
 
     private void Update()
     {
-        Debug.Log($"플레이어 ID: {userInfo.UserID}");
         Debug.Log($"플레이어 이름: {userInfo.UserName}");
 
         if (AuthenticationService.Instance.IsSignedIn)
@@ -55,7 +54,6 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
                 await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
                 userInfo = new UserInfo
                 {
-                    UserID = AuthenticationService.Instance.PlayerInfo.Username,
                     UserName = AuthenticationService.Instance.PlayerName
                 };
                 await SaveDataAsync(Constants.USER_INFO, userInfo);
@@ -145,7 +143,6 @@ public sealed class UserManager : SingletonBehaviour<UserManager>
     public void SignOut()
     {
         AuthenticationService.Instance.SignOut(true);
-        userInfo.UserID = AuthenticationService.Instance.PlayerId;
         userInfo.UserName = AuthenticationService.Instance.PlayerName;
     }
 

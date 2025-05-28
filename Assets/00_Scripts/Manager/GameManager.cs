@@ -1,6 +1,11 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.CloudSave;
 using UnityEngine;
 
 public sealed class GameManager : SingletonBehaviour<GameManager>

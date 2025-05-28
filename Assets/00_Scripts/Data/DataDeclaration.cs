@@ -1,4 +1,5 @@
 using System;
+using Firebase.Firestore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,15 +60,27 @@ namespace DataDeclaration
 
     #region Struct
 
-    [Serializable]
-    public struct UserInfo
+    [FirestoreData]
+    public class UserInfo
     {
-        public string UserID;
-        public string UserName;
+        [FirestoreProperty] public string UserName { get; set; }
+        [FirestoreProperty] public int Gold { get; set; }
+        
+        public UserInfo() {}
+    }
+
+    [FirestoreData]
+    public class UserRankData
+    {
+        [FirestoreProperty] public int BestScore { get; set; }
+        [FirestoreProperty] public string Character { get; set; }
+        [FirestoreProperty] public string Weapon { get; set; }
+        
+        public UserRankData() {}
     }
 
     #endregion
-    
+
     #region Constants
 
     public static class Constants
@@ -80,7 +93,7 @@ namespace DataDeclaration
         public const string USER_BEST_SCORE = "User_Best_Score";
 
         #endregion
-        
+
         public const int LAST_STAGE_INDEX = 8;
         public const int MAX_ROOM_INDEX = 3;
 
@@ -90,13 +103,13 @@ namespace DataDeclaration
 
         public const int MIN_STAT = 0;
         public const int MAX_STAT = 99;
-        
+
         public const string API_URL =
             "https://script.google.com/macros/s/AKfycbxaG8rWBKYvGxUSD8uFFj-YJDcP4rCbrJj_PO_h_XHwbtDq7-U1jzwfBwIAgDPt7oSX/exec"; // 배포 URL 입력
-        
+
         public const string Google_Sheet_URL =
             "https://docs.google.com/spreadsheets/d/15bfHld_mkidiNNKJLPD6tfa6-ThFvU-kZK76TDynleA"; // 적용할 구글 시트 주소에서 /edit 전까지 입력
     }
-    
+
     #endregion
 }
