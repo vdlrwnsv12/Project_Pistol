@@ -54,6 +54,7 @@ public class WeaponController : MonoBehaviour
             else if (curAmmo == 1)
             {
                 weapon.Anim.SetBool("OutOfAmmo", true);
+                InteractManager.Instance.SpawnReloadItem();
             }
             else
             {
@@ -73,7 +74,6 @@ public class WeaponController : MonoBehaviour
         {
             // 탄창 없을 경우
             SoundManager.Instance.PlaySFXForName("EmptyTrigger", barrelLocation.position, gameObject);
-            InteractManager.Instance.SpawnReloadItem();
         }
 
         lastFireTime = 0f;
