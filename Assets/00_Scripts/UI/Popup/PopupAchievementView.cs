@@ -8,13 +8,18 @@ public class PopupAchievementView : PopupUI
 
     void OnEnable()
     {
+        for (int i = itemPos.childCount - 1; i >= 0; i--)
+        {
+            var child = itemPos.GetChild(i).gameObject;
+            ObjectPoolManager.Instance.ReturnToPool(child);
+        }
+        
         _ = InitAchievementItems().ContinueWith(t =>
         {
             if (t.Exception != null)
                 Debug.LogError(t.Exception.Flatten());
         });
     }
-
 
     async Task InitAchievementItems()
     {

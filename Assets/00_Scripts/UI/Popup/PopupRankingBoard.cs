@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Firebase.Firestore;
 using UnityEngine;
@@ -8,11 +10,17 @@ public class PopupRankingBoard : PopupUI
 {
     [SerializeField] private GameObject contentsPos;
     [SerializeField] private RankDisplayUI contentUI;
-    
+
     private QuerySnapshot snapshot;
 
     private async void OnEnable()
     {
+        for (int i = contentsPos.transform.childCount - 1; i >= 0; i--)
+        {
+            var child = contentsPos.transform.GetChild(i).gameObject;
+            ObjectPoolManager.Instance.ReturnToPool(child);
+        }
+
         try
         {
             await InitAsync();
@@ -23,24 +31,37 @@ public class PopupRankingBoard : PopupUI
             Console.WriteLine(e);
         }
     }
-    
+
     private void SetRank()
     {
         try
         {
-            int idx = 1;
-            foreach (var document in snapshot.Documents)
+            var sortedDocs = snapshot.Documents
+                .OrderByDescending(doc => doc.GetValue<double>("BestScore"))
+                .ToList(); // 리스트로 고정
+
+            var scoreItems = new List<RankDisplayUI>();
+
+            foreach (var document in sortedDocs)
             {
-                var scoreItems = ObjectPoolManager.Instance.GetObject<RankDisplayUI>(contentUI, Vector3.zero, Quaternion.identity);
-                scoreItems.transform.SetParent(contentsPos.transform, false);
-                
-                scoreItems.SetUI(idx,document);
-                idx++;
+                var scoreItem = ObjectPoolManager.Instance.GetObject<RankDisplayUI>(
+                    contentUI, Vector3.zero, Quaternion.identity);
+
+                scoreItem.transform.SetParent(contentsPos.transform, false);
+                scoreItem.SetUI(scoreItems.Count + 1, document);
+
+                scoreItems.Add(scoreItem);
+            }
+
+            // 하이어라키 순서를 최종적으로 보장
+            for (int i = 0; i < scoreItems.Count; i++)
+            {
+                scoreItems[i].transform.SetSiblingIndex(i);
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Debug.LogError(e);
             throw;
         }
     }
@@ -50,7 +71,7 @@ public class PopupRankingBoard : PopupUI
         var query = FirebaseManager.Instance.DB.CollectionGroup("rank").WhereGreaterThan("BestScore", 0).OrderByDescending("BestScore").Limit(20);
         try
         {
-            snapshot = await query.GetSnapshotAsync();
+            snapshot = await query.GetSnapshotAsync(Source.Server);
         }
         catch (Exception e)
         {
