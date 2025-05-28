@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataDeclaration;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
@@ -25,48 +26,6 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
         base.Awake();
         InitializeFirebase();
     }
-    
-    private void Update()
-    {
-        if (user != null)
-        {
-            Debug.Log(user.UserId);
-            Debug.Log(user.Email);
-        }
-    }
-
-    public void SignUp(string email, string password, string nickname)
-    {
-        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-        {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("회원가입 취소");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
-                ui.SetContentText("회원가입 실패", $"{task.Exception.Message}", "닫기", "확인");
-                
-                // 회원가입 실패 이유 => 이메일이 비정상 / 비밀번호가 너무 간단 / 이미 가입된 이메일 등등..
-                Debug.LogError("회원가입 실패");
-                return;
-            }
-
-            var newUser = task.Result.User;
-            Debug.Log("회원가입 완료");
-            
-            var userData = new Dictionary<string, object>
-            {
-                { "nickname", nickname },
-                { "score", 0 },
-                { "gold", 0 }
-            };
-
-            db.Collection("users").Document(newUser.UserId).SetAsync(userData);
-        });
-    }
 
     public async Task SignUpAsync(string email, string password, string nickname)
     {
@@ -75,43 +34,21 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
             var result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
             var newUser = result.User;
             
-            var userData = new Dictionary<string, object>
+            var userInfo = new UserInfo()
             {
-                { "nickname", nickname },
-                { "score", 0 },
-                { "gold", 0 }
+                UserName = nickname,
+                Gold = 0,
             };
+            await db.Collection("users").Document(newUser.UserId).SetAsync(userInfo);
 
-            await db.Collection("users").Document(newUser.UserId).SetAsync(userData);
+            var userRankData = new UserRankData();
+            await db.Collection("users").Document(newUser.UserId).Collection("rank").Document("data").SetAsync(userRankData);
         }
         catch (Exception)
         {
             Debug.LogAssertion("회원가입 실패");
             throw;
         }
-    }
-
-    public void SignIn(string email, string password)
-    {
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-        {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("로그인 취소");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                var ui = UIManager.Instance.OpenPopupUI<PopupNotice>();
-                ui.SetContentText("로그인 실패", $"{task.Exception.Message}", "닫기", "확인");
-                
-                Debug.LogError("로그인 실패");
-                return;
-            }
-
-            var newUser = task.Result.User;
-            Debug.Log("로그인 완료");
-        });
     }
 
     public async Task SignInAsync(string email, string password)

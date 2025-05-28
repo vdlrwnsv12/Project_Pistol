@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 using Firebase.Firestore;
 using UnityEngine;
 
@@ -7,33 +7,46 @@ public class PopupRankingBoard : PopupUI
 {
     [SerializeField] private GameObject contentsPos;
     [SerializeField] private RankDisplayUI contentUI;
-
-    private void OnEnable()
-    {
-        Init();
-    }
     
-    private void Init()
+    private QuerySnapshot snapshot;
+
+    private async void OnEnable()
     {
-        FirebaseManager.Instance.DB.Collection("users")
+        try
+        {
+            await InitAsync();
+            SetRank();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private async Task InitAsync()
+    {
+        snapshot = await FirebaseManager.Instance.DB.Collection("users")
             .OrderBy("score")
             .Limit(3)
-            .GetSnapshotAsync().ContinueWith(task => {
-                if (task.IsCanceled || task.IsFaulted) return;
+            .GetSnapshotAsync();
+    }
 
-                var snapshot = task.Result;
-                foreach (var document in snapshot.Documents)
-                {
-                    string nickname = document.GetValue<string>("nickname");
-                    int score = document.GetValue<int>("score");
-                    Debug.Log($"닉네임: {nickname}, 점수: {score}");
+    private void SetRank()
+    {
+        try
+        {
+            foreach (var document in snapshot.Documents)
+            {
+                var scoreItems = ObjectPoolManager.Instance.GetObject<RankDisplayUI>(contentUI, Vector3.zero, Quaternion.identity);
+                scoreItems.transform.SetParent(contentsPos.transform, false);
                     
-                    
-                    //var scoreItems = ObjectPoolManager.Instance.GetObject<RankDisplayUI>(contentUI, Vector3.zero, Quaternion.identity);
-                    //scoreItems.transform.SetParent(contentsPos.transform, false);
-                    
-                    //scoreItems.SetUI(document);
-                }
-            });
+                scoreItems.SetUI(document);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

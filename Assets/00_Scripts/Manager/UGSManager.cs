@@ -57,7 +57,6 @@ public sealed class UGSManager : SingletonBehaviour<UGSManager>
                 await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
                 userInfo = new UserInfo
                 {
-                    UserID = AuthenticationService.Instance.PlayerInfo.Username,
                     UserName = AuthenticationService.Instance.PlayerName
                 };
                 await SaveDataAsync(Constants.USER_INFO, userInfo);
@@ -147,7 +146,6 @@ public sealed class UGSManager : SingletonBehaviour<UGSManager>
     public void SignOut()
     {
         AuthenticationService.Instance.SignOut(true);
-        userInfo.UserID = AuthenticationService.Instance.PlayerId;
         userInfo.UserName = AuthenticationService.Instance.PlayerName;
     }
 

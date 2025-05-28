@@ -17,8 +17,10 @@ public class StartUI : MainUI
 
     private void StartGame()
     {
-        //SceneLoadManager.Instance.LoadScene(Scene.Lobby);
-        UIManager.Instance.OpenPopupUI<PopupRankingBoard>();
+        if (FirebaseManager.Instance.User != null)
+        {
+            SceneLoadManager.Instance.LoadScene(Scene.Lobby);
+        }
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
