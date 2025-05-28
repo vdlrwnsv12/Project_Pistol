@@ -1,19 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class PopupAchievementView : PopupUI
 {
     [SerializeField] private GameObject achievementItem;
     [SerializeField] private Transform itemPos;
+
     void OnEnable()
     {
-        InitAchievementItems();
+        _ = InitAchievementItems().ContinueWith(t =>
+        {
+            if (t.Exception != null)
+                Debug.LogError(t.Exception.Flatten());
+        });
     }
 
-    void InitAchievementItems()
+
+    async Task InitAchievementItems()
     {
         AchievementSO[] allAchievement = ResourceManager.Instance.LoadAll<AchievementSO>("Data/SO/AchievementSO");
+
+        await AchievementManager.Instance.SyncAchievementsFromServer(); // 서버에서 최신 도전과제 상태 로딩
 
         foreach (var so in allAchievement)
         {
@@ -22,7 +29,7 @@ public class PopupAchievementView : PopupUI
 
             LobbyAchievementItem lobbyAchievement = achievementItems.GetComponent<LobbyAchievementItem>();
             lobbyAchievement.achievementSO = so;
-            lobbyAchievement.InitData();//테스트
+            lobbyAchievement.InitData(); // 도전과제 상태 설정 (뱃지 포함)
         }
     }
 }

@@ -12,11 +12,11 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
 {
     private FirebaseAuth auth; // 로그인, 회원가입에 사용
     private FirebaseUser user; // 인증이 완료된 유저 정보
-    
+
     private FirebaseFirestore db;
 
     public Action<bool> SignInState;
-    
+
     public FirebaseAuth Auth => auth;
     public FirebaseUser User => user;
     public FirebaseFirestore DB => db;
@@ -33,7 +33,7 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
         {
             var result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
             var newUser = result.User;
-            
+
             var userInfo = new UserInfo()
             {
                 UserName = nickname,
@@ -75,13 +75,13 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
     {
         await db.Collection("users").Document(user.UserId).UpdateAsync(field, value);
     }
-    
+
     public async Task<T> LoadUserDataAsync<T>(string field)
     {
         var result = await db.Collection("users").Document(user.UserId).GetSnapshotAsync();
         return result.GetValue<T>(field);
     }
-    
+
     private void InitializeFirebase()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -103,7 +103,7 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
             }
         });
     }
-    
+
     private void OnAuthStateChanged(object sender, System.EventArgs eventArgs)
     {
         if (auth.CurrentUser != user)
@@ -123,4 +123,42 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
             }
         }
     }
+
+    public async Task SaveAchievementAsync(string achievementId)
+    {
+        var data = new Dictionary<string, object>
+    {
+        { "isCompleted", true },
+        { "achievedAt", Timestamp.GetCurrentTimestamp() }
+    };
+
+        await db.Collection("users")
+                .Document(user.UserId)
+                .Collection("achievements")
+                .Document(achievementId)
+                .SetAsync(data, SetOptions.MergeAll);
+
+        Debug.Log($"도전과제 저장 완료: {achievementId}");
+    }
+
+    public async Task<HashSet<string>> LoadCompletedAchievementsAsync()
+    {
+        var snapshot = await db.Collection("users")
+                               .Document(user.UserId)
+                               .Collection("achievements")
+                               .GetSnapshotAsync();
+
+        var result = new HashSet<string>();
+        foreach (var doc in snapshot.Documents)
+        {
+            bool isCompleted = doc.ContainsField("isCompleted") && doc.GetValue<bool>("isCompleted");
+            if (isCompleted)
+            {
+                result.Add(doc.Id);
+            }
+        }
+
+        return result;
+    }
+
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
+
 [CreateAssetMenu(fileName = "AchievementSO", menuName = "SO/AchievementSO")]
 public class AchievementSO : ScriptableObject
 {
