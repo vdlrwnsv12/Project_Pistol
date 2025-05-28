@@ -24,6 +24,12 @@ public class InteractManager : SingletonBehaviour<InteractManager>
             reloadPopup = UIManager.Instance.OpenPopUpUIMultiple<PopupInteract>();
         }
         reloadPopup.SetText("R", "Reload");
+        RectTransform rect = reloadPopup.GetComponent<RectTransform>();
+        if (rect != null)
+        {
+            // 약간 오른쪽 아래로 이동
+            rect.anchoredPosition += new Vector2(100f, -100f);
+        }
     }
 
     public void CloseInteractItem()
