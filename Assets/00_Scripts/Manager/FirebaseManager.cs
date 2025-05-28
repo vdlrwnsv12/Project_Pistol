@@ -18,6 +18,7 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
     
     public FirebaseAuth Auth => auth;
     public FirebaseUser User => user;
+    public FirebaseFirestore DB => db;
 
     protected override void Awake()
     {
@@ -31,11 +32,6 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
         {
             Debug.Log(user.UserId);
             Debug.Log(user.Email);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            LoadData<int>("w");
         }
     }
 
@@ -138,30 +134,15 @@ public class FirebaseManager : SingletonBehaviour<FirebaseManager>
         Debug.Log("로그아웃");
     }
 
-    public void UpdateData(string field, object value)
+    public async Task UpdateDataAsync(string field, object value)
     {
-        db.Collection("users").Document(user.UserId).UpdateAsync(field, value);
+        await db.Collection("users").Document(user.UserId).UpdateAsync(field, value);
     }
-
-    public T LoadData<T>(string key)
+    
+    public async Task<T> LoadUserDataAsync<T>(string field)
     {
-        db.Collection("users")
-            .OrderBy("score")
-            .Limit(20)
-            .GetSnapshotAsync().ContinueWith(task => {
-                if (task.IsCanceled || task.IsFaulted) return;
-
-                var snapshot = task.Result;
-                foreach (var document in snapshot.Documents)
-                {
-                    string nickname = document.GetValue<string>("nickname");
-                    int score = document.GetValue<int>("score");
-                    Debug.Log($"닉네임: {nickname}, 점수: {score}");
-                }
-            });
-        
-        
-        return default(T);
+        var result = await db.Collection("users").Document(user.UserId).GetSnapshotAsync();
+        return result.GetValue<T>(field);
     }
     
     private void InitializeFirebase()

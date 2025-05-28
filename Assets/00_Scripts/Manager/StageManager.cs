@@ -95,15 +95,13 @@ public class StageManager : SingletonBehaviour<StageManager>
             }
             Player.Controller.enabled = false;
             
-            var prevBestScore = await UserManager.LoadDataAsync<int>(Constants.USER_BEST_SCORE);
+            
+            //var prevBestScore = await UserManager.LoadDataAsync<int>(Constants.USER_BEST_SCORE);
+            var prevBestScore = await FirebaseManager.Instance.LoadUserDataAsync<int>("score");
             if (prevBestScore < gameScore)
             {
-                await UserManager.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
+                await FirebaseManager.Instance.UpdateDataAsync("score", gameScore);
             }
-        }
-        catch (KeyNotFoundException)
-        {
-            await UserManager.SaveDataAsync(Constants.USER_BEST_SCORE, gameScore);
         }
         catch (Exception e)
         {

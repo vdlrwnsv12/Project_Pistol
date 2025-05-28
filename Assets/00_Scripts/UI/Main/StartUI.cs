@@ -17,7 +17,8 @@ public class StartUI : MainUI
 
     private void StartGame()
     {
-        SceneLoadManager.Instance.LoadScene(Scene.Lobby);
+        //SceneLoadManager.Instance.LoadScene(Scene.Lobby);
+        UIManager.Instance.OpenPopupUI<PopupRankingBoard>();
     }
 
     public override void SetActiveUI(MainUIType activeUIType)
