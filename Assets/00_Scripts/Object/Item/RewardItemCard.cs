@@ -38,7 +38,7 @@ public class RewardItemCard : MonoBehaviour
         }
         else
         {
-            StageManager.Instance.Player.Weapon.Stat.ChangeStat(data.DMG, data.ShootRecoil, data.MaxAmmo, data.WeaponParts);
+           //StageManager.Instance.Player.Weapon.Stat.ChangeStat(data.DMG, data.ShootRecoil, data.MaxAmmo, data.WeaponParts);
             if (data.WeaponParts > 0) // 무기 파츠면
             {
                 var part = FindWeaponPartByItemSO(data.ID);

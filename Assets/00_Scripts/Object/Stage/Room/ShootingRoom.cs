@@ -153,20 +153,16 @@ public class ShootingRoom : Room
     {
         if (isNextRoomPlaced) return;
 
-        int aliveCount = 0;
-        foreach (var t in curActiveTargets)
-        {
-            if (t.gameObject.activeSelf)
-            {
-                aliveCount++;
-                if (aliveCount > 1)
-                    return;
-            }
-        }
 
-        // 타겟이 1마리만 남은 경우
-        RoomManager.Instance.PlaceNextRoom();
-        isNextRoomPlaced = true;
+        int aliveCount = curActiveTargets
+            .Where(t => t != null && t.gameObject != null && t.gameObject.activeSelf)
+            .Count();
+
+        if (aliveCount <= 1)
+        {
+            RoomManager.Instance.PlaceNextRoom();
+            isNextRoomPlaced = true;
+        }
     }
 
     private void InitCivilianTarget()
