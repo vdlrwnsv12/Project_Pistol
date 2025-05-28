@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Firebase.Firestore;
 using UnityEngine;
+using Query = Firebase.Database.Query;
 
 public class PopupRankingBoard : PopupUI
 {
@@ -22,26 +23,34 @@ public class PopupRankingBoard : PopupUI
             Console.WriteLine(e);
         }
     }
-
-    private async Task InitAsync()
-    {
-        snapshot = await FirebaseManager.Instance.DB.Collection("users")
-            .OrderBy("score")
-            .Limit(3)
-            .GetSnapshotAsync();
-    }
-
+    
     private void SetRank()
     {
         try
         {
+            int idx = 1;
             foreach (var document in snapshot.Documents)
             {
                 var scoreItems = ObjectPoolManager.Instance.GetObject<RankDisplayUI>(contentUI, Vector3.zero, Quaternion.identity);
                 scoreItems.transform.SetParent(contentsPos.transform, false);
-                    
-                scoreItems.SetUI(document);
+                
+                scoreItems.SetUI(idx,document);
+                idx++;
             }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private async Task InitAsync()
+    {
+        var query = FirebaseManager.Instance.DB.CollectionGroup("rank").WhereGreaterThan("BestScore", 0).OrderByDescending("BestScore").Limit(20);
+        try
+        {
+            snapshot = await query.GetSnapshotAsync();
         }
         catch (Exception e)
         {

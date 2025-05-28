@@ -127,8 +127,11 @@ public class StageManager : SingletonBehaviour<StageManager>
                     .Collection("rank")
                     .Document("data").UpdateAsync("BestScore", gameScore);
 
+                var task = await FirebaseManager.Instance.DB.Collection("users").Document(FirebaseManager.Instance.User.UserId).GetSnapshotAsync();
+                var name = task.GetValue<string>("UserName");
                 var userRankData = new UserRankData()
                 {
+                    UserName = name,
                     BestScore = gameScore,
                     Character = GameManager.Instance.selectedCharacter.ID,
                     Weapon = GameManager.Instance.selectedWeapon.ID
