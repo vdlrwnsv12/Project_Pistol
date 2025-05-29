@@ -143,11 +143,14 @@ public class PopupOption : PopupUI
 
     public void OnClickResumeBtn()
     {
+         
         GameManager.Instance.TogglePopup(false);
     }
 
     public void OnClickLobbyBtn()
     {
+        Debug.Log("로비 버튼 클릭됨!");
+        GameManager.Instance.TogglePopup(false);
         SceneLoadManager.Instance.LoadScene(Scene.Lobby);
     }
 

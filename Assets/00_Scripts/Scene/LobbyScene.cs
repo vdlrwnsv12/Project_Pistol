@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
 public class LobbyScene : BaseScene
@@ -11,6 +12,7 @@ public class LobbyScene : BaseScene
         var bgm = ResourceManager.Instance.Load<AudioClip>("Audio/BGM/No Way Back_demo");
         SoundManager.Instance.PlayBackgroundMusic(bgm);
         UIManager.Instance.InitMainUI<LobbyUI>();
+        UIManager.ToggleMouseCursor(true);
     }
 
     public override void ExitScene()
