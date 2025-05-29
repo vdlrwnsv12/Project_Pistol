@@ -27,11 +27,12 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
         {
             isOption = false;
             UIManager.Instance.ClosePopUpUI();
-            Time.timeScale = 1f;
+
+            StageManager.Instance.IsGamePause = false;
 
             if (controller != null)
             {
-                controller.EnablePlayerInput(true);//플레이어 마우스 회전 ㅇ
+                controller.EnablePlayerInput(true); // 플레이어 마우스 회전 허용
                 UIManager.ToggleMouseCursor(false);
             }
         }
@@ -39,11 +40,12 @@ public sealed class GameManager : SingletonBehaviour<GameManager>
         {
             isOption = true;
             UIManager.Instance.OpenPopupUI<PopupOption>();
-            Time.timeScale = puaseTime ? 0f : 1f;
+
+            StageManager.Instance.IsGamePause = puaseTime; // true면 정지, false면 정지 X
 
             if (controller != null)
             {
-                controller.EnablePlayerInput(false);//플레이어 마우스 회전 x
+                controller.EnablePlayerInput(false); // 플레이어 마우스 회전 금지
                 UIManager.ToggleMouseCursor(true);
             }
         }
