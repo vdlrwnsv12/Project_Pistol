@@ -29,6 +29,7 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
     public void LoadScene(Scene scene)
     {
         NextScene = scene;
+        Debug.Log("씬로드매니저");
         //SceneManager.LoadScene((int)Scene.Loading);
         StartCoroutine(CoroutineLoadScene(scene));
     }
@@ -40,6 +41,13 @@ public sealed class SceneLoadManager : SingletonBehaviour<SceneLoadManager>
         yield return UIManager.Instance.FadeEffect(1, 0, 0.5f);
 
         var op = SceneManager.LoadSceneAsync((int)nextScene);
+        if (op == null)
+        {
+            Debug.LogError($"[SceneLoadManager] LoadSceneAsync 실패: {nextScene} 씬을 찾을 수 없습니다. Build Settings에 추가됐는지 확인하세요.");
+            yield break;
+        }
+
+
         op.allowSceneActivation = false;
         
         while (!op.isDone)

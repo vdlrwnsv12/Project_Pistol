@@ -7,7 +7,7 @@ public class StartBtn : MonoBehaviour
 
     public void OffLobbyUI()
     {
-
+        UIManager.Instance.ClosePopUpUI();
         SetLobbyUI(false);
         LobbyCameraManager.Instance.MoveCameraPosition(+1);
     }
